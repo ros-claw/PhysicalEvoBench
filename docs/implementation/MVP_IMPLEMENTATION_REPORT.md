@@ -10,10 +10,12 @@ is reported. Synthetic CPU fixtures are never included in benchmark results.
 - No MVP release or acceptance merge has been performed.
 - Local bootstrap commit: `8aa5d1f` (initial documentation, license and Arena submodule).
 - Draft PR: https://github.com/ros-claw/PhysicalEvoBench/pull/1 (open, not merged).
-- CPU CI passed at implementation commit `6359ac6`:
-  https://github.com/ros-claw/PhysicalEvoBench/actions/runs/39498803619.
+- Latest validated code commit: `69b51b27fc498a842ebda0e03b3a23230ee05dee`.
+- Expanded 24-test CPU CI passed:
+  https://github.com/ros-claw/PhysicalEvoBench/actions/runs/39500378701.
 - Fresh-clone CPU reproduction passed: `/tmp/physicalevobench-cpu-repro-20261021`,
-  `uv sync --locked --extra dev`, 16 tests and Ruff; import path verified inside that clone.
+  `uv sync --locked --extra dev`, 24 tests and Ruff at the validated code commit;
+  import path verified inside that clone.
 - Latest local suite: 24 tests, including paired metrics and rejection of synthetic experimental
   input. Follow-up implementation is on the same draft PR.
 
@@ -56,7 +58,7 @@ is reported. Synthetic CPU fixtures are never included in benchmark results.
 | upstream `uv sync --locked --extra dev` | first attempt interrupted (exit 130) before exhausting the home partition; resumed with project-disk cache and build temporaries | `arena-uv-sync.log`, `arena-uv-sync-project-cache.log`, `cache-migration.json` under `docs/evidence/p0/` |
 | `uv run physicalevobench smoke --config configs/smoke.yaml --gpu 0 --run-dir runs/p0-zero-initial` | exit 2, INFRA_FAILURE; no runtime interpreter, zero episodes | `docs/evidence/p0/smoke-initial.log`; local raw `runs/p0-zero-initial/` |
 | `uv run physicalevobench doctor ...` | exit 2 in CPU environment, expected missing simulator packages | `docs/evidence/p0/doctor-current.json` |
-| `uv run pytest -q` | 24 passed locally; initial 16 passed in fresh clone and CI | CPU contracts, subprocess boundary and paired metrics; synthetic inputs only |
+| `uv run pytest -q` | 24 passed locally, in fresh clone and CI | CPU contracts, subprocess boundary and paired metrics; synthetic inputs only |
 | `uv run ruff check physicalevobench tests scripts` | exit 0 | local lint verification |
 
 ## Implemented protocol boundaries
@@ -85,7 +87,8 @@ interpreter, then executes official zero-action and pretrained lift rollouts thr
 same CLI. It stops on any failure and cannot declare physical MVP acceptance, merge or publish.
 
 Live status: `runs/p0-bootstrap-20261021/status.json`; console: `runs/p0-supervisor.log`.
-The installation log is `docs/evidence/p0/arena-uv-sync-project-cache.log`. These locations
+The live installation log is `runs/arena-uv-sync-project-cache.log`; the file under
+`docs/evidence/p0/` is a snapshot at this implementation session. These locations
 are evidence of ongoing work, not evidence that a physical episode has completed. Review
 and archive successful episode records before advancing P0.
 

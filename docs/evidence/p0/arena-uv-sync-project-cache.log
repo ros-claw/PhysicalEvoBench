@@ -35,3 +35,7 @@ Downloading nvidia-cuda-nvrtc-cu12 (84.0MiB)
       Built ovrtx==0.4.1.364340
  Downloaded nvidia-cuda-nvrtc-cu12
  Downloaded isaacsim-robot-motion
+ Downloaded nvidia-nvshmem-cu12
+ Downloaded warp-lang
+ Downloaded isaacsim-ros2
+ Downloaded nvidia-cusparselt-cu12
