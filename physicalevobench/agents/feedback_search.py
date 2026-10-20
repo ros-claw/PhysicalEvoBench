@@ -7,6 +7,8 @@ from physicalevobench.protocols.skill import SkillSpec
 
 class FeedbackSearchAgent:
     def propose_update(self, current_skill, training_feedback, remaining_budget):
+        if type(remaining_budget) is not int or remaining_budget < 0:
+            raise ValueError("Remaining physical budget must be a non-negative integer")
         if not all(isinstance(f, TrainingFeedback) for f in training_feedback):
             raise TypeError("Agent only accepts serialized training feedback contracts")
         failures = [f for f in training_feedback if not f.success]

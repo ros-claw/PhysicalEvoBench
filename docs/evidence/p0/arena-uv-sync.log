@@ -242,3 +242,11 @@ Downloading qdldl (1.1MiB)
  Downloaded pyarrow
  Downloaded botocore
  Downloaded numpy
+ Downloaded opencv-python-headless-noffmpeg
+ Downloaded ovstage
+ Downloaded imageio-ffmpeg
+ Downloaded scipy
+      Built imgui==2.0.0
+ Downloaded nvidia-nvjitlink-cu12
+ Downloaded isaacsim-replicator
+ Downloaded llvmlite

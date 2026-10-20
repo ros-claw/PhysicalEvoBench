@@ -9,7 +9,7 @@ Chinese implementation specifications are retained at the repository root.
   with no tracked source changes. Extend it from `physicalevobench/`.
 - Root `.venv` is for CPU tools. The separate Arena `.venv` is for pinned simulation. Never
   reuse or change unrelated running Isaac Sim sessions or locally patched Isaac Lab checkouts.
-- Use `uv run pytest -q` and `uv run ruff check physicalevobench tests scripts/download_checkpoint.py`
+- Use `uv run pytest -q` and `uv run ruff check physicalevobench tests scripts`
   for CPU validation. GPU checks must preserve commands, return codes and raw episode evidence.
 - Download weights outside the repository, pin HF revisions and SHA256, and retain NVIDIA
   model licensing separately from Apache-2.0 project code.

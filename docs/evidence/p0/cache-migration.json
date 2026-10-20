@@ -1,0 +1,148 @@
+{
+  "reason": "Interrupted our runtime sync before home filesystem exhaustion",
+  "new_cache": "/code/rosclaw/physicalEvoBench/.cache/uv",
+  "moved_own_incomplete_downloads": [
+    {
+      "path": "/home/dell/.cache/uv/.tmpyLE0Zg",
+      "contents": [
+        "rerun_sdk",
+        "rerun_sdk-0.31.4.dist-info",
+        "rerun_bindings",
+        "rerun_sdk.pth"
+      ]
+    },
+    {
+      "path": "/home/dell/.cache/uv/.tmpnT0FHs",
+      "contents": [
+        "isaacsim"
+      ]
+    },
+    {
+      "path": "/home/dell/.cache/uv/.tmpP09ogD",
+      "contents": [
+        "isaacsim"
+      ]
+    },
+    {
+      "path": "/home/dell/.cache/uv/.tmppbduVw",
+      "contents": [
+        "ovphysx"
+      ]
+    },
+    {
+      "path": "/home/dell/.cache/uv/.tmprEsaDu",
+      "contents": [
+        "isaacsim"
+      ]
+    },
+    {
+      "path": "/home/dell/.cache/uv/.tmpdrihiD",
+      "contents": [
+        "open3d"
+      ]
+    },
+    {
+      "path": "/home/dell/.cache/uv/.tmpHBnBl1",
+      "contents": [
+        "nvidia"
+      ]
+    },
+    {
+      "path": "/home/dell/.cache/uv/.tmp1AGZyI",
+      "contents": [
+        "nvidia"
+      ]
+    },
+    {
+      "path": "/home/dell/.cache/uv/.tmpABUtP7",
+      "contents": [
+        "nvidia"
+      ]
+    },
+    {
+      "path": "/home/dell/.cache/uv/.tmpRVxbds",
+      "contents": [
+        "isaacsim"
+      ]
+    },
+    {
+      "path": "/home/dell/.cache/uv/.tmpn7CIO8",
+      "contents": [
+        "isaacsim"
+      ]
+    },
+    {
+      "path": "/home/dell/.cache/uv/.tmpm8LNuI",
+      "contents": [
+        "nvidia"
+      ]
+    },
+    {
+      "path": "/home/dell/.cache/uv/.tmpHFAnmF",
+      "contents": [
+        "triton"
+      ]
+    },
+    {
+      "path": "/home/dell/.cache/uv/.tmprU3TcA",
+      "contents": [
+        "warp"
+      ]
+    },
+    {
+      "path": "/home/dell/.cache/uv/.tmpl09rOY",
+      "contents": [
+        "isaacsim"
+      ]
+    },
+    {
+      "path": "/home/dell/.cache/uv/.tmpuSoWuZ",
+      "contents": [
+        "nvidia"
+      ]
+    },
+    {
+      "path": "/home/dell/.cache/uv/.tmp72QGRO",
+      "contents": [
+        "vtk.py",
+        "vtkmodules"
+      ]
+    },
+    {
+      "path": "/home/dell/.cache/uv/.tmpsz00gP",
+      "contents": [
+        "nvidia"
+      ]
+    },
+    {
+      "path": "/home/dell/.cache/uv/.tmpdAI4IL",
+      "contents": [
+        "isaacsim"
+      ]
+    },
+    {
+      "path": "/home/dell/.cache/uv/.tmpTltemw",
+      "contents": [
+        "nvidia"
+      ]
+    },
+    {
+      "path": "/home/dell/.cache/uv/.tmp1lwTfY",
+      "contents": [
+        "nvidia"
+      ]
+    },
+    {
+      "path": "/home/dell/.cache/uv/.tmp2cB1ah",
+      "contents": [
+        "nvidia"
+      ]
+    },
+    {
+      "path": "/home/dell/.cache/uv/.tmpPi2IoI",
+      "contents": [
+        "nvidia"
+      ]
+    }
+  ]
+}

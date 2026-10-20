@@ -42,6 +42,10 @@ def smoke(config, args):
     environment = dict(os.environ, CUDA_VISIBLE_DEVICES=str(args.gpu),
                        OMNI_KIT_ACCEPT_EULA="YES", ACCEPT_EULA="Y",
                        ISAACLAB_ARENA_FORCE_EXIT_ON_COMPLETE="1")
+    runtime_cache = arena.parents[1] / ".cache/runtime"
+    runtime_cache.mkdir(parents=True, exist_ok=True)
+    environment["XDG_CACHE_HOME"] = str(runtime_cache)
+    environment["TORCH_EXTENSIONS_DIR"] = str(runtime_cache / "torch_extensions")
     returncode = None
     error = None
     with (run_dir / "console.log").open("w") as log:

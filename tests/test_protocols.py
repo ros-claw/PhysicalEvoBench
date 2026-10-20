@@ -26,6 +26,8 @@ def test_feedback_boundary():
                                            object_mass_kg=0.3))
     with pytest.raises(ValueError):
         TrainingFeedback("x", False, None, "heldout_test")
+    with pytest.raises(ValueError):
+        TrainingFeedback("x", False, {"object_mass_kg": 0.3})
 
 
 def test_split_reproducibility():

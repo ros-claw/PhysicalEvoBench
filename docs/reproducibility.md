@@ -7,6 +7,9 @@ it is not used for the pinned experiment.
 `scripts/setup_arena.sh` initializes recursive submodules, verifies Arena's commit and runs
 `uv sync --locked --extra dev` in the upstream checkout without editing tracked files.
 This may download many gigabytes. The upstream lockfile is the source of dependency versions.
+The setup script defaults `UV_CACHE_DIR` to the project disk's `.cache/uv` rather than the
+user's home partition. Ensure adequate free space for both extracted cache and runtime.
+Build temporaries also default to `.cache/tmp` on that disk through `TMPDIR`.
 Submodule setup skips Git LFS payloads: nested GR00T dependencies contain unrelated humanoid
 checkpoints. Their source commits are still initialized recursively. Fetch any task-required
 LFS assets explicitly rather than downloading every optional model or dataset. Franka's
@@ -32,3 +35,8 @@ nondeterminism even with identical seeds. No deterministic replay claim has been
 
 To diagnose the actual GPU interpreter, run the doctor module under Arena's Python with
 this project's root on `PYTHONPATH`; the default `uv run` doctor describes the CPU environment.
+
+For long installs, `uv run python scripts/continue_p0.py --gpu 0 --run-dir runs/p0-bootstrap`
+performs pinned sync, native doctor, zero-action and pretrained lift in order. It writes each
+step's exact command and exit code, stops on errors, and leaves physical acceptance for review.
+Use `--wait-pid` only when an existing installer for this checkout is already running.

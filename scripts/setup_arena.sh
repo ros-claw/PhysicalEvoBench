@@ -1,6 +1,9 @@
 #!/usr/bin/env bash
 set -euo pipefail
 cd "$(dirname "$0")/.."
+export UV_CACHE_DIR="${UV_CACHE_DIR:-$PWD/.cache/uv}"
+export TMPDIR="${TMPDIR:-$PWD/.cache/tmp}"
+mkdir -p "$UV_CACHE_DIR" "$TMPDIR"
 GIT_LFS_SKIP_SMUDGE=1 git -c url.https://github.com/.insteadOf=git@github.com: \
   submodule update --init --recursive
 actual_commit=$(git -C external/IsaacLab-Arena rev-parse HEAD)

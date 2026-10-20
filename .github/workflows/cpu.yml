@@ -8,4 +8,4 @@ jobs:
       - uses: astral-sh/setup-uv@v6
       - run: uv sync --locked --extra dev
       - run: uv run pytest -q
-      - run: uv run ruff check physicalevobench tests
+      - run: uv run ruff check physicalevobench tests scripts

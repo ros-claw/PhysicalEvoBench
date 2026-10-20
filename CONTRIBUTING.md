@@ -1,7 +1,7 @@
 # Contributing
 
 Use a feature branch and a pull request. Run `uv sync --locked --extra dev`, `uv run pytest -q`
-and `uv run ruff check physicalevobench tests scripts/download_checkpoint.py` before review.
+and `uv run ruff check physicalevobench tests scripts` before review.
 
 Keep the upstream Arena submodule unmodified. Pin dependency changes explicitly. CPU fixtures
 must be labeled synthetic and must never be included in reported physical results. Preserve

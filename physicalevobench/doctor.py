@@ -33,6 +33,8 @@ def sha256(path):
 
 def diagnose(config):
     arena = Path(config["arena_path"]).resolve()
+    cache_path = Path(os.environ.get("UV_CACHE_DIR", "~/.cache/uv")).expanduser().resolve()
+    cache_disk = cache_path if cache_path.exists() else cache_path.parent
     gpu = command(["nvidia-smi", "--query-gpu=index,name,driver_version,memory.total,memory.free",
                    "--format=csv,noheader"])
     packages = {}
@@ -77,6 +79,9 @@ def diagnose(config):
         "arena_expected_commit": ARENA_COMMIT,
         "arena_submodules": submodules,
         "disk_free_bytes": shutil.disk_usage(Path.cwd()).free,
+        "uv_cache_path": str(cache_path),
+        "uv_cache_disk_free_bytes": shutil.disk_usage(cache_disk).free
+        if cache_disk.exists() else None,
         "checkpoint_path": str(checkpoint),
         "checkpoint_sha256": checkpoint_hash,
         "blockers": blockers, "status": "BLOCKED" if blockers else "READY_FOR_SMOKE",

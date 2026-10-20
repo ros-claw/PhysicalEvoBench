@@ -15,7 +15,7 @@ superiority or general self-improvement. See the [implementation report](docs/im
 ## CPU quickstart
 
 ```bash
-git clone https://github.com/ros-claw/PhysicalEvoBench.git
+git clone --branch implementation/mvp https://github.com/ros-claw/PhysicalEvoBench.git
 cd PhysicalEvoBench
 uv sync --locked --extra dev --extra models
 uv run pytest -q
@@ -24,6 +24,7 @@ uv run physicalevobench doctor --config configs/lift_mass_v0.yaml
 
 `doctor` exits with code 2 when dependencies or weights are missing. The CPU environment
 does not include Isaac Sim. Do not interpret that result as an unsuitable GPU diagnosis.
+The implementation branch is under review in draft PR #1; no MVP release is available yet.
 
 ## Real GPU setup and smoke
 
