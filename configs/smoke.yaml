@@ -1,0 +1,6 @@
+schema_version: '0.1'
+arena_path: external/IsaacLab-Arena
+checkpoint_path: ~/models/physicalevobench/franka_lift/model_1999.pt
+checkpoint_sha256: babbbfd363f894443ffe494f26c5b6e0485fb35d4f5480c088295c23fc2a13aa
+num_steps: 20
+num_episodes: 1

@@ -1,0 +1,14 @@
+{
+  "repository": "nvidia/Arena-Franka-Lift-Object-RL-Task",
+  "revision": "01277d4f4944174ea7eb4c701d962a078b75c8ce",
+  "files_sha256": {
+    "README.md": "5345f47461161f4e481ffd051d4f491a7cc04cabfd8d03fd0c8663002db369d1",
+    "model_1000.pt": "781da7b3bb3c781a93a4285f92a353caf6e3054c2fb216f4f3fe2b31b14c6ca9",
+    ".gitattributes": "11ad7efa24975ee4b0c3c3a38ed18737f0658a5f75a0a96787b576a78a023361",
+    "model_1999.pt": "babbbfd363f894443ffe494f26c5b6e0485fb35d4f5480c088295c23fc2a13aa",
+    "params/env.yaml": "5bb582e5909b2a2eccd759b9636527d41896766bfd0cc4b182e7381fddcd78ee",
+    "params/agent.yaml": "ae5ccee81f45fda922d45cc5e72cc1a1734e8661054d244f137591b779ea59f6"
+  },
+  "license_source": "https://huggingface.co/nvidia/Arena-Franka-Lift-Object-RL-Task/blob/01277d4f4944174ea7eb4c701d962a078b75c8ce/README.md",
+  "redistributed": false
+}

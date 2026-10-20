@@ -1,0 +1,57 @@
+{
+  "schema_version": "0.1",
+  "timestamp_utc": "2026-10-20T21:06:22.921125+00:00",
+  "python": "3.12.13 (main, May  8 2026, 18:32:55) [Clang 22.1.3 ]",
+  "executable": "/code/rosclaw/physicalEvoBench/.venv/bin/python",
+  "platform": "Linux-6.8.0-138-generic-x86_64-with-glibc2.35",
+  "gpu": {
+    "command": [
+      "nvidia-smi",
+      "--query-gpu=index,name,driver_version,memory.total,memory.free",
+      "--format=csv,noheader"
+    ],
+    "returncode": 0,
+    "stdout": "0, NVIDIA RTX A6000, 595.91.07, 49140 MiB, 34300 MiB\n1, NVIDIA RTX A6000, 595.91.07, 49140 MiB, 35249 MiB\n2, NVIDIA RTX A6000, 595.91.07, 49140 MiB, 35564 MiB\n3, NVIDIA RTX A6000, 595.91.07, 49140 MiB, 34380 MiB",
+    "stderr": ""
+  },
+  "packages": {
+    "isaacsim": null,
+    "isaaclab": null,
+    "isaaclab-arena": null,
+    "torch": null,
+    "rsl-rl-lib": null
+  },
+  "arena_revision": {
+    "command": [
+      "git",
+      "rev-parse",
+      "HEAD"
+    ],
+    "returncode": 0,
+    "stdout": "dd7e3351c30250cf760b258af3dfd239ab02c32c",
+    "stderr": ""
+  },
+  "arena_expected_commit": "c7edf3a9d5d8276565208f72422f8f8a0806d6cf",
+  "arena_submodules": {
+    "command": [
+      "git",
+      "submodule",
+      "status",
+      "--recursive"
+    ],
+    "returncode": 0,
+    "stdout": "",
+    "stderr": ""
+  },
+  "disk_free_bytes": 304012095488,
+  "checkpoint_path": "/home/dell/models/physicalevobench/franka_lift/model_1999.pt",
+  "checkpoint_sha256": "babbbfd363f894443ffe494f26c5b6e0485fb35d4f5480c088295c23fc2a13aa",
+  "blockers": [
+    "ARENA_REVISION_MISMATCH",
+    "MISSING_PACKAGE:isaacsim",
+    "MISSING_PACKAGE:isaaclab",
+    "MISSING_PACKAGE:isaaclab-arena"
+  ],
+  "status": "BLOCKED",
+  "physical_episode_executed": false
+}

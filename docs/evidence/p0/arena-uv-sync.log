@@ -1,0 +1,244 @@
+Using CPython 3.12.13
+Creating virtual environment at: .venv
+Resolved 406 packages in 8ms
+   Building isaaclab-tasks-experimental @ file:///code/rosclaw/physicalEvoBench/external/IsaacLab-Arena/submodules/IsaacLab/source/isaaclab_tasks_experimental
+   Building isaaclab-contrib @ file:///code/rosclaw/physicalEvoBench/external/IsaacLab-Arena/submodules/IsaacLab/source/isaaclab_contrib
+   Building isaaclab-dev @ file:///code/rosclaw/physicalEvoBench/external/IsaacLab-Arena/submodules/IsaacLab
+   Building isaaclab-mimic @ file:///code/rosclaw/physicalEvoBench/external/IsaacLab-Arena/submodules/IsaacLab/source/isaaclab_mimic
+   Building isaaclab-experimental @ file:///code/rosclaw/physicalEvoBench/external/IsaacLab-Arena/submodules/IsaacLab/source/isaaclab_experimental
+   Building isaaclab-ov @ file:///code/rosclaw/physicalEvoBench/external/IsaacLab-Arena/submodules/IsaacLab/source/isaaclab_ov
+   Building isaaclab-newton @ file:///code/rosclaw/physicalEvoBench/external/IsaacLab-Arena/submodules/IsaacLab/source/isaaclab_newton
+   Building isaaclab-physx @ file:///code/rosclaw/physicalEvoBench/external/IsaacLab-Arena/submodules/IsaacLab/source/isaaclab_physx
+   Updating https://github.com/ARISE-Initiative/robomimic.git (v0.4.0)
+   Building isaaclab-rl @ file:///code/rosclaw/physicalEvoBench/external/IsaacLab-Arena/submodules/IsaacLab/source/isaaclab_rl
+   Updating https://github.com/Physical-Intelligence/openpi (c23745b5ad24e98f66967ea795a07b2588ed6c79)
+   Building isaaclab-tasks @ file:///code/rosclaw/physicalEvoBench/external/IsaacLab-Arena/submodules/IsaacLab/source/isaaclab_tasks
+   Building isaaclab-ppisp @ file:///code/rosclaw/physicalEvoBench/external/IsaacLab-Arena/submodules/IsaacLab/source/isaaclab_ppisp
+   Building isaaclab-teleop @ file:///code/rosclaw/physicalEvoBench/external/IsaacLab-Arena/submodules/IsaacLab/source/isaaclab_teleop
+   Building isaaclab-visualizers @ file:///code/rosclaw/physicalEvoBench/external/IsaacLab-Arena/submodules/IsaacLab/source/isaaclab_visualizers
+   Building isaaclab-arena @ file:///code/rosclaw/physicalEvoBench/external/IsaacLab-Arena
+   Building isaaclab @ file:///code/rosclaw/physicalEvoBench/external/IsaacLab-Arena/submodules/IsaacLab/source/isaaclab
+   Building isaaclab-assets @ file:///code/rosclaw/physicalEvoBench/external/IsaacLab-Arena/submodules/IsaacLab/source/isaaclab_assets
+Downloading nvidia-nccl-cu12 (283.0MiB)
+Downloading triton (179.5MiB)
+Downloading nvidia-cufile-cu12 (1.1MiB)
+Downloading open3d (426.9MiB)
+Downloading torch (782.3MiB)
+Downloading torchaudio (1.6MiB)
+Downloading usd-exchange (19.9MiB)
+Downloading isaacsim-extscache-kit (5.5GiB)
+Downloading nvidia-cuda-cupti-cu12 (9.8MiB)
+Downloading torchvision (7.7MiB)
+Downloading isaacsim-test (18.1MiB)
+Downloading nvidia-cudnn-cu12 (627.4MiB)
+Downloading isaacsim-replicator (62.5MiB)
+Downloading isaacsim-asset (30.8MiB)
+Downloading isaacsim-cortex (1.1MiB)
+Downloading isaacsim-utils (179.7MiB)
+Downloading warp-lang (155.5MiB)
+Downloading isaacsim-gui (2.2MiB)
+Downloading nvidia-cusparselt-cu12 (273.9MiB)
+Downloading nvidia-nvshmem-cu12 (132.7MiB)
+Downloading isaacsim-kernel (70.9MiB)
+Downloading isaacsim-app (1.9MiB)
+Downloading isaacsim-code-editor (1.5MiB)
+Downloading isaacsim-core (22.6MiB)
+Downloading isaacsim-example (2.7MiB)
+Downloading isaacsim-robot (12.4MiB)
+Downloading isaacsim-robot-motion (104.4MiB)
+Downloading isaacsim-robot-setup (9.4MiB)
+Downloading isaacsim-ros2 (127.1MiB)
+Downloading isaacsim-sensor (23.5MiB)
+Downloading isaacsim-extscache-kit-sdk (1.5GiB)
+Downloading isaacsim-extscache-physics (246.5MiB)
+Downloading nvidia-cublas-cu12 (566.8MiB)
+ Downloaded torchaudio
+Downloading ovphysx (161.1MiB)
+Downloading vtk (133.2MiB)
+Downloading rerun-sdk (128.9MiB)
+Downloading ovstage (61.3MiB)
+Downloading pyarrow (45.4MiB)
+Downloading cmeel-boost (34.3MiB)
+Downloading isaacteleop (25.2MiB)
+ Downloaded torchvision
+Downloading mujoco (18.0MiB)
+Downloading onnxruntime (17.3MiB)
+ Downloaded nvidia-cufile-cu12
+Downloading nvidia-cufft-cu12 (184.2MiB)
+Downloading onnx (16.8MiB)
+Downloading jupyterlab (16.4MiB)
+ Downloaded isaacsim-cortex
+Downloading omniverseclient (16.2MiB)
+ Downloaded isaacsim-gui
+ Downloaded isaacsim-code-editor
+Downloading cmeel-assimp (14.2MiB)
+Downloading pandas (12.1MiB)
+Downloading nvidia-curand-cu12 (60.7MiB)
+ Downloaded isaacsim-example
+Downloading nvidia-cusolver-cu12 (255.1MiB)
+Downloading nvidia-cusparse-cu12 (274.9MiB)
+Downloading pydeck (10.8MiB)
+Downloading nvidia-nvjitlink-cu12 (37.4MiB)
+ Downloaded isaacsim-app
+Downloading transformers (10.5MiB)
+    Updated https://github.com/ARISE-Initiative/robomimic.git (7c66e7a41b5d9dcc905b1a68346bfee1b49b79c9)
+   Building robomimic @ git+https://github.com/ARISE-Initiative/robomimic.git@7c66e7a41b5d9dcc905b1a68346bfee1b49b79c9
+Downloading nvidia-cuda-nvrtc-cu12 (84.0MiB)
+Downloading opencv-python-headless-noffmpeg (18.2MiB)
+Downloading babel (9.7MiB)
+Downloading plotly (9.5MiB)
+ Downloaded isaacsim-robot-setup
+Downloading scikit-learn (8.7MiB)
+ Downloaded pydeck
+ Downloaded transformers
+Downloading streamlit (8.6MiB)
+Downloading dash (8.5MiB)
+ Downloaded pandas
+Downloading cuda-bindings (7.3MiB)
+ Downloaded babel
+Downloading pin (7.1MiB)
+ Downloaded plotly
+ Downloaded cmeel-assimp
+ Downloaded jupyterlab
+Downloading vuer (7.0MiB)
+Downloading libpinocchio (6.7MiB)
+Downloading grpcio (6.5MiB)
+    Updated https://github.com/Physical-Intelligence/openpi (c23745b5ad24e98f66967ea795a07b2588ed6c79)
+   Building openpi-client @ git+https://github.com/Physical-Intelligence/openpi@c23745b5ad24e98f66967ea795a07b2588ed6c79#subdirectory=packages/openpi-client
+ Downloaded onnx
+Downloading eigenpy (5.8MiB)
+ Downloaded onnxruntime
+Downloading newton (5.3MiB)
+ Downloaded mujoco
+ Downloaded omniverseclient
+Downloading notebook (5.3MiB)
+Downloading h5py (5.2MiB)
+ Downloaded isaacsim-robot
+Downloading lxml (5.0MiB)
+ Downloaded scikit-learn
+Downloading ml-dtypes (4.8MiB)
+ Downloaded cuda-bindings
+Downloading jedi (4.7MiB)
+ Downloaded streamlit
+ Downloaded dash
+ Downloaded newton
+ Downloaded isaacsim-test
+Downloading hf-xet (4.3MiB)
+Downloading debugpy (3.8MiB)
+ Downloaded eigenpy
+Downloading numba (3.6MiB)
+Downloading streamlit-ace (3.5MiB)
+ Downloaded pin
+Downloading tokenizers (3.1MiB)
+Downloading cmeel-qhull (3.1MiB)
+ Downloaded grpcio
+Downloading shapely (3.0MiB)
+ Downloaded libpinocchio
+ Downloaded h5py
+ Downloaded usd-exchange
+ Downloaded notebook
+ Downloaded vuer
+Downloading pytetwild (3.0MiB)
+Downloading pyvista (2.6MiB)
+Downloading libcoal (2.2MiB)
+Downloading coal (2.1MiB)
+Downloading widgetsnbextension (2.1MiB)
+ Downloaded lxml
+Downloading mujoco-warp (2.1MiB)
+ Downloaded isaacteleop
+Downloading networkx (2.0MiB)
+ Downloaded isaacsim-core
+Downloading aiohttp (1.7MiB)
+ Downloaded libcoal
+ Downloaded coal
+ Downloaded widgetsnbextension
+ Downloaded ml-dtypes
+Downloading pygments (1.2MiB)
+Downloading openai (1.1MiB)
+Downloading cmeel-octomap (1.1MiB)
+Downloading setuptools (1.0MiB)
+ Downloaded mujoco-warp
+ Downloaded tokenizers
+Downloading cmeel-zlib (1.0MiB)
+ Downloaded pyvista
+ Downloaded cmeel-qhull
+ Downloaded shapely
+ Downloaded streamlit-ace
+ Downloaded pytetwild
+ Downloaded numba
+ Downloaded debugpy
+ Downloaded networkx
+ Downloaded setuptools
+ Downloaded jedi
+ Downloaded openai
+ Downloaded cmeel-octomap
+ Downloaded pygments
+ Downloaded aiohttp
+ Downloaded hf-xet
+ Downloaded cmeel-zlib
+ Downloaded isaacsim-sensor
+Downloading numpy (15.9MiB)
+Downloading llvmlite (53.7MiB)
+Downloading scipy (33.4MiB)
+Downloading imageio-ffmpeg (28.1MiB)
+   Building ovrtx==0.4.1.364340
+   Building nflows==0.14
+   Building antlr4-python3-runtime==4.9.3
+Downloading botocore (13.4MiB)
+Downloading awscrt (8.3MiB)
+Downloading imgui-bundle (10.3MiB)
+Downloading sympy (6.0MiB)
+Downloading tensorboard-data-server (6.3MiB)
+Downloading tensorboard (5.3MiB)
+Downloading matplotlib (8.3MiB)
+Downloading fonttools (4.7MiB)
+Downloading pyopengl-accelerate (3.1MiB)
+Downloading coacd (2.5MiB)
+Downloading pydantic-core (1.9MiB)
+   Building egl-probe==1.0.2
+   Building moviepy==1.0.3
+Downloading kiwisolver (1.4MiB)
+Downloading qdldl (1.1MiB)
+ Downloaded nvidia-cuda-cupti-cu12
+ Downloaded cmeel-boost
+ Downloaded isaacsim-asset
+   Building imgui==2.0.0
+ Downloaded qdldl
+ Downloaded kiwisolver
+ Downloaded pydantic-core
+ Downloaded coacd
+ Downloaded pyopengl-accelerate
+   Building idna-ssl==1.1.0
+ Downloaded fonttools
+      Built openpi-client @ git+https://github.com/Physical-Intelligence/openpi@c23745b5ad24e98f66967ea795a07b2588ed6c79#subdirectory=packages/openpi-client
+      Built isaaclab-experimental @ file:///code/rosclaw/physicalEvoBench/external/IsaacLab-Arena/submodules/IsaacLab/source/isaaclab_experimental
+      Built isaaclab-visualizers @ file:///code/rosclaw/physicalEvoBench/external/IsaacLab-Arena/submodules/IsaacLab/source/isaaclab_visualizers
+      Built isaaclab-ppisp @ file:///code/rosclaw/physicalEvoBench/external/IsaacLab-Arena/submodules/IsaacLab/source/isaaclab_ppisp
+      Built isaaclab-contrib @ file:///code/rosclaw/physicalEvoBench/external/IsaacLab-Arena/submodules/IsaacLab/source/isaaclab_contrib
+      Built isaaclab-tasks-experimental @ file:///code/rosclaw/physicalEvoBench/external/IsaacLab-Arena/submodules/IsaacLab/source/isaaclab_tasks_experimental
+      Built isaaclab-teleop @ file:///code/rosclaw/physicalEvoBench/external/IsaacLab-Arena/submodules/IsaacLab/source/isaaclab_teleop
+      Built isaaclab-assets @ file:///code/rosclaw/physicalEvoBench/external/IsaacLab-Arena/submodules/IsaacLab/source/isaaclab_assets
+      Built isaaclab-physx @ file:///code/rosclaw/physicalEvoBench/external/IsaacLab-Arena/submodules/IsaacLab/source/isaaclab_physx
+      Built isaaclab-newton @ file:///code/rosclaw/physicalEvoBench/external/IsaacLab-Arena/submodules/IsaacLab/source/isaaclab_newton
+      Built isaaclab-rl @ file:///code/rosclaw/physicalEvoBench/external/IsaacLab-Arena/submodules/IsaacLab/source/isaaclab_rl
+      Built isaaclab-ov @ file:///code/rosclaw/physicalEvoBench/external/IsaacLab-Arena/submodules/IsaacLab/source/isaaclab_ov
+      Built isaaclab-mimic @ file:///code/rosclaw/physicalEvoBench/external/IsaacLab-Arena/submodules/IsaacLab/source/isaaclab_mimic
+      Built isaaclab @ file:///code/rosclaw/physicalEvoBench/external/IsaacLab-Arena/submodules/IsaacLab/source/isaaclab
+      Built isaaclab-tasks @ file:///code/rosclaw/physicalEvoBench/external/IsaacLab-Arena/submodules/IsaacLab/source/isaaclab_tasks
+ Downloaded tensorboard
+      Built idna-ssl==1.1.0
+      Built nflows==0.14
+      Built moviepy==1.0.3
+      Built antlr4-python3-runtime==4.9.3
+      Built robomimic @ git+https://github.com/ARISE-Initiative/robomimic.git@7c66e7a41b5d9dcc905b1a68346bfee1b49b79c9
+      Built isaaclab-dev @ file:///code/rosclaw/physicalEvoBench/external/IsaacLab-Arena/submodules/IsaacLab
+      Built isaaclab-arena @ file:///code/rosclaw/physicalEvoBench/external/IsaacLab-Arena
+      Built egl-probe==1.0.2
+ Downloaded sympy
+ Downloaded tensorboard-data-server
+ Downloaded matplotlib
+ Downloaded awscrt
+ Downloaded imgui-bundle
+ Downloaded pyarrow
+ Downloaded botocore
+ Downloaded numpy
