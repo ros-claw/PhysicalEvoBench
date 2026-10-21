@@ -1,8 +1,10 @@
 cff-version: 1.2.0
-message: "Please cite this repository when using PhysicalEvoBench. This is an unreleased implementation."
+message: "Please cite this repository when using PhysicalEvoBench."
 title: PhysicalEvoBench
 type: software
 authors:
   - name: PhysicalEvoBench contributors
 repository-code: https://github.com/ros-claw/PhysicalEvoBench
 license: Apache-2.0
+version: 0.1.0
+date-released: 2026-10-21

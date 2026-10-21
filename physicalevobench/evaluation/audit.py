@@ -71,6 +71,7 @@ def audit_run(directory):
         validation += read_jsonl(root / "evolution/candidate_validation_episodes.jsonl")
         all_rows = training + validation + frozen + updated
         registry = {row["condition_id"]: row for rows in manifests.values() for row in rows}
+        mapping = json.loads((root / "action_mapping.json").read_text())["arm_action"]
         if len(ledger) != len(all_rows) or {x["episode_id"] for x in ledger} != {x["episode_id"] for x in all_rows}:
             issues.append("Ledger and episode evidence disagree")
         for row in all_rows:
@@ -81,6 +82,21 @@ def audit_run(directory):
                 if not path.is_relative_to(root.resolve()) or not path.is_file():
                     raise ValueError("Missing or escaping evidence path")
             trace = read_jsonl(root / row["trace_artifact"])
+            skill_payload = json.loads((root / row["trace_artifact"]).with_name("skill.json").read_text())
+            saved_hash = skill_payload.pop("skill_sha256")
+            executed_skill = SkillSpec.from_dict(skill_payload)
+            if saved_hash != executed_skill.sha256 or saved_hash != row["skill_sha256"]:
+                issues.append("Per-episode skill snapshot mismatch")
+            for step in trace:
+                raw, applied = step["raw_action"][0], step["applied_action"][0]
+                if len(raw) != len(applied):
+                    issues.append("Action trace dimensions differ")
+                    break
+                for index, (a, b) in enumerate(zip(raw, applied, strict=True)):
+                    expected_action = a * executed_skill.arm_action_gain if mapping["start"] <= index < mapping["stop"] else a
+                    if not math.isfinite(b) or not math.isclose(b, expected_action, rel_tol=1e-5, abs_tol=1e-5):
+                        issues.append(f"Executed action disagrees with skill: {row['episode_id']}")
+                        break
             if len(trace) != row["steps"]:
                 issues.append(f"Trace length mismatch: {row['episode_id']}")
             official = [x for x in read_jsonl(root / row["upstream_artifact"]) if x["episode_length"] > 0]
@@ -100,6 +116,7 @@ def audit_run(directory):
                     issues.append(f"Paired initial state differs: {old['condition_id']}:{field}")
         result = {"status": "PASS" if not issues else "INCOMPLETE", "issues": issues,
                   "checked_physical_episodes": len(all_rows), "checked_test_pairs": metrics["num_pairs"],
+                  "control_traces_verified": not issues,
                   "collision_count": "not_measured", "video_complete": any(root.rglob("*.mp4")),
                   "scope": "Local evidence consistency; not malicious-code isolation or physical MVP acceptance"}
     except (OSError, ValueError, KeyError, TypeError) as error:
