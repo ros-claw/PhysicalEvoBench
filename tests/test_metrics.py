@@ -27,6 +27,15 @@ def test_synthetic_results_rejected_by_default():
         paired_metrics(rows, rows)
 
 
+def test_identical_skills_cannot_be_claimed_as_evolution():
+    frozen = fixture_rows([False, False], "b" * 64)
+    repeated = fixture_rows([True, False], "b" * 64)
+    result = paired_metrics(frozen, repeated, allow_synthetic_fixture=True)
+    assert result["evolution_gain_percentage_points"] == 50
+    assert result["retained_skill_changed"] is False
+    assert "replay variability" in result["interpretation"]
+
+
 @pytest.mark.parametrize("change", [
     {"execution_status": "INFRA_FAILURE"}, {"seed": 999}, {"condition_id": "mismatch"},
     {"base_checkpoint_sha256": "d" * 64}, {"success": None},

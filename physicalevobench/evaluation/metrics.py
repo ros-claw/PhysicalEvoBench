@@ -52,6 +52,10 @@ def paired_metrics(frozen, updated, *, allow_synthetic_fixture=False, bootstrap_
         "frozen": {"successes": old_successes, "episodes": n, "success_rate": old_successes / n},
         "updated": {"successes": new_successes, "episodes": n, "success_rate": new_successes / n},
         "evolution_gain_percentage_points": 100 * sum(differences) / n,
+        "retained_skill_changed": frozen[0]["skill_sha256"] != updated[0]["skill_sha256"],
+        "interpretation": "A retained skill changed; attribution still needs independent replication"
+        if frozen[0]["skill_sha256"] != updated[0]["skill_sha256"] else
+        "No retained skill update. The observed paired difference is replay variability, not evidence of evolution.",
         "paired_bootstrap_95_percent_interval_pp": [100 * resamples[49], 100 * resamples[1949]],
         "interval_scope": "Condition-paired percentile bootstrap; excludes between-run seed uncertainty",
         "bootstrap_seed": bootstrap_seed, "bootstrap_resamples": 2000,
@@ -61,4 +65,8 @@ def paired_metrics(frozen, updated, *, allow_synthetic_fixture=False, bootstrap_
             "updated": measured_count(after, "unsafe_action_count"),
         },
         "collision_count": "not_measured",
+        "joint_limit_violation_count": {
+            "frozen": measured_count(before, "joint_limit_violation_count"),
+            "updated": measured_count(after, "joint_limit_violation_count"),
+        },
     }

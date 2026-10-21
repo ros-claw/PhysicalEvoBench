@@ -1,0 +1,7 @@
+{
+  "schema_version": "0.1",
+  "base_checkpoint_sha256": "babbbfd363f894443ffe494f26c5b6e0485fb35d4f5480c088295c23fc2a13aa",
+  "skill_version": 0,
+  "arm_action_gain": 1.0,
+  "skill_sha256": "fa6d9729759e451098bcb88ec30ad8d653d1e638222d683c86abb7b4f678f922"
+}

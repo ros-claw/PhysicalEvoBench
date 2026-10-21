@@ -1,0 +1,14 @@
+{
+  "mass_and_inertia_checks_passed": true,
+  "checked_episodes": 14,
+  "same_condition_initial_replay_exact": true,
+  "replay_runs": [
+    "p1-mass-pilot-002",
+    "p1-mass-pilot-003"
+  ],
+  "note": "Pilot 002 was interrupted after its first completed episode; only matched initial states are compared",
+  "calibrated_interval_kg": [
+    0.8,
+    3.2
+  ]
+}

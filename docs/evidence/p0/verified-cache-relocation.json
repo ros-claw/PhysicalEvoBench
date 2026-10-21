@@ -1,0 +1,127 @@
+{
+  "reason": "Relocate only task-created, byte-verified duplicate completed caches; preserve original cache paths as symlinks",
+  "before_free_bytes": 33148928,
+  "moved": [
+    {
+      "original": "/home/dell/.cache/uv/archive-v0/5glvh3YzEa2Gu3y0",
+      "copy": "/code/rosclaw/physicalEvoBench/.cache/uv/archive-v0/5glvh3YzEa2Gu3y0",
+      "bytes": 211844487
+    },
+    {
+      "original": "/home/dell/.cache/uv/archive-v0/0AIP94_TrdwrSF7d",
+      "copy": "/code/rosclaw/physicalEvoBench/.cache/uv/archive-v0/0AIP94_TrdwrSF7d",
+      "bytes": 179680180
+    },
+    {
+      "original": "/home/dell/.cache/uv/archive-v0/uKvXsELE34VtwIBZ",
+      "copy": "/code/rosclaw/physicalEvoBench/.cache/uv/archive-v0/uKvXsELE34VtwIBZ",
+      "bytes": 168345527
+    },
+    {
+      "original": "/home/dell/.cache/uv/archive-v0/C3aNHL-xZ3ePnlAS",
+      "copy": "/code/rosclaw/physicalEvoBench/.cache/uv/archive-v0/C3aNHL-xZ3ePnlAS",
+      "bytes": 149681754
+    },
+    {
+      "original": "/home/dell/.cache/uv/archive-v0/06q3zq3I3cA0EwDX",
+      "copy": "/code/rosclaw/physicalEvoBench/.cache/uv/archive-v0/06q3zq3I3cA0EwDX",
+      "bytes": 139494566
+    },
+    {
+      "original": "/home/dell/.cache/uv/archive-v0/WXmNWhfTCCyI4xQx",
+      "copy": "/code/rosclaw/physicalEvoBench/.cache/uv/archive-v0/WXmNWhfTCCyI4xQx",
+      "bytes": 127233120
+    },
+    {
+      "original": "/home/dell/.cache/uv/archive-v0/otJ2CTx95bA7Nmee",
+      "copy": "/code/rosclaw/physicalEvoBench/.cache/uv/archive-v0/otJ2CTx95bA7Nmee",
+      "bytes": 113740883
+    },
+    {
+      "original": "/home/dell/.cache/uv/archive-v0/DsfIfnTiKT0s7EoJ",
+      "copy": "/code/rosclaw/physicalEvoBench/.cache/uv/archive-v0/DsfIfnTiKT0s7EoJ",
+      "bytes": 113059555
+    },
+    {
+      "original": "/home/dell/.cache/uv/archive-v0/MKvPD7d7TWH-tPZb",
+      "copy": "/code/rosclaw/physicalEvoBench/.cache/uv/archive-v0/MKvPD7d7TWH-tPZb",
+      "bytes": 94180576
+    },
+    {
+      "original": "/home/dell/.cache/uv/archive-v0/MBkIkWr1xEkdbxUM",
+      "copy": "/code/rosclaw/physicalEvoBench/.cache/uv/archive-v0/MBkIkWr1xEkdbxUM",
+      "bytes": 93822375
+    },
+    {
+      "original": "/home/dell/.cache/uv/archive-v0/nTbR7HYHJCeVCwFv",
+      "copy": "/code/rosclaw/physicalEvoBench/.cache/uv/archive-v0/nTbR7HYHJCeVCwFv",
+      "bytes": 82777298
+    },
+    {
+      "original": "/home/dell/.cache/uv/archive-v0/PDd9f1bGfmH_h2hB",
+      "copy": "/code/rosclaw/physicalEvoBench/.cache/uv/archive-v0/PDd9f1bGfmH_h2hB",
+      "bytes": 79870441
+    },
+    {
+      "original": "/home/dell/.cache/uv/archive-v0/agt89lN4aSElehsW",
+      "copy": "/code/rosclaw/physicalEvoBench/.cache/uv/archive-v0/agt89lN4aSElehsW",
+      "bytes": 71941171
+    },
+    {
+      "original": "/home/dell/.cache/uv/archive-v0/1RmyLj7-6onrW4iE",
+      "copy": "/code/rosclaw/physicalEvoBench/.cache/uv/archive-v0/1RmyLj7-6onrW4iE",
+      "bytes": 60355037
+    },
+    {
+      "original": "/home/dell/.cache/uv/archive-v0/0KnZQtGRkPG54eAO",
+      "copy": "/code/rosclaw/physicalEvoBench/.cache/uv/archive-v0/0KnZQtGRkPG54eAO",
+      "bytes": 57873183
+    },
+    {
+      "original": "/home/dell/.cache/uv/archive-v0/UdHS4TfUW1EUdBIf",
+      "copy": "/code/rosclaw/physicalEvoBench/.cache/uv/archive-v0/UdHS4TfUW1EUdBIf",
+      "bytes": 53624155
+    },
+    {
+      "original": "/home/dell/.cache/uv/archive-v0/fcTIht6jwT_sIHqu",
+      "copy": "/code/rosclaw/physicalEvoBench/.cache/uv/archive-v0/fcTIht6jwT_sIHqu",
+      "bytes": 51716061
+    },
+    {
+      "original": "/home/dell/.cache/uv/archive-v0/DFEYNjM3FOuSLISy",
+      "copy": "/code/rosclaw/physicalEvoBench/.cache/uv/archive-v0/DFEYNjM3FOuSLISy",
+      "bytes": 46965345
+    },
+    {
+      "original": "/home/dell/.cache/uv/archive-v0/7lisbiT5LanFcDvY",
+      "copy": "/code/rosclaw/physicalEvoBench/.cache/uv/archive-v0/7lisbiT5LanFcDvY",
+      "bytes": 45373155
+    },
+    {
+      "original": "/home/dell/.cache/uv/archive-v0/7RLnDh3yI3HmXPfd",
+      "copy": "/code/rosclaw/physicalEvoBench/.cache/uv/archive-v0/7RLnDh3yI3HmXPfd",
+      "bytes": 44820624
+    },
+    {
+      "original": "/home/dell/.cache/uv/archive-v0/TLnX_EbL-fvqZj2e",
+      "copy": "/code/rosclaw/physicalEvoBench/.cache/uv/archive-v0/TLnX_EbL-fvqZj2e",
+      "bytes": 43861702
+    },
+    {
+      "original": "/home/dell/.cache/uv/archive-v0/KpGerKiXqkXguDEt",
+      "copy": "/code/rosclaw/physicalEvoBench/.cache/uv/archive-v0/KpGerKiXqkXguDEt",
+      "bytes": 43448257
+    },
+    {
+      "original": "/home/dell/.cache/uv/archive-v0/IkLTruc-dcmgVJVJ",
+      "copy": "/code/rosclaw/physicalEvoBench/.cache/uv/archive-v0/IkLTruc-dcmgVJVJ",
+      "bytes": 43191211
+    },
+    {
+      "original": "/home/dell/.cache/uv/archive-v0/zF89mkopy6tkYpN-",
+      "copy": "/code/rosclaw/physicalEvoBench/.cache/uv/archive-v0/zF89mkopy6tkYpN-",
+      "bytes": 42519186
+    }
+  ],
+  "after_free_bytes": 2746478592
+}

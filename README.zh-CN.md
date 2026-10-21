@@ -2,15 +2,19 @@
 
 通过真实物理反馈，评测具身 Agent 的可执行技能有没有改善。
 
-首版目标：Isaac Lab-Arena 的 Franka Lift Object；冻结官方 RSL-RL 权重，改变
-物体质量；通过训练失败提出受约束的 Skill 修改，经独立验证提升或回滚，冻结后
-在同一批未参与更新的条件下比较 Frozen 与 Updated。
+**首个真实闭环已跑通，首个候选未通过验证，尚无正向技能改进证据。**
 
-**当前仍在实施，真实物理 MVP 尚未验收，也没有测得进化收益。** CPU 测试只验证
-协议约束。状态、原始证据和阻塞见 [实施报告](docs/implementation/MVP_IMPLEMENTATION_REPORT.md)。
+Franka Lift Object / PhysX 的正式实验共执行 48 个 Episode：8 次训练、8 次验证、32 次独立测试。
+更新器根据真实训练失败提出 arm gain 1.0→1.05，候选动作确实改变；验证双方均为 4/4，按预先固定规则回滚。
+测试计数为 3/16 与 4/16，但最终技能哈希相同，6.25 个百分点的差异属于物理重放波动，不能宣称自进化成功。
 
-安装和命令见 [英文 README](README.md) 和 [复现说明](docs/reproducibility.md)。
-本项目使用含特权状态的官方策略观测，不宣称纯视觉控制；公开测试清单也不等于
-保密的线上测试服务器。负收益、未提升和基础设施失败必须如实记录。
+[实际 HTML 报告](docs/evidence/experiments/mvp-seed20261021-001/report/index.html) ·
+[真实相机视频](docs/evidence/experiments/mvp-seed20261021-001/videos/baseline_candidate_rejected.mp4) ·
+[完整实施报告](docs/implementation/MVP_IMPLEMENTATION_REPORT.md)
 
-项目代码采用 Apache-2.0；NVIDIA 模型单独许可，仅限非商业使用，权重不随仓库发布。
+安装及一键实验命令见 [英文 README](README.md)。原始轨迹、质量/惯量读回、技能版本、候选理由、
+验证决策、分区清单、预算、独立审计均随证据保存。视频展示原技能和被拒绝候选的独立重放，额外消耗
+两个物理 Episode，不计入正式成绩。最终新克隆 GPU 复现、PR 检查与发布验收仍在进行。
+
+本项目属于冻结模型权重的状态观测技能适配赛道，不宣称纯视觉控制或模型自主学习。公开测试清单不等于
+保密测试服务器。代码 Apache-2.0；NVIDIA 模型单独许可、仅限非商业使用，权重不随仓库发布。

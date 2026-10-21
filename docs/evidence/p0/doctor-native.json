@@ -1,0 +1,61 @@
+{
+  "schema_version": "0.1",
+  "timestamp_utc": "2026-10-20T21:45:42.041798+00:00",
+  "python": "3.12.13 (main, May  8 2026, 18:32:55) [Clang 22.1.3 ]",
+  "executable": "/code/rosclaw/physicalEvoBench/external/IsaacLab-Arena/.venv/bin/python",
+  "platform": "Linux-6.8.0-138-generic-x86_64-with-glibc2.35",
+  "gpu": {
+    "command": [
+      "nvidia-smi",
+      "--query-gpu=index,name,driver_version,memory.total,memory.free",
+      "--format=csv,noheader"
+    ],
+    "returncode": 0,
+    "stdout": "0, NVIDIA RTX A6000, 595.91.07, 49140 MiB, 34300 MiB\n1, NVIDIA RTX A6000, 595.91.07, 49140 MiB, 35249 MiB\n2, NVIDIA RTX A6000, 595.91.07, 49140 MiB, 35564 MiB\n3, NVIDIA RTX A6000, 595.91.07, 49140 MiB, 34380 MiB",
+    "stderr": ""
+  },
+  "packages": {
+    "isaacsim": "6.1.0.0",
+    "isaaclab": "17.0.2",
+    "isaaclab-arena": "0.3.0",
+    "torch": "2.11.0+cu128",
+    "rsl-rl-lib": "5.4.1"
+  },
+  "arena_revision": {
+    "command": [
+      "git",
+      "rev-parse",
+      "HEAD"
+    ],
+    "returncode": 0,
+    "stdout": "c7edf3a9d5d8276565208f72422f8f8a0806d6cf",
+    "stderr": ""
+  },
+  "expected_packages_from_arena_lock": {
+    "isaacsim": "6.1.0.0",
+    "isaaclab": "17.0.2",
+    "isaaclab-arena": "0.3.0",
+    "torch": "2.11.0+cu128",
+    "rsl-rl-lib": "5.4.1"
+  },
+  "arena_expected_commit": "c7edf3a9d5d8276565208f72422f8f8a0806d6cf",
+  "arena_submodules": {
+    "command": [
+      "git",
+      "submodule",
+      "status",
+      "--recursive"
+    ],
+    "returncode": 0,
+    "stdout": "e29d8fc50b0e4745120ae3fb72447986fe638aa6 submodules/Isaac-GR00T (e29d8fc)\n 3966393ed7a37612af16c9b77e7aaed91231c407 submodules/Isaac-GR00T/external_dependencies/GR00T-WholeBodyControl (3966393)\n 8f1084e3132a39270c3a13ebe37270a43ece2a01 submodules/Isaac-GR00T/external_dependencies/LIBERO (heads/master)\n 8a2d286c926c1371927caa7651a412b4cc331756 submodules/Isaac-GR00T/external_dependencies/SimplerEnv (heads/main)\n c2a9e87c186300b694da6f2497dd68d2c347a4b7 submodules/Isaac-GR00T/external_dependencies/SimplerEnv/ManiSkill2_real2sim (heads/main)\n d89d481ce9c76da7f179466981676e268aa842e5 submodules/Isaac-GR00T/external_dependencies/robocasa (heads/main)\n 4840e671596f93ca03651524b9f72ffb1aadfeff submodules/Isaac-GR00T/external_dependencies/robocasa-gr1-tabletop-tasks (heads/main)\n 91a0906f93802eb859192dcb0bca879f891e92d6 submodules/IsaacLab (91a0906)",
+    "stderr": ""
+  },
+  "disk_free_bytes": 211193466880,
+  "uv_cache_path": "/code/rosclaw/physicalEvoBench/.cache/uv",
+  "uv_cache_disk_free_bytes": 211193466880,
+  "checkpoint_path": "/home/dell/models/physicalevobench/franka_lift/model_1999.pt",
+  "checkpoint_sha256": "babbbfd363f894443ffe494f26c5b6e0485fb35d4f5480c088295c23fc2a13aa",
+  "blockers": [],
+  "status": "READY_FOR_SMOKE",
+  "physical_episode_executed": false
+}

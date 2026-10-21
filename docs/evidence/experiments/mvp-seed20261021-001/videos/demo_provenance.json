@@ -1,0 +1,7 @@
+{
+  "source_experiment": "/code/rosclaw/physicalEvoBench/runs/mvp-seed20261021-001",
+  "source_episode_id": "train-v0-0001",
+  "purpose": "Separate video-only replay; excluded from experimental scores and updater input",
+  "candidate_status": "See original validation gate; do not infer promotion from demo",
+  "extra_physical_episode_budget": 2
+}

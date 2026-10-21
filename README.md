@@ -2,15 +2,27 @@
 
 Benchmarking Self-Improving Embodied Agents through Physical Feedback.
 
-PhysicalEvoBench measures whether an executable skill changes after physical failures, and
-whether the frozen update helps on independent conditions. The first target is Franka Lift
-Object in NVIDIA Isaac Lab-Arena, with object mass as the adaptation axis and frozen official
-RSL-RL weights. This is a **state-observation, harness/skill adaptation track**.
+PhysicalEvoBench measures whether physical failures lead to an executable skill change and whether
+its frozen version helps on independent conditions. The first track uses Franka Lift Object in
+Isaac Lab-Arena/PhysX, object mass perturbations, frozen official RSL-RL weights and bounded arm gain.
+It is a **state-observation skill-adaptation harness**, not model-weight learning or pure vision.
 
-**Status: implementation in progress; physical MVP not yet accepted.** CPU contract tests
-are not evidence of physical success. No Evolution Gain has been measured. The first release
-must demonstrate the evaluation protocol; it does not automatically establish algorithmic
-superiority or general self-improvement. See the [implementation report](docs/implementation/MVP_IMPLEMENTATION_REPORT.md).
+**A real 48-episode loop has run. Its candidate was rejected by validation; no retained skill improvement
+was demonstrated.** Final release acceptance is in progress. See the [implementation report](docs/implementation/MVP_IMPLEMENTATION_REPORT.md).
+
+| First run | Frozen | Final agent after rollback |
+| --- | --- | --- |
+| Heldout successes | 3 / 16 | 4 / 16 |
+| Retained skill | original | same original |
+
+The +6.25 pp observed difference is replay variability between identical retained skills, **not evidence
+of evolution**. This release demonstrates the evaluation protocol; it does not establish algorithmic
+superiority or general self-improvement. Budget-matched random search remains future work.
+
+[Real HTML report](docs/evidence/experiments/mvp-seed20261021-001/report/index.html) ·
+[Metrics](docs/evidence/experiments/mvp-seed20261021-001/report/metrics.json) ·
+[Real camera video](docs/evidence/experiments/mvp-seed20261021-001/videos/baseline_candidate_rejected.mp4) ·
+[中文说明](README.zh-CN.md)
 
 ## CPU quickstart
 
@@ -22,35 +34,42 @@ uv run pytest -q
 uv run physicalevobench doctor --config configs/lift_mass_v0.yaml
 ```
 
-`doctor` exits with code 2 when dependencies or weights are missing. The CPU environment
-does not include Isaac Sim. Do not interpret that result as an unsuitable GPU diagnosis.
-The implementation branch is under review in draft PR #1; no MVP release is available yet.
+The implementation is under review in PR #1. `doctor` exits 2 when simulator packages or weights are
+missing from its current interpreter. The CPU environment intentionally does not include Isaac Sim.
 
-## Real GPU setup and smoke
+## Real GPU reproduction
 
-Arena is pinned to `c7edf3a9d5d8276565208f72422f8f8a0806d6cf`, not a floating branch.
-Follow [reproducibility](docs/reproducibility.md) for its separate runtime and version caveats.
+Use Linux x86_64, an RTX GPU and sufficient disk space. Arena is pinned to
+`c7edf3a9d5d8276565208f72422f8f8a0806d6cf`, with a separate native runtime. Its complete lock currently
+selects Isaac Sim 6.1.0.0. Installation downloads large dependencies; see [reproducibility](docs/reproducibility.md).
 
 ```bash
 bash scripts/setup_arena.sh
 bash scripts/download_checkpoint.sh
 uv run physicalevobench smoke --config configs/smoke.yaml --gpu 0 --run-dir runs/zero-001
 uv run physicalevobench smoke --config configs/smoke.yaml --gpu 0 --policy rsl_rl --run-dir runs/lift-001
+bash scripts/run_mvp.sh --gpu 0 --run-dir runs/mvp-001
+uv run physicalevobench audit --run-dir runs/mvp-001
+uv run physicalevobench report --run-dir runs/mvp-001
 ```
 
-Each smoke creates a new directory containing the exact command, raw console output, return
-code, checkpoint hash and any upstream episode results. Existing directories are never reused.
-`PROCESS_COMPLETED` is a process status; P0 still requires review of an actual nonzero-action
-physical episode. Training, independent testing, report generation and videos are pending.
+`run` executes actual training, a subprocess proposal, paired validation, promotion/rollback, freezing,
+32 heldout episodes, independent artifact audit and HTML generation. It never substitutes mock results.
+Existing run directories and unsafe resume are rejected. A no-candidate or incomplete evidence chain
+is not accepted by the audit. Reports preserve negative findings and unmeasured sensor fields.
 
-## Evaluation boundaries
+The frozen mass distribution is 0.8–3.2 kg, calibrated before formal testing from 14 paired pilot episodes.
+Formal budgets are 8 train, 8 validation and 32 test episodes. Rendered demo replays are separate from
+these budgets and scores. The recorded video uses an actual 84×84 wrist camera, enlarged for viewing;
+it shows an original skill and rejected candidate, not a promoted improvement.
 
-Only the trusted worker receives simulator objects, physical mass, seeds and heldout results.
-Agents receive serialized train feedback and propose constrained, hashed skills. Validation
-decides promotion or rollback; heldout conditions are evaluated only after freezing. Public
-manifests are held-out evaluation, not a secret anti-cheating leaderboard.
+## Boundaries and licensing
 
-The code is Apache-2.0. NVIDIA model weights are separately licensed for non-commercial use
-and downloaded outside this repository; see [NOTICE](NOTICE.md). We do not redistribute them.
+The trusted worker owns physical parameters, seeds, environment objects and scores. The updater sees
+only serialized train feedback; its process ends before testing. Public manifests are heldout evaluation,
+not a secret anti-cheating server or an OS sandbox against malicious local code. Initial states replayed
+within 1e-6, but GPU physical trajectories and outcomes varied. Collision sensing is not implemented.
 
-[中文说明](README.zh-CN.md) · [Protocol](docs/benchmark_protocol.md) · [Contributing](CONTRIBUTING.md)
+Project code is Apache-2.0. NVIDIA model weights have separate non-commercial terms and are downloaded
+outside this repository. We do not redistribute them. See [NOTICE](NOTICE.md), [protocol](docs/benchmark_protocol.md)
+and [contributing](CONTRIBUTING.md).

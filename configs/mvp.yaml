@@ -1,0 +1,15 @@
+schema_version: '0.1'
+benchmark_id: PEB-Lift-Mass-v0
+arena_path: external/IsaacLab-Arena
+checkpoint_path: ~/models/physicalevobench/franka_lift/model_1999.pt
+checkpoint_sha256: babbbfd363f894443ffe494f26c5b6e0485fb35d4f5480c088295c23fc2a13aa
+checkpoint_revision: 01277d4f4944174ea7eb4c701d962a078b75c8ce
+distribution_frozen: true
+calibration_evidence: runs/p1-mass-pilot-003
+mass_range_kg: [0.8, 3.2]
+seed: 20261021
+conditions: {train: 4, validation: 4, heldout_test: 16}
+budgets: {train: 8, validation: 8, heldout_test: 32}
+promotion_min_gain: 0.0
+require_no_increase_joint_limit_samples: true
+timeout_seconds: 3600

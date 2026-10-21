@@ -1,0 +1,28 @@
+{
+  "arena_path": "external/IsaacLab-Arena",
+  "benchmark_id": "PEB-Lift-Mass-v0",
+  "budgets": {
+    "heldout_test": 32,
+    "train": 8,
+    "validation": 8
+  },
+  "calibration_evidence": "runs/p1-mass-pilot-003",
+  "checkpoint_path": "~/models/physicalevobench/franka_lift/model_1999.pt",
+  "checkpoint_revision": "01277d4f4944174ea7eb4c701d962a078b75c8ce",
+  "checkpoint_sha256": "babbbfd363f894443ffe494f26c5b6e0485fb35d4f5480c088295c23fc2a13aa",
+  "conditions": {
+    "heldout_test": 16,
+    "train": 4,
+    "validation": 4
+  },
+  "distribution_frozen": true,
+  "mass_range_kg": [
+    0.8,
+    3.2
+  ],
+  "promotion_min_gain": 0.0,
+  "require_no_increase_joint_limit_samples": true,
+  "schema_version": "0.1",
+  "seed": 20261021,
+  "timeout_seconds": 3600
+}

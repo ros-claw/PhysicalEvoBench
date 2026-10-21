@@ -10,6 +10,62 @@ from pathlib import Path
 from physicalevobench.doctor import ARENA_COMMIT, command, save_json, sha256
 
 
+def arena_python_path(config, arena):
+    # Resolving the interpreter symlink bypasses pyvenv.cfg and loses all venv packages.
+    return Path(os.path.expandvars(os.path.expanduser(
+        config.get("arena_python", str(arena / ".venv/bin/python"))
+    ))).absolute()
+
+
+def runtime_environment(arena, gpu):
+    cache = arena.parents[1] / ".cache/runtime"
+    cache.mkdir(parents=True, exist_ok=True)
+    return dict(os.environ, CUDA_VISIBLE_DEVICES=str(gpu), HEADLESS="1",
+                OMNI_KIT_ACCEPT_EULA="YES", ACCEPT_EULA="Y",
+                ISAACLAB_ARENA_FORCE_EXIT_ON_COMPLETE="1", PYTHONUNBUFFERED="1",
+                XDG_CACHE_HOME=str(cache), TORCH_EXTENSIONS_DIR=str(cache / "torch_extensions"),
+                PYTHONPATH=str(Path(__file__).resolve().parents[2]))
+
+
+def run_benchmark(config, args):
+    if args.resume:
+        raise ValueError("Resume is not yet safe; use a new run directory")
+    if args.agents != "frozen,feedback_search":
+        raise ValueError("Implemented agent pair is frozen,feedback_search")
+    arena = Path(config["arena_path"]).resolve()
+    output = Path(args.run_dir).absolute()
+    output.mkdir(parents=True, exist_ok=False)
+    resolved = output / "input_config.yaml"
+    import yaml
+
+    resolved.write_text(yaml.safe_dump(config))
+    launch = [str(arena_python_path(config, arena)), "-m", "physicalevobench.evaluation.experiment",
+              "--config", str(resolved), "--run-dir", str(output)]
+    save_json(output / "launch.json", {"command": launch, "gpu": args.gpu})
+    error = None
+    with (output / "console.log").open("w") as log:
+        process = subprocess.Popen(launch, env=runtime_environment(arena, args.gpu),
+                                   stdout=log, stderr=subprocess.STDOUT, start_new_session=True)
+        try:
+            returncode = process.wait(timeout=config.get("timeout_seconds", 3600))
+        except subprocess.TimeoutExpired:
+            os.killpg(process.pid, signal.SIGTERM)
+            try:
+                process.wait(timeout=10)
+            except subprocess.TimeoutExpired:
+                os.killpg(process.pid, signal.SIGKILL)
+                process.wait()
+            returncode = process.returncode
+            error = "SIMULATION_TIMEOUT"
+    save_json(output / "process.json", {"returncode": returncode, "command": launch, "error": error})
+    if returncode != 0 or error:
+        return 2
+    from physicalevobench.reporting.generate import generate_report
+
+    print(generate_report(output))
+    return 0
+
+
 def smoke(config, args):
     arena = Path(config["arena_path"]).resolve()
     run_dir = Path(args.run_dir).resolve()
@@ -19,7 +75,7 @@ def smoke(config, args):
     if revision.get("stdout") != ARENA_COMMIT:
         save_json(run_dir / "status.json", {"status": "BLOCKED", "reason": "ARENA_REVISION_MISMATCH"})
         return 2
-    python = Path(config.get("arena_python", str(arena / ".venv/bin/python"))).resolve()
+    python = arena_python_path(config, arena)
     runner = arena / "isaaclab_arena/evaluation/policy_runner.py"
     checkpoint = Path(os.path.expanduser(config["checkpoint_path"])).resolve()
     if args.policy == "rsl_rl" and (
@@ -27,7 +83,7 @@ def smoke(config, args):
     ):
         save_json(run_dir / "status.json", {"status": "BLOCKED", "reason": "CHECKPOINT_UNVERIFIED"})
         return 2
-    launch = [str(python), str(runner), "--headless", "--device", "cuda:0", "--num_envs", "1",
+    launch = [str(python), str(runner), "--device", "cuda:0", "--num_envs", "1",
               "--policy_type", args.policy, "--output_base_dir", str(run_dir / "upstream")]
     if args.policy == "zero_action":
         launch += ["--num_steps", str(config.get("num_steps", 20)), "cube_goal_pose"]
@@ -39,13 +95,7 @@ def smoke(config, args):
                 "checkpoint_sha256": sha256(checkpoint) if checkpoint.is_file() else None,
                 "policy_type": args.policy}
     save_json(run_dir / "launch.json", evidence)
-    environment = dict(os.environ, CUDA_VISIBLE_DEVICES=str(args.gpu),
-                       OMNI_KIT_ACCEPT_EULA="YES", ACCEPT_EULA="Y",
-                       ISAACLAB_ARENA_FORCE_EXIT_ON_COMPLETE="1")
-    runtime_cache = arena.parents[1] / ".cache/runtime"
-    runtime_cache.mkdir(parents=True, exist_ok=True)
-    environment["XDG_CACHE_HOME"] = str(runtime_cache)
-    environment["TORCH_EXTENSIONS_DIR"] = str(runtime_cache / "torch_extensions")
+    environment = runtime_environment(arena, args.gpu)
     returncode = None
     error = None
     with (run_dir / "console.log").open("w") as log:
