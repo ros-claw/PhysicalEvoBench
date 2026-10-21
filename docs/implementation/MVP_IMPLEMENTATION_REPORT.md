@@ -1,10 +1,12 @@
 # PhysicalEvoBench v0.1 implementation and acceptance report
 
-**The real physical feedback–candidate–validation–freeze–heldout loop has run twice, including a fresh clone. Both promotion and rollback were exercised. Stable improvement has not been demonstrated.** Release metadata and final PR acceptance are being completed.
+**The real physical feedback–candidate–validation–freeze–heldout loop has run twice, including a fresh clone. Both promotion and rollback were exercised. Stable improvement has not been demonstrated.** All P0–P4 delivery gates passed and v0.1.0 is published.
 
 ## Repository and environment
 
-Public repository: https://github.com/ros-claw/PhysicalEvoBench. Branch: `implementation/mvp`; PR: https://github.com/ros-claw/PhysicalEvoBench/pull/1. Merge/release metadata will be appended after completion. All 27 CPU tests pass locally, in the new clone and in GitHub Actions at code commit `7bf0e8e`.
+Public repository: https://github.com/ros-claw/PhysicalEvoBench. Implementation PR: https://github.com/ros-claw/PhysicalEvoBench/pull/1, merged at `2026-10-21T02:01:06Z` as `0f88cc2225d4eba0ec8f6bddef8ccb3593348c97`. All 27 CPU tests pass locally, in the new clone and in GitHub Actions. Final implementation head `a3abebf95d1ffbbb07826571ef2e02ac2b8b0645` passed both [push CI](https://github.com/ros-claw/PhysicalEvoBench/actions/runs/39530338724) and [PR CI](https://github.com/ros-claw/PhysicalEvoBench/actions/runs/39530343516).
+
+[v0.1.0](https://github.com/ros-claw/PhysicalEvoBench/releases/tag/v0.1.0) was published at `2026-10-21T02:03:19Z`. Its tag resolves to the merge commit above; this publication ledger is a subsequent documentation update. Actual GitHub API records are retained in `docs/evidence/p4/merged-pr-1.json` and `release-v0.1.0.json`. The downloadable evidence ZIP preserves repository-relative paths and has a separate SHA256 checksum; it excludes model weights and runtime caches.
 
 The host has four RTX A6000 GPUs (49,140 MiB each), driver 595.91.07; rollouts use GPU 0. CPU tools and Arena have separate Python 3.12.13 environments. Native doctor passed (`docs/evidence/p0/doctor-native.json`).
 
@@ -26,7 +28,7 @@ Versions follow upstream `uv.lock`, despite older versions in its installation p
 | P1 controlled conditions | PASS | 14 paired-seed pilot episodes; actual mass and proportional inertia checks; repeated initial state matches. `docs/evidence/p1/` |
 | P2 actual candidate | PASS | Train failures produced gain 1.05 candidate, real actions changed, validation tied and correctly rolled back |
 | P3 independent evaluation | PASS | Two 48-episode executions, each with 16 heldout pairs and audit PASS; real HTML reports and recorded camera video |
-| P4 release | VALIDATION PASS; PUBLICATION PENDING | New clone and new virtual environments completed full GPU run; 27 CPU tests and CI pass; final PR publication metadata pending |
+| P4 release | PASS | New clone and new virtual environments completed full GPU run; 27 CPU tests and CI pass; PR #1 merged and v0.1.0 published |
 
 ## Execution and corrective work
 
@@ -70,7 +72,7 @@ Finite/live-action-space checks found zero invalid test actions. Pre-step hard-j
 
 Independent audit rechecked manifests, split/seed isolation, frozen skills, budgets, raw upstream outcomes, trace lengths, physical mass, paired initial states and recomputed metrics. It passed all checks across 48 episodes and 16 test pairs. Initial masses, inertias, joints, object positions and commands matched within 1e-6, while subsequent GPU physics trajectories varied.
 
-## Inspectable deliverables and remaining acceptance
+## Inspectable deliverables
 
 Full real evidence is committed under `docs/evidence/experiments/mvp-seed20261021-001/`: raw action/state traces, initial conditions, upstream JSONL, split manifests, ledger, skills, proposals, gate decisions, metrics, audit and `report/index.html`. No synthetic episode is included.
 
