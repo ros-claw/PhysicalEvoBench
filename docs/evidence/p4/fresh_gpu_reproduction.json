@@ -1,0 +1,14 @@
+{
+  "code_commit": "7bf0e8e7696c6a6986a5c7b7c8874135aeb16672",
+  "fresh_checkout": "/code/rosclaw/physicalEvoBench/.cache/fresh-gpu-repro",
+  "source": "public GitHub clone and recursive pinned submodules",
+  "venv": "new CPU and Arena virtual environments; shared immutable download cache only",
+  "cpu_tests_passed": 27,
+  "runtime_install_exit_code": 0,
+  "mvp_command": "bash scripts/run_mvp.sh --gpu 0 --run-dir runs/reproduction-001",
+  "mvp_exit_code": 0,
+  "physical_episodes": 48,
+  "artifact_audit": "PASS",
+  "repeated_protocol_seed": 20261021,
+  "independent_seed_replication": false
+}

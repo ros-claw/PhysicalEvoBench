@@ -1,0 +1,35 @@
+{
+  "skill": {
+    "schema_version": "0.1",
+    "base_checkpoint_sha256": "babbbfd363f894443ffe494f26c5b6e0485fb35d4f5480c088295c23fc2a13aa",
+    "skill_version": 0,
+    "arm_action_gain": 1.0
+  },
+  "remaining_budget": 4,
+  "training_feedback": [
+    {
+      "episode_id": "train-v0-0000",
+      "success": false,
+      "failure_type": "task_not_completed",
+      "split": "train"
+    },
+    {
+      "episode_id": "train-v0-0001",
+      "success": false,
+      "failure_type": "task_not_completed",
+      "split": "train"
+    },
+    {
+      "episode_id": "train-v0-0002",
+      "success": false,
+      "failure_type": "task_not_completed",
+      "split": "train"
+    },
+    {
+      "episode_id": "train-v0-0003",
+      "success": false,
+      "failure_type": "task_not_completed",
+      "split": "train"
+    }
+  ]
+}

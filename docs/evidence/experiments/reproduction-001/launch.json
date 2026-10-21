@@ -1,0 +1,12 @@
+{
+  "command": [
+    "/code/rosclaw/physicalEvoBench/.cache/fresh-gpu-repro/external/IsaacLab-Arena/.venv/bin/python",
+    "-m",
+    "physicalevobench.evaluation.experiment",
+    "--config",
+    "/code/rosclaw/physicalEvoBench/.cache/fresh-gpu-repro/runs/reproduction-001/input_config.yaml",
+    "--run-dir",
+    "/code/rosclaw/physicalEvoBench/.cache/fresh-gpu-repro/runs/reproduction-001"
+  ],
+  "gpu": 0
+}

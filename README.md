@@ -7,8 +7,8 @@ its frozen version helps on independent conditions. The first track uses Franka 
 Isaac Lab-Arena/PhysX, object mass perturbations, frozen official RSL-RL weights and bounded arm gain.
 It is a **state-observation skill-adaptation harness**, not model-weight learning or pure vision.
 
-**A real 48-episode loop has run. Its candidate was rejected by validation; no retained skill improvement
-was demonstrated.** Final release acceptance is in progress. See the [implementation report](docs/implementation/MVP_IMPLEMENTATION_REPORT.md).
+**Two real 48-episode executions have run, including a fresh clone. Promotion and rollback both work;
+stable skill improvement has not been demonstrated.** See the [implementation report](docs/implementation/MVP_IMPLEMENTATION_REPORT.md).
 
 | First run | Frozen | Final agent after rollback |
 | --- | --- | --- |
@@ -19,6 +19,11 @@ The +6.25 pp observed difference is replay variability between identical retaine
 of evolution**. This release demonstrates the evaluation protocol; it does not establish algorithmic
 superiority or general self-improvement. Budget-matched random search remains future work.
 
+The [fresh-clone execution](docs/evidence/experiments/reproduction-001/report/index.html) promoted the
+candidate and measured 2/16 vs 3/16 on test, with a paired interval of [-12.5, +25] pp. That interval
+includes degradation, and test joint-limit samples increased. Both executions use the same protocol
+seed; they are not an independent-seed effectiveness study.
+
 [Real HTML report](docs/evidence/experiments/mvp-seed20261021-001/report/index.html) ·
 [Metrics](docs/evidence/experiments/mvp-seed20261021-001/report/metrics.json) ·
 [Real camera video](docs/evidence/experiments/mvp-seed20261021-001/videos/baseline_candidate_rejected.mp4) ·
@@ -27,15 +32,16 @@ superiority or general self-improvement. Budget-matched random search remains fu
 ## CPU quickstart
 
 ```bash
-git clone --branch implementation/mvp https://github.com/ros-claw/PhysicalEvoBench.git
+git clone https://github.com/ros-claw/PhysicalEvoBench.git
 cd PhysicalEvoBench
 uv sync --locked --extra dev --extra models
 uv run pytest -q
 uv run physicalevobench doctor --config configs/lift_mass_v0.yaml
 ```
 
-The implementation is under review in PR #1. `doctor` exits 2 when simulator packages or weights are
-missing from its current interpreter. The CPU environment intentionally does not include Isaac Sim.
+`doctor` automatically selects an installed Arena runtime and otherwise inspects the current Python.
+It exits 2 when required packages or weights are missing. Use `--current-interpreter` to inspect CPU
+tools explicitly; that environment intentionally does not include Isaac Sim.
 
 ## Real GPU reproduction
 

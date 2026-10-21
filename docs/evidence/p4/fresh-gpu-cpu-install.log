@@ -1,0 +1,26 @@
+Using CPython 3.12.13
+Creating virtual environment at: .cache/fresh-gpu-repro/.venv
+Resolved 20 packages in 1ms
+   Building physicalevobench @ file:///code/rosclaw/physicalEvoBench/.cache/fresh-gpu-repro
+      Built physicalevobench @ file:///code/rosclaw/physicalEvoBench/.cache/fresh-gpu-repro
+Prepared 1 package in 1.70s
+Installed 19 packages in 7ms
+ + certifi==2026.10.19
+ + charset-normalizer==3.5.2
+ + filelock==4.2.4
+ + fsspec==2026.9.0
+ + hf-xet==1.7.0
+ + huggingface-hub==0.35.3
+ + idna==3.20
+ + iniconfig==2.3.1
+ + packaging==26.3
+ + physicalevobench==0.1.0 (from file:///code/rosclaw/physicalEvoBench/.cache/fresh-gpu-repro)
+ + pluggy==1.7.0
+ + pygments==2.21.0
+ + pytest==8.4.2
+ + pyyaml==6.0.3
+ + requests==2.34.2
+ + ruff==0.14.1
+ + tqdm==4.70.1
+ + typing-extensions==4.16.0
+ + urllib3==2.8.0

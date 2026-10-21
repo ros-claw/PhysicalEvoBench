@@ -1,0 +1,28 @@
+{
+  "before": {
+    "schema_version": "0.1",
+    "base_checkpoint_sha256": "babbbfd363f894443ffe494f26c5b6e0485fb35d4f5480c088295c23fc2a13aa",
+    "skill_version": 0,
+    "arm_action_gain": 1.0
+  },
+  "candidate": {
+    "schema_version": "0.1",
+    "base_checkpoint_sha256": "babbbfd363f894443ffe494f26c5b6e0485fb35d4f5480c088295c23fc2a13aa",
+    "skill_version": 1,
+    "arm_action_gain": 1.05
+  },
+  "retained": {
+    "schema_version": "0.1",
+    "base_checkpoint_sha256": "babbbfd363f894443ffe494f26c5b6e0485fb35d4f5480c088295c23fc2a13aa",
+    "skill_version": 1,
+    "arm_action_gain": 1.05
+  },
+  "decision": {
+    "decision": "promote",
+    "paired_gain": 0.25,
+    "min_gain": 0.0,
+    "num_pairs": 4,
+    "incumbent_joint_limit_samples": 13,
+    "candidate_joint_limit_samples": 0
+  }
+}

@@ -50,9 +50,12 @@ A rolled-back candidate is not a retained improvement.</p>
 {metrics['validation_episode_budget_used']}; heldout episodes: {metrics['test_episode_budget_used']}.
 Model token use: 0. Collision count: <strong>not_measured</strong>. Joint-limit counts are sampled
 pre-step positions against hard limits, with a 0.001 coordinate-unit tolerance; inspect each episode.</p>
+<p>Test joint-limit samples: Frozen <strong>{metrics['joint_limit_violation_count']['frozen']}</strong>;
+final agent <strong>{metrics['joint_limit_violation_count']['updated']}</strong>.
+Passing a validation gate does not establish safety on new conditions.</p>
 <p>Public heldout manifests are not a secret test service. Budget-matched random search is not implemented.</p>
 <h2>Physical video</h2><p>Separate real-camera replays, excluded from scored episodes.
-The candidate shown was rejected; this is not an improvement claim.</p>{videos or '<p>not_recorded</p>'}
+Refer to their source experiment's validation decision. A video is not an improvement claim.</p>{videos or '<p>not_recorded</p>'}
 <p><a href="metrics.json">Metrics JSON</a> · <a href="../audit.json">Audit</a> ·
 <a href="../provenance.json">Provenance</a> · <a href="../evolution/skill_diff.json">Skill diff</a> ·
 <a href="../evolution/agent_request.json">Updater's exact train-only input</a></p>

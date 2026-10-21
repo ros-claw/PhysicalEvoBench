@@ -1,10 +1,10 @@
 # PhysicalEvoBench v0.1 implementation and acceptance report
 
-**The real physical feedback–candidate–validation–rollback–heldout loop has run. No retained skill improvement has been demonstrated.** Video, fresh-clone GPU reproduction and release acceptance are still pending.
+**The real physical feedback–candidate–validation–freeze–heldout loop has run twice, including a fresh clone. Both promotion and rollback were exercised. Stable improvement has not been demonstrated.** Release metadata and final PR acceptance are being completed.
 
 ## Repository and environment
 
-Public repository: https://github.com/ros-claw/PhysicalEvoBench. Branch: `implementation/mvp`; draft PR: https://github.com/ros-claw/PhysicalEvoBench/pull/1. No acceptance merge or release yet. The expanded local CPU suite has 26 passing tests; final CI is pending push.
+Public repository: https://github.com/ros-claw/PhysicalEvoBench. Branch: `implementation/mvp`; PR: https://github.com/ros-claw/PhysicalEvoBench/pull/1. Merge/release metadata will be appended after completion. All 27 CPU tests pass locally, in the new clone and in GitHub Actions at code commit `7bf0e8e`.
 
 The host has four RTX A6000 GPUs (49,140 MiB each), driver 595.91.07; rollouts use GPU 0. CPU tools and Arena have separate Python 3.12.13 environments. Native doctor passed (`docs/evidence/p0/doctor-native.json`).
 
@@ -25,8 +25,8 @@ Versions follow upstream `uv.lock`, despite older versions in its installation p
 | P0 official physics | PASS | Zero-action: 20 steps, exit 0. Original checkpoint: one successful 62-step PhysX lift, exit 0. `docs/evidence/p0/official-zero/`, `official-lift/` |
 | P1 controlled conditions | PASS | 14 paired-seed pilot episodes; actual mass and proportional inertia checks; repeated initial state matches. `docs/evidence/p1/` |
 | P2 actual candidate | PASS | Train failures produced gain 1.05 candidate, real actions changed, validation tied and correctly rolled back |
-| P3 independent evaluation | CORE PASS; VIDEO PENDING | 48 real formal episodes; 16 heldout pairs; audit PASS; real HTML report generated |
-| P4 release | IN PROGRESS | CPU tests/lint pass; final fresh-clone GPU test, CI, video, merge and release remain |
+| P3 independent evaluation | PASS | Two 48-episode executions, each with 16 heldout pairs and audit PASS; real HTML reports and recorded camera video |
+| P4 release | VALIDATION PASS; PUBLICATION PENDING | New clone and new virtual environments completed full GPU run; 27 CPU tests and CI pass; final PR publication metadata pending |
 
 ## Execution and corrective work
 
@@ -74,11 +74,34 @@ Independent audit rechecked manifests, split/seed isolation, frozen skills, budg
 
 Full real evidence is committed under `docs/evidence/experiments/mvp-seed20261021-001/`: raw action/state traces, initial conditions, upstream JSONL, split manifests, ledger, skills, proposals, gate decisions, metrics, audit and `report/index.html`. No synthetic episode is included.
 
-`physicalevobench audit --run-dir runs/mvp-seed20261021-001` passed (exit 0); `physicalevobench report --run-dir ...` generated the real HTML report (exit 0). `pytest -q` passed 26 tests and Ruff passed. Rendered demo replay is currently being tested; no video is claimed yet.
+`physicalevobench audit --run-dir runs/mvp-seed20261021-001` passed (exit 0); `physicalevobench report --run-dir ...` generated the real HTML report (exit 0). `pytest -q` passed 27 tests and Ruff passed. Independent audit additionally reconstructs applied actions from each hashed skill and its raw action trace; tampering with an action or a stored score is rejected by tests using copies of real recorded data.
+
+## Fresh-clone GPU reproduction and observed variability
+
+A new public GitHub clone at code commit `7bf0e8e7696c6a6986a5c7b7c8874135aeb16672` initialized all pinned submodules and installed separate CPU/GPU virtual environments. It reused downloaded immutable wheels and the independently downloaded checkpoint, not an existing runtime environment. Its initial git worktree was clean and source SHA256s are recorded in provenance.
+
+`bash scripts/run_mvp.sh --gpu 0 --run-dir runs/reproduction-001` completed with exit 0, automatically auditing 48 physical episodes and generating HTML. Source, commands, logs and return codes are recorded in `docs/evidence/p4/`; full evidence is in `docs/evidence/experiments/reproduction-001/`.
+
+This repeated the **same protocol seed and conditions**, not an independent seed study. The predeclared gate now saw 3/4 incumbent vs 4/4 candidate validation successes and joint-limit samples 13 vs 0, so it promoted the same gain-1.05 candidate. Independent test then measured:
+
+| Execution | Frozen | Final agent | Nominal paired difference | Gate |
+| --- | --- | --- | --- | --- |
+| Initial | 3/16 | 4/16, unchanged skill | +6.25 pp, interval [0, 18.75] | rollback |
+| Fresh clone | 2/16 | 3/16, actual gain-1.05 skill | +6.25 pp, interval [-12.5, 25] | promote |
+
+The second result is an observed positive difference for an actually changed skill, but its interval spans degradation, and a same-skill replay already showed a difference of the same size. **This is not stable or statistically persuasive evidence of self-improvement.** Both outcomes are published without selecting the better run. The fresh test had joint-limit samples 27 vs 48, despite the validation safety gate passing; safety generalization is not established.
+
+Total formal cost is 96 physical episodes across two executions. Official baseline (1), completed pilot episodes (15, including the interrupted probe's one result), and camera demos (2) bring the documented completed-episode total to 114. Zero-action step smoke and infrastructure initialization failures are separate overhead. Both formal runs used only 16 distinct heldout conditions; their repeated execution must not be presented as 32 independent conditions.
+
+## Real video and acceptance
+
+Two additional demo episodes replayed a real training failure with the original and rejected candidate. Both timed out. Their 250 actual wrist-camera frames per episode were encoded at 50 Hz, then enlarged and labeled side by side. Frames were visually inspected; no generated animation or mock imagery is used. Full demo provenance and traces are under `docs/evidence/experiments/mvp-demo-001/`; the comparison MP4 is linked in the first HTML report. Demo outcomes do not enter formal scores or agent feedback.
+
+The doctor now automatically uses an installed Arena virtual environment; `--current-interpreter` retains explicit CPU-only diagnosis. Its selected-interpreter success is recorded in `docs/evidence/p0/doctor-cli-native.json`.
 
 Public manifests are heldout evaluation, not a secret test server. The official policy uses privileged state observations, not pure vision. Physical mass calibration used only two pilot seeds. There is no budget-matched random comparison, so feedback-specific superiority cannot be claimed.
 
 Next priorities:
-1. Finish real camera video and fresh-clone GPU reproduction.
-2. Complete PR/CI validation before acceptance merge and release.
-3. Expand calibration seeds and add budget-matched search before studying algorithmic improvement.
+1. Expand calibration and evaluation across independent seeds, accounting for GPU replay variability.
+2. Add budget-matched random search before making feedback-specific claims.
+3. Investigate out-of-validation joint-limit behavior before extending safety claims.

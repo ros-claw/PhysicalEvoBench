@@ -33,8 +33,9 @@ The smoke wrapper uses one environment and a single CUDA-visible GPU, preserves 
 JSONL and refuses to overwrite an existing run directory. GPU PhysX replay may have numerical
 nondeterminism even with identical seeds. No deterministic replay claim has been validated yet.
 
-To diagnose the actual GPU interpreter, run the doctor module under Arena's Python with
-this project's root on `PYTHONPATH`; the default `uv run` doctor describes the CPU environment.
+The doctor selects the installed Arena interpreter automatically, preserving its virtual-environment
+path. Use `--current-interpreter` to diagnose the CPU tool environment explicitly. The structured
+output records the interpreter actually inspected.
 
 For long installs, `uv run python scripts/continue_p0.py --gpu 0 --run-dir runs/p0-bootstrap`
 performs pinned sync, native doctor, zero-action and pretrained lift in order. It writes each

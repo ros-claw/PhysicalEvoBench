@@ -1,0 +1,290 @@
+[
+  {
+    "episode_id": "train-v0-0000",
+    "split": "train",
+    "used": 1,
+    "limit": 8
+  },
+  {
+    "episode_id": "train-v0-0001",
+    "split": "train",
+    "used": 2,
+    "limit": 8
+  },
+  {
+    "episode_id": "train-v0-0002",
+    "split": "train",
+    "used": 3,
+    "limit": 8
+  },
+  {
+    "episode_id": "train-v0-0003",
+    "split": "train",
+    "used": 4,
+    "limit": 8
+  },
+  {
+    "episode_id": "train-candidate-0000",
+    "split": "train",
+    "used": 5,
+    "limit": 8
+  },
+  {
+    "episode_id": "train-candidate-0001",
+    "split": "train",
+    "used": 6,
+    "limit": 8
+  },
+  {
+    "episode_id": "train-candidate-0002",
+    "split": "train",
+    "used": 7,
+    "limit": 8
+  },
+  {
+    "episode_id": "train-candidate-0003",
+    "split": "train",
+    "used": 8,
+    "limit": 8
+  },
+  {
+    "episode_id": "validation-v0-0000",
+    "split": "validation",
+    "used": 1,
+    "limit": 8
+  },
+  {
+    "episode_id": "validation-v0-0001",
+    "split": "validation",
+    "used": 2,
+    "limit": 8
+  },
+  {
+    "episode_id": "validation-v0-0002",
+    "split": "validation",
+    "used": 3,
+    "limit": 8
+  },
+  {
+    "episode_id": "validation-v0-0003",
+    "split": "validation",
+    "used": 4,
+    "limit": 8
+  },
+  {
+    "episode_id": "validation-candidate-0000",
+    "split": "validation",
+    "used": 5,
+    "limit": 8
+  },
+  {
+    "episode_id": "validation-candidate-0001",
+    "split": "validation",
+    "used": 6,
+    "limit": 8
+  },
+  {
+    "episode_id": "validation-candidate-0002",
+    "split": "validation",
+    "used": 7,
+    "limit": 8
+  },
+  {
+    "episode_id": "validation-candidate-0003",
+    "split": "validation",
+    "used": 8,
+    "limit": 8
+  },
+  {
+    "episode_id": "test-frozen-0000",
+    "split": "heldout_test",
+    "used": 1,
+    "limit": 32
+  },
+  {
+    "episode_id": "test-frozen-0001",
+    "split": "heldout_test",
+    "used": 2,
+    "limit": 32
+  },
+  {
+    "episode_id": "test-frozen-0002",
+    "split": "heldout_test",
+    "used": 3,
+    "limit": 32
+  },
+  {
+    "episode_id": "test-frozen-0003",
+    "split": "heldout_test",
+    "used": 4,
+    "limit": 32
+  },
+  {
+    "episode_id": "test-frozen-0004",
+    "split": "heldout_test",
+    "used": 5,
+    "limit": 32
+  },
+  {
+    "episode_id": "test-frozen-0005",
+    "split": "heldout_test",
+    "used": 6,
+    "limit": 32
+  },
+  {
+    "episode_id": "test-frozen-0006",
+    "split": "heldout_test",
+    "used": 7,
+    "limit": 32
+  },
+  {
+    "episode_id": "test-frozen-0007",
+    "split": "heldout_test",
+    "used": 8,
+    "limit": 32
+  },
+  {
+    "episode_id": "test-frozen-0008",
+    "split": "heldout_test",
+    "used": 9,
+    "limit": 32
+  },
+  {
+    "episode_id": "test-frozen-0009",
+    "split": "heldout_test",
+    "used": 10,
+    "limit": 32
+  },
+  {
+    "episode_id": "test-frozen-0010",
+    "split": "heldout_test",
+    "used": 11,
+    "limit": 32
+  },
+  {
+    "episode_id": "test-frozen-0011",
+    "split": "heldout_test",
+    "used": 12,
+    "limit": 32
+  },
+  {
+    "episode_id": "test-frozen-0012",
+    "split": "heldout_test",
+    "used": 13,
+    "limit": 32
+  },
+  {
+    "episode_id": "test-frozen-0013",
+    "split": "heldout_test",
+    "used": 14,
+    "limit": 32
+  },
+  {
+    "episode_id": "test-frozen-0014",
+    "split": "heldout_test",
+    "used": 15,
+    "limit": 32
+  },
+  {
+    "episode_id": "test-frozen-0015",
+    "split": "heldout_test",
+    "used": 16,
+    "limit": 32
+  },
+  {
+    "episode_id": "test-updated-0000",
+    "split": "heldout_test",
+    "used": 17,
+    "limit": 32
+  },
+  {
+    "episode_id": "test-updated-0001",
+    "split": "heldout_test",
+    "used": 18,
+    "limit": 32
+  },
+  {
+    "episode_id": "test-updated-0002",
+    "split": "heldout_test",
+    "used": 19,
+    "limit": 32
+  },
+  {
+    "episode_id": "test-updated-0003",
+    "split": "heldout_test",
+    "used": 20,
+    "limit": 32
+  },
+  {
+    "episode_id": "test-updated-0004",
+    "split": "heldout_test",
+    "used": 21,
+    "limit": 32
+  },
+  {
+    "episode_id": "test-updated-0005",
+    "split": "heldout_test",
+    "used": 22,
+    "limit": 32
+  },
+  {
+    "episode_id": "test-updated-0006",
+    "split": "heldout_test",
+    "used": 23,
+    "limit": 32
+  },
+  {
+    "episode_id": "test-updated-0007",
+    "split": "heldout_test",
+    "used": 24,
+    "limit": 32
+  },
+  {
+    "episode_id": "test-updated-0008",
+    "split": "heldout_test",
+    "used": 25,
+    "limit": 32
+  },
+  {
+    "episode_id": "test-updated-0009",
+    "split": "heldout_test",
+    "used": 26,
+    "limit": 32
+  },
+  {
+    "episode_id": "test-updated-0010",
+    "split": "heldout_test",
+    "used": 27,
+    "limit": 32
+  },
+  {
+    "episode_id": "test-updated-0011",
+    "split": "heldout_test",
+    "used": 28,
+    "limit": 32
+  },
+  {
+    "episode_id": "test-updated-0012",
+    "split": "heldout_test",
+    "used": 29,
+    "limit": 32
+  },
+  {
+    "episode_id": "test-updated-0013",
+    "split": "heldout_test",
+    "used": 30,
+    "limit": 32
+  },
+  {
+    "episode_id": "test-updated-0014",
+    "split": "heldout_test",
+    "used": 31,
+    "limit": 32
+  },
+  {
+    "episode_id": "test-updated-0015",
+    "split": "heldout_test",
+    "used": 32,
+    "limit": 32
+  }
+]
