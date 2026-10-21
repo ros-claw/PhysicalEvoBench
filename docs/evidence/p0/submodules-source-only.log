@@ -1,0 +1,11 @@
+子模组路径 'submodules/Isaac-GR00T'：检出 'e29d8fc50b0e4745120ae3fb72447986fe638aa6'
+子模组路径 'submodules/Isaac-GR00T/external_dependencies/GR00T-WholeBodyControl'：检出 '3966393ed7a37612af16c9b77e7aaed91231c407'
+子模组路径 'submodules/Isaac-GR00T/external_dependencies/LIBERO'：检出 '8f1084e3132a39270c3a13ebe37270a43ece2a01'
+子模组路径 'submodules/Isaac-GR00T/external_dependencies/SimplerEnv'：检出 '8a2d286c926c1371927caa7651a412b4cc331756'
+正克隆到 '/code/rosclaw/physicalEvoBench/external/IsaacLab-Arena/submodules/Isaac-GR00T/external_dependencies/SimplerEnv/ManiSkill2_real2sim'...
+子模组路径 'submodules/Isaac-GR00T/external_dependencies/SimplerEnv/ManiSkill2_real2sim'：检出 'c2a9e87c186300b694da6f2497dd68d2c347a4b7'
+子模组路径 'submodules/Isaac-GR00T/external_dependencies/robocasa'：检出 'd89d481ce9c76da7f179466981676e268aa842e5'
+子模组路径 'submodules/Isaac-GR00T/external_dependencies/robocasa-gr1-tabletop-tasks'：检出 '4840e671596f93ca03651524b9f72ffb1aadfeff'
+来自 https://github.com/isaac-sim/IsaacLab
+ * branch            91a0906f93802eb859192dcb0bca879f891e92d6 -> FETCH_HEAD
+子模组路径 'submodules/IsaacLab'：检出 '91a0906f93802eb859192dcb0bca879f891e92d6'

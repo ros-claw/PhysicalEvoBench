@@ -11,5 +11,6 @@ The model card specifies non-commercial use only. This project's Apache license 
 relicense those weights. Users download them independently and must follow the model terms:
 https://huggingface.co/nvidia/Arena-Franka-Lift-Object-RL-Task
 
-No model weights, NVIDIA simulation assets or demonstration videos are distributed here.
+Recorded simulation outputs and demonstration videos are included as experiment evidence.
+No model weights or source NVIDIA simulation assets are distributed here.
 CPU test fixtures are synthetic contract inputs and are never benchmark results.

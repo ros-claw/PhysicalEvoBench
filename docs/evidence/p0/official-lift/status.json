@@ -1,0 +1,32 @@
+{
+  "command": [
+    "/code/rosclaw/physicalEvoBench/external/IsaacLab-Arena/.venv/bin/python",
+    "/code/rosclaw/physicalEvoBench/external/IsaacLab-Arena/isaaclab_arena/evaluation/policy_runner.py",
+    "--device",
+    "cuda:0",
+    "--num_envs",
+    "1",
+    "--policy_type",
+    "rsl_rl",
+    "--output_base_dir",
+    "/code/rosclaw/physicalEvoBench/runs/p0-official-lift-001/upstream",
+    "--num_episodes",
+    "1",
+    "--checkpoint_path",
+    "/home/dell/models/physicalevobench/franka_lift/model_1999.pt",
+    "lift_object"
+  ],
+  "cwd": "/code/rosclaw/physicalEvoBench/external/IsaacLab-Arena",
+  "arena_commit": "c7edf3a9d5d8276565208f72422f8f8a0806d6cf",
+  "physical_gpu": 0,
+  "started_at": "2026-10-21T01:24:47.879048+00:00",
+  "checkpoint_sha256": "babbbfd363f894443ffe494f26c5b6e0485fb35d4f5480c088295c23fc2a13aa",
+  "policy_type": "rsl_rl",
+  "returncode": 0,
+  "error": null,
+  "status": "PROCESS_COMPLETED",
+  "upstream_episode_record_count": 1,
+  "completed_task_episode_count": 1,
+  "p0_gate": "PENDING_EPISODE_REVIEW",
+  "completed_at": "2026-10-21T01:25:19.266815+00:00"
+}

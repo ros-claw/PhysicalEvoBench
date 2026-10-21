@@ -1,0 +1,16 @@
+{
+  "pid": 3550903,
+  "command": [
+    "/code/rosclaw/physicalEvoBench/.venv/bin/python",
+    "/code/rosclaw/physicalEvoBench/scripts/continue_p0.py",
+    "--wait-pid",
+    "3538741",
+    "--gpu",
+    "0",
+    "--run-dir",
+    "/code/rosclaw/physicalEvoBench/runs/p0-bootstrap-20261021"
+  ],
+  "status_path": "/code/rosclaw/physicalEvoBench/runs/p0-bootstrap-20261021/status.json",
+  "launched_at_utc": "2026-10-20T21:25:31.616166+00:00",
+  "acceptance": "No automatic MVP acceptance, merge or release"
+}

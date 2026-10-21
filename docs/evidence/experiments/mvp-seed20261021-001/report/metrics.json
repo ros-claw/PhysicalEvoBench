@@ -1,0 +1,49 @@
+{
+  "num_pairs": 16,
+  "frozen": {
+    "successes": 3,
+    "episodes": 16,
+    "success_rate": 0.1875
+  },
+  "updated": {
+    "successes": 4,
+    "episodes": 16,
+    "success_rate": 0.25
+  },
+  "evolution_gain_percentage_points": 6.25,
+  "paired_bootstrap_95_percent_interval_pp": [
+    0.0,
+    18.75
+  ],
+  "interval_scope": "Condition-paired percentile bootstrap; excludes between-run seed uncertainty",
+  "bootstrap_seed": 20261021,
+  "bootstrap_resamples": 2000,
+  "synthetic_fixture": false,
+  "unsafe_action_count": {
+    "frozen": 0,
+    "updated": 0
+  },
+  "collision_count": "not_measured",
+  "training_episode_budget_used": 8,
+  "validation_episode_budget_used": 8,
+  "test_episode_budget_used": 32,
+  "candidate_count": 1,
+  "promotion_count": 0,
+  "fallback_count": 1,
+  "model_token_usage": 0,
+  "learned_skill_sha256": "fa6d9729759e451098bcb88ec30ad8d653d1e638222d683c86abb7b4f678f922",
+  "decision": {
+    "decision": "rollback",
+    "paired_gain": 0.0,
+    "min_gain": 0.0,
+    "num_pairs": 4,
+    "incumbent_joint_limit_samples": 0,
+    "candidate_joint_limit_samples": 0
+  },
+  "retained_skill_changed": false,
+  "interpretation": "No retained skill update. The observed paired difference is replay variability, not evidence of evolution.",
+  "joint_limit_violation_count": {
+    "frozen": 11,
+    "updated": 22
+  }
+}

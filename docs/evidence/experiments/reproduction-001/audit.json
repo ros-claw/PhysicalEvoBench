@@ -1,0 +1,10 @@
+{
+  "status": "PASS",
+  "issues": [],
+  "checked_physical_episodes": 48,
+  "checked_test_pairs": 16,
+  "control_traces_verified": true,
+  "collision_count": "not_measured",
+  "video_complete": false,
+  "scope": "Local evidence consistency; not malicious-code isolation or physical MVP acceptance"
+}

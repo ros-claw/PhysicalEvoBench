@@ -1,0 +1,49 @@
+{
+  "num_pairs": 16,
+  "frozen": {
+    "successes": 2,
+    "episodes": 16,
+    "success_rate": 0.125
+  },
+  "updated": {
+    "successes": 3,
+    "episodes": 16,
+    "success_rate": 0.1875
+  },
+  "evolution_gain_percentage_points": 6.25,
+  "retained_skill_changed": true,
+  "interpretation": "A retained skill changed; attribution still needs independent replication",
+  "paired_bootstrap_95_percent_interval_pp": [
+    -12.5,
+    25.0
+  ],
+  "interval_scope": "Condition-paired percentile bootstrap; excludes between-run seed uncertainty",
+  "bootstrap_seed": 20261021,
+  "bootstrap_resamples": 2000,
+  "synthetic_fixture": false,
+  "unsafe_action_count": {
+    "frozen": 0,
+    "updated": 0
+  },
+  "collision_count": "not_measured",
+  "joint_limit_violation_count": {
+    "frozen": 27,
+    "updated": 48
+  },
+  "training_episode_budget_used": 8,
+  "validation_episode_budget_used": 8,
+  "test_episode_budget_used": 32,
+  "candidate_count": 1,
+  "promotion_count": 1,
+  "fallback_count": 0,
+  "model_token_usage": 0,
+  "learned_skill_sha256": "3bdfe070150255806ef8764b7cb0efd1d6f610854026db6c25b846e47c7431fc",
+  "decision": {
+    "decision": "promote",
+    "paired_gain": 0.25,
+    "min_gain": 0.0,
+    "num_pairs": 4,
+    "incumbent_joint_limit_samples": 13,
+    "candidate_joint_limit_samples": 0
+  }
+}

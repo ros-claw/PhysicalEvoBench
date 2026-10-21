@@ -1,0 +1,30 @@
+{
+  "command": [
+    "/code/rosclaw/physicalEvoBench/external/IsaacLab-Arena/.venv/bin/python",
+    "/code/rosclaw/physicalEvoBench/external/IsaacLab-Arena/isaaclab_arena/evaluation/policy_runner.py",
+    "--device",
+    "cuda:0",
+    "--num_envs",
+    "1",
+    "--policy_type",
+    "zero_action",
+    "--output_base_dir",
+    "/code/rosclaw/physicalEvoBench/runs/p0-zero-current-api/upstream",
+    "--num_steps",
+    "20",
+    "cube_goal_pose"
+  ],
+  "cwd": "/code/rosclaw/physicalEvoBench/external/IsaacLab-Arena",
+  "arena_commit": "c7edf3a9d5d8276565208f72422f8f8a0806d6cf",
+  "physical_gpu": 0,
+  "started_at": "2026-10-21T01:23:05.510891+00:00",
+  "checkpoint_sha256": "babbbfd363f894443ffe494f26c5b6e0485fb35d4f5480c088295c23fc2a13aa",
+  "policy_type": "zero_action",
+  "returncode": 0,
+  "error": null,
+  "status": "PROCESS_COMPLETED",
+  "upstream_episode_record_count": 0,
+  "completed_task_episode_count": 0,
+  "p0_gate": "NOT_PASSED",
+  "completed_at": "2026-10-21T01:24:23.072085+00:00"
+}
