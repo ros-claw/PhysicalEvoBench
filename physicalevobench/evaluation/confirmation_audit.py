@@ -3,6 +3,7 @@
 import argparse
 import json
 import math
+import random
 from pathlib import Path
 
 from physicalevobench.doctor import save_json, sha256
@@ -69,6 +70,8 @@ def audit_seed(root):
     root = Path(root).absolute()
     config = load(root / "config_resolved.json")
     rows, ledger = read_jsonl(root / "episodes.jsonl"), load(root / "budget_ledger.json")
+    if load(root / "status.json")["status"] != "PHYSICAL_COMPLETED":
+        raise ValueError("Incomplete physical execution")
     manifests = {s: read_jsonl(root / "splits" / f"{s}.jsonl") for s in config["conditions"]}
     hashes = load(root / "manifest_hashes.json")
     registry = {c["condition_id"]: c for group in manifests.values() for c in group}
@@ -123,6 +126,25 @@ def audit_seed(root):
             request = load(root / "search" / f"{arm}-{trial}-request.json")
             if set(request) != {"agent", "rng_seed", "history", "remaining_budget"} or len(request["history"]) != trial + 1:
                 raise ValueError("Invalid updater request")
+            response = load(root / "search" / f"{arm}-{trial}-response.json")
+            expected_gain = None
+            if trial < 3:
+                if arm == "random":
+                    expected_gain = random.Random(config["seed"] ^ 911).sample(
+                        (.85, .9, .95, 1.05, 1.1, 1.15), 3)[trial]
+                elif trial < 2:
+                    expected_gain = (.9, 1.1)[trial]
+                else:
+                    scores = [sum(f["success"] for f in h["feedback"]) for h in request["history"]]
+                    side = 1 if scores[1] >= scores[2] else 2
+                    expected_gain = ((.85 if side == 1 else 1.15) if scores[side] > scores[0]
+                                     else (.95 if side == 1 else 1.05))
+            if response["next_gain"] != expected_gain:
+                raise ValueError("Proposal deviated from preregistered algorithm")
+            if request["rng_seed"] != config["seed"] ^ 911 or request["remaining_budget"] != (3 - trial) * 8:
+                raise ValueError("Updater RNG or charged budget changed")
+            if trial < 3 and final_request["history"][trial + 1]["skill"]["arm_action_gain"] != expected_gain:
+                raise ValueError("Executed proposal differs from response")
             for entry in request["history"]:
                 if set(entry) != {"skill", "feedback"}:
                     raise ValueError("Updater received hidden fields")
@@ -143,6 +165,11 @@ def audit_seed(root):
             raise ValueError("Train-selected skill mismatch")
         old = [r for r in rows if r["split"] == "validation" and r["agent_id"] == "frozen"]
         new = [r for r in rows if r["split"] == "validation" and r["agent_id"] == arm]
+        expected_ids = {c["condition_id"] for c in manifests["validation"]}
+        if (len(old) != 8 or len(new) != 8 or {r["condition_id"] for r in old} != expected_ids
+                or {r["condition_id"] for r in new} != expected_ids
+                or any(r["skill_sha256"] != baseline.sha256 for r in old)):
+            raise ValueError("Validation coverage or original skill mismatch")
         if any(r["skill_sha256"] != selected.sha256 for r in new):
             raise ValueError("Validation used incorrect selected skill")
         promote = sum(r["success"] for r in new) > sum(r["success"] for r in old) and sum(r["joint_limit_violation_count"] for r in new) <= sum(r["joint_limit_violation_count"] for r in old)
@@ -160,8 +187,29 @@ def audit_study(directory):
         raise ValueError("Study config changed")
     seed_rows, freezes, ids, seeds, audits = [], [], set(), set(), {}
     old_seeds = set(prereg["prior_episode_seeds_excluded"])
+    processes = load(root / "processes.json")
+    source_hashes = None
     for seed in config["seeds"]:
         d = root / f"seed-{seed}"
+        cfg = load(d / "config_resolved.json")
+        if any(cfg[key] != value for key, value in config.items() if key != "arena_path"):
+            raise ValueError("Per-seed scientific config changed")
+        prov = load(d / "provenance.json")
+        if prov["blockers"] or prov["project_commit"] != prereg["project_commit"]:
+            raise ValueError("Runtime differs from preregistered commit or doctor failed")
+        if source_hashes is None:
+            source_hashes = prov["source_sha256"]
+        if prov["source_sha256"] != source_hashes:
+            raise ValueError("Runtime source differs between seeds")
+        if processes[d.name] != 0:
+            retry = load(root / "retry-process.json")
+            receipt = load(root / "infrastructure-retry.json")
+            failed = root / receipt["failed_attempt"]
+            if (not failed.is_dir() or not (failed / "console.log").is_file()
+                    or retry["seed"] != seed or retry["returncode"] != 0
+                    or receipt["completed_episodes_in_failed_attempt"] != 0
+                    or (failed / "episodes.jsonl").exists()):
+                raise ValueError("Failed execution lacks a valid zero-episode infrastructure retry")
         audits[str(seed)] = audit_seed(d)
         for split in config["conditions"]:
             path = d / "splits" / f"{split}.jsonl"

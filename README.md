@@ -7,7 +7,7 @@ its frozen version helps on independent conditions. The first track uses Franka 
 Isaac Lab-Arena/PhysX, object mass perturbations, frozen official RSL-RL weights and bounded arm gain.
 It is a **state-observation skill-adaptation harness**, not model-weight learning or pure vision.
 
-**Two real 48-episode executions have run, including a fresh clone. Promotion and rollback both work;
+**v0.1.0 ran two real 48-episode executions, including a fresh clone. Promotion and rollback both work;
 stable skill improvement has not been demonstrated.** See the [implementation report](docs/implementation/MVP_IMPLEMENTATION_REPORT.md).
 
 | First run | Frozen | Final agent after rollback |
@@ -17,7 +17,7 @@ stable skill improvement has not been demonstrated.** See the [implementation re
 
 The +6.25 pp observed difference is replay variability between identical retained skills, **not evidence
 of evolution**. This release demonstrates the evaluation protocol; it does not establish algorithmic
-superiority or general self-improvement. Budget-matched random search remains future work.
+superiority or general self-improvement. The prospective follow-up below adds a budget-matched random control.
 
 The [fresh-clone execution](docs/evidence/experiments/reproduction-001/report/index.html) promoted the
 candidate and measured 2/16 vs 3/16 on test, with a paired interval of [-12.5, +25] pp. That interval
@@ -28,6 +28,26 @@ seed; they are not an independent-seed effectiveness study.
 [Metrics](docs/evidence/experiments/mvp-seed20261021-001/report/metrics.json) ·
 [Real camera video](docs/evidence/experiments/mvp-seed20261021-001/videos/baseline_candidate_rejected.mp4) ·
 [中文说明](README.zh-CN.md)
+
+## Prospective confirmation (2026-10-22)
+
+A preregistered follow-up ran **528 real episodes**, three new learning seeds and 72 distinct
+heldout conditions. Both feedback-guided search and budget-matched random search rolled back
+in all three seeds. The final policy therefore remained identical in all four test arms:
+Frozen **13/72**, identity replay **17/72**, feedback **13/72**, random **14/72**.
+These differences are replay variation; **self-improvement was not confirmed**. All three
+independent physical artifact audits passed. See the [results and limits](docs/experiments/CONFIRMATION_RESULTS_20261022.md),
+[preregistration](docs/experiments/CONFIRMATION_PREREGISTRATION.md) and
+[complete per-seed evidence archives](docs/evidence/confirmation-20261022-001).
+
+```bash
+uv run python scripts/run_confirmation.py --output runs/confirmation-new --gpus 0 1 2
+uv run python -m physicalevobench.evaluation.confirmation_audit --study-dir runs/confirmation-new
+```
+
+The launcher requires a clean committed worktree and uses the fixed protocol config. Replaying
+published seeds is reproduction; a new effectiveness study requires newly registered seeds and
+heldout conditions. The original v0.1.0 evidence and release tag remain unchanged.
 
 ## CPU quickstart
 

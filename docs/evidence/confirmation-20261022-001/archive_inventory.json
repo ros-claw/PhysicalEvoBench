@@ -1,0 +1,20 @@
+[
+  {
+    "archive": "seed-2026102201.tar.gz",
+    "bytes": 17037840,
+    "sha256": "943849869e62312ef6048b8d55707bdeedb919c9d80cee38c886435de7f4ba5e",
+    "physical_episodes": 176
+  },
+  {
+    "archive": "seed-2026102202.tar.gz",
+    "bytes": 18459592,
+    "sha256": "9b396d48dc7aca64a5cf4de50c0e50e1086e6c7881acdb6c339c101395b60bed",
+    "physical_episodes": 176
+  },
+  {
+    "archive": "seed-2026102203.tar.gz",
+    "bytes": 16375080,
+    "sha256": "203c2b5a4fe3006cd09307d75b16c1076823288e81ed13f57a2c056c84bd139b",
+    "physical_episodes": 176
+  }
+]

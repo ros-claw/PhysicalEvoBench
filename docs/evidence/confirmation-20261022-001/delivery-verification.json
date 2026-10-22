@@ -1,0 +1,6 @@
+{
+  "archive_checksum_verification": "PASS",
+  "independent_extraction_audit": "PASS",
+  "physical_episodes_reaudited": 528,
+  "recomputed_metrics_equal_packaged_metrics": true
+}

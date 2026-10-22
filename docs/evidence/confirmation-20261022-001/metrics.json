@@ -1,0 +1,137 @@
+{
+  "claim": "NOT_CONFIRMED",
+  "checks": {
+    "retained_changed_at_least_two_seeds": false,
+    "positive_in_every_seed": false,
+    "all_holm_tests_pass": false,
+    "all_conditional_intervals_positive": false,
+    "no_invalid_actions": true,
+    "no_increase_feedback_test_joint_samples": false
+  },
+  "totals": {
+    "frozen": {
+      "episodes": 72,
+      "successes": 13,
+      "joint_limit_samples": 151
+    },
+    "identity_replay": {
+      "episodes": 72,
+      "successes": 17,
+      "joint_limit_samples": 191
+    },
+    "feedback": {
+      "episodes": 72,
+      "successes": 13,
+      "joint_limit_samples": 183
+    },
+    "random": {
+      "episodes": 72,
+      "successes": 14,
+      "joint_limit_samples": 210
+    }
+  },
+  "comparisons": [
+    {
+      "reference": "frozen",
+      "pairs": 72,
+      "wins": 0,
+      "losses": 0,
+      "success_rate_difference": 0.0,
+      "conditional_bootstrap_95": [
+        0.0,
+        0.0
+      ],
+      "p_one_sided_exact": 1.0,
+      "per_seed": [
+        {
+          "pairs": 24,
+          "wins": 0,
+          "losses": 0,
+          "success_rate_difference": 0.0
+        },
+        {
+          "pairs": 24,
+          "wins": 0,
+          "losses": 0,
+          "success_rate_difference": 0.0
+        },
+        {
+          "pairs": 24,
+          "wins": 0,
+          "losses": 0,
+          "success_rate_difference": 0.0
+        }
+      ],
+      "p_holm": 1.0
+    },
+    {
+      "reference": "identity_replay",
+      "pairs": 72,
+      "wins": 0,
+      "losses": 4,
+      "success_rate_difference": -0.05555555555555555,
+      "conditional_bootstrap_95": [
+        -0.1111111111111111,
+        -0.013888888888888888
+      ],
+      "p_one_sided_exact": 1.0,
+      "per_seed": [
+        {
+          "pairs": 24,
+          "wins": 0,
+          "losses": 2,
+          "success_rate_difference": -0.08333333333333333
+        },
+        {
+          "pairs": 24,
+          "wins": 0,
+          "losses": 1,
+          "success_rate_difference": -0.041666666666666664
+        },
+        {
+          "pairs": 24,
+          "wins": 0,
+          "losses": 1,
+          "success_rate_difference": -0.041666666666666664
+        }
+      ],
+      "p_holm": 1.0
+    },
+    {
+      "reference": "random",
+      "pairs": 72,
+      "wins": 1,
+      "losses": 2,
+      "success_rate_difference": -0.013888888888888888,
+      "conditional_bootstrap_95": [
+        -0.06944444444444445,
+        0.027777777777777776
+      ],
+      "p_one_sided_exact": 0.875,
+      "per_seed": [
+        {
+          "pairs": 24,
+          "wins": 0,
+          "losses": 1,
+          "success_rate_difference": -0.041666666666666664
+        },
+        {
+          "pairs": 24,
+          "wins": 0,
+          "losses": 0,
+          "success_rate_difference": 0.0
+        },
+        {
+          "pairs": 24,
+          "wins": 1,
+          "losses": 1,
+          "success_rate_difference": 0.0
+        }
+      ],
+      "p_holm": 1.0
+    }
+  ],
+  "changed_feedback_skills": 0,
+  "scope": "Three learned skills; conditional condition-level inference, not universal self-evolution",
+  "collision_count": null
+}

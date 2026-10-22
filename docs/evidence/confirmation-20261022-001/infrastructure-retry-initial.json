@@ -1,0 +1,11 @@
+{
+  "recorded_at": "2026-10-22T08:33:22.252808+00:00",
+  "reason": "Default recorder HDF5 file lock collision during concurrent environment construction",
+  "completed_episodes_in_failed_attempt": 0,
+  "algorithm_or_conditions_changed": false,
+  "runtime_changes": [
+    "isolated cwd for default HDF5 output",
+    "arena_path expanded to absolute same pinned source"
+  ],
+  "failed_attempt": "startup-failures/seed-2026102203-attempt-001"
+}

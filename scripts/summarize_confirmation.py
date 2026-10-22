@@ -1,0 +1,124 @@
+"""Render the audited prospective experiment as a concise Chinese repository report."""
+
+import argparse
+import json
+from pathlib import Path
+
+from physicalevobench.evaluation.audit import read_jsonl
+from physicalevobench.evaluation.confirmation_stats import ARMS
+
+
+def load(path):
+    return json.loads(Path(path).read_text())
+
+
+def render(root):
+    root = Path(root).absolute()
+    metrics, config, audit = (load(root / name) for name in ('metrics.json', 'study_config.json', 'audit.json'))
+    if audit['status'] != 'PASS':
+        raise ValueError('Only render independently audited completed evidence')
+    names = {'frozen': '原策略', 'identity_replay': '原策略重放', 'feedback': '反馈搜索', 'random': '同预算随机搜索'}
+    identical = all(len({entry['sha256'] for entry in load(root / f'seed-{seed}' / 'frozen_skills.json').values()}) == 1
+                    for seed in config['seeds'])
+    retained_note = ('**三个种子中反馈与随机搜索均回滚，四组最终使用同一个原策略技能哈希。表中差异是相同技能的不同物理执行，不能解释为算法改善或退化。**'
+                     if identical else '各组保留技能及验证决策见下方分种子结果；解释分数时须同时核对技能是否改变。')
+    lines = [
+        '# 自进化验证：三种子前瞻性对照实验', '',
+        f"**按预先登记规则得到的结论：{metrics['claim']}。** 本实验检验冻结控制器外部动作增益的反馈搜索，不能等同于权重学习、技能发明或通用自进化。", '',
+        '方案、代码及判定标准在任何新物理 episode 前提交；旧版测试数据未计入。'
+        '3 个新种子、72 个不同留出条件、528 个真实 PhysX episode；测试每个条件运行四组。'
+        '测试顺序采用随机平衡轮换，候选只见训练反馈，验证后冻结技能。', '',
+        '## 留出结果', '',
+        '| 组别 | 成功 / 72 | 成功率 | 关节越限采样次数 |', '| --- | --- | --- | --- |']
+    for arm in ARMS:
+        t = metrics['totals'][arm]
+        lines.append(f"| {names[arm]} | {t['successes']} / {t['episodes']} | {t['successes']/t['episodes']:.2%} | {t['joint_limit_samples']} |")
+    lines += ['', retained_note, '', '关节计数是每一步每个关节超出硬限位 0.001 坐标单位的采样数，既不是事故数，也不是完整安全证明；碰撞未测量。', '',
+              '## 每个独立学习种子', '', '| 种子 | 原策略 | 重放 | 反馈搜索 | 随机搜索 | 反馈最终增益 / gate | 随机最终增益 / gate |',
+              '| --- | --- | --- | --- | --- | --- | --- |']
+    per_seed = []
+    trajectory = []
+    for seed in config['seeds']:
+        d = root / f'seed-{seed}'
+        rows = read_jsonl(d / 'episodes.jsonl')
+        freezes, decisions = load(d / 'frozen_skills.json'), load(d / 'decisions.json')
+        scores = {arm: sum(r['success'] for r in rows if r['split'] == 'heldout_test' and r['agent_id'] == arm) for arm in ARMS}
+        lines.append(f"| {seed} | {scores['frozen']}/24 | {scores['identity_replay']}/24 | {scores['feedback']}/24 | {scores['random']}/24 | "
+                     f"{freezes['feedback']['skill']['arm_action_gain']:.2f} / {decisions['feedback']['decision']} | "
+                     f"{freezes['random']['skill']['arm_action_gain']:.2f} / {decisions['random']['decision']} |")
+        per_seed.append(dict(seed=seed, test_successes=scores, decisions=decisions, frozen_skills=freezes))
+        for arm in ('feedback', 'random'):
+            request = load(d / 'search' / f'{arm}-3-request.json')
+            trials = [f"gain={h['skill']['arm_action_gain']:.2f}: {sum(f['success'] for f in h['feedback'])}/8" for h in request['history']]
+            trajectory.append(f"- `{seed}` {names[arm]}：" + ' → '.join(trials) +
+                              f"；训练选择 {decisions[arm]['selected_skill']['arm_action_gain']:.2f}；验证原策略 "
+                              f"{decisions[arm]['baseline_successes']}/8，候选 {decisions[arm]['candidate_successes']}/8；{decisions[arm]['decision']}。")
+    lines += ['', '## 预先登记的统计比较', '',
+              '差值为反馈搜索减对照。配对区间使用按种子分层、条件内配对 bootstrap 10,000 次；'
+              '精确单侧二项检验只使用配对胜负，三次比较进行 Holm 校正。', '',
+              '| 对照 | 胜 / 负 | 成功率差（百分点） | 条件 bootstrap 95% 区间 | 原始 p | Holm p |',
+              '| --- | --- | --- | --- | --- | --- |']
+    for c in metrics['comparisons']:
+        low, high = c['conditional_bootstrap_95']
+        lines.append(f"| {names[c['reference']]} | {c['wins']} / {c['losses']} | {100*c['success_rate_difference']:+.2f} | "
+                     f"[{100*low:+.2f}, {100*high:+.2f}] | {c['p_one_sided_exact']:.6g} | {c['p_holm']:.6g} |")
+    if metrics['comparisons'][0]['conditional_bootstrap_95'] == [0., 0.]:
+        lines += ['', '原策略比较的 [0, 0] 区间来自 72 对观测成功标记完全相同导致的退化 bootstrap，不是总体等价或零波动的证明。']
+    lines += ['', '这些区间和 p 值以本次三份训练结果为条件；只有三个学习种子，不足以精确估计学习算法跨种子的总体泛化。'
+              '未确认也不等于证明所有自进化方法无效，亦不等于确认效果为零。', '',
+              '随机搜索使用随机候选，并以同样的训练分数选择最佳候选；这里检验的是反馈指导候选生成相对随机候选的额外价值。', '',
+              '统计方法参考：[SciPy 精确二项检验](https://docs.scipy.org/doc/scipy/reference/generated/scipy.stats.binomtest.html)。', '',
+              '## 所有预设判定条件', '', '| 条件 | 通过 |', '| --- | --- |']
+    labels = {'retained_changed_at_least_two_seeds': '至少两个种子保留真实改变的技能',
+              'positive_in_every_seed': '每个种子反馈搜索均优于原策略',
+              'all_holm_tests_pass': '三组比较的 Holm 校正 p 均 ≤ 0.05',
+              'all_conditional_intervals_positive': '三个条件区间下界均大于 0',
+              'no_invalid_actions': '无非法动作',
+              'no_increase_feedback_test_joint_samples': '反馈测试关节越限采样总数不超过原策略'}
+    for key, value in metrics['checks'].items():
+        lines.append(f"| {labels[key]} | {'是' if value else '否'} |")
+    lines += ['', '## 训练轨迹及选择', ''] + trajectory
+    lines += ['', '两种搜索均计费 32 个训练、16 个验证 episode / 种子。共享原策略只物理执行一次，分别计入每种算法预算；'
+              '物理实际每种子为 56 训练 + 24 验证 + 96 测试 = 176，总计 528。没有模型 token。', '',
+              '## 可复核证据与适用范围', '',
+              f"独立审计 `{audit['status']}`：逐项核对 528 个 episode 的官方分数、原始动作及增益、关节计数、质量读回、配对初始状态、"
+              '训练反馈、选择、验证 gate、预算、冻结技能和跨种子隔离。审计是本地证据一致性检查，不是对恶意实验者的安全隔离。', '',
+              '一次环境构建因上游按秒命名的 HDF5 文件锁冲突而失败，未执行任何 episode；同一预登记种子、条件及算法重试成功。原始失败日志和重试返回码均保留，不计作机器人失败，也不计入正式分数。', '',
+              '公共证据路径：`docs/evidence/confirmation-20261022-001/`。每种子的压缩包保留完整动作/状态轨迹、官方结果和控制台；'
+              '`SHA256SUMS` 提供校验。解压三个包到同一目录，连同 study JSON 文件，可用 '
+              '`uv run python -m physicalevobench.evaluation.confirmation_audit --study-dir <目录>` 重新审计。', '',
+              '技能仍为原始 NVIDIA 状态输入控制器加一个增益标量，质量范围仅 0.8–3.2 kg。完整预登记见 '
+              '[实验计划](CONFIRMATION_PREREGISTRATION.md)。更宽的参数空间、权重更新或新任务需要新方案、新预算和新留出集；'
+              '不能据此测试结果继续挑选参数，再把这些条件当作未见测试。', '',
+              '要建立更强的自适应证据，须保留实际更新，跨更多独立学习种子复现收益，并战胜同预算随机搜索及身份重放对照。'
+              '本轮所有结果按预先登记的规则报告，没有追加试验、挑选种子或改写成功条件。', '']
+    lines += [
+        '## 本轮判断与下一步', '',
+        '本轮结果没有支持当前标量增益搜索实现有效自进化。训练中出现的局部收益未形成通过验证并保留的更新；'
+        '继续重放相同留出集不能弥补这一点。要让下一轮有机会提供正面证据，首先需要在训练和独立验证中产生可保留的策略改变。', '',
+        '可检验的下一步假设是扩大可学习技能空间，例如在训练条件中优化抓取/抬升阶段的控制参数，或实际训练策略权重，'
+        '并向更新器提供经过白名单过滤的训练轨迹诊断；这些方法尚未在本轮实现或验证。新方案应先做训练侧探索和功效估计，'
+        '再登记更多学习种子与全新留出条件，继续保留随机搜索、身份重放和安全对照。不能承诺换一种方法必然成功。', '',
+        '## 执行版本与工程修正', '',
+        f"本轮三次物理执行的源码来自提交 `{load(root / 'preregistration.json')['project_commit']['stdout']}`；"
+        '三个运行保存的 Python 文件 SHA256 完全一致。监督命令为 '
+        '`uv run python scripts/run_confirmation.py --output runs/confirmation-20261022-001 --gpus 0 1 2`。'
+        '第三个种子的零 episode 启动失败在同一条件下重试；两次进程返回码分别保留。', '',
+        '实验完成后，工程代码增加每个 run 独立的 recorder 目录及固定目录内文件名，避免上游按秒命名导致并发冲突。'
+        '这项记录路径修正未用于生成本轮分数；后续独立审计和报告工具的修正也没有改变预登记的统计规则。', ''
+    ]
+    return '\n'.join(lines), per_seed
+
+
+def main():
+    parser = argparse.ArgumentParser()
+    parser.add_argument('--study-dir', required=True)
+    parser.add_argument('--output', required=True)
+    args = parser.parse_args()
+    report, per_seed = render(args.study_dir)
+    Path(args.output).write_text(report)
+    (Path(args.study_dir) / 'per_seed_summary.json').write_text(json.dumps(per_seed, indent=2) + '\n')
+
+
+if __name__ == '__main__':
+    main()

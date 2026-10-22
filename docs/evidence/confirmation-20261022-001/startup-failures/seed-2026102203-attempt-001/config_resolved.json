@@ -1,0 +1,39 @@
+{
+  "schema_version": "confirmation-1",
+  "arena_path": "external/IsaacLab-Arena",
+  "checkpoint_path": "~/models/physicalevobench/franka_lift/model_1999.pt",
+  "checkpoint_sha256": "babbbfd363f894443ffe494f26c5b6e0485fb35d4f5480c088295c23fc2a13aa",
+  "mass_range_kg": [
+    0.8,
+    3.2
+  ],
+  "seeds": [
+    2026102201,
+    2026102202,
+    2026102203
+  ],
+  "conditions": {
+    "train": 8,
+    "validation": 8,
+    "heldout_test": 24
+  },
+  "candidate_count_per_agent": 3,
+  "gain_grid": [
+    0.85,
+    0.9,
+    0.95,
+    1.05,
+    1.1,
+    1.15
+  ],
+  "physical_budgets_per_seed": {
+    "train": 56,
+    "validation": 24,
+    "heldout_test": 96
+  },
+  "alpha_familywise": 0.05,
+  "bootstrap_samples": 10000,
+  "timeout_seconds": 5400,
+  "seed": 2026102203,
+  "physical_gpu": 2
+}

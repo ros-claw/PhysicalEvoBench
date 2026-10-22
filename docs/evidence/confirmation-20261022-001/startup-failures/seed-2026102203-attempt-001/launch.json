@@ -1,0 +1,10 @@
+{
+  "command": [
+    "/code/rosclaw/physicalEvoBench/external/IsaacLab-Arena/.venv/bin/python",
+    "-m",
+    "physicalevobench.evaluation.confirmation",
+    "--run-dir",
+    "/code/rosclaw/physicalEvoBench/runs/confirmation-20261022-001/seed-2026102203"
+  ],
+  "physical_gpu": 2
+}

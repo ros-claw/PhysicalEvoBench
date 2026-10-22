@@ -1,0 +1,13 @@
+{
+  "seed": 2026102203,
+  "returncode": 0,
+  "completed_at": "2026-10-22T08:49:53.147982+00:00",
+  "command": [
+    "/code/rosclaw/physicalEvoBench/external/IsaacLab-Arena/.venv/bin/python",
+    "-m",
+    "physicalevobench.evaluation.confirmation",
+    "--run-dir",
+    "/code/rosclaw/physicalEvoBench/runs/confirmation-20261022-001/seed-2026102203"
+  ],
+  "cwd": "/code/rosclaw/physicalEvoBench/runs/confirmation-20261022-001/seed-2026102203"
+}

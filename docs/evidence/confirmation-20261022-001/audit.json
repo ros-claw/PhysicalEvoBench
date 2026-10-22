@@ -1,0 +1,32 @@
+{
+  "status": "PASS",
+  "seeds": {
+    "2026102201": {
+      "status": "PASS",
+      "physical_episodes_verified": 176,
+      "heldout_conditions": 24,
+      "control_traces_verified": true,
+      "budget_verified": true,
+      "freeze_verified": true
+    },
+    "2026102202": {
+      "status": "PASS",
+      "physical_episodes_verified": 176,
+      "heldout_conditions": 24,
+      "control_traces_verified": true,
+      "budget_verified": true,
+      "freeze_verified": true
+    },
+    "2026102203": {
+      "status": "PASS",
+      "physical_episodes_verified": 176,
+      "heldout_conditions": 24,
+      "control_traces_verified": true,
+      "budget_verified": true,
+      "freeze_verified": true
+    }
+  },
+  "total_physical_episodes": 528,
+  "heldout_conditions": 72,
+  "cross_seed_isolation": true
+}

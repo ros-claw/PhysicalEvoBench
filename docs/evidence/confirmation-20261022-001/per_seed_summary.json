@@ -1,0 +1,227 @@
+[
+  {
+    "seed": 2026102201,
+    "test_successes": {
+      "frozen": 2,
+      "identity_replay": 4,
+      "feedback": 2,
+      "random": 3
+    },
+    "decisions": {
+      "feedback": {
+        "decision": "rollback",
+        "selected_skill": {
+          "schema_version": "0.1",
+          "base_checkpoint_sha256": "babbbfd363f894443ffe494f26c5b6e0485fb35d4f5480c088295c23fc2a13aa",
+          "skill_version": 1,
+          "arm_action_gain": 0.9
+        },
+        "baseline_successes": 3,
+        "candidate_successes": 3,
+        "baseline_joint_samples": 8,
+        "candidate_joint_samples": 6
+      },
+      "random": {
+        "decision": "rollback",
+        "selected_skill": {
+          "schema_version": "0.1",
+          "base_checkpoint_sha256": "babbbfd363f894443ffe494f26c5b6e0485fb35d4f5480c088295c23fc2a13aa",
+          "skill_version": 1,
+          "arm_action_gain": 0.95
+        },
+        "baseline_successes": 3,
+        "candidate_successes": 3,
+        "baseline_joint_samples": 8,
+        "candidate_joint_samples": 8
+      }
+    },
+    "frozen_skills": {
+      "frozen": {
+        "skill": {
+          "schema_version": "0.1",
+          "base_checkpoint_sha256": "babbbfd363f894443ffe494f26c5b6e0485fb35d4f5480c088295c23fc2a13aa",
+          "skill_version": 0,
+          "arm_action_gain": 1.0
+        },
+        "sha256": "fa6d9729759e451098bcb88ec30ad8d653d1e638222d683c86abb7b4f678f922"
+      },
+      "identity_replay": {
+        "skill": {
+          "schema_version": "0.1",
+          "base_checkpoint_sha256": "babbbfd363f894443ffe494f26c5b6e0485fb35d4f5480c088295c23fc2a13aa",
+          "skill_version": 0,
+          "arm_action_gain": 1.0
+        },
+        "sha256": "fa6d9729759e451098bcb88ec30ad8d653d1e638222d683c86abb7b4f678f922"
+      },
+      "feedback": {
+        "skill": {
+          "schema_version": "0.1",
+          "base_checkpoint_sha256": "babbbfd363f894443ffe494f26c5b6e0485fb35d4f5480c088295c23fc2a13aa",
+          "skill_version": 0,
+          "arm_action_gain": 1.0
+        },
+        "sha256": "fa6d9729759e451098bcb88ec30ad8d653d1e638222d683c86abb7b4f678f922"
+      },
+      "random": {
+        "skill": {
+          "schema_version": "0.1",
+          "base_checkpoint_sha256": "babbbfd363f894443ffe494f26c5b6e0485fb35d4f5480c088295c23fc2a13aa",
+          "skill_version": 0,
+          "arm_action_gain": 1.0
+        },
+        "sha256": "fa6d9729759e451098bcb88ec30ad8d653d1e638222d683c86abb7b4f678f922"
+      }
+    }
+  },
+  {
+    "seed": 2026102202,
+    "test_successes": {
+      "frozen": 4,
+      "identity_replay": 5,
+      "feedback": 4,
+      "random": 4
+    },
+    "decisions": {
+      "feedback": {
+        "decision": "rollback",
+        "selected_skill": {
+          "schema_version": "0.1",
+          "base_checkpoint_sha256": "babbbfd363f894443ffe494f26c5b6e0485fb35d4f5480c088295c23fc2a13aa",
+          "skill_version": 0,
+          "arm_action_gain": 1.0
+        },
+        "baseline_successes": 0,
+        "candidate_successes": 0,
+        "baseline_joint_samples": 22,
+        "candidate_joint_samples": 45
+      },
+      "random": {
+        "decision": "rollback",
+        "selected_skill": {
+          "schema_version": "0.1",
+          "base_checkpoint_sha256": "babbbfd363f894443ffe494f26c5b6e0485fb35d4f5480c088295c23fc2a13aa",
+          "skill_version": 0,
+          "arm_action_gain": 1.0
+        },
+        "baseline_successes": 0,
+        "candidate_successes": 0,
+        "baseline_joint_samples": 22,
+        "candidate_joint_samples": 44
+      }
+    },
+    "frozen_skills": {
+      "frozen": {
+        "skill": {
+          "schema_version": "0.1",
+          "base_checkpoint_sha256": "babbbfd363f894443ffe494f26c5b6e0485fb35d4f5480c088295c23fc2a13aa",
+          "skill_version": 0,
+          "arm_action_gain": 1.0
+        },
+        "sha256": "fa6d9729759e451098bcb88ec30ad8d653d1e638222d683c86abb7b4f678f922"
+      },
+      "identity_replay": {
+        "skill": {
+          "schema_version": "0.1",
+          "base_checkpoint_sha256": "babbbfd363f894443ffe494f26c5b6e0485fb35d4f5480c088295c23fc2a13aa",
+          "skill_version": 0,
+          "arm_action_gain": 1.0
+        },
+        "sha256": "fa6d9729759e451098bcb88ec30ad8d653d1e638222d683c86abb7b4f678f922"
+      },
+      "feedback": {
+        "skill": {
+          "schema_version": "0.1",
+          "base_checkpoint_sha256": "babbbfd363f894443ffe494f26c5b6e0485fb35d4f5480c088295c23fc2a13aa",
+          "skill_version": 0,
+          "arm_action_gain": 1.0
+        },
+        "sha256": "fa6d9729759e451098bcb88ec30ad8d653d1e638222d683c86abb7b4f678f922"
+      },
+      "random": {
+        "skill": {
+          "schema_version": "0.1",
+          "base_checkpoint_sha256": "babbbfd363f894443ffe494f26c5b6e0485fb35d4f5480c088295c23fc2a13aa",
+          "skill_version": 0,
+          "arm_action_gain": 1.0
+        },
+        "sha256": "fa6d9729759e451098bcb88ec30ad8d653d1e638222d683c86abb7b4f678f922"
+      }
+    }
+  },
+  {
+    "seed": 2026102203,
+    "test_successes": {
+      "frozen": 7,
+      "identity_replay": 8,
+      "feedback": 7,
+      "random": 7
+    },
+    "decisions": {
+      "feedback": {
+        "decision": "rollback",
+        "selected_skill": {
+          "schema_version": "0.1",
+          "base_checkpoint_sha256": "babbbfd363f894443ffe494f26c5b6e0485fb35d4f5480c088295c23fc2a13aa",
+          "skill_version": 0,
+          "arm_action_gain": 1.0
+        },
+        "baseline_successes": 3,
+        "candidate_successes": 3,
+        "baseline_joint_samples": 6,
+        "candidate_joint_samples": 6
+      },
+      "random": {
+        "decision": "rollback",
+        "selected_skill": {
+          "schema_version": "0.1",
+          "base_checkpoint_sha256": "babbbfd363f894443ffe494f26c5b6e0485fb35d4f5480c088295c23fc2a13aa",
+          "skill_version": 0,
+          "arm_action_gain": 1.0
+        },
+        "baseline_successes": 3,
+        "candidate_successes": 3,
+        "baseline_joint_samples": 6,
+        "candidate_joint_samples": 5
+      }
+    },
+    "frozen_skills": {
+      "frozen": {
+        "skill": {
+          "schema_version": "0.1",
+          "base_checkpoint_sha256": "babbbfd363f894443ffe494f26c5b6e0485fb35d4f5480c088295c23fc2a13aa",
+          "skill_version": 0,
+          "arm_action_gain": 1.0
+        },
+        "sha256": "fa6d9729759e451098bcb88ec30ad8d653d1e638222d683c86abb7b4f678f922"
+      },
+      "identity_replay": {
+        "skill": {
+          "schema_version": "0.1",
+          "base_checkpoint_sha256": "babbbfd363f894443ffe494f26c5b6e0485fb35d4f5480c088295c23fc2a13aa",
+          "skill_version": 0,
+          "arm_action_gain": 1.0
+        },
+        "sha256": "fa6d9729759e451098bcb88ec30ad8d653d1e638222d683c86abb7b4f678f922"
+      },
+      "feedback": {
+        "skill": {
+          "schema_version": "0.1",
+          "base_checkpoint_sha256": "babbbfd363f894443ffe494f26c5b6e0485fb35d4f5480c088295c23fc2a13aa",
+          "skill_version": 0,
+          "arm_action_gain": 1.0
+        },
+        "sha256": "fa6d9729759e451098bcb88ec30ad8d653d1e638222d683c86abb7b4f678f922"
+      },
+      "random": {
+        "skill": {
+          "schema_version": "0.1",
+          "base_checkpoint_sha256": "babbbfd363f894443ffe494f26c5b6e0485fb35d4f5480c088295c23fc2a13aa",
+          "skill_version": 0,
+          "arm_action_gain": 1.0
+        },
+        "sha256": "fa6d9729759e451098bcb88ec30ad8d653d1e638222d683c86abb7b4f678f922"
+      }
+    }
+  }
+]
