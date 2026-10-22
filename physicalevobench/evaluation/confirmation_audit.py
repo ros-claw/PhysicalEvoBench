@@ -69,6 +69,11 @@ def audit_episode(root, row, condition, mapping):
 def audit_seed(root):
     root = Path(root).absolute()
     config = load(root / "config_resolved.json")
+    guarded=config.get("skill_family")=="guarded-1"
+    from physicalevobench.protocols.guarded_skill import GuardedSkill
+
+    skill_type=GuardedSkill if guarded else SkillSpec
+    freeze_boundary=config["physical_budgets_per_seed"]["train"]+config["physical_budgets_per_seed"]["validation"]
     rows, ledger = read_jsonl(root / "episodes.jsonl"), load(root / "budget_ledger.json")
     if load(root / "status.json")["status"] != "PHYSICAL_COMPLETED":
         raise ValueError("Incomplete physical execution")
@@ -87,35 +92,41 @@ def audit_seed(root):
     for split, limit in config["physical_budgets_per_seed"].items():
         if [r["used"] for r in ledger if r["split"] == split] != list(range(1, limit + 1)):
             raise ValueError("Physical budget mismatch")
-    mapping = load(root / "action_mapping.json")["arm_action"]
+    full_mapping = load(root / "action_mapping.json")
+    mapping = full_mapping["arm_action"]
     initial_states = {}
     indexed = {r["episode_id"]: r for r in rows}
     for row in rows:
-        initial = audit_episode(root, row, registry[row["condition_id"]], mapping)
+        if guarded:
+            from physicalevobench.evaluation.temporal_audit import audit_temporal_episode
+
+            initial=audit_temporal_episode(root,row,registry[row["condition_id"]],full_mapping)
+        else:
+            initial = audit_episode(root, row, registry[row["condition_id"]], mapping)
         prior = initial_states.setdefault(row["condition_id"], initial)
         for key in ("joint_position", "object_position", "object_orientation", "target_command", "inertia_readback"):
             if not near(initial[key], prior[key]):
                 raise ValueError(f"Paired initial state mismatch: {key}")
-    baseline = SkillSpec.from_dict(load(root / "baseline_skill.json"))
+    baseline = skill_type.from_dict(load(root / "baseline_skill.json"))
     freeze, event = load(root / "frozen_skills.json"), load(root / "freeze_event.json")
     if freeze["frozen"]["sha256"] != baseline.sha256 or freeze["identity_replay"] != freeze["frozen"]:
         raise ValueError("Identity replay differs from original")
-    if not event["proposal_processes_terminated"] or event["episodes_completed"] != 80:
+    if not event["proposal_processes_terminated"] or event["episodes_completed"] != freeze_boundary:
         raise ValueError("Invalid freeze boundary")
     checksum = sha256(root / "frozen_skills.json")
     if checksum != event["freeze_sha256"]:
         raise ValueError("Frozen skill manifest changed")
     tests = [r for r in rows if r["split"] == "heldout_test"]
-    if any(r["split"] == "heldout_test" for r in rows[:80]) or any(r["split"] != "heldout_test" for r in rows[80:]):
+    if any(r["split"] == "heldout_test" for r in rows[:freeze_boundary]) or any(r["split"] != "heldout_test" for r in rows[freeze_boundary:]):
         raise ValueError("Test ran before adaptation finished")
-    for reservation in ledger[80:]:
+    for reservation in ledger[freeze_boundary:]:
         if reservation["freeze_sha256"] != checksum or reservation["reserved_at"] < event["frozen_at"]:
             raise ValueError("Skill not frozen before test")
     for arm in ARMS:
         group = [r for r in tests if r["agent_id"] == arm]
-        if {r["condition_id"] for r in group} != {c["condition_id"] for c in manifests["heldout_test"]} or len(group) != 24:
+        if {r["condition_id"] for r in group} != {c["condition_id"] for c in manifests["heldout_test"]} or len(group) != config["conditions"]["heldout_test"]:
             raise ValueError("Test coverage differs")
-        skill = SkillSpec.from_dict(freeze[arm]["skill"])
+        skill = skill_type.from_dict(freeze[arm]["skill"])
         if freeze[arm]["sha256"] != skill.sha256 or any(r["skill_sha256"] != skill.sha256 for r in group):
             raise ValueError("Test skill changed")
     # Recompute train selection and validation gate without calling the proposal implementation.
@@ -127,28 +138,47 @@ def audit_seed(root):
             if set(request) != {"agent", "rng_seed", "history", "remaining_budget"} or len(request["history"]) != trial + 1:
                 raise ValueError("Invalid updater request")
             response = load(root / "search" / f"{arm}-{trial}-response.json")
-            expected_gain = None
-            if trial < 3:
-                if arm == "random":
-                    expected_gain = random.Random(config["seed"] ^ 911).sample(
-                        (.85, .9, .95, 1.05, 1.1, 1.15), 3)[trial]
-                elif trial < 2:
-                    expected_gain = (.9, 1.1)[trial]
-                else:
-                    scores = [sum(f["success"] for f in h["feedback"]) for h in request["history"]]
-                    side = 1 if scores[1] >= scores[2] else 2
-                    expected_gain = ((.85 if side == 1 else 1.15) if scores[side] > scores[0]
-                                     else (.95 if side == 1 else 1.05))
-            if response["next_gain"] != expected_gain:
-                raise ValueError("Proposal deviated from preregistered algorithm")
+            if guarded:
+                from physicalevobench.agents.guarded_search_worker import OPTIONS
+
+                expected_name=None
+                if trial<3:
+                    if arm=="random":
+                        expected_name=random.Random(config["seed"] ^ 911).sample(list(OPTIONS),3)[trial]
+                    elif trial<2:
+                        expected_name=("hold10guard10look2","hold10guard6")[trial]
+                    else:
+                        scores=[sum(f["success"] for f in h["feedback"]) for h in request["history"]]
+                        expected_name="hold10guard2" if scores[1]>=scores[2] else "guard6look2"
+                expected_skill=(GuardedSkill(config["checkpoint_sha256"],trial+1,**OPTIONS[expected_name]).to_dict()
+                                if expected_name else None)
+                if response["next_skill"]!=expected_skill:
+                    raise ValueError("Guarded proposal deviated from registered algorithm")
+                if trial<3 and final_request["history"][trial+1]["skill"]!=expected_skill:
+                    raise ValueError("Executed guarded proposal differs from response")
+            else:
+                expected_gain = None
+                if trial < 3:
+                    if arm == "random":
+                        expected_gain = random.Random(config["seed"] ^ 911).sample(
+                            (.85, .9, .95, 1.05, 1.1, 1.15), 3)[trial]
+                    elif trial < 2:
+                        expected_gain = (.9, 1.1)[trial]
+                    else:
+                        scores = [sum(f["success"] for f in h["feedback"]) for h in request["history"]]
+                        side = 1 if scores[1] >= scores[2] else 2
+                        expected_gain = ((.85 if side == 1 else 1.15) if scores[side] > scores[0]
+                                         else (.95 if side == 1 else 1.05))
+                if response["next_gain"] != expected_gain:
+                    raise ValueError("Proposal deviated from preregistered algorithm")
             if request["rng_seed"] != config["seed"] ^ 911 or request["remaining_budget"] != (3 - trial) * 8:
                 raise ValueError("Updater RNG or charged budget changed")
-            if trial < 3 and final_request["history"][trial + 1]["skill"]["arm_action_gain"] != expected_gain:
+            if not guarded and trial < 3 and final_request["history"][trial + 1]["skill"]["arm_action_gain"] != expected_gain:
                 raise ValueError("Executed proposal differs from response")
             for entry in request["history"]:
                 if set(entry) != {"skill", "feedback"}:
                     raise ValueError("Updater received hidden fields")
-                skill = SkillSpec.from_dict(entry["skill"])
+                skill = skill_type.from_dict(entry["skill"])
                 if len(entry["feedback"]) != 8:
                     raise ValueError("Train feedback count mismatch")
                 for value in entry["feedback"]:
@@ -160,13 +190,13 @@ def audit_seed(root):
         chosen = sorted(enumerate(history), key=lambda p: (
             -sum(f["success"] for f in p[1]["feedback"]),
             abs(p[1]["skill"]["arm_action_gain"] - 1), p[0]))[0][1]
-        selected = SkillSpec.from_dict(chosen["skill"])
+        selected = skill_type.from_dict(chosen["skill"])
         if selected.to_dict() != decisions[arm]["selected_skill"]:
             raise ValueError("Train-selected skill mismatch")
         old = [r for r in rows if r["split"] == "validation" and r["agent_id"] == "frozen"]
         new = [r for r in rows if r["split"] == "validation" and r["agent_id"] == arm]
         expected_ids = {c["condition_id"] for c in manifests["validation"]}
-        if (len(old) != 8 or len(new) != 8 or {r["condition_id"] for r in old} != expected_ids
+        if (len(old) != config["conditions"]["validation"] or len(new) != config["conditions"]["validation"] or {r["condition_id"] for r in old} != expected_ids
                 or {r["condition_id"] for r in new} != expected_ids
                 or any(r["skill_sha256"] != baseline.sha256 for r in old)):
             raise ValueError("Validation coverage or original skill mismatch")
@@ -226,7 +256,7 @@ def audit_study(directory):
     save_json(root / "metrics.json", metrics)
     save_json(root / "audit.json", {"status": "PASS", "seeds": audits,
               "total_physical_episodes": sum(a["physical_episodes_verified"] for a in audits.values()),
-              "heldout_conditions": 72, "cross_seed_isolation": True})
+              "heldout_conditions": len(config["seeds"])*config["conditions"]["heldout_test"], "cross_seed_isolation": True})
     return metrics
 
 

@@ -49,6 +49,20 @@ The launcher requires a clean committed worktree and uses the fixed protocol con
 published seeds is reproduction; a new effectiveness study requires newly registered seeds and
 heldout conditions. The original v0.1.0 evidence and release tag remain unchanged.
 
+## Temporal and guarded development (224 additional episodes)
+
+Two prospectively bounded development stages expanded the wrapper to gripper hold,
+arm smoothing and predictive finger-limit guards. The first validation improved
+successes **1/16 → 3/16**, but joint-limit samples rose **48 → 71**: rollback.
+The guarded stage measured **5/16 → 5/16**, samples **40 → 38**: rollback because
+successes did not increase. **No formal heldout episode was launched.** A proposed
+696-episode confirmation remains gated off; its budget is not an executed result.
+
+See [development progress](docs/experiments/ADAPTATION_PROGRESS_20261022.md),
+[temporal evidence](docs/evidence/temporal-development-20261022-001) and
+[guarded evidence](docs/evidence/guarded-development-20261022-001). These are frozen-weight
+controller adaptations; no model-weight training or demonstrated self-evolution is claimed.
+
 ## CPU quickstart
 
 ```bash

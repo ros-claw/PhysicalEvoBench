@@ -1,0 +1,183 @@
+{
+  "training_episodes": 64,
+  "validation_episodes": 32,
+  "heldout_test_episodes": 0,
+  "selection": {
+    "selected": {
+      "trial": "hold10guard10look2",
+      "group": "group-1",
+      "skill": {
+        "schema_version": "guarded-1",
+        "base_checkpoint_sha256": "babbbfd363f894443ffe494f26c5b6e0485fb35d4f5480c088295c23fc2a13aa",
+        "skill_version": 0,
+        "arm_action_gain": 1.0,
+        "arm_smoothing_alpha": 1.0,
+        "gripper_hold_steps": 10,
+        "finger_guard_enabled": true,
+        "finger_margin_m": 0.01,
+        "finger_lookahead_steps": 2
+      },
+      "successes": 3,
+      "episodes": 8,
+      "joint_limit_samples": 2,
+      "maximum_action_change_abs": 59.04412078857422
+    },
+    "ranking": [
+      {
+        "trial": "hold10guard10look2",
+        "group": "group-1",
+        "skill": {
+          "schema_version": "guarded-1",
+          "base_checkpoint_sha256": "babbbfd363f894443ffe494f26c5b6e0485fb35d4f5480c088295c23fc2a13aa",
+          "skill_version": 0,
+          "arm_action_gain": 1.0,
+          "arm_smoothing_alpha": 1.0,
+          "gripper_hold_steps": 10,
+          "finger_guard_enabled": true,
+          "finger_margin_m": 0.01,
+          "finger_lookahead_steps": 2
+        },
+        "successes": 3,
+        "episodes": 8,
+        "joint_limit_samples": 2,
+        "maximum_action_change_abs": 59.04412078857422
+      },
+      {
+        "trial": "hold10guard6",
+        "group": "group-0",
+        "skill": {
+          "schema_version": "guarded-1",
+          "base_checkpoint_sha256": "babbbfd363f894443ffe494f26c5b6e0485fb35d4f5480c088295c23fc2a13aa",
+          "skill_version": 0,
+          "arm_action_gain": 1.0,
+          "arm_smoothing_alpha": 1.0,
+          "gripper_hold_steps": 10,
+          "finger_guard_enabled": true,
+          "finger_margin_m": 0.006,
+          "finger_lookahead_steps": 1
+        },
+        "successes": 3,
+        "episodes": 8,
+        "joint_limit_samples": 11,
+        "maximum_action_change_abs": 57.65542984008789
+      },
+      {
+        "trial": "hold10guard3look0",
+        "group": "group-1",
+        "skill": {
+          "schema_version": "guarded-1",
+          "base_checkpoint_sha256": "babbbfd363f894443ffe494f26c5b6e0485fb35d4f5480c088295c23fc2a13aa",
+          "skill_version": 0,
+          "arm_action_gain": 1.0,
+          "arm_smoothing_alpha": 1.0,
+          "gripper_hold_steps": 10,
+          "finger_guard_enabled": true,
+          "finger_margin_m": 0.003,
+          "finger_lookahead_steps": 0
+        },
+        "successes": 3,
+        "episodes": 8,
+        "joint_limit_samples": 78,
+        "maximum_action_change_abs": 48.163631439208984
+      },
+      {
+        "trial": "hold10guard2",
+        "group": "group-0",
+        "skill": {
+          "schema_version": "guarded-1",
+          "base_checkpoint_sha256": "babbbfd363f894443ffe494f26c5b6e0485fb35d4f5480c088295c23fc2a13aa",
+          "skill_version": 0,
+          "arm_action_gain": 1.0,
+          "arm_smoothing_alpha": 1.0,
+          "gripper_hold_steps": 10,
+          "finger_guard_enabled": true,
+          "finger_margin_m": 0.002,
+          "finger_lookahead_steps": 1
+        },
+        "successes": 3,
+        "episodes": 8,
+        "joint_limit_samples": 86,
+        "maximum_action_change_abs": 47.34284973144531
+      },
+      {
+        "trial": "original",
+        "skill": {
+          "schema_version": "guarded-1",
+          "base_checkpoint_sha256": "babbbfd363f894443ffe494f26c5b6e0485fb35d4f5480c088295c23fc2a13aa",
+          "skill_version": 0,
+          "arm_action_gain": 1.0,
+          "arm_smoothing_alpha": 1.0,
+          "gripper_hold_steps": 0,
+          "finger_guard_enabled": false,
+          "finger_margin_m": 0.002,
+          "finger_lookahead_steps": 1
+        },
+        "successes": 1.5,
+        "episodes": 8,
+        "joint_limit_samples": 22.5
+      },
+      {
+        "trial": "guard2",
+        "group": "group-0",
+        "skill": {
+          "schema_version": "guarded-1",
+          "base_checkpoint_sha256": "babbbfd363f894443ffe494f26c5b6e0485fb35d4f5480c088295c23fc2a13aa",
+          "skill_version": 0,
+          "arm_action_gain": 1.0,
+          "arm_smoothing_alpha": 1.0,
+          "gripper_hold_steps": 0,
+          "finger_guard_enabled": true,
+          "finger_margin_m": 0.002,
+          "finger_lookahead_steps": 1
+        },
+        "successes": 1,
+        "episodes": 8,
+        "joint_limit_samples": 20,
+        "maximum_action_change_abs": 52.00862121582031
+      },
+      {
+        "trial": "guard6look2",
+        "group": "group-1",
+        "skill": {
+          "schema_version": "guarded-1",
+          "base_checkpoint_sha256": "babbbfd363f894443ffe494f26c5b6e0485fb35d4f5480c088295c23fc2a13aa",
+          "skill_version": 0,
+          "arm_action_gain": 1.0,
+          "arm_smoothing_alpha": 1.0,
+          "gripper_hold_steps": 0,
+          "finger_guard_enabled": true,
+          "finger_margin_m": 0.006,
+          "finger_lookahead_steps": 2
+        },
+        "successes": 1,
+        "episodes": 8,
+        "joint_limit_samples": 50,
+        "maximum_action_change_abs": 53.35293960571289
+      }
+    ],
+    "original_replay_successes": 3,
+    "original_replay_episodes": 16,
+    "selection_uses": "training outcomes only",
+    "heldout_claim": "NOT_TESTED"
+  },
+  "validation_decision": {
+    "decision": "rollback",
+    "original_successes": 5,
+    "candidate_successes": 5,
+    "original_joint_limit_samples": 40,
+    "candidate_joint_limit_samples": 38,
+    "retained_skill": {
+      "schema_version": "guarded-1",
+      "base_checkpoint_sha256": "babbbfd363f894443ffe494f26c5b6e0485fb35d4f5480c088295c23fc2a13aa",
+      "skill_version": 0,
+      "arm_action_gain": 1.0,
+      "arm_smoothing_alpha": 1.0,
+      "gripper_hold_steps": 0,
+      "finger_guard_enabled": false,
+      "finger_margin_m": 0.002,
+      "finger_lookahead_steps": 1
+    },
+    "scope": "validation only; heldout efficacy NOT_TESTED"
+  },
+  "scientific_scope": "Training-side development and independent validation, not heldout efficacy"
+}
