@@ -1,0 +1,115 @@
+{
+  "schema_version": "0.1",
+  "timestamp_utc": "2026-10-22T08:30:19.030362+00:00",
+  "python": "3.12.13 (main, May  8 2026, 18:32:55) [Clang 22.1.3 ]",
+  "executable": "/code/rosclaw/physicalEvoBench/external/IsaacLab-Arena/.venv/bin/python",
+  "platform": "Linux-6.8.0-138-generic-x86_64-with-glibc2.35",
+  "gpu": {
+    "command": [
+      "nvidia-smi",
+      "--query-gpu=index,name,driver_version,memory.total,memory.free",
+      "--format=csv,noheader"
+    ],
+    "returncode": 0,
+    "stdout": "0, NVIDIA RTX A6000, 595.91.07, 49140 MiB, 34300 MiB\n1, NVIDIA RTX A6000, 595.91.07, 49140 MiB, 35249 MiB\n2, NVIDIA RTX A6000, 595.91.07, 49140 MiB, 35564 MiB\n3, NVIDIA RTX A6000, 595.91.07, 49140 MiB, 34380 MiB",
+    "stderr": ""
+  },
+  "packages": {
+    "isaacsim": "6.1.0.0",
+    "isaaclab": "17.0.2",
+    "isaaclab-arena": "0.3.0",
+    "torch": "2.11.0+cu128",
+    "rsl-rl-lib": "5.4.1"
+  },
+  "arena_revision": {
+    "command": [
+      "git",
+      "rev-parse",
+      "HEAD"
+    ],
+    "returncode": 0,
+    "stdout": "c7edf3a9d5d8276565208f72422f8f8a0806d6cf",
+    "stderr": ""
+  },
+  "expected_packages_from_arena_lock": {
+    "isaacsim": "6.1.0.0",
+    "isaaclab": "17.0.2",
+    "isaaclab-arena": "0.3.0",
+    "torch": "2.11.0+cu128",
+    "rsl-rl-lib": "5.4.1"
+  },
+  "arena_expected_commit": "c7edf3a9d5d8276565208f72422f8f8a0806d6cf",
+  "arena_submodules": {
+    "command": [
+      "git",
+      "submodule",
+      "status",
+      "--recursive"
+    ],
+    "returncode": 0,
+    "stdout": "e29d8fc50b0e4745120ae3fb72447986fe638aa6 submodules/Isaac-GR00T (e29d8fc)\n 3966393ed7a37612af16c9b77e7aaed91231c407 submodules/Isaac-GR00T/external_dependencies/GR00T-WholeBodyControl (3966393)\n 8f1084e3132a39270c3a13ebe37270a43ece2a01 submodules/Isaac-GR00T/external_dependencies/LIBERO (heads/master)\n 8a2d286c926c1371927caa7651a412b4cc331756 submodules/Isaac-GR00T/external_dependencies/SimplerEnv (heads/main)\n c2a9e87c186300b694da6f2497dd68d2c347a4b7 submodules/Isaac-GR00T/external_dependencies/SimplerEnv/ManiSkill2_real2sim (heads/main)\n d89d481ce9c76da7f179466981676e268aa842e5 submodules/Isaac-GR00T/external_dependencies/robocasa (heads/main)\n 4840e671596f93ca03651524b9f72ffb1aadfeff submodules/Isaac-GR00T/external_dependencies/robocasa-gr1-tabletop-tasks (heads/main)\n 91a0906f93802eb859192dcb0bca879f891e92d6 submodules/IsaacLab (91a0906)",
+    "stderr": ""
+  },
+  "disk_free_bytes": 84864483328,
+  "uv_cache_path": "/home/dell/.cache/uv",
+  "uv_cache_disk_free_bytes": 68636327936,
+  "checkpoint_path": "/home/dell/models/physicalevobench/franka_lift/model_1999.pt",
+  "checkpoint_sha256": "babbbfd363f894443ffe494f26c5b6e0485fb35d4f5480c088295c23fc2a13aa",
+  "blockers": [],
+  "status": "READY_FOR_SMOKE",
+  "physical_episode_executed": false,
+  "project_commit": {
+    "command": [
+      "git",
+      "rev-parse",
+      "HEAD"
+    ],
+    "returncode": 0,
+    "stdout": "8135a2675c30f6f87e729cedd93f4403047f04e8",
+    "stderr": ""
+  },
+  "project_worktree": {
+    "command": [
+      "git",
+      "status",
+      "--porcelain"
+    ],
+    "returncode": 0,
+    "stdout": "",
+    "stderr": ""
+  },
+  "started_at": "2026-10-22T08:30:19.107893+00:00",
+  "command": [
+    "/code/rosclaw/physicalEvoBench/external/IsaacLab-Arena/.venv/bin/python",
+    "/code/rosclaw/physicalEvoBench/physicalevobench/evaluation/confirmation.py",
+    "--run-dir",
+    "/code/rosclaw/physicalEvoBench/runs/confirmation-20261022-001/seed-2026102203"
+  ],
+  "source_sha256": {
+    "physicalevobench/doctor.py": "942a8c1f8dcb7b49db77459d256b7636de80a274dc471fa961c8dc81c222c5f1",
+    "physicalevobench/cli.py": "248c6b41911422bd9a84053fde5c46f40877aa35b8b2cdaaab5d7e332b33c76a",
+    "physicalevobench/__init__.py": "6f37466fd9f083ad8f349b8eb602d0b4a44335b1e181a949cfb5f02ab1d140b2",
+    "physicalevobench/reporting/generate.py": "a1b90640d8f7d3e7fda6916f651863c8a73ae8c39158811c209e3f1f21c027bc",
+    "physicalevobench/reporting/__init__.py": "b0cdcdcb9fbd78f6bee86718b78e66a5ded9dac86b9d2998d4f0b784fa406cdd",
+    "physicalevobench/adapters/lift_worker.py": "b90d9ea10429063ad6ab624e170a75ba21cc55cbca239418fac007df28bf89dd",
+    "physicalevobench/adapters/arena_worker.py": "8f3e7ad140f702eb1d3323195f0f76a12d4f0978a90e195306a4883578f29961",
+    "physicalevobench/adapters/__init__.py": "6e7ed8f66983babde3dcd30bb060d0bdfc483c513c0a69feb6bb31b534057eff",
+    "physicalevobench/adapters/lift_pilot.py": "78f4549f89d320c98c1ebdae0c2d330d2954a604472d2ce128147ea042ee4fef",
+    "physicalevobench/protocols/skill.py": "baaf80cbaa0cf6512350690471157017110a75671223964417bdb1d12540091b",
+    "physicalevobench/protocols/agent.py": "0bd15b540fbe96a256c9de874a31b41c2e098b6cdfdc35718edaa626a93c090f",
+    "physicalevobench/protocols/__init__.py": "0bf9ae3b41e0f8c87d818814f7a32c3cccc1a84c3bd25bf3fb4c4751d71937fb",
+    "physicalevobench/protocols/feedback.py": "ad9bd6a6ebe10d9c145682ecd4fad739229858e02e5762bf34910a7593108be3",
+    "physicalevobench/agents/feedback_search.py": "d715fb1d1c2422193d879c4eaa38c2bee9d71e999234b55160fed1f80f7ea6ea",
+    "physicalevobench/agents/__init__.py": "1276913ca228b8292fa275d9a7770a397de489b8ec4bd8509b3311f9768d8c59",
+    "physicalevobench/agents/worker.py": "5fe3c62b8f17e96103284dcb40a3e8089500bea50ecdd2426d347499d648fdad",
+    "physicalevobench/agents/search_worker.py": "d8cd789e10a79658799472175b0f75426d2e3fbd37cc251b7f47635429602d4e",
+    "physicalevobench/evaluation/metrics.py": "39b3f2400449dfe48536d19fe42cb4f5b902fef6c986c30ae10d96ac602c774f",
+    "physicalevobench/evaluation/confirmation_audit.py": "465e3521467c5110c27c9a473b7def0c5f164233fb1d9618d8605a523c5c76f6",
+    "physicalevobench/evaluation/experiment.py": "ca276f3c00cdcea5e4853fe60d6b79bf115b830d5523d638109455134aeedd68",
+    "physicalevobench/evaluation/confirmation_stats.py": "70c1dba57ceadfa29ec4480422474c4c220775f858c20154f17a6cb7c09a3ba2",
+    "physicalevobench/evaluation/confirmation.py": "aa6a05549d0f33d980279f14fae7c5c45ce347f65f254d21b5be16ff688c95de",
+    "physicalevobench/evaluation/__init__.py": "d1940240be8a1af647cf5dad42632169ecb12f1ad976c87fe9afcf1679e3cf77",
+    "physicalevobench/evaluation/audit.py": "f4d9d3c7a71644ef34bdbce6ba4e5f4c109f14406cbdf2433c2ab04c7a76af2b",
+    "physicalevobench/evaluation/protocol.py": "d8383bdf74085b7748e7b51401b0981b31a3f1ca1588386e44698be46edce721"
+  }
+}

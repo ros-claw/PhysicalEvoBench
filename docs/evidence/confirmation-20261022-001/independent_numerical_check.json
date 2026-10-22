@@ -1,0 +1,30 @@
+{
+  "status": "PASS",
+  "method": "Direct counting from official-audited rows and scipy.stats.binomtest; no summary helper used",
+  "totals": {
+    "frozen": 13,
+    "identity_replay": 17,
+    "feedback": 13,
+    "random": 14
+  },
+  "comparisons": [
+    {
+      "reference": "frozen",
+      "wins": 0,
+      "losses": 0,
+      "scipy_p": 1.0
+    },
+    {
+      "reference": "identity_replay",
+      "wins": 0,
+      "losses": 4,
+      "scipy_p": 1.0
+    },
+    {
+      "reference": "random",
+      "wins": 1,
+      "losses": 2,
+      "scipy_p": 0.875
+    }
+  ]
+}

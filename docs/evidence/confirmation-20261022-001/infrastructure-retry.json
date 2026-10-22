@@ -1,0 +1,13 @@
+{
+  "recorded_at": "2026-10-22T08:33:22.252808+00:00",
+  "reason": "Default recorder HDF5 file lock collision during concurrent environment construction",
+  "completed_episodes_in_failed_attempt": 0,
+  "algorithm_or_conditions_changed": false,
+  "runtime_changes": [
+    "separate cwd for retry artifact organization",
+    "arena_path expanded to absolute same pinned source",
+    "startup retried at a later timestamp; cwd alone does not isolate the default absolute recorder directory"
+  ],
+  "failed_attempt": "startup-failures/seed-2026102203-attempt-001",
+  "root_cause_confirmed": "Arena default recorder filename uses timestamp with one-second resolution and local rank; concurrent builds collided in the default absolute /tmp directory."
+}

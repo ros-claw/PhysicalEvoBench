@@ -42,7 +42,11 @@ class LiftWorker:
         variation.enable()
         self.mass_sampler = variation.sampler
         self.env = ArenaEnvBuilder(
-            definition, ArenaEnvBuilderCfg(num_envs=1, device="cuda:0", presets="physx")
+            definition, ArenaEnvBuilderCfg(
+                num_envs=1, device="cuda:0", presets="physx",
+                recorder_dataset_export_dir_path=str(self.output_dir / "recorder"),
+                recorder_dataset_filename="dataset",
+            )
         ).make_registered()
         self.base = self.env.unwrapped
         # ManagerBase deep-copies configs; mutate the sampler actually owned by the live event.
