@@ -40,3 +40,20 @@ def test_temporal_hashes_and_bounds():
     for value in [float('nan'), 0, 1.1, True]:
         with pytest.raises(ValueError):
             TemporalSkill('a'*64, arm_smoothing_alpha=value)
+
+
+def test_predictive_finger_guard_and_disabled_identity():
+    from physicalevobench.protocols.guarded_skill import GuardedSkill
+
+    state={'finger_position':[.02,.02], 'finger_velocity':[0.,0.],
+           'finger_lower_limits':[0.,0.], 'step_dt':.02}
+    disabled=GuardedSkill('a'*64).make_controller(MAPPING)
+    assert disabled.apply([0.,0.,-20.],0,state)[2]==-20.
+    enabled=GuardedSkill('a'*64,finger_guard_enabled=True).make_controller(MAPPING)
+    assert enabled.apply([0.,0.,-20.],0,state)[2]==-20.
+    state['finger_position']=[.003,.02]
+    state['finger_velocity']=[-.2,0.]
+    assert enabled.apply([0.,0.,-20.],1,state)[2]==1.
+    assert enabled.apply([0.,0.,20.],2,state)[2]==20.
+    with pytest.raises(ValueError):
+        GuardedSkill('a'*64,finger_lookahead_steps=True)

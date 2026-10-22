@@ -9,6 +9,7 @@ from physicalevobench.evaluation.audit import near, read_jsonl
 from physicalevobench.evaluation.confirmation_audit import load
 from physicalevobench.evaluation.temporal_audit import audit_temporal_episode
 from physicalevobench.protocols.temporal_skill import TemporalSkill
+from physicalevobench.protocols.guarded_skill import GuardedSkill
 
 
 def main():
@@ -19,7 +20,10 @@ def main():
     registration = load(root / 'registration.json')
     results, initial_states = [], {}
     baseline_rows = []
-    for d in sorted(root.glob('group-*')):
+    directories=sorted(root.glob('group-*'))
+    for d in directories:
+        family=load(d/'config.json').get('skill_family')
+        skill_type=GuardedSkill if family=='guarded-1' else TemporalSkill
         cfg = load(d / 'config.json')
         rows, ledger = read_jsonl(d / 'episodes.jsonl'), load(d / 'budget_ledger.json')
         if load(d / 'status.json')['status'] != 'EXPLORATION_COMPLETED' or len(rows) != 32:
@@ -42,7 +46,7 @@ def main():
             group = [r for r in rows if r['agent_id']==name]
             if len(group) != 8 or {r['condition_id'] for r in group} != registry.keys():
                 raise ValueError('Trial coverage mismatch')
-            skill = TemporalSkill.from_dict(load(d / 'skills.json')[name])
+            skill = skill_type.from_dict(load(d / 'skills.json')[name])
             if any(r['skill_sha256'] != skill.sha256 for r in group):
                 raise ValueError('Trial skill changed')
             if name == 'original':
@@ -52,22 +56,22 @@ def main():
                             'successes': sum(r['success'] for r in group), 'episodes': len(group),
                             'joint_limit_samples': sum(r['joint_limit_violation_count'] for r in group),
                             'maximum_action_change_abs': max(r['maximum_action_change_abs'] for r in group)})
-    baseline_skill = TemporalSkill.from_dict(load(root / 'group-0/skills.json')['original'])
+    baseline_skill = skill_type.from_dict(load(root / 'group-0/skills.json')['original'])
     original = {'trial': 'original', 'skill': baseline_skill.to_dict(),
-                'successes': sum(r['success'] for r in baseline_rows)/3, 'episodes':8,
-                'joint_limit_samples': sum(r['joint_limit_violation_count'] for r in baseline_rows)/3}
+                'successes': sum(r['success'] for r in baseline_rows)/len(directories), 'episodes':8,
+                'joint_limit_samples': sum(r['joint_limit_violation_count'] for r in baseline_rows)/len(directories)}
     def rank(r):
         s = r['skill']
         return (-r['successes'], r['joint_limit_samples'],
-                abs(1-s['arm_smoothing_alpha'])+s['gripper_hold_steps']/250, r['trial'])
+                abs(1-s['arm_smoothing_alpha'])+s['gripper_hold_steps']/250+int(s.get('finger_guard_enabled',False)), r['trial'])
     candidates = sorted(results+[original],key=rank)
     selected = candidates[0]
-    save_json(root / 'audit.json', {'status':'PASS','real_episodes_verified':96,
+    save_json(root / 'audit.json', {'status':'PASS','real_episodes_verified':32*len(directories),
               'unique_training_conditions':8,'heldout_test_episodes':0,
               'control_reconstruction':'independent arithmetic from raw traces'})
     save_json(root / 'training_selection.json', {'selected':selected,'ranking':candidates,
               'original_replay_successes':sum(r['success'] for r in baseline_rows),
-              'original_replay_episodes':24,'selection_uses':'training outcomes only',
+              'original_replay_episodes':8*len(directories),'selection_uses':'training outcomes only',
               'heldout_claim':'NOT_TESTED'})
     print(json.dumps(load(root / 'training_selection.json'),indent=2))
 

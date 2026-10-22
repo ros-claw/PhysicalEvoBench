@@ -16,6 +16,9 @@ def main():
     args = parser.parse_args()
     output = Path(args.run_dir).absolute()
     config = json.loads((output / 'config.json').read_text())
+    from physicalevobench.protocols.guarded_skill import GuardedSkill
+
+    skill_type = GuardedSkill if config['selected_skill']['schema_version'] == 'guarded-1' else TemporalSkill
     with (output / 'run.lock').open('x'):
         pass
     provenance = diagnose(config)
@@ -33,8 +36,8 @@ def main():
         from physicalevobench.adapters.lift_worker import LiftWorker
 
         worker = LiftWorker(Path(config['checkpoint_path']).expanduser(), output)
-        skills = {'original': TemporalSkill(worker.checkpoint_hash),
-                  'candidate': TemporalSkill.from_dict(config['selected_skill'])}
+        skills = {'original': skill_type(worker.checkpoint_hash),
+                  'candidate': skill_type.from_dict(config['selected_skill'])}
         rows, ledger = [], []
         rng = random.Random(202610221201)
         try:

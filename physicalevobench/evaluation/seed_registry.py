@@ -18,4 +18,11 @@ def published_seeds(project_root):
                         raise ValueError('Unexpectedly large split manifest')
                     for line in archive.extractfile(member).read().decode().splitlines():
                         seeds.add(json.loads(line)['seed'])
+                elif member.isfile() and member.name.rsplit('/',1)[-1] in {'config.json','registration.json'}:
+                    if member.size > 1_000_000:
+                        raise ValueError('Unexpectedly large configuration')
+                    payload=json.loads(archive.extractfile(member).read())
+                    conditions=payload.get('conditions',[])
+                    if isinstance(conditions,list):
+                        seeds.update(c['seed'] for c in conditions)
     return seeds

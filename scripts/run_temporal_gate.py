@@ -19,6 +19,7 @@ def main():
     parser.add_argument('--exploration', required=True)
     parser.add_argument('--output', required=True)
     parser.add_argument('--gpu', type=int, default=0)
+    parser.add_argument('--registration-seed',type=int,default=202610221201)
     args = parser.parse_args()
     root = Path(__file__).resolve().parents[1]
     if command(['git','status','--porcelain'],cwd=root)['stdout']:
@@ -33,14 +34,14 @@ def main():
     arena=(root/cfg['arena_path']).resolve()
     excluded=published_seeds(root)
     excluded.update(c['seed'] for c in load(exploration/'registration.json')['conditions'])
-    rng=random.Random(202610221201)
+    rng=random.Random(args.registration_seed)
     conditions=[]
     for i in range(16):
         seed=rng.randrange(2**31)
         while seed in excluded:
             seed=rng.randrange(2**31)
         excluded.add(seed)
-        conditions.append({'condition_id':f'temporal-gate-validation-{i:03d}',
+        conditions.append({'condition_id':f'gate-{args.registration_seed}-validation-{i:03d}',
                            'split':'validation','seed':seed,'object_mass_kg':rng.uniform(.8,3.2)})
     output=Path(args.output).absolute()
     output.mkdir(parents=True,exist_ok=False)

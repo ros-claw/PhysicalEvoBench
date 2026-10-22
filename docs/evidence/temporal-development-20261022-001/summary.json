@@ -1,0 +1,204 @@
+{
+  "training_episodes": 96,
+  "validation_episodes": 32,
+  "heldout_test_episodes": 0,
+  "selection": {
+    "selected": {
+      "trial": "hold10",
+      "group": "group-0",
+      "skill": {
+        "schema_version": "temporal-1",
+        "base_checkpoint_sha256": "babbbfd363f894443ffe494f26c5b6e0485fb35d4f5480c088295c23fc2a13aa",
+        "skill_version": 0,
+        "arm_action_gain": 1.0,
+        "arm_smoothing_alpha": 1.0,
+        "gripper_hold_steps": 10
+      },
+      "successes": 3,
+      "episodes": 8,
+      "joint_limit_samples": 30,
+      "maximum_action_change_abs": 44.72654342651367
+    },
+    "ranking": [
+      {
+        "trial": "hold10",
+        "group": "group-0",
+        "skill": {
+          "schema_version": "temporal-1",
+          "base_checkpoint_sha256": "babbbfd363f894443ffe494f26c5b6e0485fb35d4f5480c088295c23fc2a13aa",
+          "skill_version": 0,
+          "arm_action_gain": 1.0,
+          "arm_smoothing_alpha": 1.0,
+          "gripper_hold_steps": 10
+        },
+        "successes": 3,
+        "episodes": 8,
+        "joint_limit_samples": 30,
+        "maximum_action_change_abs": 44.72654342651367
+      },
+      {
+        "trial": "smooth50",
+        "group": "group-1",
+        "skill": {
+          "schema_version": "temporal-1",
+          "base_checkpoint_sha256": "babbbfd363f894443ffe494f26c5b6e0485fb35d4f5480c088295c23fc2a13aa",
+          "skill_version": 0,
+          "arm_action_gain": 1.0,
+          "arm_smoothing_alpha": 0.5,
+          "gripper_hold_steps": 0
+        },
+        "successes": 2,
+        "episodes": 8,
+        "joint_limit_samples": 31,
+        "maximum_action_change_abs": 52.385990142822266
+      },
+      {
+        "trial": "original",
+        "skill": {
+          "schema_version": "temporal-1",
+          "base_checkpoint_sha256": "babbbfd363f894443ffe494f26c5b6e0485fb35d4f5480c088295c23fc2a13aa",
+          "skill_version": 0,
+          "arm_action_gain": 1.0,
+          "arm_smoothing_alpha": 1.0,
+          "gripper_hold_steps": 0
+        },
+        "successes": 2.0,
+        "episodes": 8,
+        "joint_limit_samples": 45.0
+      },
+      {
+        "trial": "hold50",
+        "group": "group-0",
+        "skill": {
+          "schema_version": "temporal-1",
+          "base_checkpoint_sha256": "babbbfd363f894443ffe494f26c5b6e0485fb35d4f5480c088295c23fc2a13aa",
+          "skill_version": 0,
+          "arm_action_gain": 1.0,
+          "arm_smoothing_alpha": 1.0,
+          "gripper_hold_steps": 50
+        },
+        "successes": 1,
+        "episodes": 8,
+        "joint_limit_samples": 35,
+        "maximum_action_change_abs": 38.86163330078125
+      },
+      {
+        "trial": "smooth20",
+        "group": "group-2",
+        "skill": {
+          "schema_version": "temporal-1",
+          "base_checkpoint_sha256": "babbbfd363f894443ffe494f26c5b6e0485fb35d4f5480c088295c23fc2a13aa",
+          "skill_version": 0,
+          "arm_action_gain": 1.0,
+          "arm_smoothing_alpha": 0.2,
+          "gripper_hold_steps": 0
+        },
+        "successes": 0,
+        "episodes": 8,
+        "joint_limit_samples": 51,
+        "maximum_action_change_abs": 102.55709838867188
+      },
+      {
+        "trial": "hold25",
+        "group": "group-0",
+        "skill": {
+          "schema_version": "temporal-1",
+          "base_checkpoint_sha256": "babbbfd363f894443ffe494f26c5b6e0485fb35d4f5480c088295c23fc2a13aa",
+          "skill_version": 0,
+          "arm_action_gain": 1.0,
+          "arm_smoothing_alpha": 1.0,
+          "gripper_hold_steps": 25
+        },
+        "successes": 0,
+        "episodes": 8,
+        "joint_limit_samples": 63,
+        "maximum_action_change_abs": 48.4390983581543
+      },
+      {
+        "trial": "hold100",
+        "group": "group-1",
+        "skill": {
+          "schema_version": "temporal-1",
+          "base_checkpoint_sha256": "babbbfd363f894443ffe494f26c5b6e0485fb35d4f5480c088295c23fc2a13aa",
+          "skill_version": 0,
+          "arm_action_gain": 1.0,
+          "arm_smoothing_alpha": 1.0,
+          "gripper_hold_steps": 100
+        },
+        "successes": 0,
+        "episodes": 8,
+        "joint_limit_samples": 105,
+        "maximum_action_change_abs": 34.683738708496094
+      },
+      {
+        "trial": "hold50smooth50",
+        "group": "group-2",
+        "skill": {
+          "schema_version": "temporal-1",
+          "base_checkpoint_sha256": "babbbfd363f894443ffe494f26c5b6e0485fb35d4f5480c088295c23fc2a13aa",
+          "skill_version": 0,
+          "arm_action_gain": 1.0,
+          "arm_smoothing_alpha": 0.5,
+          "gripper_hold_steps": 50
+        },
+        "successes": 0,
+        "episodes": 8,
+        "joint_limit_samples": 119,
+        "maximum_action_change_abs": 144.37503051757812
+      },
+      {
+        "trial": "hold250",
+        "group": "group-1",
+        "skill": {
+          "schema_version": "temporal-1",
+          "base_checkpoint_sha256": "babbbfd363f894443ffe494f26c5b6e0485fb35d4f5480c088295c23fc2a13aa",
+          "skill_version": 0,
+          "arm_action_gain": 1.0,
+          "arm_smoothing_alpha": 1.0,
+          "gripper_hold_steps": 250
+        },
+        "successes": 0,
+        "episodes": 8,
+        "joint_limit_samples": 129,
+        "maximum_action_change_abs": 29.116703033447266
+      },
+      {
+        "trial": "hold50smooth20",
+        "group": "group-2",
+        "skill": {
+          "schema_version": "temporal-1",
+          "base_checkpoint_sha256": "babbbfd363f894443ffe494f26c5b6e0485fb35d4f5480c088295c23fc2a13aa",
+          "skill_version": 0,
+          "arm_action_gain": 1.0,
+          "arm_smoothing_alpha": 0.2,
+          "gripper_hold_steps": 50
+        },
+        "successes": 0,
+        "episodes": 8,
+        "joint_limit_samples": 222,
+        "maximum_action_change_abs": 194.18679809570312
+      }
+    ],
+    "original_replay_successes": 6,
+    "original_replay_episodes": 24,
+    "selection_uses": "training outcomes only",
+    "heldout_claim": "NOT_TESTED"
+  },
+  "validation_decision": {
+    "decision": "rollback",
+    "original_successes": 1,
+    "candidate_successes": 3,
+    "original_joint_limit_samples": 48,
+    "candidate_joint_limit_samples": 71,
+    "retained_skill": {
+      "schema_version": "temporal-1",
+      "base_checkpoint_sha256": "babbbfd363f894443ffe494f26c5b6e0485fb35d4f5480c088295c23fc2a13aa",
+      "skill_version": 0,
+      "arm_action_gain": 1.0,
+      "arm_smoothing_alpha": 1.0,
+      "gripper_hold_steps": 0
+    },
+    "scope": "validation only; heldout efficacy NOT_TESTED"
+  },
+  "scientific_scope": "Training-side development and independent validation, not heldout efficacy"
+}
