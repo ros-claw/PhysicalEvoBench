@@ -30,13 +30,17 @@ def main():
                     tar.add(p,arcname=Path(name)/p.relative_to(source),recursive=False)
         inventory.append({'file':archive.name,'bytes':archive.stat().st_size,'sha256':sha256(archive)})
     selection,decision=load(exploration/'training_selection.json'),load(validation/'decision.json')
-    save_json(destination/'summary.json',{'training_episodes':96,'validation_episodes':32,
+    train_count=load(exploration/'audit.json')['real_episodes_verified']
+    val_count=load(validation/'audit.json')['physical_episodes_verified']
+    guarded=selection['selected']['skill']['schema_version']=='guarded-1'
+    replay_groups=selection['original_replay_episodes']//8
+    save_json(destination/'summary.json',{'training_episodes':train_count,'validation_episodes':val_count,
               'heldout_test_episodes':0,'selection':selection,'validation_decision':decision,
               'scientific_scope':'Training-side development and independent validation, not heldout efficacy'})
     save_json(destination/'archive_inventory.json',inventory)
-    (destination/'README.md').write_text('''# Temporal skill development evidence
+    (destination/'README.md').write_text(f'''# Temporal skill development evidence
 
-96 real training exploration episodes, 32 independent validation episodes, zero heldout test episodes.
+{train_count} real training exploration episodes, {val_count} independent validation episodes, zero heldout test episodes.
 All 128 raw action/state traces, upstream outcomes, parameter snapshots, source hashes and budgets
 are in the archives. No model weights are distributed. No actuator strength, mass distribution,
 robot model, official success predicate or timeout was changed.
@@ -56,16 +60,18 @@ failed candidates are preserved. Original checkpoint and all historical evidence
 ''')
     files=sorted(p for p in destination.iterdir() if p.is_file())
     (destination/'SHA256SUMS').write_text(''.join(f'{sha256(p)}  {p.name}\n' for p in files))
-    lines=['# 时序技能开发：训练探索与独立验证','',
-           '**本阶段共完成 128 个真实物理 episode：96 个训练探索、32 个独立验证；留出测试为 0。**', '',
+    title='限位守护技能开发' if guarded else '时序技能开发'
+    lines=[f'# {title}：训练探索与独立验证','',
+           f'**本阶段共完成 {train_count+val_count} 个真实物理 episode：{train_count} 个训练探索、{val_count} 个独立验证；留出测试为 0。**', '',
            '新增可学习参数是夹爪闭合保持步数和机械臂动作指数平滑系数。默认值严格复现原策略。'
            '闭爪保持只依据公开动作指令及步数触发，不读取质量、种子或测试结果。机器人驱动力限、质量分布、'
-           '任务成功条件、控制频率和 5 秒时限均未修改。','',
+           '任务成功条件、控制频率和 5 秒时限均未修改。'+
+           (' 限位守护仅接收具名手指关节的位置、速度、下限和控制步长；预测接近下限时把闭爪指令改为开爪。它是待验证的控制策略，不是完整安全保证。' if guarded else ''),'',
            '## 训练探索','', '| 候选 | 成功 / 8 | 关节越限采样 |', '| --- | --- | --- |']
     for r in selection['ranking']:
         lines.append(f"| {r['trial']} | {r['successes']:g}/8 | {r['joint_limit_samples']:g} |")
-    lines += ['', f"原策略在三个工作进程中各执行 8 次，共 {selection['original_replay_successes']}/24 成功；上表原策略按每 8 条件平均显示，"
-              '并非 24 个不同训练条件。候选在同样的 8 个训练条件执行，按训练成功数、越限采样及改动幅度排序。', '',
+    lines += ['', f"原策略在 {replay_groups} 个工作进程中各执行 8 次，共 {selection['original_replay_successes']}/{selection['original_replay_episodes']} 成功；上表原策略按每 8 条件平均显示，"
+              '这些重放并非不同训练条件。候选在同样的 8 个训练条件执行，按训练成功数、越限采样及改动幅度排序。', '',
               f"训练选择 `{selection['selected']['trial']}`，其参数哈希和选择结果在验证前冻结。", '',
               '## 独立验证','', '| 组别 | 成功 / 16 | 关节越限采样 |', '| --- | --- | --- |',
               f"| 原策略 | {decision['original_successes']}/16 | {decision['original_joint_limit_samples']} |",
@@ -80,8 +86,8 @@ failed candidates are preserved. Original checkpoint and all historical evidence
               '官方分数、物理质量读回、关节计数、配对初始状态、预算和 train/validation 隔离，审计 PASS。', '',
               '关节越限采样不等于事故次数；碰撞仍未测量。不得据此建立完整安全结论。'
               '全部失败候选与负结果保留，不将最优训练成绩冒充测试成绩。', '',
-              '[固定探索计划](TEMPORAL_EXPLORATION_PLAN.md) · '
-              '[完整证据包](../evidence/temporal-development-20261022-001/)', '']
+              f"[固定探索计划]({'GUARDED_EXPLORATION_PLAN.md' if guarded else 'TEMPORAL_EXPLORATION_PLAN.md'}) · "
+              f'[完整证据包](../evidence/{destination.name}/)', '']
     Path(args.report).write_text('\n'.join(lines))
     print(json.dumps(inventory,indent=2))
 
