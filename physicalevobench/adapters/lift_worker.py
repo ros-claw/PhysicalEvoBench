@@ -73,6 +73,11 @@ class LiftWorker:
             raise RuntimeError("Skill gain requires joint-position actions")
         arm = mapping["arm_action"]
         self.arm_slice = slice(arm["start"], arm["stop"])
+        finger_names = mapping["gripper_action"]["joint_names"]
+        self.finger_joint_indices = [self.base.scene["robot"].joint_names.index(name) for name in finger_names]
+        if len(self.finger_joint_indices) != 2:
+            raise RuntimeError("Expected two named Franka finger joints")
+        mapping["gripper_action"]["joint_indices"] = self.finger_joint_indices
         self.action_mapping = mapping
         self.action_low = torch.as_tensor(self.base.single_action_space.low, device=self.base.device)
         self.action_high = torch.as_tensor(self.base.single_action_space.high, device=self.base.device)
@@ -125,6 +130,7 @@ class LiftWorker:
                    "target_command": tensor_json(self.base.command_manager.get_command("object_pose"))}
         save_json(directory / "initial_state.json", initial)
         save_json(directory / "skill.json", {**skill.to_dict(), "skill_sha256": skill.sha256})
+        controller = skill.make_controller(self.action_mapping) if hasattr(skill, "make_controller") else None
         maximum_delta = 0.0
         maximum_action = 0.0
         joint_violations = 0
@@ -135,7 +141,19 @@ class LiftWorker:
                 with torch.inference_mode():
                     raw = self.policy.get_action(self.env, observation)
                     action = raw.clone()
-                    action[:, self.arm_slice] *= skill.arm_action_gain
+                    proprioception = None
+                    if controller is not None and getattr(controller, "uses_proprioception", False):
+                        q = self.as_torch(robot.data.joint_pos)[0, self.finger_joint_indices]
+                        v = self.as_torch(robot.data.joint_vel)[0, self.finger_joint_indices]
+                        low = self.as_torch(robot.data.joint_pos_limits)[0, self.finger_joint_indices, 0]
+                        proprioception = {"finger_position": q.tolist(), "finger_velocity": v.tolist(),
+                                          "finger_lower_limits": low.tolist(), "step_dt": self.base.step_dt}
+                    if controller is None:
+                        action[:, self.arm_slice] *= skill.arm_action_gain
+                    else:
+                        transformed = (controller.apply(raw[0].tolist(), step, proprioception)
+                                       if proprioception is not None else controller.apply(raw[0].tolist(), step))
+                        action = torch.tensor([transformed], dtype=raw.dtype, device=raw.device)
                     if not torch.isfinite(action).all():
                         raise RuntimeError("Nonfinite action: infrastructure failure, not task failure")
                     if ((action < self.action_low) | (action > self.action_high)).any():
@@ -152,6 +170,7 @@ class LiftWorker:
                         frames.append(camera[0, ..., :3].detach().cpu().numpy())
                     trace.write(json.dumps({"step": step, "raw_action": tensor_json(raw),
                                             "applied_action": tensor_json(action),
+                                            "controller_proprioception": proprioception,
                                             "observation": tensor_json({k: v for k, v in observation.items()
                                                                         if k != "camera_obs"}),
                                             "joint_position": tensor_json(joints),

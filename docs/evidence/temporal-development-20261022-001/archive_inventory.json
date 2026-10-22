@@ -1,0 +1,12 @@
+[
+  {
+    "file": "exploration.tar.gz",
+    "bytes": 9779905,
+    "sha256": "04d14b8abf5b5217c14482df1bea278cff4760af0c1f5f65bb85d2c9c215195c"
+  },
+  {
+    "file": "validation.tar.gz",
+    "bytes": 3145213,
+    "sha256": "7980bbf6396f02b3d2da3bd68cbeea17f2b1aa883a0b3224e956cc5805beb7f0"
+  }
+]

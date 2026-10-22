@@ -12,23 +12,33 @@ from physicalevobench.adapters.arena_worker import arena_python_path, runtime_en
 from physicalevobench.doctor import command, save_json, sha256
 from physicalevobench.evaluation.confirmation import now
 from physicalevobench.evaluation.protocol import build_manifests
+from physicalevobench.evaluation.seed_registry import published_seeds
 
 
-def prepare(config, output, gpus):
-    if config["schema_version"] != "confirmation-1" or len(config["seeds"]) != 3:
-        raise ValueError("Expected fixed three-seed confirmation protocol")
-    if config["conditions"] != {"train": 8, "validation": 8, "heldout_test": 24}:
-        raise ValueError("Confirmation conditions differ from preregistration")
-    if config["physical_budgets_per_seed"] != {"train": 56, "validation": 24, "heldout_test": 96}:
-        raise ValueError("Incorrect fixed budgets")
-    if config["gain_grid"] != [.85, .9, .95, 1.05, 1.1, 1.15]:
+def prepare(config, output, gpus, development_gate=None):
+    guarded=config["schema_version"] == "guarded-confirmation-1"
+    if len(config["seeds"])!=3 or config["schema_version"] not in {"confirmation-1","guarded-confirmation-1"}:
+        raise ValueError("Expected registered three-seed protocol")
+    expected_counts={"train":8,"validation":16 if guarded else 8,"heldout_test":32 if guarded else 24}
+    expected_budgets={"train":56,"validation":48 if guarded else 24,"heldout_test":128 if guarded else 96}
+    if config["conditions"]!=expected_counts or config["physical_budgets_per_seed"]!=expected_budgets:
+        raise ValueError("Conditions or budgets differ from registration")
+    if guarded:
+        if development_gate is None:
+            raise ValueError("Guarded confirmation requires a promoted development gate")
+        gate=Path(development_gate)
+        decision=json.loads((gate/"decision.json").read_text())
+        if decision["decision"]!="promote" or json.loads((gate/"audit.json").read_text())["status"]!="PASS":
+            raise ValueError("Development gate did not promote an independently audited update")
+        config=dict(config,development_gate_sha256=sha256(gate/"decision.json"))
+    elif config["gain_grid"] != [.85,.9,.95,1.05,1.1,1.15]:
         raise ValueError("Unregistered gain grid")
     root = Path(__file__).resolve().parents[1]
     if command(["git", "status", "--porcelain"], cwd=root)["stdout"]:
         raise ValueError("Commit preregistration and implementation before launch")
     output.mkdir(parents=True, exist_ok=False)
     save_json(output / "study_config.json", config)
-    old_seeds = {42, 1000, 1001}
+    old_seeds = published_seeds(root) if guarded else {42, 1000, 1001}
     for p in (root / "docs/evidence").rglob("initial_state.json"):
         old_seeds.add(json.loads(p.read_text())["condition"]["seed"])
     all_ids, all_seeds, directories = set(), set(old_seeds), []
@@ -57,7 +67,7 @@ def prepare(config, output, gpus):
         directories.append(directory)
     save_json(output / "preregistration.json", {
         "frozen_at": now(), "project_commit": command(["git", "rev-parse", "HEAD"], cwd=root),
-        "protocol_sha256": sha256(root / "docs/experiments/CONFIRMATION_PREREGISTRATION.md"),
+        "protocol_sha256": sha256(root / ("docs/experiments/GUARDED_CONFIRMATION_PREREGISTRATION.md" if guarded else "docs/experiments/CONFIRMATION_PREREGISTRATION.md")),
         "config_sha256": sha256(output / "study_config.json"),
         "prior_episode_seeds_excluded": sorted(old_seeds),
         "manifests": {p.parent.parent.name + "/" + p.name: sha256(p)
@@ -70,10 +80,11 @@ def main():
     parser.add_argument("--config", default="configs/confirmation.yaml")
     parser.add_argument("--output", required=True)
     parser.add_argument("--gpus", type=int, nargs="+", default=[0, 1, 2])
+    parser.add_argument("--development-gate")
     args = parser.parse_args()
     config = yaml.safe_load(Path(args.config).read_text())
     output = Path(args.output).absolute()
-    directories = prepare(config, output, args.gpus)
+    directories = prepare(config, output, args.gpus, args.development_gate)
     arena = Path(config["arena_path"]).resolve()
     processes = []
     for index, directory in enumerate(directories):

@@ -1,0 +1,13 @@
+schema_version: guarded-confirmation-1
+skill_family: guarded-1
+arena_path: external/IsaacLab-Arena
+checkpoint_path: ~/models/physicalevobench/franka_lift/model_1999.pt
+checkpoint_sha256: babbbfd363f894443ffe494f26c5b6e0485fb35d4f5480c088295c23fc2a13aa
+mass_range_kg: [0.8, 3.2]
+seeds: [202610222101, 202610222102, 202610222103]
+conditions: {train: 8, validation: 16, heldout_test: 32}
+candidate_count_per_agent: 3
+physical_budgets_per_seed: {train: 56, validation: 48, heldout_test: 128}
+alpha_familywise: 0.05
+bootstrap_samples: 10000
+timeout_seconds: 7200

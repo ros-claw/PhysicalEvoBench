@@ -12,7 +12,9 @@ from physicalevobench.doctor import save_json, sha256
 def package(source, destination):
     source, destination = Path(source).absolute(), Path(destination).absolute()
     audit = json.loads((source / 'audit.json').read_text())
-    if audit['status'] != 'PASS' or audit['total_physical_episodes'] != 528:
+    config=json.loads((source/'study_config.json').read_text())
+    expected=sum(config['physical_budgets_per_seed'].values())*len(config['seeds'])
+    if audit['status'] != 'PASS' or audit['total_physical_episodes'] != expected:
         raise ValueError('Require complete independently audited study')
     destination.mkdir(parents=True, exist_ok=False)
     for path in source.glob('*.json'):
@@ -25,7 +27,7 @@ def package(source, destination):
                 if path.is_file() and (path.suffix in {'.json', '.jsonl', '.log', '.lock'}):
                     tar.add(path, arcname=path.relative_to(source), recursive=False)
         inventory.append({'archive': archive.name, 'bytes': archive.stat().st_size,
-                          'sha256': sha256(archive), 'physical_episodes': 176})
+                          'sha256': sha256(archive), 'physical_episodes': sum(config['physical_budgets_per_seed'].values())})
     failures = source / 'startup-failures'
     if failures.exists():
         shutil.copytree(failures, destination / failures.name)

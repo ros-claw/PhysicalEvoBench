@@ -1,0 +1,8 @@
+{
+  "status": "PASS",
+  "independent_extraction_reaudit": true,
+  "physical_episodes_rechecked": 96,
+  "recomputed_selection_and_gate_equal_delivered": true,
+  "unique_train_conditions": 8,
+  "unique_validation_conditions": 16
+}

@@ -23,7 +23,13 @@ def execute(config, output, worker):
     rng = random.Random(config["seed"] ^ 87193)
     ledger, rows = [], []
     used = dict.fromkeys(config["physical_budgets_per_seed"], 0)
-    baseline = SkillSpec(worker.checkpoint_hash)
+    guarded = config.get("skill_family") == "guarded-1"
+    from physicalevobench.protocols.guarded_skill import GuardedSkill
+
+    skill_type = GuardedSkill if guarded else SkillSpec
+    proposal_module = ("physicalevobench.agents.guarded_search_worker" if guarded
+                       else "physicalevobench.agents.search_worker")
+    baseline = skill_type(worker.checkpoint_hash)
     save_json(output / "baseline_skill.json", baseline.to_dict())
 
     def episode(split, skill, arm, condition, label):
@@ -56,20 +62,30 @@ def execute(config, output, worker):
             payload = {"agent": arm, "rng_seed": config["seed"] ^ 911,
                        "history": history[arm], "remaining_budget": (3 - trial) * len(baseline_train)}
             save_json(output / "search" / f"{arm}-{trial}-request.json", payload)
-            child = subprocess.run([sys.executable, "-m", "physicalevobench.agents.search_worker"],
+            child = subprocess.run([sys.executable, "-m", proposal_module],
                                    input=json.dumps(payload), capture_output=True, text=True,
                                    timeout=30, check=True)
             response = json.loads(child.stdout)
             save_json(output / "search" / f"{arm}-{trial}-response.json", response)
             if trial == 3:
-                if response["next_gain"] is not None:
+                if response["next_gain"] is not None or response.get("next_skill") is not None:
                     raise RuntimeError("Candidate count exceeded")
                 selected[arm] = skills[arm][response["selected_index"]]
             else:
-                gain = response["next_gain"]
-                if gain not in config["gain_grid"]:
-                    raise RuntimeError("Unregistered gain")
-                jobs[arm] = SkillSpec(worker.checkpoint_hash, trial + 1, gain)
+                if guarded:
+                    from physicalevobench.agents.guarded_search_worker import OPTIONS
+
+                    candidate = GuardedSkill.from_dict(response["next_skill"])
+                    permitted = {GuardedSkill(worker.checkpoint_hash, trial + 1, **params).sha256
+                                 for params in OPTIONS.values()}
+                    if candidate.sha256 not in permitted:
+                        raise RuntimeError("Unregistered guarded candidate")
+                    jobs[arm] = candidate
+                else:
+                    gain = response["next_gain"]
+                    if gain not in config["gain_grid"]:
+                        raise RuntimeError("Unregistered gain")
+                    jobs[arm] = SkillSpec(worker.checkpoint_hash, trial + 1, gain)
         if trial == 3:
             break
         results = {arm: [] for arm in jobs}
@@ -119,7 +135,9 @@ def execute(config, output, worker):
         raise RuntimeError("Incomplete physical budget")
     save_json(output / "status.json", {"status": "PHYSICAL_COMPLETED", "episodes": len(rows),
               "used_physical_budget": used, "completed_at": now(),
-              "charged_per_search": {"train": 32, "validation": 16, "test": 24}})
+              "charged_per_search": {"train": 4 * config["conditions"]["train"],
+                                     "validation": 2 * config["conditions"]["validation"],
+                                     "test": config["conditions"]["heldout_test"]}})
 
 
 def main():

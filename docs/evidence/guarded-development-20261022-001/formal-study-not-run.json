@@ -1,0 +1,7 @@
+{
+  "status": "NOT_RUN_GATE_NOT_PROMOTED",
+  "executed_formal_episodes": 0,
+  "proposed_formal_budget": 696,
+  "failed_gate_decision_sha256": "f0477e62617a9697dc10f7c88e07e85f225dc7a887ac4c7622af8835b18b5f81",
+  "reason": "Success count tied at 5/16; predeclared strict improvement gate returned rollback"
+}

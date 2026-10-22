@@ -10,6 +10,10 @@
 完整物理证据审计均通过。见[本轮验证报告](docs/experiments/CONFIRMATION_RESULTS_20261022.md)、
 [预先登记方案](docs/experiments/CONFIRMATION_PREREGISTRATION.md)和[原始证据包](docs/evidence/confirmation-20261022-001)。
 
+本轮又完成 **224 个实际 PhysX 开发 Episode**：新增闭爪保持、动作平滑和基于手指位置/速度的限位守护。
+第一次验证成功数 1/16→3/16，但越限采样 48→71，回滚；第二次 5/16→5/16，越限 40→38，仍未满足晋级条件。
+**正式留出测试未启动**；拟定的 696 次预算不是实际结果。见[本轮完整进展](docs/experiments/ADAPTATION_PROGRESS_20261022.md)。
+
 以下为 v0.1.0 的历史结果：
 
 Franka Lift Object / PhysX 的正式实验共执行 48 个 Episode：8 次训练、8 次验证、32 次独立测试。
