@@ -125,6 +125,7 @@ class LiftWorker:
                    "target_command": tensor_json(self.base.command_manager.get_command("object_pose"))}
         save_json(directory / "initial_state.json", initial)
         save_json(directory / "skill.json", {**skill.to_dict(), "skill_sha256": skill.sha256})
+        controller = skill.make_controller(self.action_mapping) if hasattr(skill, "make_controller") else None
         maximum_delta = 0.0
         maximum_action = 0.0
         joint_violations = 0
@@ -135,7 +136,11 @@ class LiftWorker:
                 with torch.inference_mode():
                     raw = self.policy.get_action(self.env, observation)
                     action = raw.clone()
-                    action[:, self.arm_slice] *= skill.arm_action_gain
+                    if controller is None:
+                        action[:, self.arm_slice] *= skill.arm_action_gain
+                    else:
+                        action = torch.tensor([controller.apply(raw[0].tolist(), step)],
+                                              dtype=raw.dtype, device=raw.device)
                     if not torch.isfinite(action).all():
                         raise RuntimeError("Nonfinite action: infrastructure failure, not task failure")
                     if ((action < self.action_low) | (action > self.action_high)).any():
