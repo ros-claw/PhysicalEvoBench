@@ -19,4 +19,4 @@ def paired_power(n, gain, discordance, alpha=.05):
                                           for j in range(wins,k+1))
                 break
             tail-=math.comb(k,wins)/2**k
-    return power
+    return min(1., max(0., power))

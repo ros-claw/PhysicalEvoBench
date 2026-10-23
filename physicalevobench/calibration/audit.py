@@ -43,6 +43,11 @@ def audit_run(out):
             raise ValueError('Physical initial condition differs from registration')
         if abs(initial['mass_readback_kg'][0][0]-job['condition']['object_mass_kg']) > 1e-6:
             raise ValueError('Physical mass readback mismatch')
+        from physicalevobench.protocols.skill import SkillSpec
+
+        skill=SkillSpec(expected_checkpoint)
+        if load(episode/'skill.json') != {**skill.to_dict(), 'skill_sha256':skill.sha256} or row['skill_sha256']!=skill.sha256:
+            raise ValueError('Registered identity snapshot mismatch')
         trace = lines(episode/'trace.jsonl')
         official = [r for r in lines(episode/'upstream.jsonl') if r.get('episode_length',0)>0]
         if len(official)!=1 or official[0]['episode_length'] != len(trace) or row['steps'] != len(trace):
@@ -68,6 +73,9 @@ def audit_run(out):
         if safety['violation_joint_samples'] != count or safety['samples'] != len(trace):
             raise ValueError('Sampled safety exposure mismatch')
         for j,item in enumerate(safety['per_joint']):
+            expected_count=sum(d>.001 for d in depths[j])
+            if item['samples_over_tolerance']!=expected_count or abs(item['duration_over_tolerance_s']-expected_count*safety['step_dt'])>1e-10:
+                raise ValueError('Safety sampled duration mismatch')
             if abs(item['maximum_depth']-max(depths[j])) > 1e-10:
                 raise ValueError('Safety maximum depth mismatch')
             if abs(item['integrated_depth_coordinate_seconds']-sum(depths[j])*safety['step_dt']) > 1e-10:
