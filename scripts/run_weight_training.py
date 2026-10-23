@@ -22,7 +22,7 @@ def main():
         raise ValueError('Commit source before training')
     cfg = yaml.safe_load((root/'configs/confirmation.yaml').read_text())
     cfg.update(schema_version='weight-training-1', num_envs=128, iterations=200,
-               learner_seed=2026102301, environment_seed=202610230301, transition_budget=614400,
+               learner_seed=2026102301, environment_seed=202610230301 % (2**31), transition_budget=614400,
                candidate_path=str(Path(a.candidate).expanduser().absolute()),
                registered_at=now(), source_commit=command(['git','rev-parse','HEAD'],cwd=root)['stdout'],
                source_sha256={str(f.relative_to(root)):sha256(f) for f in (root/'physicalevobench').rglob('*.py')})

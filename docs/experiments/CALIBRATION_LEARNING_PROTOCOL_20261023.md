@@ -71,3 +71,8 @@ Every source revision, runtime failure, process return code, budget reservation,
 raw evaluation trace, training transition archive and weight digest must be kept.
 Conclusions distinguish changed weights, learned performance, positive-control
 success and statistically credible self-improvement.
+
+Training startup correction: the descriptive environment seed `202610230301`
+exceeds NumPy's accepted seed range. Before any training reset/transition, map it
+modulo 2**31 in the registered runtime config. Preserve the failed launch (zero
+training transitions) and launch a new run directory; learner seed is unchanged.
