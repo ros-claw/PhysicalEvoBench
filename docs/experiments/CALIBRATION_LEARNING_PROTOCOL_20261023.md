@@ -109,3 +109,13 @@ extracted from the persistent replay's registered commit, hash-checking every so
 before each startup and recording the supervisor/runtime commits separately.
 This adds exactly 12 evaluation attempts. No conditions are selected or replaced
 based on their outcomes. The persistent 36-episode study is unchanged.
+
+Exploratory reset/support follow-up: two geometry-controller workers had a first
+original-policy episode in which cube xy stayed fixed and z followed free fall
+through the table height before the distant gripper could reach it. Subsequent
+resets did not show that trajectory. Do not silently reclassify or remove those
+failures. Register a targeted reproduction: both observed conditions, GPU 0 and
+GPU 1, one fresh worker each, three original-policy repeats per worker (12 total).
+These deliberately reused anomalous seeds diagnose cold-start/reset behavior and
+cannot estimate population anomaly rates. No model/controller tuning is permitted
+from this probe; report it separately from the frozen PPO efficacy study.
