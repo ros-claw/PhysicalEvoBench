@@ -1,6 +1,7 @@
 """Separate PPO process; receives public training transitions over a local RPC."""
 
 import argparse
+import copy
 import json
 from multiprocessing.connection import Client
 from pathlib import Path
@@ -63,7 +64,7 @@ def main():
     checkpoint = Path(cfg['checkpoint'])
     agent = yaml.safe_load((checkpoint.parent/'params/agent.yaml').read_text())
     agent['device'] = 'cuda:0'
-    runner = OnPolicyRunner(env, agent, log_dir=None, device='cuda:0')
+    runner = OnPolicyRunner(env, copy.deepcopy(agent), log_dir=None, device='cuda:0')
     runner.load(str(checkpoint))
     before = {k:v.detach().cpu().clone() for k,v in runner.alg.get_policy().state_dict().items()}
     losses = []
