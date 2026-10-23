@@ -97,14 +97,20 @@ def audit_run(out):
     paired = {}
     if all(sum(x['policy']=='original' for x in group)==1 and len(group)==2 for group in conditions.values()):
         wins=losses=0
+        matched_initial_observations=0
+        max_first_action_difference=0.
         for group in conditions.values():
             old=next(x for x in group if x['policy']=='original')
             new=next(x for x in group if x['policy']!='original')
+            matched_initial_observations += new['initial_observation']==old['initial_observation']
+            max_first_action_difference=max(max_first_action_difference, max(abs(a-b) for a,b in zip(new['first_action'][0],old['first_action'][0],strict=True)))
             wins += new['success'] and not old['success']
             losses += old['success'] and not new['success']
         n=wins+losses
         p=sum(math.comb(n,k) for k in range(wins,n+1))/2**n if n else 1.
-        paired={'candidate_only_success':wins,'original_only_success':losses,'one_sided_exact_p':p}
+        paired={'matched_initial_observation_pairs':matched_initial_observations,
+                'maximum_first_action_difference':max_first_action_difference,
+                'candidate_only_success':wins,'original_only_success':losses,'one_sided_exact_p':p}
     replay=[]
     for cid,group in conditions.items():
         same=[x for x in group if x['policy']=='original']
