@@ -22,6 +22,8 @@ def main():
     p.add_argument('--registration-seed', type=int, required=True)
     p.add_argument('--conditions', type=int, default=12)
     p.add_argument('--candidate')
+    p.add_argument('--split',choices=['validation','heldout_test','diagnostic'],default='diagnostic')
+    p.add_argument('--retention-decision')
     p.add_argument('--reuse-conditions')
     p.add_argument('--fresh-process', action='store_true')
     a = p.parse_args()
@@ -40,7 +42,7 @@ def main():
             seed = rng.randrange(2**31)
         excluded.add(seed)
         conditions.append({'condition_id': f'{a.mode}-{a.registration_seed}-{i:03d}',
-                           'split': 'development' if a.mode == 'expert-pilot' else 'diagnostic',
+                           'split': 'development' if a.mode == 'expert-pilot' else a.split,
                            'seed':seed, 'object_mass_kg': .1 if a.mode == 'measurement' else rng.uniform(.8, 3.2)})
     if a.reuse_conditions:
         conditions = list({j['condition']['condition_id']: j['condition'] for j in
@@ -72,7 +74,18 @@ def main():
                          'replay':'describe discordance and initial-state/action differences; no pure GPU attribution',
                          'weights':'candidate frozen before paired evaluation; changed weights alone is not improvement'},
                additional_checkpoints={'candidate':str(Path(a.candidate).absolute())} if a.candidate else {})
-    if a.mode == 'weights' and not a.candidate:
+    if a.retention_decision:
+        decision_path = Path(a.retention_decision).absolute()
+        decision = json.loads(decision_path.read_text())
+        if a.mode != 'weights' or a.split != 'heldout_test':
+            raise ValueError('Retention decisions apply only to heldout weight evaluations')
+        retained = Path(decision['retained_checkpoint'])
+        if sha256(retained) != decision['retained_checkpoint_sha256']:
+            raise ValueError('Retained checkpoint changed after freeze')
+        cfg['retention_decision_sha256'] = sha256(decision_path)
+        cfg['additional_checkpoints'] = {'candidate':str(retained)}
+        cfg['retention_decision'] = decision
+    if a.mode == 'weights' and not a.candidate and not a.retention_decision:
         raise ValueError('Need frozen candidate checkpoint')
     save_json(out/'config.json', cfg)
     argv = [str(arena_python_path(cfg, arena)), '-m', 'physicalevobench.calibration.collect', '--run-dir', str(out)]

@@ -10,3 +10,16 @@ def test_coordinate_safety_exposure_and_depth():
     assert result['per_joint'][1]['unit'] == 'm'
     assert result['per_joint'][1]['duration_over_tolerance_s'] == .02
     assert result['collision'] == 'NOT_MEASURED'
+
+
+def test_training_schema_rejects_hidden_truth():
+    import pytest
+    from physicalevobench.calibration.public_schema import learner_feedback
+
+    public = {'observations':{'policy':[], 'task_obs':[]}, 'rewards':[], 'dones':[], 'time_outs':[]}
+    assert learner_feedback(public) is public
+    for key in ('mass', 'seed', 'heldout_results', 'environment'):
+        with pytest.raises(ValueError):
+            learner_feedback({**public,key:123})
+    with pytest.raises(ValueError):
+        learner_feedback({**public,'observations':{'policy':[], 'task_obs':[], 'mass':[]}})

@@ -12,6 +12,7 @@ from tensordict import TensorDict
 from rsl_rl.runners import OnPolicyRunner
 
 from physicalevobench.doctor import save_json, sha256
+from physicalevobench.calibration.public_schema import learner_feedback
 
 
 class PublicTrainingEnv:
@@ -37,9 +38,7 @@ class PublicTrainingEnv:
 
     def step(self, actions):
         self.connection.send({'actions': actions.detach().cpu().numpy()})
-        data = self.connection.recv()
-        if set(data) != {'observations', 'rewards', 'dones', 'time_outs'}:
-            raise ValueError('Unexpected feedback fields')
+        data = learner_feedback(self.connection.recv())
         self.obs = self.convert(data['observations'])
         rewards = torch.as_tensor(data['rewards'].copy(), device=self.device)
         dones = torch.as_tensor(data['dones'].copy(), device=self.device)
