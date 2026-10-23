@@ -126,3 +126,20 @@ heldout condition. This is deliberately post-hoc demo selection, not new efficac
 evidence. Publish both camera replays regardless of outcome, with no retries or
 weight changes. The two demo episodes are additional cost, excluded from the
 32-pair score and all learning feedback.
+
+## Follow-up registration after the initial heldout result
+
+Post-hoc order stratification of the original 32 pairs found: original-first 1/19
+versus learned-second 7/19; learned-first 3/13 versus original-second 3/13. This
+could be sampling differences or cross-policy reset/carryover. Preserve the first
+study unchanged. Register 48 **new** conditions, 96 episodes, zero further weight
+updates, before running this follow-up. Two blocks of 24 pairs use separate
+per-policy environment processes throughout; GPU allocation is crossed between
+blocks (original 0 / learned 1, then original 1 / learned 0). Each worker processes
+its paired block's conditions in the same order. Freeze source via immutable Git
+snapshot and retain every startup/process/episode record. Report the 48-pair
+success difference, discordant outcomes, exact one-sided p and conditional interval
+separately from the earlier 32 pairs. This is a prospectively fixed confirmation
+of the already trained policy, motivated by a post-hoc diagnostic; it is not an
+independent learning seed, a repair of the initial score, or proof of multi-round
+evolution. No outcome-dependent budget extension or weight tuning in this follow-up.

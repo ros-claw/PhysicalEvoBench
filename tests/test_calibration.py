@@ -75,3 +75,61 @@ def test_runtime_source_ignores_live_worktree_and_rejects_cache_mutation(tmp_pat
     (frozen/'physicalevobench/demo.py').write_text('VALUE = 3\n')
     with pytest.raises(ValueError,match='cache changed'):
         snapshot_source(tmp_path,ref)
+
+
+def _extract_real_study(tmp_path, name):
+    import tarfile
+    from pathlib import Path
+
+    archive=Path(__file__).resolve().parents[1]/'docs/evidence/calibration-learning-20261023-001'/f'{name}.tar.gz'
+    with tarfile.open(archive,'r:gz') as stream:
+        stream.extractall(tmp_path,filter='data')
+    return tmp_path/name
+
+
+def test_real_measurement_trace_rejects_action_tampering(tmp_path):
+    import json
+    import pytest
+    from physicalevobench.calibration.audit import audit_run,lines
+
+    run=_extract_real_study(tmp_path,'calibration-measurement-20261023-002')
+    assert audit_run(run)['measurement_control']['pass'] is True
+    row=lines(run/'episodes.jsonl')[0]
+    path=run/row['trace_artifact']
+    trace=lines(path)
+    trace[0]['applied_action'][0][0]+=1
+    path.write_text(''.join(json.dumps(r)+'\n' for r in trace))
+    with pytest.raises(ValueError,match='identity-skill calibration actions'):
+        audit_run(run)
+
+
+def test_real_measurement_rejects_score_changes_even_in_both_indexes(tmp_path):
+    import json
+    import pytest
+    from physicalevobench.calibration.audit import audit_run,lines
+    from physicalevobench.doctor import save_json
+
+    run=_extract_real_study(tmp_path,'calibration-measurement-20261023-002')
+    rows=lines(run/'episodes.jsonl')
+    rows[0]['success']=not rows[0]['success']
+    save_json(run/'episodes'/rows[0]['episode_id']/'episode.json',rows[0])
+    (run/'episodes.jsonl').write_text(''.join(json.dumps(r)+'\n' for r in rows))
+    with pytest.raises(ValueError,match='Official success differs'):
+        audit_run(run)
+
+
+def test_real_heldout_cannot_relabel_original_weights_as_updated(tmp_path):
+    import json
+    import pytest
+    from physicalevobench.calibration.audit import audit_run,lines,load
+    from physicalevobench.doctor import save_json
+
+    run=_extract_real_study(tmp_path,'calibration-ppo-heldout-20261023-001')
+    assert audit_run(run)['arms']['candidate']['successes']==10
+    rows=lines(run/'episodes.jsonl')
+    candidate=next(r for r in rows if r['agent_id']=='candidate')
+    candidate['base_checkpoint_sha256']=load(run/'config.json')['checkpoint_sha256']
+    save_json(run/'episodes'/candidate['episode_id']/'episode.json',candidate)
+    (run/'episodes.jsonl').write_text(''.join(json.dumps(r)+'\n' for r in rows))
+    with pytest.raises(ValueError,match='model hash differs'):
+        audit_run(run)
