@@ -29,6 +29,7 @@ def main():
     if len(ledger)!=cfg['iterations']*24 or any(r['reserved_transitions']!=(i+1)*cfg['num_envs'] for i,r in enumerate(ledger)):
         raise ValueError('Training reservation ledger mismatch')
     transitions=done=0
+    reward_min, reward_max, action_max = float('inf'), -float('inf'), 0.
     previous=None
     for chunk in archive['chunks']:
         path=out/chunk['path']
@@ -42,6 +43,9 @@ def main():
             for k in data.files:
                 if not np.isfinite(data[k]).all():
                     raise ValueError('Nonfinite training data')
+            reward_min=min(reward_min,float(data['rewards'].min()))
+            reward_max=max(reward_max,float(data['rewards'].max()))
+            action_max=max(action_max,float(np.abs(data['actions']).max()))
             mass=data['evaluator_mass']
             if mass.min()<.8-1e-6 or mass.max()>3.2+1e-6:
                 raise ValueError('Training mass outside registered range')
@@ -67,7 +71,8 @@ def main():
     losses=load(Path(request['output']).parent/'training_losses.json')
     if len(losses)!=cfg['iterations'] or not all(np.isfinite(list(row.values())).all() for row in losses):
         raise ValueError('Missing or nonfinite optimizer updates')
-    result={'status':'PASS','transitions':transitions,'completed_training_episodes':done,
+    result={'reward_min':reward_min,'reward_max':reward_max,'maximum_action_abs':action_max,
+            'status':'PASS','transitions':transitions,'completed_training_episodes':done,
             'optimizer_iterations':len(losses),'actor_changed':True,
             'actor_parameter_change_norms':norms,'candidate_sha256':sha256(request['output']),
             'learner_request_fields':list(request),'learner_feedback_fields':['observations','rewards','dones','time_outs'],
