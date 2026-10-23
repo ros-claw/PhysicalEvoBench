@@ -6,7 +6,8 @@ import subprocess
 from pathlib import Path
 
 from physicalevobench.adapters.arena_worker import arena_python_path, runtime_environment
-from physicalevobench.doctor import command, save_json, sha256
+from physicalevobench.doctor import command, save_json
+from physicalevobench.calibration.source_snapshot import snapshot_source
 from physicalevobench.evaluation.confirmation import now
 
 
@@ -19,6 +20,8 @@ def main():
         raise ValueError('Commit source before targeted probe')
     out=Path(a.output).absolute()
     out.mkdir(parents=True,exist_ok=False)
+    ref=command(['git','rev-parse','HEAD'],cwd=root)['stdout']
+    runtime_source,source_hashes=snapshot_source(root,ref)
     plans=[]
     for i,name in enumerate(('calibration-expert-v3-pilot-20261023-001','calibration-expert-test-20261023-001')):
         source=root/'runs'/name/'config.json'
@@ -28,8 +31,7 @@ def main():
             child=out/f'condition-{i}-gpu-{gpu}'
             child.mkdir()
             jobs=[{'episode_id':f'repeat-{j}','policy':'original','condition':condition} for j in range(3)]
-            cfg.update(mode='replay',jobs=jobs,physical_budget=3,source_commit=command(['git','rev-parse','HEAD'],cwd=root)['stdout'],
-                       source_sha256={str(f.relative_to(root)):sha256(f) for f in (root/'physicalevobench').rglob('*.py')},
+            cfg.update(mode='replay',jobs=jobs,physical_budget=3,source_commit=ref,runtime_source_snapshot=str(runtime_source),source_sha256=source_hashes,
                        registered_at=now(),targeted_condition_source=str(source))
             save_json(child/'config.json',cfg)
             plans.append((child,gpu))
@@ -42,7 +44,9 @@ def main():
         argv=[str(arena_python_path({},arena)),'-m','physicalevobench.calibration.collect','--run-dir',str(child)]
         log=(child/'console.log').open('w')
         save_json(child/'launch.json',{'argv':argv,'gpu':gpu})
-        process=subprocess.Popen(argv,cwd=arena,env=runtime_environment(arena,gpu),stdout=log,stderr=subprocess.STDOUT)
+        native_environment=runtime_environment(arena,gpu)
+        native_environment['PYTHONPATH']=str(runtime_source)
+        process=subprocess.Popen(argv,cwd=arena,env=native_environment,stdout=log,stderr=subprocess.STDOUT)
         processes.append((child,process,log))
     for child,process,log in processes:
         code=process.wait(timeout=900)
