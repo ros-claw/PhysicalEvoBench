@@ -8,6 +8,7 @@ import yaml
 
 from physicalevobench.adapters.arena_worker import arena_python_path, runtime_environment
 from physicalevobench.doctor import command, save_json, sha256
+from physicalevobench.calibration.source_snapshot import snapshot_source
 from physicalevobench.evaluation.confirmation import now
 
 
@@ -30,12 +31,16 @@ def main():
         raise ValueError('Refuse to overwrite existing checkpoint')
     out = Path(a.output).absolute()
     out.mkdir(parents=True,exist_ok=False)
+    runtime_source, source_hashes=snapshot_source(root,cfg['source_commit'])
+    cfg.update(runtime_source_snapshot=str(runtime_source),source_sha256=source_hashes)
     save_json(out/'config.json',cfg)
     arena = (root/cfg['arena_path']).resolve()
     argv = [str(arena_python_path(cfg,arena)),'-m','physicalevobench.calibration.train','--run-dir',str(out)]
     save_json(out/'launch.json',{'argv':argv,'gpu':a.gpu})
+    native_environment=runtime_environment(arena,a.gpu)
+    native_environment['PYTHONPATH']=str(runtime_source)
     with (out/'console.log').open('w') as log:
-        result = subprocess.run(argv,cwd=arena,env=runtime_environment(arena,a.gpu),stdout=log,
+        result = subprocess.run(argv,cwd=arena,env=native_environment,stdout=log,
                                 stderr=subprocess.STDOUT,timeout=7200)
     save_json(out/'process.json',{'returncode':result.returncode,'finished_at':now()})
     return result.returncode

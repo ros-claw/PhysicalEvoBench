@@ -50,3 +50,28 @@ def test_published_seed_registry_recovers_diagnostic_and_training_seeds(tmp_path
         member.size=len(payload)
         archive.addfile(member,io.BytesIO(payload))
     assert {12345,98765}.issubset(published_seeds(tmp_path))
+
+
+def test_runtime_source_ignores_live_worktree_and_rejects_cache_mutation(tmp_path):
+    import subprocess
+    import pytest
+    from physicalevobench.calibration.source_snapshot import snapshot_source
+
+    def git(*args):
+        return subprocess.check_output(['git',*args],cwd=tmp_path,text=True).strip()
+
+    git('init','-q')
+    package=tmp_path/'physicalevobench'
+    package.mkdir()
+    module=package/'demo.py'
+    module.write_text('VALUE = 1\n')
+    git('add','physicalevobench')
+    git('-c','user.name=Test','-c','user.email=test@example.invalid','commit','-qm','fixture')
+    ref=git('rev-parse','HEAD')
+    frozen,hashes=snapshot_source(tmp_path,ref)
+    module.write_text('VALUE = 2\n')
+    assert snapshot_source(tmp_path,ref)==(frozen,hashes)
+    assert (frozen/'physicalevobench/demo.py').read_text()=='VALUE = 1\n'
+    (frozen/'physicalevobench/demo.py').write_text('VALUE = 3\n')
+    with pytest.raises(ValueError,match='cache changed'):
+        snapshot_source(tmp_path,ref)

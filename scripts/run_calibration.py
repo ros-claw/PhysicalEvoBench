@@ -10,6 +10,7 @@ import yaml
 
 from physicalevobench.adapters.arena_worker import arena_python_path, runtime_environment
 from physicalevobench.doctor import command, save_json, sha256
+from physicalevobench.calibration.source_snapshot import snapshot_source
 from physicalevobench.evaluation.confirmation import now
 from physicalevobench.evaluation.seed_registry import published_seeds
 
@@ -88,31 +89,21 @@ def main():
     if a.mode == 'weights' and not a.candidate and not a.retention_decision:
         raise ValueError('Need frozen candidate checkpoint')
     cfg['additional_checkpoint_sha256'] = {k:sha256(v) for k,v in cfg['additional_checkpoints'].items()}
-    runtime_source = None
+    ref = cfg['source_commit']
     if a.fresh_process:
         registered = json.loads(Path(a.reuse_conditions).read_text())
         ref = registered['source_commit']
-        runtime_source = root/'.cache'/'study-source'/ref
-        files = command(['git','ls-tree','-r','--name-only',ref,'physicalevobench'],cwd=root)['stdout'].splitlines()
-        for name in files:
-            if not name.endswith('.py'):
-                continue
-            target = runtime_source/name
-            content = subprocess.check_output(['git','show',f'{ref}:{name}'],cwd=root)
-            if target.exists() and target.read_bytes()!=content:
-                raise ValueError('Immutable runtime source cache changed')
-            target.parent.mkdir(parents=True,exist_ok=True)
-            target.write_bytes(content)
-        cfg['supervisor_source_commit'] = cfg['source_commit']
-        cfg['source_commit'] = ref
-        cfg['source_sha256'] = {str(f.relative_to(runtime_source)):sha256(f) for f in (runtime_source/'physicalevobench').rglob('*.py')}
-        cfg['runtime_source_snapshot'] = str(runtime_source)
+    runtime_source, source_hashes = snapshot_source(root, ref)
+    cfg['supervisor_source_commit'] = cfg['source_commit']
+    cfg['source_commit'] = ref
+    cfg['source_sha256'] = source_hashes
+    cfg['runtime_source_snapshot'] = str(runtime_source)
     save_json(out/'config.json', cfg)
     argv = [str(arena_python_path(cfg, arena)), '-m', 'physicalevobench.calibration.collect', '--run-dir', str(out)]
     save_json(out/'launch.json', {'argv':argv, 'gpu':a.gpu})
+    native_environment = runtime_environment(arena,a.gpu)
+    native_environment['PYTHONPATH'] = str(runtime_source)
     if a.fresh_process:
-        native_environment = runtime_environment(arena,a.gpu)
-        native_environment['PYTHONPATH'] = str(runtime_source)
         codes = []
         ledger = []
         for i, job in enumerate(jobs):
@@ -138,7 +129,7 @@ def main():
                                     'physical_episodes':sum((out/f'fresh-{i:03d}'/'episodes.jsonl').exists() for i in range(len(codes)))})
     else:
         with (out/'console.log').open('w') as log:
-            result = subprocess.run(argv, cwd=arena, env=runtime_environment(arena, a.gpu),
+            result = subprocess.run(argv, cwd=arena, env=native_environment,
                                     stdout=log, stderr=subprocess.STDOUT, timeout=3600)
         code = result.returncode
     save_json(out/'process.json', {'returncode':code, 'finished_at':now()})
