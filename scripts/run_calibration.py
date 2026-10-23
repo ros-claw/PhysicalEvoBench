@@ -70,7 +70,7 @@ def main():
     if a.mode == 'weights' and not a.candidate:
         raise ValueError('Need frozen candidate checkpoint')
     save_json(out/'config.json', cfg)
-    argv = [str(arena_python_path(arena)), '-m', 'physicalevobench.calibration.collect', '--run-dir', str(out)]
+    argv = [str(arena_python_path(cfg, arena)), '-m', 'physicalevobench.calibration.collect', '--run-dir', str(out)]
     save_json(out/'launch.json', {'argv':argv, 'gpu':a.gpu})
     with (out/'console.log').open('w') as log:
         result = subprocess.run(argv, cwd=arena, env=runtime_environment(arena, a.gpu),
