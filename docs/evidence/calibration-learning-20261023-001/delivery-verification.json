@@ -1,0 +1,22 @@
+{
+  "status": "PASS",
+  "completed_evaluation_and_diagnostic_episodes": 326,
+  "training_transitions": 614400,
+  "training_model_tensor_reaudit": "PASS",
+  "training_transitions_and_official_lengths_reaudit": "PASS",
+  "registered_source_file_checks": 1771,
+  "published_file_checks": 47,
+  "heldout_statistics": {
+    "pairs": 32,
+    "wins": 7,
+    "losses": 1,
+    "success_rate_difference": 0.1875,
+    "conditional_bootstrap_95": [
+      0.03125,
+      0.34375
+    ],
+    "p_one_sided_exact": 0.03515625,
+    "scope": "one learned snapshot; condition-level inference, no cross-learning-seed claim"
+  },
+  "scope": "delivery integrity and recorded evidence consistency, not hostile-actor security or universal self-evolution"
+}
