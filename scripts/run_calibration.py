@@ -23,6 +23,7 @@ def main():
     p.add_argument('--conditions', type=int, default=12)
     p.add_argument('--candidate')
     p.add_argument('--reuse-conditions')
+    p.add_argument('--fresh-process', action='store_true')
     a = p.parse_args()
     root = Path(__file__).resolve().parents[1]
     if command(['git', 'status', '--porcelain'], cwd=root)['stdout']:
@@ -47,6 +48,10 @@ def main():
     policies = {'measurement':['open_gripper', 'original', 'original'],
                 'expert-pilot':['original', 'expert'], 'expert-test':['original', 'expert'],
                 'replay':['original', 'original', 'original'], 'weights':['original', 'candidate']}[a.mode]
+    if a.fresh_process:
+        if a.mode != 'replay' or not a.reuse_conditions:
+            raise ValueError('Fresh process comparison requires registered replay conditions')
+        policies = ['original']
     jobs = []
     for condition in conditions:
         order = list(enumerate(policies))
@@ -58,7 +63,7 @@ def main():
     out.mkdir(parents=True, exist_ok=False)
     arena = (root/cfg['arena_path']).resolve()
     cfg.update(schema_version='calibration-1', mode=a.mode, jobs=jobs, physical_budget=len(jobs),
-               registration_seed=a.registration_seed, registered_at=now(),
+               fresh_process=a.fresh_process, registration_seed=a.registration_seed, registered_at=now(),
                source_commit=command(['git','rev-parse','HEAD'], cwd=root)['stdout'],
                policy_source_sha256=sha256(root/'physicalevobench/calibration/policies.py'),
                source_sha256={str(f.relative_to(root)):sha256(f) for f in (root/'physicalevobench').rglob('*.py')},
@@ -72,11 +77,33 @@ def main():
     save_json(out/'config.json', cfg)
     argv = [str(arena_python_path(cfg, arena)), '-m', 'physicalevobench.calibration.collect', '--run-dir', str(out)]
     save_json(out/'launch.json', {'argv':argv, 'gpu':a.gpu})
-    with (out/'console.log').open('w') as log:
-        result = subprocess.run(argv, cwd=arena, env=runtime_environment(arena, a.gpu),
-                                stdout=log, stderr=subprocess.STDOUT, timeout=3600)
-    save_json(out/'process.json', {'returncode':result.returncode, 'finished_at':now()})
-    return result.returncode
+    if a.fresh_process:
+        codes = []
+        ledger = []
+        for i, job in enumerate(jobs):
+            ledger.append({'episode_id':job['episode_id'], 'reserved_at':now(), 'used':i+1})
+            save_json(out/'budget_ledger.json', ledger)
+            child = out/f'fresh-{i:03d}'
+            child.mkdir()
+            save_json(child/'config.json', {**cfg, 'jobs':[job], 'physical_budget':1})
+            child_argv = [*argv[:-1], str(child)]
+            with (child/'console.log').open('w') as log:
+                result = subprocess.run(child_argv, cwd=arena, env=runtime_environment(arena,a.gpu),
+                                        stdout=log, stderr=subprocess.STDOUT, timeout=600)
+            save_json(child/'process.json', {'returncode':result.returncode, 'finished_at':now()})
+            codes.append(result.returncode)
+            if result.returncode:
+                break
+        code = int(any(codes))
+        save_json(out/'status.json', {'status':'COMPLETED' if not code else 'INFRA_FAILURE',
+                                    'physical_episodes':sum((out/f'fresh-{i:03d}'/'episodes.jsonl').exists() for i in range(len(codes)))})
+    else:
+        with (out/'console.log').open('w') as log:
+            result = subprocess.run(argv, cwd=arena, env=runtime_environment(arena, a.gpu),
+                                    stdout=log, stderr=subprocess.STDOUT, timeout=3600)
+        code = result.returncode
+    save_json(out/'process.json', {'returncode':code, 'finished_at':now()})
+    return code
 
 
 if __name__ == '__main__':
