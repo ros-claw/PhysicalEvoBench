@@ -31,6 +31,7 @@ def main():
     transitions=done=0
     reward_min, reward_max, action_max = float('inf'), -float('inf'), 0.
     previous=None
+    unfinished_lengths=np.zeros(cfg['num_envs'], dtype=np.int64)
     for chunk in archive['chunks']:
         path=out/chunk['path']
         if sha256(path)!=chunk['sha256']:
@@ -57,8 +58,16 @@ def main():
             previous={group:data['after_'+group][-1].copy() for group in ('policy','task_obs')}
             transitions+=data['actions'].shape[0]*data['actions'].shape[1]
             done+=int(data['dones'].sum())
+            for terminal in data['dones']:
+                unfinished_lengths+=1
+                unfinished_lengths[terminal.astype(bool)]=0
     if transitions!=cfg['transition_budget'] or transitions!=archive['transitions'] or done!=archive['completed_training_episodes']:
         raise ValueError('Training cost/completion count mismatch')
+    official=[json.loads(line) for line in (out/'training_episodes.jsonl').read_text().splitlines()]
+    completed=[row for row in official if row.get('episode_length',0)>0]
+    completed_steps=sum(row['episode_length'] for row in completed)
+    if len(completed)!=done or completed_steps+int(unfinished_lengths.sum())!=transitions:
+        raise ValueError('Official training episode lengths plus unfinished rollouts do not cover transition budget')
     original=torch.load(request['checkpoint'],map_location='cpu',weights_only=False)
     candidate=torch.load(request['output'],map_location='cpu',weights_only=False)
     norms={k:float((candidate['actor_state_dict'][k]-v).norm())
@@ -73,6 +82,7 @@ def main():
         raise ValueError('Missing or nonfinite optimizer updates')
     result={'reward_min':reward_min,'reward_max':reward_max,'maximum_action_abs':action_max,
             'status':'PASS','transitions':transitions,'completed_training_episodes':done,
+            'unfinished_rollout_steps':int(unfinished_lengths.sum()),'completed_episode_steps':completed_steps,
             'optimizer_iterations':len(losses),'actor_changed':True,
             'actor_parameter_change_norms':norms,'candidate_sha256':sha256(request['output']),
             'learner_request_fields':list(request),'learner_feedback_fields':['observations','rewards','dones','time_outs'],
