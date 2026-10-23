@@ -173,6 +173,7 @@ class LiftWorker:
                     trace.write(json.dumps({"step": step, "raw_action": tensor_json(raw),
                                             "applied_action": tensor_json(action),
                                             "controller_proprioception": proprioception,
+                                            "policy_diagnostics": getattr(self.policy, "diagnostics", None),
                                             "observation": tensor_json({k: v for k, v in observation.items()
                                                                         if k != "camera_obs"}),
                                             "joint_position": tensor_json(joints),

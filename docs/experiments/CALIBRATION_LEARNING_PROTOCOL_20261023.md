@@ -86,3 +86,15 @@ joint-increment scaling that preserves IK direction. No mass/force/time budget c
 Use this fixed v2 controller for the originally reserved 24-condition expert test,
 regardless of its development score. This is a documented development extension,
 not a rescue of or replacement for the original negative pilot evidence.
+
+Expert actuator diagnosis, before expert test: local IK increments alone cannot
+hold the gravity-enabled low-PD robot used by the benchmark (live arm stiffness
+80, unlike the upstream high-PD IK embodiment which disables gravity). Preserve
+v2 in `expert_v2_snapshot.py`. Register a final four-condition paired development
+check, eight episodes, adding robot gravity compensation as `g(q)/live_stiffness`
+to commanded joint targets. This uses the robot model, not the object mass, and
+changes neither stiffness nor effort limits nor gravity. Log those terms. Freeze
+this v3 algorithm for the 24-condition expert test regardless of pilot outcome;
+no further development extensions in this study. Total expert development budget
+is 24 + 24 + 8 = 56 completed episodes, explicitly separated from the 48 test
+control episodes. These manual development corrections are not contestant learning.

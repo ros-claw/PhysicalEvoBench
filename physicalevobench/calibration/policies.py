@@ -84,6 +84,14 @@ class GeometryExpert:
         desired = current + delta * (.10/delta.abs().amax(dim=-1, keepdim=True).clamp(min=.10))
         limits = w.as_torch(robot.data.joint_pos_limits)[:, self.joint_ids]
         desired = desired.clamp(limits[..., 0] + .02, limits[..., 1] - .02)
+        # The original low-PD arm has gravity enabled. Compensate it through
+        # position targets; actuator gains/effort limits remain exactly unchanged.
+        gravity = w.as_torch(robot.data.gravity_compensation_forces)[:, self.joint_ids]
+        stiffness = w.as_torch(robot.data.joint_stiffness)[:, self.joint_ids]
+        desired = desired + gravity / stiffness
+        self.diagnostics = {'ee_position':p.tolist(), 'target_position':target.tolist(),
+                            'gravity_compensation_torque':gravity.tolist(),
+                            'live_joint_stiffness':stiffness.tolist()}
         term = w.base.action_manager.get_term('arm_action')
         action = t.zeros((1, 8), device=p.device)
         action[:, w.arm_slice] = (desired - term._offset) / term._scale
