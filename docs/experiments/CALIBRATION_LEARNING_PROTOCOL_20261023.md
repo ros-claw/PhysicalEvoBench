@@ -119,3 +119,10 @@ GPU 1, one fresh worker each, three original-policy repeats per worker (12 total
 These deliberately reused anomalous seeds diagnose cold-start/reset behavior and
 cannot estimate population anomaly rates. No model/controller tuning is permitted
 from this probe; report it separately from the frozen PPO efficacy study.
+
+After efficacy scores are complete, reserve two illustrative camera replays (one
+original, one frozen learned policy) on the largest-mass successful learned-policy
+heldout condition. This is deliberately post-hoc demo selection, not new efficacy
+evidence. Publish both camera replays regardless of outcome, with no retries or
+weight changes. The two demo episodes are additional cost, excluded from the
+32-pair score and all learning feedback.

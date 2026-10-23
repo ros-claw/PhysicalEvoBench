@@ -23,6 +23,7 @@ def main():
     p.add_argument('--registration-seed', type=int, required=True)
     p.add_argument('--conditions', type=int, default=12)
     p.add_argument('--candidate')
+    p.add_argument('--record-camera-video', action='store_true')
     p.add_argument('--split',choices=['validation','heldout_test','diagnostic'],default='diagnostic')
     p.add_argument('--retention-decision')
     p.add_argument('--reuse-conditions')
@@ -66,7 +67,7 @@ def main():
     out.mkdir(parents=True, exist_ok=False)
     arena = (root/cfg['arena_path']).resolve()
     cfg.update(schema_version='calibration-1', mode=a.mode, jobs=jobs, physical_budget=len(jobs),
-               fresh_process=a.fresh_process, registration_seed=a.registration_seed, registered_at=now(),
+               record_camera_video=a.record_camera_video, fresh_process=a.fresh_process, registration_seed=a.registration_seed, registered_at=now(),
                source_commit=command(['git','rev-parse','HEAD'], cwd=root)['stdout'],
                policy_source_sha256=sha256(root/'physicalevobench/calibration/policies.py'),
                source_sha256={str(f.relative_to(root)):sha256(f) for f in (root/'physicalevobench').rglob('*.py')},

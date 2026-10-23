@@ -18,13 +18,15 @@ def main():
     from isaaclab_arena.cli.isaaclab_arena_cli import get_isaaclab_arena_cli_parser
     from isaaclab_arena.utils.isaaclab_utils.simulation_app import SimulationAppContext
 
-    app = get_isaaclab_arena_cli_parser().parse_args(['--device', 'cuda:0'])
+    app_flags = ['--device', 'cuda:0'] + (['--enable_cameras'] if cfg.get('record_camera_video') else [])
+    app = get_isaaclab_arena_cli_parser().parse_args(app_flags)
     with SimulationAppContext(app):
         from physicalevobench.adapters.lift_worker import LiftWorker
         from physicalevobench.calibration.policies import GeometryExpert, OpenGripper
         from isaaclab_arena.policy.rsl_rl_action_policy import RslRlActionPolicy, RslRlActionPolicyCfg
 
-        worker = LiftWorker(Path(cfg['checkpoint_path']).expanduser(), out)
+        worker = LiftWorker(Path(cfg['checkpoint_path']).expanduser(), out,
+                            record_camera_video=cfg.get('record_camera_video', False))
         original = worker.policy
         policies = {'original': original,
                     'open_gripper': OpenGripper(original, worker.action_mapping['gripper_action']['start']),
