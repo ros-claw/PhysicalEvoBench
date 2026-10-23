@@ -1,8 +1,8 @@
 {
-  "claim": "OBSERVED_SINGLE_SEED_HELDOUT_GAIN",
+  "claim": "INITIAL_GAIN_NOT_CONFIRMED_IN_ISOLATED_WORKERS",
   "learning_seeds": 1,
   "rounds": 1,
-  "completed_evaluation_and_diagnostic_episodes": 326,
+  "completed_evaluation_and_diagnostic_episodes": 422,
   "completed_training_episodes": 2467,
   "training_transitions": 614400,
   "training_completed_episode_steps": 600771,
@@ -1303,6 +1303,93 @@
       },
       "replay": [],
       "scope": "physical trace integrity; scientific efficacy is a separate decision"
+    },
+    "isolated_confirmation": {
+      "status": "PASS",
+      "physical_episodes": 96,
+      "paired_conditions": 48,
+      "matched_initial_observation_pairs": 48,
+      "arms": {
+        "candidate": {
+          "episodes": 48,
+          "successes": 15,
+          "joint_samples": 63,
+          "exposure_joint_samples": 87336,
+          "any_violation_episodes": 9,
+          "max_depth_by_joint": {
+            "panda_joint1": 7.62939453125e-06,
+            "panda_joint2": 0,
+            "panda_joint3": 0,
+            "panda_joint4": 0.00010764598846435547,
+            "panda_joint5": 0.00018405914306640625,
+            "panda_joint6": 0.0006299018859863281,
+            "panda_joint7": 1.7881393432617188e-05,
+            "panda_finger_joint1": 0.006371944677084684,
+            "panda_finger_joint2": 0.018985338509082794
+          },
+          "success_rate": 0.3125,
+          "violations_per_1000_joint_samples": 0.7213520197856554
+        },
+        "original": {
+          "episodes": 48,
+          "successes": 12,
+          "joint_samples": 134,
+          "exposure_joint_samples": 85023,
+          "any_violation_episodes": 17,
+          "max_depth_by_joint": {
+            "panda_joint1": 0,
+            "panda_joint2": 0.0014464855194091797,
+            "panda_joint3": 0,
+            "panda_joint4": 0,
+            "panda_joint5": 0,
+            "panda_joint6": 9.298324584960938e-06,
+            "panda_joint7": 4.76837158203125e-07,
+            "panda_finger_joint1": 0.021470848470926285,
+            "panda_finger_joint2": 0.008087467402219772
+          },
+          "success_rate": 0.25,
+          "violations_per_1000_joint_samples": 1.5760441292356187
+        }
+      },
+      "statistics": {
+        "pairs": 48,
+        "wins": 12,
+        "losses": 9,
+        "success_rate_difference": 0.0625,
+        "conditional_bootstrap_95": [
+          -0.125,
+          0.25
+        ],
+        "p_one_sided_exact": 0.33181190490722656,
+        "scope": "one learned snapshot; condition-level inference, no cross-learning-seed claim"
+      },
+      "blocks": {
+        "0": {
+          "pairs": 24,
+          "wins": 6,
+          "losses": 3,
+          "success_rate_difference": 0.125,
+          "conditional_bootstrap_95": [
+            -0.125,
+            0.375
+          ],
+          "p_one_sided_exact": 0.25390625,
+          "scope": "one learned snapshot; condition-level inference, no cross-learning-seed claim"
+        },
+        "1": {
+          "pairs": 24,
+          "wins": 6,
+          "losses": 6,
+          "success_rate_difference": 0.0,
+          "conditional_bootstrap_95": [
+            -0.2916666666666667,
+            0.2916666666666667
+          ],
+          "p_one_sided_exact": 0.61279296875,
+          "scope": "one learned snapshot; condition-level inference, no cross-learning-seed claim"
+        }
+      },
+      "scope": "fresh conditions; separate per-policy workers and crossed GPUs; same learned model, not a new learning seed"
     }
   },
   "robust_self_evolution": "NOT_ESTABLISHED",
@@ -1313,7 +1400,20 @@
     "some per-finger maximum limit depths worsened despite lower historical aggregate count",
     "geometry expert failed; do not call it a successful strong-expert control",
     "two first-episode free falls were not reproduced in the targeted probe; cause unresolved",
-    "camera replay becomes dark during the learned policy; outcome verified from physics traces"
+    "camera replay becomes dark during the learned policy; outcome verified from physics traces",
+    "follow-up motivated by post-hoc order stratification, evaluated on fresh conditions"
   ],
-  "weights": "original and trained checkpoint stored outside repository; separate inherited licensing"
+  "weights": "original and trained checkpoint stored outside repository; separate inherited licensing",
+  "isolated_confirmation": {
+    "pairs": 48,
+    "wins": 12,
+    "losses": 9,
+    "success_rate_difference": 0.0625,
+    "conditional_bootstrap_95": [
+      -0.125,
+      0.25
+    ],
+    "p_one_sided_exact": 0.33181190490722656,
+    "scope": "one learned snapshot; condition-level inference, no cross-learning-seed claim"
+  }
 }

@@ -1,11 +1,11 @@
 {
   "status": "PASS",
-  "completed_evaluation_and_diagnostic_episodes": 326,
+  "completed_evaluation_and_diagnostic_episodes": 422,
   "training_transitions": 614400,
   "training_model_tensor_reaudit": "PASS",
   "training_transitions_and_official_lengths_reaudit": "PASS",
-  "registered_source_file_checks": 1771,
-  "published_file_checks": 47,
+  "registered_source_file_checks": 2001,
+  "published_file_checks": 49,
   "heldout_statistics": {
     "pairs": 32,
     "wins": 7,
@@ -18,5 +18,58 @@
     "p_one_sided_exact": 0.03515625,
     "scope": "one learned snapshot; condition-level inference, no cross-learning-seed claim"
   },
-  "scope": "delivery integrity and recorded evidence consistency, not hostile-actor security or universal self-evolution"
+  "isolated_confirmation": {
+    "pairs": 48,
+    "wins": 12,
+    "losses": 9,
+    "success_rate_difference": 0.0625,
+    "conditional_bootstrap_95": [
+      -0.125,
+      0.25
+    ],
+    "p_one_sided_exact": 0.33181190490722656,
+    "scope": "one learned snapshot; condition-level inference, no cross-learning-seed claim"
+  },
+  "scope": "delivery integrity and recorded evidence consistency, not hostile-actor security or universal self-evolution",
+  "index_files_added_after_raw_archive_reaudit": [
+    "summary.json",
+    "delivery-verification.json",
+    "README.md",
+    "learned_vs_original.mp4"
+  ],
+  "byte_identical_prior_archives_preserved": [
+    "calibration-ppo-validation-20261023-001.tar.gz",
+    "calibration-ppo-train-20261023-002.tar.gz",
+    "calibration-ppo-train-20261023-002-transitions-06.tar.gz",
+    "calibration-measurement-20261023-001.tar.gz",
+    "calibration-ppo-train-20261023-002-transitions-09.tar.gz",
+    "calibration-ppo-train-20261023-002-transitions-03.tar.gz",
+    "calibration-expert-test-20261023-001.tar.gz",
+    "calibration-ppo-validation-20261023-002.tar.gz",
+    "calibration-ppo-train-20261023-002-transitions-02.tar.gz",
+    "calibration-ppo-train-20261023-002-transitions-01.tar.gz",
+    "calibration-expert-v3-pilot-20261023-001.tar.gz",
+    "calibration-startup-probe-20261023-001.tar.gz",
+    "calibration-replay-fresh-frozen-20261023-001.tar.gz",
+    "calibration-measurement-20261023-002.tar.gz",
+    "calibration-ppo-train-20261023-002-transitions-10.tar.gz",
+    "calibration-replay-fresh-20261023-001.tar.gz",
+    "calibration-camera-demo-20261023-001.tar.gz",
+    "calibration-expert-pilot-20261023-001.tar.gz",
+    "calibration-ppo-train-20261023-002-transitions-08.tar.gz",
+    "calibration-ppo-heldout-20261023-001.tar.gz",
+    "calibration-expert-pilot-20261023-002.tar.gz",
+    "calibration-replay-20261023-001.tar.gz",
+    "calibration-ppo-train-20261023-001.tar.gz",
+    "calibration-ppo-train-20261023-002-transitions-05.tar.gz",
+    "calibration-expert-v2-pilot-20261023-001.tar.gz",
+    "calibration-ppo-train-20261023-002-transitions-07.tar.gz",
+    "calibration-ppo-train-20261023-002-transitions-04.tar.gz"
+  ],
+  "public_delivery_reaudit": {
+    "status": "PASS",
+    "published_file_checks": 54,
+    "registered_source_file_checks": 2001,
+    "scope": "all 422 evaluation traces and training archive hashes; private tensor/value audit separately passed above"
+  }
 }

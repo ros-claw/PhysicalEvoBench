@@ -133,3 +133,24 @@ def test_real_heldout_cannot_relabel_original_weights_as_updated(tmp_path):
     (run/'episodes.jsonl').write_text(''.join(json.dumps(r)+'\n' for r in rows))
     with pytest.raises(ValueError,match='model hash differs'):
         audit_run(run)
+
+
+def test_real_isolated_confirmation_rejects_gpu_assignment_changes(tmp_path,monkeypatch):
+    import pytest
+    from physicalevobench.calibration.isolated_audit import main
+    from physicalevobench.calibration.audit import load
+    from physicalevobench.doctor import save_json
+
+    run=_extract_real_study(tmp_path,'calibration-isolated-confirmation-20261023-001')
+    monkeypatch.setattr('sys.argv',['isolated_audit','--run-dir',str(run)])
+    main()
+    audit=load(run/'audit.json')
+    assert audit['physical_episodes']==96
+    assert audit['arms']['candidate']['successes']==15
+    assert audit['matched_initial_observation_pairs']==48
+    launch_path=run/'block-0-candidate/launch.json'
+    launch=load(launch_path)
+    launch['gpu']=0
+    save_json(launch_path,launch)
+    with pytest.raises(ValueError,match='Crossed GPU allocation mismatch'):
+        main()

@@ -1,5 +1,5 @@
 {
-  "analysis_source_commit": "e3ae5c291c44f55b863f2c269139684995f21d20",
+  "analysis_source_commit": "75756281fd7ffbb4d6350c2af7c83d90bbfe2776",
   "runs": [
     {
       "run": "calibration-camera-demo-20261023-001",
@@ -57,6 +57,15 @@
       "status": {
         "status": "COMPLETED",
         "physical_episodes": 8
+      }
+    },
+    {
+      "run": "calibration-isolated-confirmation-20261023-001",
+      "archive": "calibration-isolated-confirmation-20261023-001.tar.gz",
+      "sha256": "f3af8676e7585cf4c36b0f81abfe1fcd626ec9f8eac2648e58b5873407853df2",
+      "status": {
+        "status": "COMPLETED",
+        "physical_episodes": 96
       }
     },
     {
@@ -230,7 +239,7 @@
     {
       "run": "calibration-study-metadata-20261023-001",
       "archive": "calibration-study-metadata-20261023-001.tar.gz",
-      "sha256": "bad168385eab87b961ec6c1bffeef439d012a502d1839b0fd4439296f5921405",
+      "sha256": "fbef68cc33a9ebd826a76840cbffaddd93c5f6514c33170bf296659c9c663eaf",
       "status": {
         "status": "METADATA_ONLY",
         "physical_episodes": 0
