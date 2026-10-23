@@ -2,13 +2,12 @@
 
 import argparse
 import json
-import random
 from pathlib import Path
 
 from physicalevobench.calibration.audit import lines, load
 from physicalevobench.calibration.power import paired_power
 from physicalevobench.doctor import save_json
-from physicalevobench.evaluation.confirmation_stats import exact_p
+from physicalevobench.calibration.statistics import paired_statistics
 
 
 NAMES={
@@ -28,19 +27,6 @@ NAMES={
 }
 
 
-def paired_statistics(rows):
-    indexed={a:{r['condition_id']:r for r in rows if r['agent_id']==a} for a in ('original','candidate')}
-    if indexed['original'].keys()!=indexed['candidate'].keys():
-        raise ValueError('Unpaired learned-policy results')
-    delta=[int(indexed['candidate'][k]['success'])-int(indexed['original'][k]['success']) for k in indexed['original']]
-    rng=random.Random(20261022)
-    boot=sorted(sum(rng.choices(delta,k=len(delta)))/len(delta) for _ in range(10000))
-    return {'pairs':len(delta),'wins':delta.count(1),'losses':delta.count(-1),
-            'success_rate_difference':sum(delta)/len(delta),
-            'conditional_bootstrap_95':[boot[250],boot[9750]],
-            'p_one_sided_exact':exact_p(delta.count(1),delta.count(-1)),
-            'scope':'one learned snapshot; condition-level inference, no cross-learning-seed claim'}
-
 
 def main():
     p=argparse.ArgumentParser()
@@ -49,6 +35,9 @@ def main():
     a=p.parse_args()
     root=Path(a.runs_root)
     audits={key:load(root/name/'audit.json') for key,name in NAMES.items()}
+    isolated=root/'calibration-isolated-confirmation-20261023-001'
+    if isolated.exists():
+        audits['isolated_confirmation']=load(isolated/'audit.json')
     if any(audit['status']!='PASS' for audit in audits.values()):
         raise ValueError('Complete all raw artifact audits before summary')
     validation=root/NAMES['validation']
@@ -82,6 +71,12 @@ def main():
                 'two first-episode free falls were not reproduced in the targeted probe; cause unresolved',
                 'camera replay becomes dark during the learned policy; outcome verified from physics traces'],
             'weights':'original and trained checkpoint stored outside repository; separate inherited licensing'}
+    if 'isolated_confirmation' in audits:
+        confirmation=audits['isolated_confirmation']['statistics']
+        result['isolated_confirmation']=confirmation
+        confirmed=confirmation['success_rate_difference']>0 and confirmation['p_one_sided_exact']<=.05
+        result['claim']='SINGLE_SNAPSHOT_GAIN_REPLICATED_WITH_SEPARATE_WORKERS' if confirmed else 'INITIAL_GAIN_NOT_CONFIRMED_IN_ISOLATED_WORKERS'
+        result['limitations'].append('follow-up motivated by post-hoc order stratification, evaluated on fresh conditions')
     save_json(a.output,result)
     print(json.dumps({k:v for k,v in result.items() if k!='audits'},indent=2))
 

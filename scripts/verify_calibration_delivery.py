@@ -63,6 +63,10 @@ def main():
               '--persistent',str(runs/'calibration-replay-20261023-001'),
               '--fresh',str(runs/f'calibration-replay-{suffix}-20261023-001')]
         subprocess.run(argv,cwd=root,check=True)
+    isolated=runs/'calibration-isolated-confirmation-20261023-001'
+    if isolated.exists():
+        subprocess.run([str(root/'.venv/bin/python'),'-m','physicalevobench.calibration.isolated_audit',
+                        '--run-dir',str(isolated)],cwd=root,stdout=subprocess.DEVNULL,check=True)
     training=runs/'calibration-ppo-train-20261023-002'
     if not a.skip_private_models:
         argv=[str(root/'external/IsaacLab-Arena/.venv/bin/python'),'-m',
@@ -86,7 +90,8 @@ def main():
                     '--runs-root',str(runs),'--output',str(out/'summary.json')],cwd=root,check=True,
                    stdout=subprocess.DEVNULL)
     summary=load(out/'summary.json')
-    if completed!=326 or summary['completed_evaluation_and_diagnostic_episodes']!=completed:
+    expected_completed=422 if isolated.exists() else 326
+    if completed!=expected_completed or summary['completed_evaluation_and_diagnostic_episodes']!=completed:
         raise ValueError('Delivery completed physical-episode count mismatch')
     save_json(out/'verification.json',{'status':'PASS','completed_evaluation_and_diagnostic_episodes':completed,
         'training_transitions':summary['training_transitions'],
@@ -94,6 +99,7 @@ def main():
         'training_transitions_and_official_lengths_reaudit':'HASHES_ONLY' if a.skip_private_models else 'PASS',
         'registered_source_file_checks':source_checks,'published_file_checks':len(sums),
         'heldout_statistics':summary['heldout_statistics'],
+        'isolated_confirmation':summary.get('isolated_confirmation'),
         'scope':'delivery integrity and recorded evidence consistency, not hostile-actor security or universal self-evolution'})
     print(json.dumps(load(out/'verification.json'),indent=2))
 

@@ -13,7 +13,7 @@ The original model observes state, not pure vision.
 | v0.1.0 MVP | 0.8–3.2 kg; 4 train, 4 validation, 16 heldout pairs | Two 48-episode executions; identical protocol seed; stable improvement not shown |
 | 2026-10-22 confirmation | 3 learning seeds, 8 train, 8 validation, 24 heldout per seed | 528 real episodes, feedback and random search rolled back in all seeds |
 | Temporal/guarded development | Fresh training and 16-pair validation for each stage | 224 real development episodes, both rollback; no new formal heldout |
-| 2026-10-23 calibration/learning | Measurement control, same-hardware geometry controller, process replay, PPO | See [prospective protocol](experiments/CALIBRATION_LEARNING_PROTOCOL_20261023.md); outcomes must come from completed raw traces |
+| 2026-10-23 calibration/learning | Measurement control, same-hardware geometry controller, process replay, PPO | 422 evaluation/diagnostic/demo episodes + 614,400 training transitions; initial gain not confirmed by isolated workers; [results](experiments/CALIBRATION_LEARNING_RESULTS_20261023.md) |
 
 The 0.8–3.2 kg distribution was selected from a 14-episode, two-seed sensitivity
 pilot. That pilot did **not** prove learnability, strong-expert headroom or robust

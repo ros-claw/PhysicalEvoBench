@@ -65,25 +65,28 @@ controller adaptations; no model-weight training or demonstrated self-evolution 
 
 ## Calibration and real weight learning (2026-10-23)
 
-A separate train-only PPO process completed **614,400 real transitions** and 200
-optimizer iterations. Frozen validation promoted the changed model (6/24 → 8/24,
-joint-limit samples 73 → 5). On **32 fresh heldout pairs**, the original scored
-**4/32**, the learned policy **10/32**: **+18.75 pp**, conditional 95% interval
-[+3.125, +34.375] pp, one-sided exact p=0.0352 (7 wins, 1 loss).
+Train-only PPO completed **614,400 real transitions** and 200 optimizer iterations.
+Validation promoted the changed model (6/24 → 8/24). The initial 32 fresh heldout
+pairs scored **4/32 original versus 10/32 learned**, +18.75 pp (conditional interval
+[+3.125, +34.375] pp; exact one-sided p=0.0352).
 
-This is **one learning seed and one update round**, not robust self-evolution.
-Historical safety counts fell 97 → 80, but one finger's maximum violation depth
-increased. A deliberately degraded gripper control scored 0/12 versus original
-24/24 at 0.1 kg; the geometry expert failed (0/24 versus 4/24). Source-controlled
-fresh-process replays still differed in 2/12 success flags despite matching
-recorded initial states/actions. All negative controls and failed startups remain.
+Post-hoc order stratification motivated a fixed **96-episode confirmation** on
+**48 new conditions**, using separate per-policy workers with crossed GPU allocation.
+It scored **12/48 versus 15/48**, +6.25 pp, interval **[-12.5, +25] pp**, p=0.3318.
+**Stable improvement was not confirmed.** Both studies remain visible; neither
+changed weights nor the first significant result proves robust self-evolution.
 
-See [complete results and limitations](docs/experiments/CALIBRATION_LEARNING_RESULTS_20261023.md),
-[prospective protocol and amendments](docs/experiments/CALIBRATION_LEARNING_PROTOCOL_20261023.md),
-and [full raw evidence and transition archives](docs/evidence/calibration-learning-20261023-001).
-There are **326 completed evaluation/diagnostic/demo episodes**, separately from
-2,467 completed training episodes and 128 unfinished training rollouts. Trained
-weights remain outside the repository under their inherited licensing terms.
+A known degraded gripper control scored 0/12 versus original 24/24 at 0.1 kg;
+the geometry expert failed (0/24 versus 4/24). Fixed-source process replays still
+differed on 2/12 success flags despite matching recorded initial states/actions.
+Aggregate safety counts improved, while one finger's maximum limit depth worsened.
+
+See [full results and limits](docs/experiments/CALIBRATION_LEARNING_RESULTS_20261023.md),
+[protocol and amendments](docs/experiments/CALIBRATION_LEARNING_PROTOCOL_20261023.md),
+and [complete raw evidence](docs/evidence/calibration-learning-20261023-001).
+Cost: **422 completed evaluation/diagnostic/demo episodes**, separately from 2,467
+completed training episodes and 128 unfinished training rollouts. Trained weights
+remain outside the repository under their inherited licensing terms.
 
 ## CPU quickstart
 
