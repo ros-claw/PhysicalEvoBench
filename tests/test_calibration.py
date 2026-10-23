@@ -33,3 +33,20 @@ def test_exact_power_all_discordances_favor_update():
     expected=1-sum(math.comb(32,k)*.2**k*.8**(32-k) for k in range(5))
     assert abs(paired_power(32,.2,.2)-expected)<1e-12
     assert paired_power(32,0,.3)<=.05
+
+
+def test_published_seed_registry_recovers_diagnostic_and_training_seeds(tmp_path):
+    import io
+    import json
+    import tarfile
+    from physicalevobench.evaluation.seed_registry import published_seeds
+
+    evidence=tmp_path/'docs/evidence'
+    evidence.mkdir(parents=True)
+    # Metadata fixture only; this does not stand in for any physical result.
+    payload=json.dumps({'jobs':[{'condition':{'seed':12345}}], 'environment_seed':98765}).encode()
+    with tarfile.open(evidence/'metadata.tar.gz','w:gz') as archive:
+        member=tarfile.TarInfo('study/child/config.json')
+        member.size=len(payload)
+        archive.addfile(member,io.BytesIO(payload))
+    assert {12345,98765}.issubset(published_seeds(tmp_path))

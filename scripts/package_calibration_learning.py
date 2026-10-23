@@ -21,10 +21,10 @@ def main():
     manifest=[]
     refs=set()
     for run in runs:
-        config=run/'config.json'
-        if config.exists():
+        for config in run.rglob('config.json'):
             cfg=json.loads(config.read_text())
-            refs.add(cfg['source_commit'])
+            if 'source_commit' in cfg:
+                refs.add(cfg['source_commit'])
             if 'supervisor_source_commit' in cfg:
                 refs.add(cfg['supervisor_source_commit'])
         path=out/f'{run.name}.tar.gz'
