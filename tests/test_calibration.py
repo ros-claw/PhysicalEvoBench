@@ -23,3 +23,13 @@ def test_training_schema_rejects_hidden_truth():
             learner_feedback({**public,key:123})
     with pytest.raises(ValueError):
         learner_feedback({**public,'observations':{'policy':[], 'task_obs':[], 'mass':[]}})
+
+
+def test_exact_power_all_discordances_favor_update():
+    import math
+    from physicalevobench.calibration.power import paired_power
+
+    # At one-sided alpha=.05, at least five wins with no losses are needed.
+    expected=1-sum(math.comb(32,k)*.2**k*.8**(32-k) for k in range(5))
+    assert abs(paired_power(32,.2,.2)-expected)<1e-12
+    assert paired_power(32,0,.3)<=.05
