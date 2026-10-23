@@ -32,6 +32,9 @@ def audit_run(out):
         eid = job['episode_id']
         if row['episode_id'] != eid or reservation['episode_id'] != eid:
             raise ValueError('Job/reservation/episode order mismatch')
+        expected_checkpoint = cfg.get('additional_checkpoint_sha256', {}).get(job['policy'], cfg['checkpoint_sha256'])
+        if row['base_checkpoint_sha256'] != expected_checkpoint:
+            raise ValueError('Episode model hash differs from registered snapshot')
         episode = out/'episodes'/eid
         if load(episode/'episode.json') != row:
             raise ValueError('Episode index differs from physical artifact')

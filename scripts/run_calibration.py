@@ -87,6 +87,7 @@ def main():
         cfg['retention_decision'] = decision
     if a.mode == 'weights' and not a.candidate and not a.retention_decision:
         raise ValueError('Need frozen candidate checkpoint')
+    cfg['additional_checkpoint_sha256'] = {k:sha256(v) for k,v in cfg['additional_checkpoints'].items()}
     save_json(out/'config.json', cfg)
     argv = [str(arena_python_path(cfg, arena)), '-m', 'physicalevobench.calibration.collect', '--run-dir', str(out)]
     save_json(out/'launch.json', {'argv':argv, 'gpu':a.gpu})
