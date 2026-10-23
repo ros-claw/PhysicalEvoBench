@@ -1,0 +1,251 @@
+{
+  "analysis_source_commit": "75756281fd7ffbb4d6350c2af7c83d90bbfe2776",
+  "runs": [
+    {
+      "run": "calibration-camera-demo-20261023-001",
+      "archive": "calibration-camera-demo-20261023-001.tar.gz",
+      "sha256": "3cec7cc53b92d438ecf6992b3b298394e26c5a32806be1b1625ea3ebdb4a7057",
+      "status": {
+        "status": "COMPLETED",
+        "physical_episodes": 2
+      }
+    },
+    {
+      "run": "calibration-expert-pilot-20261023-001",
+      "archive": "calibration-expert-pilot-20261023-001.tar.gz",
+      "sha256": "9d2fb65324ffa9aaa9b51d35f380725a206f3931b9d7c9f8346b84f4874290d6",
+      "status": {
+        "status": "SUPERVISOR_FAILURE",
+        "physical_episodes": 0,
+        "native_worker_launched": false,
+        "error": "arena_python_path() missing required positional argument arena",
+        "fixed_commit": "42490c7",
+        "receipt_scope": "reconstructed from preserved tool traceback"
+      }
+    },
+    {
+      "run": "calibration-expert-pilot-20261023-002",
+      "archive": "calibration-expert-pilot-20261023-002.tar.gz",
+      "sha256": "f8a9abd0639f656df407c265656c3f80b0d8dccce1dd3cb398cd5da8e909a51c",
+      "status": {
+        "status": "COMPLETED",
+        "physical_episodes": 24
+      }
+    },
+    {
+      "run": "calibration-expert-test-20261023-001",
+      "archive": "calibration-expert-test-20261023-001.tar.gz",
+      "sha256": "3dcad6baa8fe4d75357c820f1ef1e081ca89b3c695dc27333c752d512cdf7f14",
+      "status": {
+        "status": "COMPLETED",
+        "physical_episodes": 48
+      }
+    },
+    {
+      "run": "calibration-expert-v2-pilot-20261023-001",
+      "archive": "calibration-expert-v2-pilot-20261023-001.tar.gz",
+      "sha256": "12203a73129b9b4840b4e24d7217dc30cdff0da82c685e1263073542d8dc933f",
+      "status": {
+        "status": "COMPLETED",
+        "physical_episodes": 24
+      }
+    },
+    {
+      "run": "calibration-expert-v3-pilot-20261023-001",
+      "archive": "calibration-expert-v3-pilot-20261023-001.tar.gz",
+      "sha256": "51c0450d79405fc34593fca65a587511cd3a7235c9e182076e6f3a8f8d23420c",
+      "status": {
+        "status": "COMPLETED",
+        "physical_episodes": 8
+      }
+    },
+    {
+      "run": "calibration-isolated-confirmation-20261023-001",
+      "archive": "calibration-isolated-confirmation-20261023-001.tar.gz",
+      "sha256": "f3af8676e7585cf4c36b0f81abfe1fcd626ec9f8eac2648e58b5873407853df2",
+      "status": {
+        "status": "COMPLETED",
+        "physical_episodes": 96
+      }
+    },
+    {
+      "run": "calibration-measurement-20261023-001",
+      "archive": "calibration-measurement-20261023-001.tar.gz",
+      "sha256": "d5f06b2499b3f66d2779711cbc07e6f786bd9296bce80159ff662c2659d1b104",
+      "status": {
+        "status": "SUPERVISOR_FAILURE",
+        "physical_episodes": 0,
+        "native_worker_launched": false,
+        "error": "arena_python_path() missing required positional argument arena",
+        "fixed_commit": "42490c7",
+        "receipt_scope": "reconstructed from preserved tool traceback"
+      }
+    },
+    {
+      "run": "calibration-measurement-20261023-002",
+      "archive": "calibration-measurement-20261023-002.tar.gz",
+      "sha256": "90068e3cf07272d5e4721651866839c798dd684f93dd348747b34b4d9ba399bc",
+      "status": {
+        "status": "COMPLETED",
+        "physical_episodes": 36
+      }
+    },
+    {
+      "run": "calibration-ppo-heldout-20261023-001",
+      "archive": "calibration-ppo-heldout-20261023-001.tar.gz",
+      "sha256": "90031de43cfa793fa4014cd5bdb934e227757e7137c0a930ea2f170ce87f58ad",
+      "status": {
+        "status": "COMPLETED",
+        "physical_episodes": 64
+      }
+    },
+    {
+      "run": "calibration-ppo-train-20261023-001",
+      "archive": "calibration-ppo-train-20261023-001.tar.gz",
+      "sha256": "22f56de901e15312ca44b84ce8623b89ad523a14055fb7353fefe22aa55ddf87",
+      "status": {
+        "status": "STARTUP_FAILURE",
+        "transitions": 0,
+        "physical_episodes": 0,
+        "error": "ValueError: Seed must be between 0 and 2**32 - 1",
+        "fixed_commit": "747f6dd",
+        "source_evidence": "console.log and process.json"
+      }
+    },
+    {
+      "run": "calibration-ppo-train-20261023-002",
+      "archive": "calibration-ppo-train-20261023-002.tar.gz",
+      "sha256": "80b6a7784cf8780d8bfdf3ed020ec69ac59badef00510e5b55a4de264bf21b55",
+      "status": {
+        "status": "TRAINING_COMPLETED",
+        "transitions": 614400
+      }
+    },
+    {
+      "run": "calibration-ppo-train-20261023-002",
+      "archive": "calibration-ppo-train-20261023-002-transitions-01.tar.gz",
+      "sha256": "e61b3f03485ed9381744317ac2947a3266b687720952a2f2df753570affa8e20",
+      "transition_chunks": 20
+    },
+    {
+      "run": "calibration-ppo-train-20261023-002",
+      "archive": "calibration-ppo-train-20261023-002-transitions-02.tar.gz",
+      "sha256": "5a11d65910bf4e191736e8f6a827245939e24eebaed29c41bd05e1e6288376a5",
+      "transition_chunks": 20
+    },
+    {
+      "run": "calibration-ppo-train-20261023-002",
+      "archive": "calibration-ppo-train-20261023-002-transitions-03.tar.gz",
+      "sha256": "14c1f83faec8043b75028424073804c20cb12f1c5763c90c601b259407c29945",
+      "transition_chunks": 20
+    },
+    {
+      "run": "calibration-ppo-train-20261023-002",
+      "archive": "calibration-ppo-train-20261023-002-transitions-04.tar.gz",
+      "sha256": "c11abb88bd56bbf1dd19cd669808df3edad13bcec754cd31654cdf1f34552f60",
+      "transition_chunks": 20
+    },
+    {
+      "run": "calibration-ppo-train-20261023-002",
+      "archive": "calibration-ppo-train-20261023-002-transitions-05.tar.gz",
+      "sha256": "7b12e33bbe53da5514127df17ce22ae6c8570a0b6976a15e759098ddba671b1f",
+      "transition_chunks": 20
+    },
+    {
+      "run": "calibration-ppo-train-20261023-002",
+      "archive": "calibration-ppo-train-20261023-002-transitions-06.tar.gz",
+      "sha256": "8d37fab33bf0a64d9461c5d113bcbf692bd9183bda09d0a8f1a44215d2980be6",
+      "transition_chunks": 20
+    },
+    {
+      "run": "calibration-ppo-train-20261023-002",
+      "archive": "calibration-ppo-train-20261023-002-transitions-07.tar.gz",
+      "sha256": "4914cb3e1b33ca4a734ac78e557181463923983e678fc2c05055126eb0ab5466",
+      "transition_chunks": 20
+    },
+    {
+      "run": "calibration-ppo-train-20261023-002",
+      "archive": "calibration-ppo-train-20261023-002-transitions-08.tar.gz",
+      "sha256": "ad6be14320bf793f3fe84c552ccad8b615ac731605fa32bca40088f91b78cac8",
+      "transition_chunks": 20
+    },
+    {
+      "run": "calibration-ppo-train-20261023-002",
+      "archive": "calibration-ppo-train-20261023-002-transitions-09.tar.gz",
+      "sha256": "40d88a654ea6583e1579dfa099bd9dc3e9b60993198ba6684a18284d35a36fca",
+      "transition_chunks": 20
+    },
+    {
+      "run": "calibration-ppo-train-20261023-002",
+      "archive": "calibration-ppo-train-20261023-002-transitions-10.tar.gz",
+      "sha256": "267f42244c48853c9c0cb1cdcc544de267b1d33b0f56ce90309708720305e00b",
+      "transition_chunks": 20
+    },
+    {
+      "run": "calibration-ppo-validation-20261023-001",
+      "archive": "calibration-ppo-validation-20261023-001.tar.gz",
+      "sha256": "bf216c2542d271d6a4b36634327aad40d8f9ccd94cb3e9f4f0d219c25cc486b6",
+      "status": {
+        "status": "INFRA_FAILURE",
+        "error": "'class_name'",
+        "physical_episodes": 0
+      }
+    },
+    {
+      "run": "calibration-ppo-validation-20261023-002",
+      "archive": "calibration-ppo-validation-20261023-002.tar.gz",
+      "sha256": "685b3ff60a3dbc3d19bb5aab55c73b0a7627f875c9c741837892e85b9ed6d33c",
+      "status": {
+        "status": "COMPLETED",
+        "physical_episodes": 48
+      }
+    },
+    {
+      "run": "calibration-replay-20261023-001",
+      "archive": "calibration-replay-20261023-001.tar.gz",
+      "sha256": "d180d32a35a167ab5f36c04507eb73ac185d827c606a27cbb0e2493223e62bc5",
+      "status": {
+        "status": "COMPLETED",
+        "physical_episodes": 36
+      }
+    },
+    {
+      "run": "calibration-replay-fresh-20261023-001",
+      "archive": "calibration-replay-fresh-20261023-001.tar.gz",
+      "sha256": "8ecf607ccb9605f72548b56af3f8b4f671a838cb26253bd0727fbfaf6235dc14",
+      "status": {
+        "status": "COMPLETED",
+        "physical_episodes": 12
+      }
+    },
+    {
+      "run": "calibration-replay-fresh-frozen-20261023-001",
+      "archive": "calibration-replay-fresh-frozen-20261023-001.tar.gz",
+      "sha256": "4c5bf53fa523d26aa5c4957b6e9046efdc2e45846454fe0595ba595170d5878e",
+      "status": {
+        "status": "COMPLETED",
+        "physical_episodes": 12
+      }
+    },
+    {
+      "run": "calibration-startup-probe-20261023-001",
+      "archive": "calibration-startup-probe-20261023-001.tar.gz",
+      "sha256": "9b59eefc9dbdd58c18dac9f68be5d26cbe3be2e2477573e031d88c58c7c03ab6",
+      "status": {
+        "status": "COMPLETED",
+        "physical_episodes": 12
+      }
+    },
+    {
+      "run": "calibration-study-metadata-20261023-001",
+      "archive": "calibration-study-metadata-20261023-001.tar.gz",
+      "sha256": "fbef68cc33a9ebd826a76840cbffaddd93c5f6514c33170bf296659c9c663eaf",
+      "status": {
+        "status": "METADATA_ONLY",
+        "physical_episodes": 0
+      }
+    }
+  ],
+  "weights": "outside repository; not redistributed",
+  "training_mode": "dense reward; no training success-rate equivalence to evaluation"
+}

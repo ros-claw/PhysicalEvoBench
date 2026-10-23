@@ -1,0 +1,1419 @@
+{
+  "claim": "INITIAL_GAIN_NOT_CONFIRMED_IN_ISOLATED_WORKERS",
+  "learning_seeds": 1,
+  "rounds": 1,
+  "completed_evaluation_and_diagnostic_episodes": 422,
+  "completed_training_episodes": 2467,
+  "training_transitions": 614400,
+  "training_completed_episode_steps": 600771,
+  "training_unfinished_rollout_steps": 13629,
+  "training_active_unfinished_rollouts": 128,
+  "validation_decision": "promote",
+  "heldout_statistics": {
+    "pairs": 32,
+    "wins": 7,
+    "losses": 1,
+    "success_rate_difference": 0.1875,
+    "conditional_bootstrap_95": [
+      0.03125,
+      0.34375
+    ],
+    "p_one_sided_exact": 0.03515625,
+    "scope": "one learned snapshot; condition-level inference, no cross-learning-seed claim"
+  },
+  "hypothetical_power": {
+    "24": 0.113871044281386,
+    "32": 0.16407678676282036,
+    "72": 0.38903241624808976,
+    "128": 0.618426520918343,
+    "256": 0.8857347682508953
+  },
+  "audits": {
+    "measurement": {
+      "status": "PASS",
+      "physical_episodes": 36,
+      "mode": "measurement",
+      "arms": {
+        "open_gripper": {
+          "episodes": 12,
+          "successes": 0,
+          "joint_samples": 234,
+          "exposure_joint_samples": 25956,
+          "any_violation_episodes": 12,
+          "max_depth_by_joint": {
+            "panda_joint1": 0,
+            "panda_joint2": 0.0011529922485351562,
+            "panda_joint3": 0,
+            "panda_joint4": 1.4901161193847656e-08,
+            "panda_joint5": 0,
+            "panda_joint6": 1.7881393432617188e-05,
+            "panda_joint7": 0.000102996826171875,
+            "panda_finger_joint1": 0.0301496684551239,
+            "panda_finger_joint2": 0.02744589000940323
+          },
+          "success_rate": 0.0,
+          "violations_per_1000_joint_samples": 9.015256588072122
+        },
+        "original": {
+          "episodes": 24,
+          "successes": 24,
+          "joint_samples": 0,
+          "exposure_joint_samples": 11376,
+          "any_violation_episodes": 0,
+          "max_depth_by_joint": {
+            "panda_joint1": 0,
+            "panda_joint2": 0,
+            "panda_joint3": 0,
+            "panda_joint4": 0,
+            "panda_joint5": 0,
+            "panda_joint6": 0,
+            "panda_joint7": 0,
+            "panda_finger_joint1": 7.584318518638611e-05,
+            "panda_finger_joint2": 6.755813956260681e-05
+          },
+          "success_rate": 1.0,
+          "violations_per_1000_joint_samples": 0.0
+        }
+      },
+      "paired": {},
+      "replay": [
+        {
+          "condition_id": "measurement-202610230102-000",
+          "successes": [
+            true,
+            true
+          ],
+          "initial_observations_equal": true,
+          "initial_joint_velocities_equal": true,
+          "first_actions_equal": true
+        },
+        {
+          "condition_id": "measurement-202610230102-001",
+          "successes": [
+            true,
+            true
+          ],
+          "initial_observations_equal": true,
+          "initial_joint_velocities_equal": true,
+          "first_actions_equal": true
+        },
+        {
+          "condition_id": "measurement-202610230102-002",
+          "successes": [
+            true,
+            true
+          ],
+          "initial_observations_equal": true,
+          "initial_joint_velocities_equal": true,
+          "first_actions_equal": true
+        },
+        {
+          "condition_id": "measurement-202610230102-003",
+          "successes": [
+            true,
+            true
+          ],
+          "initial_observations_equal": true,
+          "initial_joint_velocities_equal": true,
+          "first_actions_equal": true
+        },
+        {
+          "condition_id": "measurement-202610230102-004",
+          "successes": [
+            true,
+            true
+          ],
+          "initial_observations_equal": true,
+          "initial_joint_velocities_equal": true,
+          "first_actions_equal": true
+        },
+        {
+          "condition_id": "measurement-202610230102-005",
+          "successes": [
+            true,
+            true
+          ],
+          "initial_observations_equal": true,
+          "initial_joint_velocities_equal": true,
+          "first_actions_equal": true
+        },
+        {
+          "condition_id": "measurement-202610230102-006",
+          "successes": [
+            true,
+            true
+          ],
+          "initial_observations_equal": true,
+          "initial_joint_velocities_equal": true,
+          "first_actions_equal": true
+        },
+        {
+          "condition_id": "measurement-202610230102-007",
+          "successes": [
+            true,
+            true
+          ],
+          "initial_observations_equal": true,
+          "initial_joint_velocities_equal": true,
+          "first_actions_equal": true
+        },
+        {
+          "condition_id": "measurement-202610230102-008",
+          "successes": [
+            true,
+            true
+          ],
+          "initial_observations_equal": true,
+          "initial_joint_velocities_equal": true,
+          "first_actions_equal": true
+        },
+        {
+          "condition_id": "measurement-202610230102-009",
+          "successes": [
+            true,
+            true
+          ],
+          "initial_observations_equal": true,
+          "initial_joint_velocities_equal": true,
+          "first_actions_equal": true
+        },
+        {
+          "condition_id": "measurement-202610230102-010",
+          "successes": [
+            true,
+            true
+          ],
+          "initial_observations_equal": true,
+          "initial_joint_velocities_equal": true,
+          "first_actions_equal": true
+        },
+        {
+          "condition_id": "measurement-202610230102-011",
+          "successes": [
+            true,
+            true
+          ],
+          "initial_observations_equal": true,
+          "initial_joint_velocities_equal": true,
+          "first_actions_equal": true
+        }
+      ],
+      "scope": "physical trace integrity; scientific efficacy is a separate decision",
+      "measurement_control": {
+        "success_rate_difference": 1.0,
+        "pass": true
+      }
+    },
+    "expert_v1": {
+      "status": "PASS",
+      "physical_episodes": 24,
+      "mode": "expert-pilot",
+      "arms": {
+        "expert": {
+          "episodes": 12,
+          "successes": 0,
+          "joint_samples": 266,
+          "exposure_joint_samples": 27000,
+          "any_violation_episodes": 12,
+          "max_depth_by_joint": {
+            "panda_joint1": 0,
+            "panda_joint2": 5.328655242919922e-05,
+            "panda_joint3": 0,
+            "panda_joint4": 1.1682510375976562e-05,
+            "panda_joint5": 0,
+            "panda_joint6": 0,
+            "panda_joint7": 0,
+            "panda_finger_joint1": 0.010138248093426228,
+            "panda_finger_joint2": 0.005508754402399063
+          },
+          "success_rate": 0.0,
+          "violations_per_1000_joint_samples": 9.851851851851851
+        },
+        "original": {
+          "episodes": 12,
+          "successes": 1,
+          "joint_samples": 21,
+          "exposure_joint_samples": 24750,
+          "any_violation_episodes": 4,
+          "max_depth_by_joint": {
+            "panda_joint1": 0,
+            "panda_joint2": 1.1920928955078125e-07,
+            "panda_joint3": 0,
+            "panda_joint4": 6.064772605895996e-06,
+            "panda_joint5": 0,
+            "panda_joint6": 2.384185791015625e-06,
+            "panda_joint7": 4.76837158203125e-07,
+            "panda_finger_joint1": 0.028500482439994812,
+            "panda_finger_joint2": 0.007874425500631332
+          },
+          "success_rate": 0.08333333333333333,
+          "violations_per_1000_joint_samples": 0.8484848484848485
+        }
+      },
+      "paired": {
+        "matched_initial_observation_pairs": 12,
+        "maximum_first_action_difference": 62.00826199352741,
+        "candidate_only_success": 0,
+        "original_only_success": 1,
+        "one_sided_exact_p": 1.0
+      },
+      "replay": [],
+      "scope": "physical trace integrity; scientific efficacy is a separate decision"
+    },
+    "expert_v2": {
+      "status": "PASS",
+      "physical_episodes": 24,
+      "mode": "expert-pilot",
+      "arms": {
+        "expert": {
+          "episodes": 12,
+          "successes": 0,
+          "joint_samples": 6,
+          "exposure_joint_samples": 27000,
+          "any_violation_episodes": 2,
+          "max_depth_by_joint": {
+            "panda_joint1": 0,
+            "panda_joint2": 9.119510650634766e-05,
+            "panda_joint3": 0,
+            "panda_joint4": 8.106231689453125e-06,
+            "panda_joint5": 0,
+            "panda_joint6": 0,
+            "panda_joint7": 0,
+            "panda_finger_joint1": 0.0029897280037403107,
+            "panda_finger_joint2": 0.00010179363016504794
+          },
+          "success_rate": 0.0,
+          "violations_per_1000_joint_samples": 0.2222222222222222
+        },
+        "original": {
+          "episodes": 12,
+          "successes": 2,
+          "joint_samples": 9,
+          "exposure_joint_samples": 23355,
+          "any_violation_episodes": 5,
+          "max_depth_by_joint": {
+            "panda_joint1": 0,
+            "panda_joint2": 0.00010967254638671875,
+            "panda_joint3": 0,
+            "panda_joint4": 0,
+            "panda_joint5": 0,
+            "panda_joint6": 2.1457672119140625e-06,
+            "panda_joint7": 0,
+            "panda_finger_joint1": 0.0074612051248550415,
+            "panda_finger_joint2": 0.0004785396158695221
+          },
+          "success_rate": 0.16666666666666666,
+          "violations_per_1000_joint_samples": 0.3853564547206166
+        }
+      },
+      "paired": {
+        "matched_initial_observation_pairs": 12,
+        "maximum_first_action_difference": 60.8747423812747,
+        "candidate_only_success": 0,
+        "original_only_success": 2,
+        "one_sided_exact_p": 1.0
+      },
+      "replay": [],
+      "scope": "physical trace integrity; scientific efficacy is a separate decision"
+    },
+    "expert_v3": {
+      "status": "PASS",
+      "physical_episodes": 8,
+      "mode": "expert-pilot",
+      "arms": {
+        "original": {
+          "episodes": 4,
+          "successes": 0,
+          "joint_samples": 8,
+          "exposure_joint_samples": 6822,
+          "any_violation_episodes": 2,
+          "max_depth_by_joint": {
+            "panda_joint1": 0,
+            "panda_joint2": 0.0003333091735839844,
+            "panda_joint3": 0,
+            "panda_joint4": 0,
+            "panda_joint5": 0,
+            "panda_joint6": 0,
+            "panda_joint7": 0,
+            "panda_finger_joint1": 0.011055432260036469,
+            "panda_finger_joint2": 0.003189031034708023
+          },
+          "success_rate": 0.0,
+          "violations_per_1000_joint_samples": 1.1726766344180592
+        },
+        "expert": {
+          "episodes": 4,
+          "successes": 0,
+          "joint_samples": 0,
+          "exposure_joint_samples": 9000,
+          "any_violation_episodes": 0,
+          "max_depth_by_joint": {
+            "panda_joint1": 0,
+            "panda_joint2": 0,
+            "panda_joint3": 0,
+            "panda_joint4": 0,
+            "panda_joint5": 0,
+            "panda_joint6": 0,
+            "panda_joint7": 0,
+            "panda_finger_joint1": 0,
+            "panda_finger_joint2": 1.601874828338623e-06
+          },
+          "success_rate": 0.0,
+          "violations_per_1000_joint_samples": 0.0
+        }
+      },
+      "paired": {
+        "matched_initial_observation_pairs": 4,
+        "maximum_first_action_difference": 60.91763436794281,
+        "candidate_only_success": 0,
+        "original_only_success": 0,
+        "one_sided_exact_p": 1.0
+      },
+      "replay": [],
+      "scope": "physical trace integrity; scientific efficacy is a separate decision"
+    },
+    "expert_test": {
+      "status": "PASS",
+      "physical_episodes": 48,
+      "mode": "expert-test",
+      "arms": {
+        "original": {
+          "episodes": 24,
+          "successes": 4,
+          "joint_samples": 50,
+          "exposure_joint_samples": 42399,
+          "any_violation_episodes": 7,
+          "max_depth_by_joint": {
+            "panda_joint1": 0,
+            "panda_joint2": 1.1920928955078125e-06,
+            "panda_joint3": 0,
+            "panda_joint4": 0,
+            "panda_joint5": 0,
+            "panda_joint6": 1.430511474609375e-06,
+            "panda_joint7": 0,
+            "panda_finger_joint1": 0.011387117207050323,
+            "panda_finger_joint2": 0.005491562187671661
+          },
+          "success_rate": 0.16666666666666666,
+          "violations_per_1000_joint_samples": 1.1792730960635864
+        },
+        "expert": {
+          "episodes": 24,
+          "successes": 0,
+          "joint_samples": 0,
+          "exposure_joint_samples": 54000,
+          "any_violation_episodes": 0,
+          "max_depth_by_joint": {
+            "panda_joint1": 0,
+            "panda_joint2": 0,
+            "panda_joint3": 0,
+            "panda_joint4": 0,
+            "panda_joint5": 0,
+            "panda_joint6": 0,
+            "panda_joint7": 0,
+            "panda_finger_joint1": 0,
+            "panda_finger_joint2": 1.1324882507324219e-06
+          },
+          "success_rate": 0.0,
+          "violations_per_1000_joint_samples": 0.0
+        }
+      },
+      "paired": {
+        "matched_initial_observation_pairs": 24,
+        "maximum_first_action_difference": 63.37594924122095,
+        "candidate_only_success": 0,
+        "original_only_success": 4,
+        "one_sided_exact_p": 1.0
+      },
+      "replay": [],
+      "scope": "physical trace integrity; scientific efficacy is a separate decision"
+    },
+    "persistent": {
+      "status": "PASS",
+      "physical_episodes": 36,
+      "mode": "replay",
+      "arms": {
+        "original": {
+          "episodes": 36,
+          "successes": 14,
+          "joint_samples": 31,
+          "exposure_joint_samples": 46701,
+          "any_violation_episodes": 6,
+          "max_depth_by_joint": {
+            "panda_joint1": 0,
+            "panda_joint2": 0,
+            "panda_joint3": 0,
+            "panda_joint4": 0,
+            "panda_joint5": 0,
+            "panda_joint6": 7.152557373046875e-07,
+            "panda_joint7": 0,
+            "panda_finger_joint1": 0.00793430209159851,
+            "panda_finger_joint2": 0.0015843883156776428
+          },
+          "success_rate": 0.3888888888888889,
+          "violations_per_1000_joint_samples": 0.6637973490931671
+        }
+      },
+      "paired": {},
+      "replay": [
+        {
+          "condition_id": "replay-202610230401-000",
+          "successes": [
+            true,
+            true,
+            true
+          ],
+          "initial_observations_equal": true,
+          "initial_joint_velocities_equal": true,
+          "first_actions_equal": true
+        },
+        {
+          "condition_id": "replay-202610230401-001",
+          "successes": [
+            true,
+            true,
+            true
+          ],
+          "initial_observations_equal": true,
+          "initial_joint_velocities_equal": true,
+          "first_actions_equal": true
+        },
+        {
+          "condition_id": "replay-202610230401-002",
+          "successes": [
+            false,
+            false,
+            false
+          ],
+          "initial_observations_equal": true,
+          "initial_joint_velocities_equal": true,
+          "first_actions_equal": true
+        },
+        {
+          "condition_id": "replay-202610230401-003",
+          "successes": [
+            false,
+            false,
+            false
+          ],
+          "initial_observations_equal": true,
+          "initial_joint_velocities_equal": true,
+          "first_actions_equal": true
+        },
+        {
+          "condition_id": "replay-202610230401-004",
+          "successes": [
+            false,
+            true,
+            true
+          ],
+          "initial_observations_equal": true,
+          "initial_joint_velocities_equal": true,
+          "first_actions_equal": true
+        },
+        {
+          "condition_id": "replay-202610230401-005",
+          "successes": [
+            false,
+            false,
+            false
+          ],
+          "initial_observations_equal": true,
+          "initial_joint_velocities_equal": true,
+          "first_actions_equal": true
+        },
+        {
+          "condition_id": "replay-202610230401-006",
+          "successes": [
+            true,
+            true,
+            true
+          ],
+          "initial_observations_equal": true,
+          "initial_joint_velocities_equal": true,
+          "first_actions_equal": true
+        },
+        {
+          "condition_id": "replay-202610230401-007",
+          "successes": [
+            false,
+            false,
+            false
+          ],
+          "initial_observations_equal": true,
+          "initial_joint_velocities_equal": true,
+          "first_actions_equal": true
+        },
+        {
+          "condition_id": "replay-202610230401-008",
+          "successes": [
+            true,
+            true,
+            true
+          ],
+          "initial_observations_equal": true,
+          "initial_joint_velocities_equal": true,
+          "first_actions_equal": true
+        },
+        {
+          "condition_id": "replay-202610230401-009",
+          "successes": [
+            false,
+            false,
+            false
+          ],
+          "initial_observations_equal": true,
+          "initial_joint_velocities_equal": true,
+          "first_actions_equal": true
+        },
+        {
+          "condition_id": "replay-202610230401-010",
+          "successes": [
+            false,
+            false,
+            false
+          ],
+          "initial_observations_equal": true,
+          "initial_joint_velocities_equal": true,
+          "first_actions_equal": true
+        },
+        {
+          "condition_id": "replay-202610230401-011",
+          "successes": [
+            false,
+            false,
+            false
+          ],
+          "initial_observations_equal": true,
+          "initial_joint_velocities_equal": true,
+          "first_actions_equal": true
+        }
+      ],
+      "scope": "physical trace integrity; scientific efficacy is a separate decision"
+    },
+    "fresh_exploratory": {
+      "status": "PASS",
+      "physical_episodes": 12,
+      "paired_conditions": 12,
+      "comparison": [
+        {
+          "condition_id": "replay-202610230401-000",
+          "seed": 320039893,
+          "mass": 0.9857487678527832,
+          "persistent_successes": [
+            true,
+            true,
+            true
+          ],
+          "fresh_success": false,
+          "initial_states_equal": true,
+          "initial_observations_equal": true,
+          "initial_joint_velocities_equal": true,
+          "first_actions_equal": true,
+          "within_worker_exact_trajectories": true,
+          "fresh_exact_trajectory": false
+        },
+        {
+          "condition_id": "replay-202610230401-001",
+          "seed": 431029739,
+          "mass": 1.2069534063339233,
+          "persistent_successes": [
+            true,
+            true,
+            true
+          ],
+          "fresh_success": true,
+          "initial_states_equal": true,
+          "initial_observations_equal": true,
+          "initial_joint_velocities_equal": true,
+          "first_actions_equal": true,
+          "within_worker_exact_trajectories": true,
+          "fresh_exact_trajectory": true
+        },
+        {
+          "condition_id": "replay-202610230401-002",
+          "seed": 1100906065,
+          "mass": 1.8271005153656006,
+          "persistent_successes": [
+            false,
+            false,
+            false
+          ],
+          "fresh_success": false,
+          "initial_states_equal": true,
+          "initial_observations_equal": true,
+          "initial_joint_velocities_equal": true,
+          "first_actions_equal": true,
+          "within_worker_exact_trajectories": true,
+          "fresh_exact_trajectory": false
+        },
+        {
+          "condition_id": "replay-202610230401-003",
+          "seed": 413407706,
+          "mass": 2.2359912395477295,
+          "persistent_successes": [
+            false,
+            false,
+            false
+          ],
+          "fresh_success": false,
+          "initial_states_equal": true,
+          "initial_observations_equal": true,
+          "initial_joint_velocities_equal": true,
+          "first_actions_equal": true,
+          "within_worker_exact_trajectories": true,
+          "fresh_exact_trajectory": false
+        },
+        {
+          "condition_id": "replay-202610230401-004",
+          "seed": 47532167,
+          "mass": 1.1773957014083862,
+          "persistent_successes": [
+            false,
+            true,
+            true
+          ],
+          "fresh_success": true,
+          "initial_states_equal": true,
+          "initial_observations_equal": true,
+          "initial_joint_velocities_equal": true,
+          "first_actions_equal": true,
+          "within_worker_exact_trajectories": false,
+          "fresh_exact_trajectory": false
+        },
+        {
+          "condition_id": "replay-202610230401-005",
+          "seed": 795874104,
+          "mass": 1.6021502017974854,
+          "persistent_successes": [
+            false,
+            false,
+            false
+          ],
+          "fresh_success": false,
+          "initial_states_equal": true,
+          "initial_observations_equal": true,
+          "initial_joint_velocities_equal": true,
+          "first_actions_equal": true,
+          "within_worker_exact_trajectories": true,
+          "fresh_exact_trajectory": false
+        },
+        {
+          "condition_id": "replay-202610230401-006",
+          "seed": 265402413,
+          "mass": 1.4137177467346191,
+          "persistent_successes": [
+            true,
+            true,
+            true
+          ],
+          "fresh_success": true,
+          "initial_states_equal": true,
+          "initial_observations_equal": true,
+          "initial_joint_velocities_equal": true,
+          "first_actions_equal": true,
+          "within_worker_exact_trajectories": true,
+          "fresh_exact_trajectory": false
+        },
+        {
+          "condition_id": "replay-202610230401-007",
+          "seed": 1827816143,
+          "mass": 1.6798526048660278,
+          "persistent_successes": [
+            false,
+            false,
+            false
+          ],
+          "fresh_success": false,
+          "initial_states_equal": true,
+          "initial_observations_equal": true,
+          "initial_joint_velocities_equal": true,
+          "first_actions_equal": true,
+          "within_worker_exact_trajectories": false,
+          "fresh_exact_trajectory": false
+        },
+        {
+          "condition_id": "replay-202610230401-008",
+          "seed": 501049912,
+          "mass": 1.318742275238037,
+          "persistent_successes": [
+            true,
+            true,
+            true
+          ],
+          "fresh_success": true,
+          "initial_states_equal": true,
+          "initial_observations_equal": true,
+          "initial_joint_velocities_equal": true,
+          "first_actions_equal": true,
+          "within_worker_exact_trajectories": true,
+          "fresh_exact_trajectory": false
+        },
+        {
+          "condition_id": "replay-202610230401-009",
+          "seed": 513314075,
+          "mass": 2.8549365997314453,
+          "persistent_successes": [
+            false,
+            false,
+            false
+          ],
+          "fresh_success": false,
+          "initial_states_equal": true,
+          "initial_observations_equal": true,
+          "initial_joint_velocities_equal": true,
+          "first_actions_equal": true,
+          "within_worker_exact_trajectories": true,
+          "fresh_exact_trajectory": false
+        },
+        {
+          "condition_id": "replay-202610230401-010",
+          "seed": 1596050773,
+          "mass": 1.7271387577056885,
+          "persistent_successes": [
+            false,
+            false,
+            false
+          ],
+          "fresh_success": false,
+          "initial_states_equal": true,
+          "initial_observations_equal": true,
+          "initial_joint_velocities_equal": true,
+          "first_actions_equal": true,
+          "within_worker_exact_trajectories": false,
+          "fresh_exact_trajectory": false
+        },
+        {
+          "condition_id": "replay-202610230401-011",
+          "seed": 644135386,
+          "mass": 1.3301331996917725,
+          "persistent_successes": [
+            false,
+            false,
+            false
+          ],
+          "fresh_success": false,
+          "initial_states_equal": true,
+          "initial_observations_equal": true,
+          "initial_joint_velocities_equal": true,
+          "first_actions_equal": true,
+          "within_worker_exact_trajectories": false,
+          "fresh_exact_trajectory": false
+        }
+      ],
+      "within_worker_discordant_conditions": 1,
+      "fresh_vs_first_discordant_conditions": 2,
+      "scope": "reset/process diagnostics; no equivalence or unique GPU-causality claim"
+    },
+    "fresh_frozen": {
+      "status": "PASS",
+      "physical_episodes": 12,
+      "paired_conditions": 12,
+      "comparison": [
+        {
+          "condition_id": "replay-202610230401-000",
+          "seed": 320039893,
+          "mass": 0.9857487678527832,
+          "persistent_successes": [
+            true,
+            true,
+            true
+          ],
+          "fresh_success": true,
+          "initial_states_equal": true,
+          "initial_observations_equal": true,
+          "initial_joint_velocities_equal": true,
+          "first_actions_equal": true,
+          "within_worker_exact_trajectories": true,
+          "fresh_exact_trajectory": true
+        },
+        {
+          "condition_id": "replay-202610230401-001",
+          "seed": 431029739,
+          "mass": 1.2069534063339233,
+          "persistent_successes": [
+            true,
+            true,
+            true
+          ],
+          "fresh_success": true,
+          "initial_states_equal": true,
+          "initial_observations_equal": true,
+          "initial_joint_velocities_equal": true,
+          "first_actions_equal": true,
+          "within_worker_exact_trajectories": true,
+          "fresh_exact_trajectory": true
+        },
+        {
+          "condition_id": "replay-202610230401-002",
+          "seed": 1100906065,
+          "mass": 1.8271005153656006,
+          "persistent_successes": [
+            false,
+            false,
+            false
+          ],
+          "fresh_success": false,
+          "initial_states_equal": true,
+          "initial_observations_equal": true,
+          "initial_joint_velocities_equal": true,
+          "first_actions_equal": true,
+          "within_worker_exact_trajectories": true,
+          "fresh_exact_trajectory": true
+        },
+        {
+          "condition_id": "replay-202610230401-003",
+          "seed": 413407706,
+          "mass": 2.2359912395477295,
+          "persistent_successes": [
+            false,
+            false,
+            false
+          ],
+          "fresh_success": false,
+          "initial_states_equal": true,
+          "initial_observations_equal": true,
+          "initial_joint_velocities_equal": true,
+          "first_actions_equal": true,
+          "within_worker_exact_trajectories": true,
+          "fresh_exact_trajectory": true
+        },
+        {
+          "condition_id": "replay-202610230401-004",
+          "seed": 47532167,
+          "mass": 1.1773957014083862,
+          "persistent_successes": [
+            false,
+            true,
+            true
+          ],
+          "fresh_success": true,
+          "initial_states_equal": true,
+          "initial_observations_equal": true,
+          "initial_joint_velocities_equal": true,
+          "first_actions_equal": true,
+          "within_worker_exact_trajectories": false,
+          "fresh_exact_trajectory": false
+        },
+        {
+          "condition_id": "replay-202610230401-005",
+          "seed": 795874104,
+          "mass": 1.6021502017974854,
+          "persistent_successes": [
+            false,
+            false,
+            false
+          ],
+          "fresh_success": false,
+          "initial_states_equal": true,
+          "initial_observations_equal": true,
+          "initial_joint_velocities_equal": true,
+          "first_actions_equal": true,
+          "within_worker_exact_trajectories": true,
+          "fresh_exact_trajectory": true
+        },
+        {
+          "condition_id": "replay-202610230401-006",
+          "seed": 265402413,
+          "mass": 1.4137177467346191,
+          "persistent_successes": [
+            true,
+            true,
+            true
+          ],
+          "fresh_success": false,
+          "initial_states_equal": true,
+          "initial_observations_equal": true,
+          "initial_joint_velocities_equal": true,
+          "first_actions_equal": true,
+          "within_worker_exact_trajectories": true,
+          "fresh_exact_trajectory": false
+        },
+        {
+          "condition_id": "replay-202610230401-007",
+          "seed": 1827816143,
+          "mass": 1.6798526048660278,
+          "persistent_successes": [
+            false,
+            false,
+            false
+          ],
+          "fresh_success": false,
+          "initial_states_equal": true,
+          "initial_observations_equal": true,
+          "initial_joint_velocities_equal": true,
+          "first_actions_equal": true,
+          "within_worker_exact_trajectories": false,
+          "fresh_exact_trajectory": true
+        },
+        {
+          "condition_id": "replay-202610230401-008",
+          "seed": 501049912,
+          "mass": 1.318742275238037,
+          "persistent_successes": [
+            true,
+            true,
+            true
+          ],
+          "fresh_success": true,
+          "initial_states_equal": true,
+          "initial_observations_equal": true,
+          "initial_joint_velocities_equal": true,
+          "first_actions_equal": true,
+          "within_worker_exact_trajectories": true,
+          "fresh_exact_trajectory": true
+        },
+        {
+          "condition_id": "replay-202610230401-009",
+          "seed": 513314075,
+          "mass": 2.8549365997314453,
+          "persistent_successes": [
+            false,
+            false,
+            false
+          ],
+          "fresh_success": false,
+          "initial_states_equal": true,
+          "initial_observations_equal": true,
+          "initial_joint_velocities_equal": true,
+          "first_actions_equal": true,
+          "within_worker_exact_trajectories": true,
+          "fresh_exact_trajectory": false
+        },
+        {
+          "condition_id": "replay-202610230401-010",
+          "seed": 1596050773,
+          "mass": 1.7271387577056885,
+          "persistent_successes": [
+            false,
+            false,
+            false
+          ],
+          "fresh_success": false,
+          "initial_states_equal": true,
+          "initial_observations_equal": true,
+          "initial_joint_velocities_equal": true,
+          "first_actions_equal": true,
+          "within_worker_exact_trajectories": false,
+          "fresh_exact_trajectory": false
+        },
+        {
+          "condition_id": "replay-202610230401-011",
+          "seed": 644135386,
+          "mass": 1.3301331996917725,
+          "persistent_successes": [
+            false,
+            false,
+            false
+          ],
+          "fresh_success": false,
+          "initial_states_equal": true,
+          "initial_observations_equal": true,
+          "initial_joint_velocities_equal": true,
+          "first_actions_equal": true,
+          "within_worker_exact_trajectories": false,
+          "fresh_exact_trajectory": false
+        }
+      ],
+      "within_worker_discordant_conditions": 1,
+      "fresh_vs_first_discordant_conditions": 2,
+      "scope": "reset/process diagnostics; no equivalence or unique GPU-causality claim"
+    },
+    "training": {
+      "reward_min": -648047.6875,
+      "reward_max": 0.7290054559707642,
+      "maximum_action_abs": 7554355.5,
+      "status": "PASS",
+      "transitions": 614400,
+      "completed_training_episodes": 2467,
+      "unfinished_rollout_steps": 13629,
+      "completed_episode_steps": 600771,
+      "optimizer_iterations": 200,
+      "actor_changed": true,
+      "actor_parameter_change_norms": {
+        "distribution.std_param": 0.08632324635982513,
+        "mlp.0.weight": 0.8082751631736755,
+        "mlp.0.bias": 0.08926624804735184,
+        "mlp.2.weight": 1.4244107007980347,
+        "mlp.2.bias": 0.07140786945819855,
+        "mlp.4.weight": 0.7964004874229431,
+        "mlp.4.bias": 0.05380447581410408,
+        "mlp.6.weight": 0.20082981884479523,
+        "mlp.6.bias": 0.015415489673614502
+      },
+      "candidate_sha256": "8c7d182acbf14b0182ee9cfe374955dee18d1b1e8a2136debb325e4a587995a5",
+      "learner_request_fields": [
+        "checkpoint",
+        "output",
+        "learner_seed",
+        "iterations"
+      ],
+      "learner_feedback_fields": [
+        "observations",
+        "rewards",
+        "dones",
+        "time_outs"
+      ],
+      "scope": "train-only payload contract and actual weight update; no improvement claim"
+    },
+    "validation": {
+      "status": "PASS",
+      "physical_episodes": 48,
+      "mode": "weights",
+      "arms": {
+        "candidate": {
+          "episodes": 24,
+          "successes": 8,
+          "joint_samples": 5,
+          "exposure_joint_samples": 43893,
+          "any_violation_episodes": 3,
+          "max_depth_by_joint": {
+            "panda_joint1": 9.751319885253906e-05,
+            "panda_joint2": 1.1563301086425781e-05,
+            "panda_joint3": 0,
+            "panda_joint4": 1.6361474990844727e-05,
+            "panda_joint5": 0.0003113746643066406,
+            "panda_joint6": 0.00015616416931152344,
+            "panda_joint7": 0,
+            "panda_finger_joint1": 0.0036048851907253265,
+            "panda_finger_joint2": 0.0051392242312431335
+          },
+          "success_rate": 0.3333333333333333,
+          "violations_per_1000_joint_samples": 0.113913380265646
+        },
+        "original": {
+          "episodes": 24,
+          "successes": 6,
+          "joint_samples": 73,
+          "exposure_joint_samples": 44271,
+          "any_violation_episodes": 9,
+          "max_depth_by_joint": {
+            "panda_joint1": 0,
+            "panda_joint2": 0.00125885009765625,
+            "panda_joint3": 0,
+            "panda_joint4": 0,
+            "panda_joint5": 0,
+            "panda_joint6": 9.5367431640625e-07,
+            "panda_joint7": 2.384185791015625e-07,
+            "panda_finger_joint1": 0.02628878504037857,
+            "panda_finger_joint2": 0.005492392927408218
+          },
+          "success_rate": 0.25,
+          "violations_per_1000_joint_samples": 1.6489349687154118
+        }
+      },
+      "paired": {
+        "matched_initial_observation_pairs": 24,
+        "maximum_first_action_difference": 6.280757904052734,
+        "candidate_only_success": 6,
+        "original_only_success": 4,
+        "one_sided_exact_p": 0.376953125
+      },
+      "replay": [],
+      "scope": "physical trace integrity; scientific efficacy is a separate decision"
+    },
+    "heldout": {
+      "status": "PASS",
+      "physical_episodes": 64,
+      "mode": "weights",
+      "arms": {
+        "original": {
+          "episodes": 32,
+          "successes": 4,
+          "joint_samples": 97,
+          "exposure_joint_samples": 68184,
+          "any_violation_episodes": 14,
+          "max_depth_by_joint": {
+            "panda_joint1": 0,
+            "panda_joint2": 0.00027310848236083984,
+            "panda_joint3": 0,
+            "panda_joint4": 0,
+            "panda_joint5": 0,
+            "panda_joint6": 4.76837158203125e-07,
+            "panda_joint7": 0,
+            "panda_finger_joint1": 0.02128870040178299,
+            "panda_finger_joint2": 0.011292758397758007
+          },
+          "success_rate": 0.125,
+          "violations_per_1000_joint_samples": 1.4226211427900974
+        },
+        "candidate": {
+          "episodes": 32,
+          "successes": 10,
+          "joint_samples": 80,
+          "exposure_joint_samples": 58617,
+          "any_violation_episodes": 13,
+          "max_depth_by_joint": {
+            "panda_joint1": 2.2649765014648438e-05,
+            "panda_joint2": 4.649162292480469e-06,
+            "panda_joint3": 0,
+            "panda_joint4": 4.3973326683044434e-05,
+            "panda_joint5": 8.58306884765625e-05,
+            "panda_joint6": 7.152557373046875e-07,
+            "panda_joint7": 0.0003800392150878906,
+            "panda_finger_joint1": 0.019306425005197525,
+            "panda_finger_joint2": 0.02033453993499279
+          },
+          "success_rate": 0.3125,
+          "violations_per_1000_joint_samples": 1.3647917839534607
+        }
+      },
+      "paired": {
+        "matched_initial_observation_pairs": 32,
+        "maximum_first_action_difference": 6.3616180419921875,
+        "candidate_only_success": 7,
+        "original_only_success": 1,
+        "one_sided_exact_p": 0.03515625
+      },
+      "replay": [],
+      "scope": "physical trace integrity; scientific efficacy is a separate decision"
+    },
+    "startup_probe": {
+      "status": "PASS",
+      "physical_episodes": 12,
+      "workers": [
+        {
+          "worker": "condition-0-gpu-0",
+          "successes": [
+            false,
+            false,
+            false
+          ],
+          "steps": [
+            250,
+            250,
+            250
+          ],
+          "early_drop_flags": [
+            false,
+            false,
+            false
+          ]
+        },
+        {
+          "worker": "condition-0-gpu-1",
+          "successes": [
+            false,
+            false,
+            false
+          ],
+          "steps": [
+            250,
+            250,
+            250
+          ],
+          "early_drop_flags": [
+            false,
+            false,
+            false
+          ]
+        },
+        {
+          "worker": "condition-1-gpu-0",
+          "successes": [
+            false,
+            false,
+            false
+          ],
+          "steps": [
+            250,
+            250,
+            250
+          ],
+          "early_drop_flags": [
+            false,
+            false,
+            false
+          ]
+        },
+        {
+          "worker": "condition-1-gpu-1",
+          "successes": [
+            false,
+            false,
+            false
+          ],
+          "steps": [
+            250,
+            250,
+            250
+          ],
+          "early_drop_flags": [
+            false,
+            false,
+            false
+          ]
+        }
+      ],
+      "targeted_early_drop_reproduced": false,
+      "scope": "targeted reuse of two anomalous seeds, not a population estimate or root-cause proof"
+    },
+    "camera": {
+      "status": "PASS",
+      "physical_episodes": 2,
+      "mode": "weights",
+      "arms": {
+        "original": {
+          "episodes": 1,
+          "successes": 0,
+          "joint_samples": 0,
+          "exposure_joint_samples": 2250,
+          "any_violation_episodes": 0,
+          "max_depth_by_joint": {
+            "panda_joint1": 0,
+            "panda_joint2": 0,
+            "panda_joint3": 0,
+            "panda_joint4": 0,
+            "panda_joint5": 0,
+            "panda_joint6": 0,
+            "panda_joint7": 0,
+            "panda_finger_joint1": 6.737187504768372e-05,
+            "panda_finger_joint2": 5.762279033660889e-05
+          },
+          "success_rate": 0.0,
+          "violations_per_1000_joint_samples": 0.0
+        },
+        "candidate": {
+          "episodes": 1,
+          "successes": 1,
+          "joint_samples": 0,
+          "exposure_joint_samples": 1548,
+          "any_violation_episodes": 0,
+          "max_depth_by_joint": {
+            "panda_joint1": 0,
+            "panda_joint2": 0,
+            "panda_joint3": 0,
+            "panda_joint4": 4.76837158203125e-07,
+            "panda_joint5": 0,
+            "panda_joint6": 0,
+            "panda_joint7": 0,
+            "panda_finger_joint1": 6.451085209846497e-05,
+            "panda_finger_joint2": 0.0006432235240936279
+          },
+          "success_rate": 1.0,
+          "violations_per_1000_joint_samples": 0.0
+        }
+      },
+      "paired": {
+        "matched_initial_observation_pairs": 1,
+        "maximum_first_action_difference": 5.397819519042969,
+        "candidate_only_success": 1,
+        "original_only_success": 0,
+        "one_sided_exact_p": 0.5
+      },
+      "replay": [],
+      "scope": "physical trace integrity; scientific efficacy is a separate decision"
+    },
+    "isolated_confirmation": {
+      "status": "PASS",
+      "physical_episodes": 96,
+      "paired_conditions": 48,
+      "matched_initial_observation_pairs": 48,
+      "arms": {
+        "candidate": {
+          "episodes": 48,
+          "successes": 15,
+          "joint_samples": 63,
+          "exposure_joint_samples": 87336,
+          "any_violation_episodes": 9,
+          "max_depth_by_joint": {
+            "panda_joint1": 7.62939453125e-06,
+            "panda_joint2": 0,
+            "panda_joint3": 0,
+            "panda_joint4": 0.00010764598846435547,
+            "panda_joint5": 0.00018405914306640625,
+            "panda_joint6": 0.0006299018859863281,
+            "panda_joint7": 1.7881393432617188e-05,
+            "panda_finger_joint1": 0.006371944677084684,
+            "panda_finger_joint2": 0.018985338509082794
+          },
+          "success_rate": 0.3125,
+          "violations_per_1000_joint_samples": 0.7213520197856554
+        },
+        "original": {
+          "episodes": 48,
+          "successes": 12,
+          "joint_samples": 134,
+          "exposure_joint_samples": 85023,
+          "any_violation_episodes": 17,
+          "max_depth_by_joint": {
+            "panda_joint1": 0,
+            "panda_joint2": 0.0014464855194091797,
+            "panda_joint3": 0,
+            "panda_joint4": 0,
+            "panda_joint5": 0,
+            "panda_joint6": 9.298324584960938e-06,
+            "panda_joint7": 4.76837158203125e-07,
+            "panda_finger_joint1": 0.021470848470926285,
+            "panda_finger_joint2": 0.008087467402219772
+          },
+          "success_rate": 0.25,
+          "violations_per_1000_joint_samples": 1.5760441292356187
+        }
+      },
+      "statistics": {
+        "pairs": 48,
+        "wins": 12,
+        "losses": 9,
+        "success_rate_difference": 0.0625,
+        "conditional_bootstrap_95": [
+          -0.125,
+          0.25
+        ],
+        "p_one_sided_exact": 0.33181190490722656,
+        "scope": "one learned snapshot; condition-level inference, no cross-learning-seed claim"
+      },
+      "blocks": {
+        "0": {
+          "pairs": 24,
+          "wins": 6,
+          "losses": 3,
+          "success_rate_difference": 0.125,
+          "conditional_bootstrap_95": [
+            -0.125,
+            0.375
+          ],
+          "p_one_sided_exact": 0.25390625,
+          "scope": "one learned snapshot; condition-level inference, no cross-learning-seed claim"
+        },
+        "1": {
+          "pairs": 24,
+          "wins": 6,
+          "losses": 6,
+          "success_rate_difference": 0.0,
+          "conditional_bootstrap_95": [
+            -0.2916666666666667,
+            0.2916666666666667
+          ],
+          "p_one_sided_exact": 0.61279296875,
+          "scope": "one learned snapshot; condition-level inference, no cross-learning-seed claim"
+        }
+      },
+      "scope": "fresh conditions; separate per-policy workers and crossed GPUs; same learned model, not a new learning seed"
+    }
+  },
+  "robust_self_evolution": "NOT_ESTABLISHED",
+  "limitations": [
+    "one learning seed and one update round",
+    "no equal-training-budget competing learner",
+    "official success is instantaneous, no stable grasp/hold guarantee",
+    "some per-finger maximum limit depths worsened despite lower historical aggregate count",
+    "geometry expert failed; do not call it a successful strong-expert control",
+    "two first-episode free falls were not reproduced in the targeted probe; cause unresolved",
+    "camera replay becomes dark during the learned policy; outcome verified from physics traces",
+    "follow-up motivated by post-hoc order stratification, evaluated on fresh conditions"
+  ],
+  "weights": "original and trained checkpoint stored outside repository; separate inherited licensing",
+  "isolated_confirmation": {
+    "pairs": 48,
+    "wins": 12,
+    "losses": 9,
+    "success_rate_difference": 0.0625,
+    "conditional_bootstrap_95": [
+      -0.125,
+      0.25
+    ],
+    "p_one_sided_exact": 0.33181190490722656,
+    "scope": "one learned snapshot; condition-level inference, no cross-learning-seed claim"
+  }
+}

@@ -136,6 +136,7 @@ class LiftWorker:
         joint_violations = 0
         steps = 0
         frames = []
+        safety_positions = []
         with (directory / "trace.jsonl").open("w") as trace:
             for step in range(self.base.max_episode_length + 1):
                 with torch.inference_mode():
@@ -160,6 +161,7 @@ class LiftWorker:
                         raise RuntimeError("Action outside the live environment action space")
                     joints = self.as_torch(robot.data.joint_pos)
                     limits = self.as_torch(robot.data.joint_pos_limits)
+                    safety_positions.append(joints[0].tolist())
                     joint_violations += int(((joints < limits[..., 0] - 1e-3)
                                              | (joints > limits[..., 1] + 1e-3)).sum().item())
                     delta = float((action - raw).abs().max().item())
@@ -171,9 +173,12 @@ class LiftWorker:
                     trace.write(json.dumps({"step": step, "raw_action": tensor_json(raw),
                                             "applied_action": tensor_json(action),
                                             "controller_proprioception": proprioception,
+                                            "policy_diagnostics": getattr(self.policy, "diagnostics", None),
                                             "observation": tensor_json({k: v for k, v in observation.items()
                                                                         if k != "camera_obs"}),
                                             "joint_position": tensor_json(joints),
+                                            "joint_velocity": tensor_json(self.as_torch(robot.data.joint_vel)),
+                                            "ee_position": tensor_json(self.as_torch(self.base.scene["ee_frame"].data.target_pos_w)),
                                             "object_position": tensor_json(self.as_torch(cube.data.root_pos_w))},
                                            allow_nan=False) + "\n")
                     observation, _, terminated, truncated, _ = self.env.step(action)
@@ -208,6 +213,13 @@ class LiftWorker:
                "trace_artifact": str((directory / "trace.jsonl").relative_to(self.output_dir)),
                "upstream_artifact": str(raw_path.relative_to(self.output_dir)), "video_artifact": None,
                "ignored_zero_step_resets": len(raw_records) - len(finished)}
+        from physicalevobench.calibration.safety import summarize_safety
+
+        safety = summarize_safety(safety_positions, initial["joint_limits"][0],
+                                  robot.joint_names, self.base.step_dt)
+        if safety["violation_joint_samples"] != joint_violations:
+            raise RuntimeError("Safety diagnostic disagrees with historical count")
+        save_json(directory / "sampled_safety.json", safety)
         save_json(directory / "episode.json", row)
         if frames:
             import imageio.v2 as imageio

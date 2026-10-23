@@ -1,0 +1,17 @@
+{
+  "actor_parameter_change_norms": {
+    "distribution.std_param": 0.08632324635982513,
+    "mlp.0.weight": 0.8082751631736755,
+    "mlp.0.bias": 0.08926624804735184,
+    "mlp.2.weight": 1.4244107007980347,
+    "mlp.2.bias": 0.07140786945819855,
+    "mlp.4.weight": 0.7964004874229431,
+    "mlp.4.bias": 0.05380447581410408,
+    "mlp.6.weight": 0.20082981884479523,
+    "mlp.6.bias": 0.015415489673614502
+  },
+  "actor_changed": true,
+  "original_sha256": "babbbfd363f894443ffe494f26c5b6e0485fb35d4f5480c088295c23fc2a13aa",
+  "candidate_sha256": "8c7d182acbf14b0182ee9cfe374955dee18d1b1e8a2136debb325e4a587995a5",
+  "iterations": 200
+}

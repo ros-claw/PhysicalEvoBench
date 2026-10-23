@@ -25,4 +25,7 @@ def published_seeds(project_root):
                     conditions=payload.get('conditions',[])
                     if isinstance(conditions,list):
                         seeds.update(c['seed'] for c in conditions)
+                    seeds.update(j['condition']['seed'] for j in payload.get('jobs', []))
+                    if 'environment_seed' in payload:
+                        seeds.add(payload['environment_seed'])
     return seeds
