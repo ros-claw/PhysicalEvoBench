@@ -63,6 +63,28 @@ See [development progress](docs/experiments/ADAPTATION_PROGRESS_20261022.md),
 [guarded evidence](docs/evidence/guarded-development-20261022-001). These are frozen-weight
 controller adaptations; no model-weight training or demonstrated self-evolution is claimed.
 
+## Calibration and real weight learning (2026-10-23)
+
+A separate train-only PPO process completed **614,400 real transitions** and 200
+optimizer iterations. Frozen validation promoted the changed model (6/24 → 8/24,
+joint-limit samples 73 → 5). On **32 fresh heldout pairs**, the original scored
+**4/32**, the learned policy **10/32**: **+18.75 pp**, conditional 95% interval
+[+3.125, +34.375] pp, one-sided exact p=0.0352 (7 wins, 1 loss).
+
+This is **one learning seed and one update round**, not robust self-evolution.
+Historical safety counts fell 97 → 80, but one finger's maximum violation depth
+increased. A deliberately degraded gripper control scored 0/12 versus original
+24/24 at 0.1 kg; the geometry expert failed (0/24 versus 4/24). Source-controlled
+fresh-process replays still differed in 2/12 success flags despite matching
+recorded initial states/actions. All negative controls and failed startups remain.
+
+See [complete results and limitations](docs/experiments/CALIBRATION_LEARNING_RESULTS_20261023.md),
+[prospective protocol and amendments](docs/experiments/CALIBRATION_LEARNING_PROTOCOL_20261023.md),
+and [full raw evidence and transition archives](docs/evidence/calibration-learning-20261023-001).
+There are **326 completed evaluation/diagnostic/demo episodes**, separately from
+2,467 completed training episodes and 128 unfinished training rollouts. Trained
+weights remain outside the repository under their inherited licensing terms.
+
 ## CPU quickstart
 
 ```bash

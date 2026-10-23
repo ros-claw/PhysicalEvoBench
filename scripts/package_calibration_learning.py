@@ -15,11 +15,14 @@ def main():
     p.add_argument('--output',required=True)
     a=p.parse_args()
     root=Path(__file__).resolve().parents[1]
+    if subprocess.check_output(['git','status','--porcelain'],cwd=root,text=True).strip():
+        raise ValueError('Commit final analysis and packaging source before evidence packaging')
     out=Path(a.output).absolute()
     out.mkdir(parents=True,exist_ok=False)
     runs=sorted((root/'runs').glob('calibration-*'))
     manifest=[]
-    refs=set()
+    analysis_ref=subprocess.check_output(['git','rev-parse','HEAD'],cwd=root,text=True).strip()
+    refs={analysis_ref}
     for run in runs:
         for config in run.rglob('config.json'):
             cfg=json.loads(config.read_text())
@@ -54,7 +57,7 @@ def main():
     for name in ('training_losses.json','weight_change.json','params/agent.yaml'):
         target=metadata/Path(name).name
         shutil.copy2(model/name,target)
-    save_json(out/'manifest.json',{'runs':manifest,'weights':'outside repository; not redistributed',
+    save_json(out/'manifest.json',{'analysis_source_commit':analysis_ref,'runs':manifest,'weights':'outside repository; not redistributed',
               'training_mode':'dense reward; no training success-rate equivalence to evaluation'})
     (out/'SHA256SUMS').write_text(''.join(f'{sha256(f)}  {f.relative_to(out)}\n' for f in sorted(out.rglob('*'))
                                       if f.is_file() and f.name!='SHA256SUMS'))
