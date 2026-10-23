@@ -88,10 +88,31 @@ def main():
     if a.mode == 'weights' and not a.candidate and not a.retention_decision:
         raise ValueError('Need frozen candidate checkpoint')
     cfg['additional_checkpoint_sha256'] = {k:sha256(v) for k,v in cfg['additional_checkpoints'].items()}
+    runtime_source = None
+    if a.fresh_process:
+        registered = json.loads(Path(a.reuse_conditions).read_text())
+        ref = registered['source_commit']
+        runtime_source = root/'.cache'/'study-source'/ref
+        files = command(['git','ls-tree','-r','--name-only',ref,'physicalevobench'],cwd=root)['stdout'].splitlines()
+        for name in files:
+            if not name.endswith('.py'):
+                continue
+            target = runtime_source/name
+            content = subprocess.check_output(['git','show',f'{ref}:{name}'],cwd=root)
+            if target.exists() and target.read_bytes()!=content:
+                raise ValueError('Immutable runtime source cache changed')
+            target.parent.mkdir(parents=True,exist_ok=True)
+            target.write_bytes(content)
+        cfg['supervisor_source_commit'] = cfg['source_commit']
+        cfg['source_commit'] = ref
+        cfg['source_sha256'] = {str(f.relative_to(runtime_source)):sha256(f) for f in (runtime_source/'physicalevobench').rglob('*.py')}
+        cfg['runtime_source_snapshot'] = str(runtime_source)
     save_json(out/'config.json', cfg)
     argv = [str(arena_python_path(cfg, arena)), '-m', 'physicalevobench.calibration.collect', '--run-dir', str(out)]
     save_json(out/'launch.json', {'argv':argv, 'gpu':a.gpu})
     if a.fresh_process:
+        native_environment = runtime_environment(arena,a.gpu)
+        native_environment['PYTHONPATH'] = str(runtime_source)
         codes = []
         ledger = []
         for i, job in enumerate(jobs):
@@ -101,8 +122,12 @@ def main():
             child.mkdir()
             save_json(child/'config.json', {**cfg, 'jobs':[job], 'physical_budget':1})
             child_argv = [*argv[:-1], str(child)]
+            for name, digest in cfg['source_sha256'].items():
+                if sha256(runtime_source/name)!=digest:
+                    raise ValueError('Runtime snapshot changed before fresh process')
+            save_json(child/'launch.json',{'argv':child_argv,'runtime_source_commit':ref, 'gpu':a.gpu})
             with (child/'console.log').open('w') as log:
-                result = subprocess.run(child_argv, cwd=arena, env=runtime_environment(arena,a.gpu),
+                result = subprocess.run(child_argv, cwd=arena, env=native_environment,
                                         stdout=log, stderr=subprocess.STDOUT, timeout=600)
             save_json(child/'process.json', {'returncode':result.returncode, 'finished_at':now()})
             codes.append(result.returncode)

@@ -98,3 +98,14 @@ this v3 algorithm for the 24-condition expert test regardless of pilot outcome;
 no further development extensions in this study. Total expert development budget
 is 24 + 24 + 8 = 56 completed episodes, explicitly separated from the 48 test
 control episodes. These manual development corrections are not contestant learning.
+
+Replay provenance correction: the initial sequential fresh-process supervisor
+imported from the live worktree. Passive instrumentation/controller development
+continued during its later worker startups, so it cannot certify one frozen source
+for all fresh workers. Preserve that entire 12-attempt sequence as exploratory
+runtime/provenance evidence; do not use it as the registered source-controlled
+comparison. Repeat the 12 fresh-process episodes using an immutable package tree
+extracted from the persistent replay's registered commit, hash-checking every source
+before each startup and recording the supervisor/runtime commits separately.
+This adds exactly 12 evaluation attempts. No conditions are selected or replaced
+based on their outcomes. The persistent 36-episode study is unchanged.
