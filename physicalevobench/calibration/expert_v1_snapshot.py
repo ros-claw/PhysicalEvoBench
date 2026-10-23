@@ -1,0 +1,83 @@
+"""Calibration policies operating in the unchanged joint-position action space."""
+
+
+class OpenGripper:
+    """Known degradation: retain the arm policy but prevent grasp closure."""
+
+    def __init__(self, base_policy, gripper_start):
+        self.base_policy, self.gripper_start = base_policy, gripper_start
+
+    def reset(self):
+        self.base_policy.reset()
+
+    def get_action(self, env, observation):
+        action = self.base_policy.get_action(env, observation).clone()
+        action[:, self.gripper_start:] = 1
+        return action
+
+
+class GeometryExpert:
+    """Bounded DLS Cartesian FSM, converted to the live JointPositionAction.
+
+    Uses observable geometry, never mass truth. Robot/actuator/solver settings are
+    unchanged. An unsuccessful expert is inconclusive about task solvability.
+    """
+
+    def __init__(self, worker):
+        import torch
+        from isaaclab.controllers import DifferentialIKController, DifferentialIKControllerCfg
+
+        self.worker = worker
+        self.ik = DifferentialIKController(DifferentialIKControllerCfg(
+            command_type='pose', use_relative_mode=False, ik_method='dls'), 1, worker.base.device)
+        self.torch = torch
+        robot = worker.base.scene['robot']
+        self.hand = robot.body_names.index('panda_hand')
+        self.joint_ids = [robot.joint_names.index(n) for n in worker.action_mapping['arm_action']['joint_names']]
+        self.reset()
+
+    def reset(self):
+        self.step = 0
+        self.grasp_offset = None
+
+    def get_action(self, env, observation):
+        from isaaclab.utils.math import combine_frame_transforms, skew_symmetric_matrix
+
+        t, w = self.torch, self.worker
+        robot, cube = w.base.scene['robot'], w.base.scene['dex_cube']
+        p = w.as_torch(w.base.scene['ee_frame'].data.target_pos_w)[:, 0]
+        q = w.as_torch(w.base.scene['ee_frame'].data.target_quat_w)[:, 0]
+        obj = w.as_torch(cube.data.root_pos_w)
+        target = obj.clone()
+        # XYZW convention of pinned Isaac Lab 17; fixed downward grasp.
+        orient = t.tensor([[1., 0., 0., 0.]], device=p.device)
+        if self.step < 45:
+            target[:, 2] += .12
+        elif self.step < 100:
+            target[:, 2] += .005
+        elif self.step < 130:
+            target[:, 2] += .005
+        else:
+            command = w.base.command_manager.get_command('object_pose')
+            target, _ = combine_frame_transforms(w.as_torch(robot.data.root_pos_w),
+                                                 w.as_torch(robot.data.root_quat_w), command[:, :3])
+            if self.grasp_offset is None:
+                self.grasp_offset = (p - obj).clone()
+            target = target + self.grasp_offset
+        self.ik.set_command(t.cat((target, orient), -1))
+        jac_index = self.hand - 1 if robot.is_fixed_base else self.hand
+        jac = w.as_torch(robot.data.body_link_jacobian_w)[:, jac_index, :, self.joint_ids].clone()
+        # Shift the hand Jacobian to the exact ee_frame offset, in world coordinates.
+        hand_p = w.as_torch(robot.data.body_pos_w)[:, self.hand]
+        jac[:, :3] -= t.bmm(skew_symmetric_matrix(p - hand_p), jac[:, 3:])
+        current = w.as_torch(robot.data.joint_pos)[:, self.joint_ids]
+        desired = self.ik.compute(p, q, jac, current)
+        desired = current + (desired - current).clamp(-.10, .10)
+        limits = w.as_torch(robot.data.joint_pos_limits)[:, self.joint_ids]
+        desired = desired.clamp(limits[..., 0] + .02, limits[..., 1] - .02)
+        term = w.base.action_manager.get_term('arm_action')
+        action = t.zeros((1, 8), device=p.device)
+        action[:, w.arm_slice] = (desired - term._offset) / term._scale
+        action[:, 7] = 1 if self.step < 100 else -1
+        self.step += 1
+        return action

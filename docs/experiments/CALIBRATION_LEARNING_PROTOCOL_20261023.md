@@ -76,3 +76,13 @@ Training startup correction: the descriptive environment seed `202610230301`
 exceeds NumPy's accepted seed range. Before any training reset/transition, map it
 modulo 2**31 in the registered runtime config. Preserve the failed launch (zero
 training transitions) and launch a new run directory; learner seed is unchanged.
+
+Prospective expert development extension (before fresh expert testing): the first
+controller's large Cartesian/orientation errors saturate individual joint increments
+and it fails to approach the cube in early development traces. Freeze that controller
+in `expert_v1_snapshot.py`. Register one additional 12-condition paired development
+batch (24 episodes), with Cartesian position/orientation step bounds and common
+joint-increment scaling that preserves IK direction. No mass/force/time budget change.
+Use this fixed v2 controller for the originally reserved 24-condition expert test,
+regardless of its development score. This is a documented development extension,
+not a rescue of or replacement for the original negative pilot evidence.
