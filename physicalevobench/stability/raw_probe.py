@@ -13,7 +13,7 @@ from physicalevobench.calibration.source_snapshot import snapshot_source
 from physicalevobench.doctor import command, save_json, sha256
 from physicalevobench.evaluation.confirmation import now
 from physicalevobench.evaluation.seed_registry import published_seeds, registered_seed_values
-from physicalevobench.stability.audit import assert_pairs, audit_worker, read
+from physicalevobench.stability.audit import assert_pairs, assert_registered_assignment, audit_worker, read
 from physicalevobench.stability.metrics import paired_interval, promote
 from physicalevobench.stability.study import evaluation
 
@@ -52,14 +52,22 @@ def audit_probe(out):
         raise ValueError('Incomplete raw policy probe')
     if sha256(out/'main_registration.json') != reg['main_registration_sha256']:
         raise ValueError('Parent study registration changed')
+    seeds = [c['seed'] for group in reg['conditions'] for c in group]
+    if len(set(seeds)) != 192 or set(seeds) & registered_seed_values(read(out/'main_registration.json')):
+        raise ValueError('Diagnostic seeds repeat or overlap the parent study')
     completed = 0
     for seed in range(3):
         pairs = {arm: [] for arm in ARMS}
         parent = out/f'trajectory-{seed}'
         frozen = read(parent/'frozen_arms.json')
         for arm in ARMS:
-            for child in sorted(parent.glob('block-*-'+arm)):
+            children = sorted(parent.glob('block-*-'+arm))
+            if children != [parent/f'block-{b}-{arm}' for b in range(4)]:
+                raise ValueError('Registered diagnostic process blocks changed')
+            for block, child in enumerate(children):
                 cfg = read(child/'config.json')
+                assert_registered_assignment(cfg, reg['conditions'][seed][16*block:16*(block+1)],
+                                             arm, reg['model_path_plan'][seed][arm], frozen[arm]['sha256'])
                 if cfg['checkpoint_sha256'] != frozen[arm]['sha256'] or cfg['checkpoint_path'] != frozen[arm]['path'] or cfg.get('official_mode') is not True or cfg.get('action_limit') != 1000.:
                     raise ValueError('Raw probe model/interface mismatch')
                 if read(child/'launch.json')['runtime_source'] != reg['runtime_source']:

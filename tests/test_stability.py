@@ -6,6 +6,33 @@ from physicalevobench.stability.audit import world_goal
 from physicalevobench.stability.metrics import holding_metrics, paired_interval, train_recipe
 
 
+@pytest.mark.parametrize('tamper', [None, 'seed', 'mass', 'model_path', 'model_hash', 'budget'])
+def test_registered_assignment_rejects_relabelled_conditions_and_models(tamper):
+    from pathlib import Path
+
+    from physicalevobench.stability.audit import assert_registered_assignment, read
+
+    # Actual completed v3 preflight metadata, with source digests in the fixture.
+    data = read(Path(__file__).parent/'fixtures/stability_assignment.json')
+    cfg = data['config']
+    if tamper == 'seed':
+        cfg['jobs'][0]['condition']['seed'] += 1
+    elif tamper == 'mass':
+        cfg['jobs'][0]['condition']['object_mass_kg'] += .1
+    elif tamper == 'model_path':
+        cfg['checkpoint_path'] += '.different-model'
+    elif tamper == 'model_hash':
+        cfg['checkpoint_sha256'] = '0'*64
+    elif tamper == 'budget':
+        cfg['physical_budget'] += 1
+    args = (cfg, data['conditions'], data['arm'], data['checkpoint_path'], data['checkpoint_sha256'])
+    if tamper is None:
+        assert_registered_assignment(*args)
+    else:
+        with pytest.raises(ValueError, match='registration|registered lineage'):
+            assert_registered_assignment(*args)
+
+
 def sample(within=True, velocity=0.):
     return {'object_position': [[0., 0., 0. if within else .1]],
             'goal_position_world': [[0., 0., 0.]], 'object_velocity': [[velocity, 0., 0., 0., 0., 0.]],

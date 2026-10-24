@@ -18,6 +18,17 @@ def rows(path):
     return [json.loads(line) for line in Path(path).read_text().splitlines() if line]
 
 
+def assert_registered_assignment(cfg, conditions, arm, checkpoint_path, checkpoint_sha256):
+    """Bind the entire worker plan to registration, not just condition labels."""
+    expected = [{'episode_id': f"{c['condition_id']}-{arm}", 'condition': c}
+                for c in conditions]
+    if cfg['jobs'] != expected or cfg['physical_budget'] != len(expected):
+        raise ValueError('Worker conditions or budget differ from registration')
+    if (cfg['arm'] != arm or cfg['checkpoint_path'] != checkpoint_path
+            or cfg['checkpoint_sha256'] != checkpoint_sha256):
+        raise ValueError('Worker model assignment differs from registered lineage')
+
+
 def world_goal(position, quaternion, local):
     x, y, z, w = quaternion  # Pinned Isaac Lab 17 uses xyzw, including root state.
     ux, uy, uz = local

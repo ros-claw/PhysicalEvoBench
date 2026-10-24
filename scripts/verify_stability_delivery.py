@@ -53,9 +53,18 @@ def main():
             probes.append(audit_probe(registration.parent))
         elif 'criteria' in reg and 'conditions' in reg:
             pairs = {arm: [] for arm in ('original', 'open_gripper')}
+            plans = {arm: [] for arm in pairs}
             for cfg in sorted(registration.parent.glob('*/config.json')):
-                arm = read(cfg)['arm']
+                config = read(cfg)
+                arm = config['arm']
+                plans[arm].extend(job['condition'] for job in config['jobs'])
+                # These legacy calibration registrations pin the base hash in
+                # their archived launcher source, not in registration.json.
+                if config['checkpoint_sha256'] != 'babbbfd363f894443ffe494f26c5b6e0485fb35d4f5480c088295c23fc2a13aa':
+                    raise ValueError('Calibration used an unregistered base model')
                 pairs[arm].extend((r, cfg.parent) for r in audit_worker(cfg.parent))
+            if any(plan != reg['conditions'] for plan in plans.values()):
+                raise ValueError('Calibration worker conditions differ from registration')
             assert_pairs(pairs['original'], pairs['open_gripper'])
             expected = [c['condition_id'] for c in reg['conditions']]
             if any([r['condition_id'] for r, _ in data] != expected for data in pairs.values()):

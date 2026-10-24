@@ -5,7 +5,12 @@ import tempfile
 from pathlib import Path
 
 from physicalevobench.doctor import save_json, sha256
-from physicalevobench.stability.audit import assert_pairs, audit_worker, read
+from physicalevobench.stability.audit import (
+    assert_pairs,
+    assert_registered_assignment,
+    audit_worker,
+    read,
+)
 from physicalevobench.stability.metrics import promote
 from physicalevobench.stability.study import summarize
 
@@ -43,16 +48,28 @@ def verify(out):
         if 'jobs' in cfg:
             workers[cfg_path.parent] = audit_worker(cfg_path.parent)
 
+    model_hashes = {reg['checkpoint_path']: reg['checkpoint_sha256']}
+    for path in out.glob('s*-*/round-*/train/config.json'):
+        model_hashes[read(path)['candidate_path']] = read(path.parent/'freeze.json')['candidate_sha256']
+
     def evaluation(parent, conditions, arms):
         result = {arm: [] for arm in arms}
         pair_records = {arm: [] for arm in arms}
         for arm in arms:
-            for child in sorted(parent.glob(f'block-*-{arm}')):
+            block_size = 16 if len(conditions) == 64 else 32
+            children = sorted(parent.glob(f'block-*-{arm}'))
+            expected_children = [parent/f'block-{b}-{arm}'
+                                 for b in range((len(conditions)+block_size-1)//block_size)]
+            if children != expected_children:
+                raise ValueError('Registered evaluation blocks changed')
+            for block, child in enumerate(children):
                 if child not in workers:
                     raise ValueError('Missing registered worker')
                 result[arm].extend(workers[child])
                 pair_records[arm].extend((row, child) for row in workers[child])
                 cfg, launch = read(child/'config.json'), read(child/'launch.json')
+                assert_registered_assignment(cfg, conditions[block*block_size:(block+1)*block_size],
+                                             arm, arms[arm], model_hashes[arms[arm]])
                 if cfg.get('action_limit') != reg['action_limit']:
                     raise ValueError('Numerical envelope differs between evaluation arms')
                 if cfg.get('official_mode') is not True:
@@ -60,7 +77,7 @@ def verify(out):
                 if launch['runtime_source'] != reg['runtime_source']:
                     raise ValueError('Mutable or incorrect source launch')
                 frozen = read(parent/'frozen_arms.json')[arm]
-                if frozen['sha256'] != cfg['checkpoint_sha256']:
+                if frozen['sha256'] != cfg['checkpoint_sha256'] or frozen['path'] != arms[arm]:
                     raise ValueError('Checkpoint differs from evaluation freeze')
             expected = [c['condition_id'] for c in conditions]
             if [r['condition_id'] for r in result[arm]] != expected:
@@ -70,7 +87,7 @@ def verify(out):
             assert_pairs(first, data)
         return result
 
-    evaluation(out/'preflight', reg['preflight'], ['frozen'])
+    evaluation(out/'preflight', reg['preflight'], {'frozen': reg['checkpoint_path']})
     trajectories = read(out/'all_trajectories_frozen.json')['trajectories']
     model_audit = read(out/'private_model_audit.json')
     if model_audit['status'] != 'PASS' or model_audit['jobs'] != 18:
@@ -112,7 +129,8 @@ def verify(out):
             train_unfinished += audit['unfinished_rollout_steps']
             previous = cfg['candidate_path']
             rate = read(prefix/'model/next_recipe.json')['learning_rate']
-            data = evaluation(prefix/'validation', recipe['validation'], ['incumbent', 'candidate'])
+            data = evaluation(prefix/'validation', recipe['validation'],
+                              {'incumbent': retained, 'candidate': previous})
             candidate_frozen_at = read(prefix/'train/freeze.json')['frozen_at']
             if any(read(p)['started_at'] <= candidate_frozen_at for p in (prefix/'validation').glob('block-*/launch.json')):
                 raise ValueError('Validation launched before candidate freeze')
@@ -139,8 +157,11 @@ def verify(out):
         for launch in parent.glob('block-*/launch.json'):
             if read(launch)['started_at'] <= frozen_at:
                 raise ValueError('Heldout began before all learning stopped')
-        heldout.append(evaluation(parent, reg['heldout'][seed],
-                                  ['frozen', 'identity', 'round1', 'round2', 'round3', 'restart']))
+        lane, control = trajectories[seed*2:seed*2+2]
+        assignments = {'frozen': reg['checkpoint_path'], 'identity': reg['checkpoint_path'],
+                       **{f'round{i+1}': path for i, path in enumerate(lane['snapshots'])},
+                       'restart': control['retained']}
+        heldout.append(evaluation(parent, reg['heldout'][seed], assignments))
     original_results = read(out/'results.json')
     # Recompute elsewhere so a failed comparison never replaces the submitted result.
     with tempfile.TemporaryDirectory(prefix='peb-stability-audit-') as scratch:
