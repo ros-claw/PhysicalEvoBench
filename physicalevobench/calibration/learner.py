@@ -54,7 +54,8 @@ def main():
     p.add_argument('--config', required=True)
     args = p.parse_args()
     cfg = json.loads(Path(args.config).read_text())
-    if set(cfg) != {'checkpoint', 'output', 'learner_seed', 'iterations'}:
+    if set(cfg) not in ({'checkpoint', 'output', 'learner_seed', 'iterations'},
+                        {'checkpoint', 'output', 'learner_seed', 'iterations', 'learning_rate'}):
         raise ValueError('Learner config contains evaluator fields')
     torch.set_num_threads(4)
     torch.manual_seed(cfg['learner_seed'])
@@ -66,8 +67,25 @@ def main():
     agent['device'] = 'cuda:0'
     runner = OnPolicyRunner(env, copy.deepcopy(agent), log_dir=None, device='cuda:0')
     runner.load(str(checkpoint))
+    if 'learning_rate' in cfg:
+        rate = cfg['learning_rate']
+        if not 1e-5 <= rate <= 1e-4:
+            raise ValueError('Learning rate outside registered bounds')
+        runner.alg.learning_rate = rate
+        runner.alg.schedule = 'fixed'
+        for group in runner.alg.optimizer.param_groups:
+            group['lr'] = rate
     before = {k:v.detach().cpu().clone() for k,v in runner.alg.get_policy().state_dict().items()}
     losses = []
+    rewards = []
+    step = env.step
+
+    def logged_step(actions):
+        result = step(actions)
+        rewards.append(float(result[1].mean()))
+        return result
+
+    env.step = logged_step
     update = runner.alg.update
 
     def logged_update():
@@ -89,6 +107,11 @@ def main():
     save_json(output.parent/'weight_change.json', {'actor_parameter_change_norms':norms,
               'actor_changed':any(v > 0 for v in norms.values()), 'original_sha256':sha256(checkpoint),
               'candidate_sha256':sha256(output), 'iterations':len(losses)})
+    if 'learning_rate' in cfg:
+        from physicalevobench.stability.metrics import train_recipe
+
+        save_json(output.parent/'public_reward_means.json', rewards)
+        save_json(output.parent/'next_recipe.json', train_recipe(rewards, cfg['learning_rate']))
     conn.send({'finished':True, 'candidate_sha256':sha256(output)})
     conn.close()
 

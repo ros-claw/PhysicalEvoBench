@@ -4,6 +4,7 @@ import argparse
 import json
 import subprocess
 import sys
+import hashlib
 from multiprocessing.connection import Listener
 from pathlib import Path
 
@@ -49,8 +50,10 @@ def main():
         candidate = Path(cfg['candidate_path']).expanduser()
         learner_cfg = {'checkpoint':str(checkpoint), 'output':str(candidate),
                        'learner_seed':cfg['learner_seed'], 'iterations':cfg['iterations']}
+        if cfg.get('stability_study'):
+            learner_cfg['learning_rate'] = cfg['learning_rate']
         save_json(out/'learner_request.json', learner_cfg)
-        socket = str(out/'learner.sock')
+        socket = '/tmp/peb-' + hashlib.sha256(str(out).encode()).hexdigest()[:24] + '.sock'
         # Only a local trusted child connects. This is not an adversarial security boundary.
         listener = Listener(socket, family='AF_UNIX')
         learner_log = (out/'learner_console.log').open('w')
@@ -106,7 +109,12 @@ def main():
                         connection.send(response)
                         if (step+1) % 24 == 0:
                             path = out/'transitions'/f'iteration-{(step+1)//24:04d}.npz'
-                            np.savez_compressed(path, **{k:np.stack(v) for k,v in arrays.items()})
+                            packed = {k:np.stack(v) for k,v in arrays.items()}
+                            if cfg.get('stability_study'):
+                                for group in ('policy', 'task_obs'):
+                                    packed['stream_'+group] = np.concatenate([
+                                        packed.pop('before_'+group)[:1], packed.pop('after_'+group)], axis=0)
+                            np.savez_compressed(path, **packed)
                             arrays = {}
                             chunks.append({'path':str(path.relative_to(out)), 'sha256':sha256(path)})
                             save_json(out/'progress.json', {'vector_steps':step+1, 'transitions':consumed,
