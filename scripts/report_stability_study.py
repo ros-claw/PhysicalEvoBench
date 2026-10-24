@@ -84,7 +84,8 @@ def render(out):
     text += ['', 'Supplemental exact one-sided sign-test diagnostics for final vs frozen '
              '(not replacements for registered bootstrap gates):', '',
              '| Seed | Discordant wins | Discordant losses | Exact one-sided p |', '| --- | --- | --- | --- |']
-    text.extend(f'| {s} | {w} | {l} | {p:.8f} |' for s, w, l, p in exact)
+    text.extend(f'| {seed} | {wins} | {losses} | {probability:.8f} |'
+                for seed, wins, losses, probability in exact)
     text += ['', '## Cost, integrity and interpretation', '',
              f"Independent delivery audit: **{audit['status']}**, {audit['evaluation_episodes']:,} completed "
              f"evaluation episodes across {audit['workers']} native workers, "
