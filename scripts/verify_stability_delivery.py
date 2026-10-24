@@ -21,7 +21,9 @@ def main():
     p.add_argument('--output', required=True)
     p.add_argument('--numpy-python', help='Interpreter with NumPy for complete public transition-value audit')
     a = p.parse_args()
-    evidence, out = Path(a.evidence).absolute(), Path(a.output).absolute()
+    # A deliberately supplied scratch-directory symlink may route extraction to
+    # another disk; the resolved target must still be a new directory.
+    evidence, out = Path(a.evidence).absolute(), Path(a.output).resolve()
     out.mkdir(parents=True, exist_ok=False)
     for name, digest in read(evidence/'SHA256SUMS.json').items():
         if Path(name).name != name or sha256(evidence/name) != digest:
