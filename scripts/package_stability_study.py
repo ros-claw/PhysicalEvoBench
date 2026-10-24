@@ -42,7 +42,7 @@ def package(root, inputs, destination):
     for ref in refs:
         data = subprocess.check_output(['git', 'archive', '--format=tar', ref,
                                         'physicalevobench', 'scripts', 'configs', 'docs/experiments',
-                                        'AGENTS.md', 'LICENSE', 'NOTICE'], cwd=root)
+                                        'AGENTS.md', 'LICENSE', 'NOTICE.md'], cwd=root)
         target = destination/f'source-{ref}.tar.gz'
         with tarfile.open(fileobj=io.BytesIO(data)) as original, tarfile.open(target, 'w:gz') as output:
             for member in original:

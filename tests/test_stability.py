@@ -50,3 +50,55 @@ def test_seed_stratification_preserves_negative_seed_and_labels_scope():
     assert result['per_seed_difference'] == [1., 1., -1.]
     assert result['interval'] == pytest.approx([1/3, 1/3])
     assert 'not a population' in result['scope']
+
+
+def recorded_preflight(tmp_path):
+    import tarfile
+    from pathlib import Path
+
+    evidence = Path(__file__).resolve().parents[1]/'docs/evidence/stability-preflight-20261024/evidence-000.tar.gz'
+    with tarfile.open(evidence) as archive:
+        archive.extractall(tmp_path, filter='data')
+    return tmp_path/'peb-stability-20261024-001/preflight/block-0-frozen'
+
+
+def test_real_preflight_audits_without_model_or_simulator(tmp_path):
+    from physicalevobench.stability.audit import audit_worker
+
+    assert len(audit_worker(recorded_preflight(tmp_path))) == 2
+
+
+@pytest.mark.parametrize('tamper', ['score', 'action', 'goal', 'mass'])
+def test_real_holding_evidence_rejects_tampering(tmp_path, tamper):
+    import gzip
+    import json
+
+    from physicalevobench.doctor import save_json, sha256
+    from physicalevobench.stability.audit import audit_worker, read, rows
+
+    worker = recorded_preflight(tmp_path)
+    records = rows(worker/'episodes.jsonl')
+    record = records[0]
+    directory = worker/'episodes'/record['episode_id']
+    if tamper == 'score':
+        record['success'] = not record['success']
+    elif tamper == 'mass':
+        initial = read(directory/'initial_state.json')
+        initial['mass_readback_kg'][0][0] += .1
+        save_json(directory/'initial_state.json', initial)
+    else:
+        path = worker/record['trace_artifact']
+        with gzip.open(path, 'rt') as stream:
+            trace = [json.loads(line) for line in stream]
+        if tamper == 'action':
+            trace[0]['applied_action'][0][0] += 1.
+        else:
+            trace[0]['goal_position_world'][0][0] += .1
+        with gzip.open(path, 'wt') as stream:
+            stream.write(''.join(json.dumps(sample)+'\n' for sample in trace))
+        # Even when all editable digest/index copies agree, physics consistency must fail.
+        record['trace_sha256'] = sha256(path)
+    save_json(directory/'episode.json', record)
+    (worker/'episodes.jsonl').write_text(''.join(json.dumps(r)+'\n' for r in records))
+    with pytest.raises(ValueError):
+        audit_worker(worker)
