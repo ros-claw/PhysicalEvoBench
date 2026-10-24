@@ -102,3 +102,52 @@ def test_real_holding_evidence_rejects_tampering(tmp_path, tamper):
     (worker/'episodes.jsonl').write_text(''.join(json.dumps(r)+'\n' for r in records))
     with pytest.raises(ValueError):
         audit_worker(worker)
+
+
+def official_calibration(tmp_path):
+    import tarfile
+    from pathlib import Path
+
+    archive = Path(__file__).resolve().parents[1]/'docs/evidence/stability-calibration-20261024/evidence-000.tar.gz'
+    with tarfile.open(archive) as stream:
+        stream.extractall(tmp_path, filter='data')
+    return tmp_path/'peb-official-calibration-20261024-001'
+
+
+def test_real_official_metric_is_preserved_and_holding_not_invented(tmp_path):
+    from physicalevobench.stability.audit import audit_worker
+
+    root = official_calibration(tmp_path)
+    original = audit_worker(root/'block-0-original')
+    degraded = audit_worker(root/'block-0-open_gripper')
+    assert len(original) == len(degraded) == 6
+    assert all(row['success'] for row in original)
+    assert not any(row['success'] for row in degraded)
+    assert all('stability' not in row for row in original+degraded)
+
+
+@pytest.mark.parametrize('tamper', ['official_score', 'envelope'])
+def test_real_official_evidence_rejects_tampering(tmp_path, tamper):
+    import gzip
+    import json
+
+    from physicalevobench.doctor import save_json, sha256
+    from physicalevobench.stability.audit import audit_worker, rows
+
+    worker = official_calibration(tmp_path)/'block-0-original'
+    records = rows(worker/'episodes.jsonl')
+    row = records[0]
+    if tamper == 'official_score':
+        row['success'] = not row['success']
+    else:
+        path = worker/row['trace_artifact']
+        with gzip.open(path, 'rt') as stream:
+            trace = [json.loads(line) for line in stream]
+        trace[0]['raw_action'][0][0] = trace[0]['applied_action'][0][0] = 2000.
+        with gzip.open(path, 'wt') as stream:
+            stream.write(''.join(json.dumps(sample)+'\n' for sample in trace))
+        row['trace_sha256'] = sha256(path)
+    save_json(worker/'episodes'/row['episode_id']/'episode.json', row)
+    (worker/'episodes.jsonl').write_text(''.join(json.dumps(r)+'\n' for r in records))
+    with pytest.raises(ValueError):
+        audit_worker(worker)

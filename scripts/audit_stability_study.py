@@ -92,6 +92,9 @@ def verify(out):
             archive, audit = read(prefix/'train/training_archive.json'), read(prefix/'train/audit.json')
             if audit['status'] != 'PASS' or audit['transitions'] != 614400 or archive['transitions'] != 614400:
                 raise ValueError('Training audit/budget mismatch')
+            if not any(value > 0 for name, value in audit['actor_parameter_change_norms'].items()
+                       if name.startswith('mlp.')):
+                raise ValueError('Deterministic actor network did not change; std/optimizer changes alone are insufficient')
             for chunk in archive['chunks']:
                 if sha256(prefix/'train'/chunk['path']) != chunk['sha256']:
                     raise ValueError('Transition archive changed after audit')
