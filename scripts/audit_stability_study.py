@@ -13,6 +13,13 @@ from physicalevobench.stability.study import summarize
 def verify(out):
     out = Path(out)
     reg = read(out/'registration.json')
+    expected_lanes = [(s, a) for s in range(3) for a in ('continual', 'restart')]
+    if [(lane['seed'], lane['algorithm']) for lane in reg['lanes']] != expected_lanes:
+        raise ValueError('Registered learning replication design changed')
+    if len(reg['heldout']) != 3 or any(len(g) != 128 for g in reg['heldout']) or len(reg['preflight']) != 2:
+        raise ValueError('Registered heldout/diagnostic sizes changed')
+    if any(len(lane['rounds']) != 3 or any(len(r['validation']) != 64 for r in lane['rounds']) for lane in reg['lanes']):
+        raise ValueError('Registered round/validation design changed')
     complete = read(out/'status.json')
     if complete['status'] != 'COMPLETED':
         raise ValueError('Study is incomplete; no positive scientific conclusion allowed')
@@ -67,6 +74,8 @@ def verify(out):
         for i, recipe in enumerate(lane['rounds']):
             prefix = out/f"s{lane['seed']}-{lane['algorithm']}"/f'round-{i+1}'
             cfg = read(prefix/'train/config.json')
+            if (cfg['num_envs'], cfg['iterations'], cfg['transition_budget']) != (128, 200, 614400):
+                raise ValueError('Registered per-job training budget changed')
             expected_input = previous if lane['algorithm'] == 'continual' else reg['checkpoint_path']
             if cfg['checkpoint_path'] != expected_input or cfg['learning_rate'] != rate or cfg['learner_seed'] != recipe['learner_seed'] or cfg['environment_seed'] != recipe['environment_seed']:
                 raise ValueError('Autonomous training lineage/rate/seeds mismatch')
@@ -84,6 +93,9 @@ def verify(out):
             previous = cfg['candidate_path']
             rate = read(prefix/'model/next_recipe.json')['learning_rate']
             data = evaluation(prefix/'validation', recipe['validation'], ['incumbent', 'candidate'])
+            candidate_frozen_at = read(prefix/'train/freeze.json')['frozen_at']
+            if any(read(p)['started_at'] <= candidate_frozen_at for p in (prefix/'validation').glob('block-*/launch.json')):
+                raise ValueError('Validation launched before candidate freeze')
             decision = read(prefix/'decision.json')
             reconstructed = promote(data['incumbent'], data['candidate'])
             for key in reconstructed:
