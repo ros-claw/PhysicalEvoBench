@@ -20,27 +20,28 @@ def exact_tail(wins, losses):
 def render(out):
     result, reg, audit = read(out/'results.json'), read(out/'registration.json'), read(out/'delivery_audit.json')
     frozen = read(out/'all_trajectories_frozen.json')
-    supported = result['status'] == 'STABLE_BOUNDED_ADAPTATION_SUPPORTED'
+    supported = result['status'] == 'STABLE_BOUNDED_TASK_ADAPTATION_SUPPORTED'
     text = [
         '# Three-seed, three-round stable adaptation confirmation', '',
         f"**{'Bounded stable adaptation passed the registered checks.' if supported else 'Stable self-evolution was not established.'}**",
         'This is a completed fixed-budget physical experiment; CPU fixtures and diagnostics are not scored as learned improvement.', '',
-        '[Preregistered protocol](STABILITY_PROTOCOL_20261024.md). '
+        '[Preregistered protocol](STABILITY_PROTOCOL_V3_20261024.md). '
         '[Complete archive manifest](../evidence/stability-20261024/manifest.json).', '',
         f"Source: `{reg['source_commit']}`. All final heldout policies were frozen at `{frozen['frozen_at']}` before heldout launches.", '',
         '## Independent heldout results', '',
         'Each learning seed uses 128 fresh paired mass/seed conditions, evaluated in separate policy processes. '
-        'Cells below are stable-holding successes / instantaneous reaches, both out of 128. '
-        'Holding requires 16 consecutive 50 Hz samples spanning 0.30 s, within 5 cm and speed <=0.2 m/s.', '',
+        'Cells are official upstream lift successes out of 128. Success termination and the official '
+        'predicate are unchanged. All arms share a numerical action envelope of +/-1000 raw action units. '
+        'This is not a physical safety guarantee. Sustained holding is NOT_MEASURED in these early-terminating episodes.', '',
         '| Learning seed | Frozen | Identity replay | Retained round 1 | Retained round 2 | Retained round 3 | Equal-budget restart |',
         '| --- | --- | --- | --- | --- | --- | --- |',
     ]
     for seed, counts in enumerate(result['counts']):
-        text.append('| '+str(seed)+' | '+' | '.join(f"{counts[a]['stable']} / {counts[a]['instant']}" for a in
+        text.append('| '+str(seed)+' | '+' | '.join(str(counts[a]['successes']) for a in
                     ('frozen', 'identity', 'round1', 'round2', 'round3', 'restart'))+' |')
     text += ['', 'Different outcomes from identical retained checkpoint hashes are replay variability, not learning. '
              'Raw candidate updates and private promotion decisions are reported separately.', '',
-             '| Registered comparison | Holding difference (pp) | Adjusted interval (pp) | Alpha |',
+             '| Registered comparison | Official success difference (pp) | Adjusted interval (pp) | Alpha |',
              '| --- | --- | --- | --- |']
     for name, value in result['comparisons'].items():
         lo, hi = value['interval']
@@ -56,7 +57,7 @@ def render(out):
              'Every round trained for 614,400 real transitions. Continual training always resumed the preceding '
              'raw candidate; restart training always loaded the original. The learner selected its next rate '
              'from training rewards only. Private validation never selected the next training checkpoint.', '',
-             '| Seed | Lane | Round | Incumbent / candidate holding (of 64) | Promoted | Candidate SHA256 |',
+             '| Seed | Lane | Round | Incumbent / candidate official successes (of 64) | Promoted | Candidate SHA256 |',
              '| --- | --- | --- | --- | --- | --- |']
     for trajectory in frozen['trajectories']:
         for r, decision in enumerate(trajectory['decisions'], 1):
@@ -91,10 +92,18 @@ def render(out):
              f"evaluation episodes across {audit['workers']} native workers, "
              f"{audit['training_transitions']:,} training transitions, {audit['completed_training_episodes']:,} "
              f"completed training episodes and {audit['unfinished_training_steps']:,} unfinished-rollout steps. "
-             'Training completions do not count as evaluation successes. Two additional diagnostic episodes '
-             'from aborted integration attempt 001 are preserved outside the 4,610-episode registered budget.', '',
-             'The independent audit checks raw actions/states, pinned instantaneous predicates, scalar goal '
-             'transforms, holding durations, sampled safety, physical mass readback, matching initial states, '
+             'Training completions do not count as evaluation successes. Earlier attempts consumed another '
+             '3,686,400 training transitions, four diagnostic episodes, 24 failed holding-calibration episodes '
+             'and 24 official-calibration episodes. They are separately accounted, not successful replications.', '',
+             '**Earlier failures remain negative:** the v1 third continual seed overflowed its value loss at '
+             'updates 112/113; all six first-round jobs and 14,892 completed training episodes are archived. '
+             'The original policy reached the nominal goal 12/12 but held it at low speed for 0.30 s in 0/12 '
+             'full-horizon calibration episodes; open-gripper scored 0/12 on both. v2 confirmation was blocked. '
+             'The v3 primary metric was explicitly preregistered as the original official task before new '
+             'training, rather than treating failed physical holding as success. See '
+             '[v1 numerical failure archive](../evidence/stability-v1-numerical-failure-20261024/manifest.json).', '',
+             'The independent audit checks raw actions/states, upstream official completion records, the '
+             'common numerical action envelope, sampled safety, physical mass readback, matching initial states/public observations/velocities, '
              'source/checkpoint lineage, reservations, optimizer audits and final statistics. No model weights '
              'are redistributed. Source archives, hashed transition chunks, process logs, failure records and '
              'all episode traces are retained.', '',
