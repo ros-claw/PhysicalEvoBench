@@ -4,6 +4,13 @@ Status before launch: NOT_RUN. This protocol is committed before native physics.
 Prior one-round evidence did not establish stable self-evolution. A positive result is
 not assumed; the complete fixed study is reported even when promotion fails.
 
+Integration attempt 001 at source aa63c0daaf6197ace152b2779a6d363e28fbd852
+completed only two diagnostic episodes, zero training/validation/heldout episodes.
+Independent scalar goal audit interpreted the runtime xyzw quaternion as wxyz and
+stopped. Attempt 002 corrects only this audit convention and excludes every registered
+seed from attempt 001. Criteria, budgets, updater and scoring thresholds are unchanged.
+The failed run and its raw traces are preserved separately; no physical outcome is retried.
+
 ## Scope and immutable inputs
 
 Three independent learner trajectories, three update rounds, original Franka joint-position

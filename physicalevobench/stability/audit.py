@@ -19,7 +19,7 @@ def rows(path):
 
 
 def world_goal(position, quaternion, local):
-    w, x, y, z = quaternion
+    x, y, z, w = quaternion  # Pinned Isaac Lab 17 uses xyzw, including root state.
     ux, uy, uz = local
     # Independent scalar quaternion-vector rotation (upstream uses torch helpers).
     tx, ty, tz = 2*(y*uz-z*uy), 2*(z*ux-x*uz), 2*(x*uy-y*ux)

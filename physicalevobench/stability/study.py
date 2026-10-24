@@ -51,6 +51,16 @@ def register(root, out):
     ref = command(['git', 'rev-parse', 'HEAD'], cwd=root)['stdout']
     source, hashes = snapshot_source(root, ref)
     excluded = published_seeds(root)
+    prior_registrations = []
+    for path in sorted(out.parent.glob('peb-stability-*/registration.json')):
+        previous = read(path)
+        prior_registrations.append({'path': str(path), 'sha256': sha256(path)})
+        for lane in previous['lanes']:
+            for recipe in lane['rounds']:
+                excluded.update((recipe['learner_seed'], recipe['environment_seed']))
+                excluded.update(c['seed'] for c in recipe['validation'])
+        excluded.update(c['seed'] for group in previous['heldout'] for c in group)
+        excluded.update(c['seed'] for c in previous['preflight'])
     for path in (root/'runs').rglob('config.json'):
         cfg = read(path)
         excluded.update(j['condition']['seed'] for j in cfg.get('jobs', []))
@@ -85,6 +95,7 @@ def register(root, out):
                     'heldout_episode_budget': 2304, 'preflight_episode_budget': 2,
                     'checkpoint_path': '/home/dell/models/physicalevobench/franka_lift/model_1999.pt',
                     'checkpoint_sha256': 'babbbfd363f894443ffe494f26c5b6e0485fb35d4f5480c088295c23fc2a13aa',
+                    'prior_registrations': prior_registrations,
                     'protocol': 'docs/experiments/STABILITY_PROTOCOL_20261024.md'}
     if sha256(registration['checkpoint_path']) != registration['checkpoint_sha256']:
         raise ValueError('Base checkpoint changed')

@@ -32,7 +32,8 @@ def test_pinned_predicate_and_nonfinite_state_are_checked():
 
 
 def test_independent_world_transform_rotates_then_translates():
-    assert world_goal([1., 2., 3.], [0., 0., 0., 1.], [.5, .2, .1]) == pytest.approx([.5, 1.8, 3.1])
+    assert world_goal([1., 2., 3.], [0., 0., 1., 0.], [.5, .2, .1]) == pytest.approx([.5, 1.8, 3.1])
+    assert world_goal([1., 2., 3.], [0., 0., 0., 1.], [.5, .2, .1]) == pytest.approx([1.5, 2.2, 3.1])
 
 
 def test_scheduler_only_train_rewards_and_bounded_rate():
