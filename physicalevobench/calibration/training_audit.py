@@ -48,6 +48,10 @@ def main():
                     data['before_'+group], data['after_'+group] = stream[:-1], stream[1:]
             expected={'before_policy','before_task_obs','actions','rewards','dones','time_outs',
                       'after_policy','after_task_obs','evaluator_mass'}
+            if cfg.get('action_limit') is not None:
+                expected.add('proposed_actions')
+                if cfg['action_limit'] != 1000. or not np.array_equal(data['actions'],np.clip(data['proposed_actions'],-1000.,1000.)):
+                    raise ValueError('Numerical action envelope mismatch')
             if set(data)!=expected or data['actions'].shape!=(24,cfg['num_envs'],8):
                 raise ValueError('Transition shape/fields mismatch')
             for k in data:

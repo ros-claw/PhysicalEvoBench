@@ -50,7 +50,11 @@ def register(root, out):
         raise ValueError('Commit protocol and source before registration')
     ref = command(['git', 'rev-parse', 'HEAD'], cwd=root)['stdout']
     source, hashes = snapshot_source(root, ref)
+    calibration = out.parent/'peb-envelope-calibration-20261024-001'
+    if read(calibration/'results.json')['status'] != 'PASS':
+        raise ValueError('Complete the preregistered envelope calibration first')
     excluded = published_seeds(root)
+    excluded.update(c['seed'] for c in read(calibration/'registration.json')['conditions'])
     prior_registrations = []
     for path in sorted(out.parent.glob('peb-stability-*/registration.json')):
         previous = read(path)
@@ -87,7 +91,8 @@ def register(root, out):
                 {'round': r, 'learner_seed': fresh(), 'environment_seed': fresh(),
                  'validation': conditions(f'validation-s{seed}-{algorithm}-r{r}', 64)}
                 for r in range(1, 4)]})
-    registration = {'schema': 'stability-1', 'registered_at': now(), 'source_commit': ref,
+    registration = {'schema': 'stability-2', 'action_limit': 1000.,
+                    'registered_at': now(), 'source_commit': ref,
                     'runtime_source': str(source), 'source_sha256': hashes, 'lanes': lanes,
                     'heldout': [conditions(f'heldout-s{s}', 128) for s in range(3)],
                     'preflight': conditions('diagnostic-preflight', 2),
@@ -96,7 +101,10 @@ def register(root, out):
                     'checkpoint_path': '/home/dell/models/physicalevobench/franka_lift/model_1999.pt',
                     'checkpoint_sha256': 'babbbfd363f894443ffe494f26c5b6e0485fb35d4f5480c088295c23fc2a13aa',
                     'prior_registrations': prior_registrations,
-                    'protocol': 'docs/experiments/STABILITY_PROTOCOL_20261024.md'}
+                    'calibration': {'path': str(calibration),
+                                    'registration_sha256': sha256(calibration/'registration.json'),
+                                    'results_sha256': sha256(calibration/'results.json')},
+                    'protocol': 'docs/experiments/STABILITY_PROTOCOL_V2_20261024.md'}
     if sha256(registration['checkpoint_path']) != registration['checkpoint_sha256']:
         raise ValueError('Base checkpoint changed')
     out.mkdir(parents=True, exist_ok=False)
@@ -113,6 +121,7 @@ def evaluation(root, source, parent, arms, conditions):
             child = parent/f'block-{block}-{arm}'
             child.mkdir(parents=True)
             cfg = {'arm': arm, 'checkpoint_path': str(checkpoint), 'checkpoint_sha256': sha256(checkpoint),
+                   'action_limit': 1000.,
                    'physical_budget': len(conditions[offset:offset+block_size]),
                    'jobs': [{'episode_id': f"{c['condition_id']}-{arm}", 'condition': c}
                             for c in conditions[offset:offset+block_size]]}
@@ -209,7 +218,7 @@ def main():
                 candidate = prefix/'model/model_final.pt'
                 input_model = t['input'] if lane['algorithm'] == 'continual' else original
                 recipe = lane['rounds'][round_index]
-                cfg = {'stability_study': True, 'checkpoint_path': str(input_model),
+                cfg = {'stability_study': True, 'action_limit': 1000., 'checkpoint_path': str(input_model),
                        'checkpoint_sha256': sha256(input_model), 'candidate_path': str(candidate),
                        'num_envs': 128, 'iterations': 200, 'transition_budget': 614400,
                        'learner_seed': recipe['learner_seed'], 'environment_seed': recipe['environment_seed'],

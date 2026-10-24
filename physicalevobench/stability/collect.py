@@ -25,7 +25,12 @@ def main():
 
         if sha256(cfg['checkpoint_path']) != cfg['checkpoint_sha256']:
             raise ValueError('Frozen model digest mismatch')
-        worker = LiftWorker(cfg['checkpoint_path'], out, stability_mode=True)
+        worker = LiftWorker(cfg['checkpoint_path'], out, stability_mode=True,
+                            action_limit=cfg.get('action_limit'))
+        if cfg.get('open_gripper'):
+            from physicalevobench.calibration.policies import OpenGripper
+
+            worker.policy = OpenGripper(worker.policy, worker.action_mapping['gripper_action']['start'])
         rows, ledger = [], []
         try:
             for job in cfg['jobs']:

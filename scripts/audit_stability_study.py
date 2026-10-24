@@ -13,6 +13,8 @@ from physicalevobench.stability.study import summarize
 def verify(out):
     out = Path(out)
     reg = read(out/'registration.json')
+    if reg['schema'] != 'stability-2' or reg['action_limit'] != 1000.:
+        raise ValueError('This verifier expects the numerical-envelope v2 study')
     expected_lanes = [(s, a) for s in range(3) for a in ('continual', 'restart')]
     if [(lane['seed'], lane['algorithm']) for lane in reg['lanes']] != expected_lanes:
         raise ValueError('Registered learning replication design changed')
@@ -51,6 +53,8 @@ def verify(out):
                 result[arm].extend(workers[child])
                 pair_records[arm].extend((row, child) for row in workers[child])
                 cfg, launch = read(child/'config.json'), read(child/'launch.json')
+                if cfg.get('action_limit') != reg['action_limit']:
+                    raise ValueError('Numerical envelope differs between evaluation arms')
                 if launch['runtime_source'] != reg['runtime_source']:
                     raise ValueError('Mutable or incorrect source launch')
                 frozen = read(parent/'frozen_arms.json')[arm]
@@ -74,6 +78,8 @@ def verify(out):
         for i, recipe in enumerate(lane['rounds']):
             prefix = out/f"s{lane['seed']}-{lane['algorithm']}"/f'round-{i+1}'
             cfg = read(prefix/'train/config.json')
+            if cfg.get('action_limit') != reg['action_limit']:
+                raise ValueError('Training and evaluation numerical envelopes differ')
             if (cfg['num_envs'], cfg['iterations'], cfg['transition_budget']) != (128, 200, 614400):
                 raise ValueError('Registered per-job training budget changed')
             expected_input = previous if lane['algorithm'] == 'continual' else reg['checkpoint_path']

@@ -3,6 +3,7 @@
 import argparse
 import copy
 import json
+import math
 from multiprocessing.connection import Client
 from pathlib import Path
 
@@ -90,6 +91,11 @@ def main():
 
     def logged_update():
         loss = update()
+        if 'learning_rate' in cfg and not all(math.isfinite(float(v)) for v in loss.values()):
+            save_json(Path(cfg['output']).parent/'numerical_failure.json',
+                      {'iteration': len(losses)+1, 'loss': {k:str(v) for k,v in loss.items()},
+                       'status': 'LEARNER_NUMERICAL_FAILURE'})
+            raise FloatingPointError('Nonfinite PPO loss; stop instead of accepting unstable updates')
         losses.append({k:float(v) for k,v in loss.items()})
         save_json(Path(cfg['output']).parent/'training_losses.json', losses)
         print(json.dumps({'iteration':len(losses), 'loss':loss}), flush=True)

@@ -15,7 +15,8 @@ def tensor_json(value):
 
 
 class LiftWorker:
-    def __init__(self, checkpoint, output_dir, record_camera_video=False, stability_mode=False):
+    def __init__(self, checkpoint, output_dir, record_camera_video=False, stability_mode=False,
+                 action_limit=None):
         import torch
 
         from isaaclab_arena.environments.arena_env_builder import ArenaEnvBuilder
@@ -33,6 +34,9 @@ class LiftWorker:
         self.checkpoint_hash = sha256(checkpoint)
         self.record_camera_video = record_camera_video
         self.stability_mode = stability_mode
+        self.action_limit = action_limit
+        if action_limit is not None and action_limit != 1000.:
+            raise ValueError('Only the registered numerical envelope is supported')
         definition = LiftObjectEnvironment().build(LiftObjectEnvironmentCfg(
             enable_cameras=record_camera_video, rl_training_mode=stability_mode
         ))
@@ -159,6 +163,8 @@ class LiftWorker:
                         action = torch.tensor([transformed], dtype=raw.dtype, device=raw.device)
                     if not torch.isfinite(action).all():
                         raise RuntimeError("Nonfinite action: infrastructure failure, not task failure")
+                    if self.action_limit is not None:
+                        action = action.clamp(-self.action_limit, self.action_limit)
                     if ((action < self.action_low) | (action > self.action_high)).any():
                         raise RuntimeError("Action outside the live environment action space")
                     joints = self.as_torch(robot.data.joint_pos)
@@ -252,6 +258,8 @@ class LiftWorker:
             metric = holding_metrics(stability_samples)
             row.update(environment_id="PEB-Lift-Mass-Stability-v1", upstream_success=official["success"],
                        success=metric["stable_success"], stability=metric)
+            if self.action_limit is not None:
+                row.update(environment_id="PEB-Lift-Mass-Stability-v2", action_limit=self.action_limit)
             save_json(directory / "holding.json", metric)
         save_json(directory / "episode.json", row)
         if frames:

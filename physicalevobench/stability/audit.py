@@ -32,6 +32,8 @@ def audit_worker(out):
     out = Path(out)
     cfg, recorded = read(out/'config.json'), rows(out/'episodes.jsonl')
     jobs = cfg['jobs']
+    if cfg.get('action_limit') not in (None, 1000.):
+        raise ValueError('Unregistered action envelope')
     ledger = read(out/'budget_ledger.json')
     if len(recorded) != len(jobs) or len(ledger) != len(jobs) or len(jobs) > cfg['physical_budget']:
         raise ValueError('Incomplete physical budget')
@@ -43,6 +45,9 @@ def audit_worker(out):
             raise ValueError('Episode index or reservation mismatch')
         if row['base_checkpoint_sha256'] != cfg['checkpoint_sha256']:
             raise ValueError('Model lineage mismatch')
+        expected_env = 'PEB-Lift-Mass-Stability-v2' if cfg.get('action_limit') else 'PEB-Lift-Mass-Stability-v1'
+        if row['environment_id'] != expected_env or row.get('action_limit') != cfg.get('action_limit'):
+            raise ValueError('Environment/envelope identity mismatch')
         state = read(directory/'initial_state.json')
         if state['condition'] != job['condition'] or abs(state['mass_readback_kg'][0][0]-job['condition']['object_mass_kg']) > 1e-5:
             raise ValueError('Physical mass/condition mismatch')
@@ -54,8 +59,15 @@ def audit_worker(out):
         if len(trace) != row['steps'] or not trace:
             raise ValueError('Trace length mismatch')
         for i, sample in enumerate(trace):
-            if sample['step'] != i or sample['raw_action'] != sample['applied_action'] or not all(math.isfinite(v) for v in sample['applied_action'][0]):
+            proposed = sample['raw_action'][0]
+            expected_action = ([max(-1000.,min(1000.,v)) for v in proposed]
+                               if cfg.get('action_limit') == 1000. else proposed)
+            if sample['step'] != i or expected_action != sample['applied_action'][0] or not all(math.isfinite(v) for v in proposed + sample['applied_action'][0]):
                 raise ValueError('Action integrity mismatch')
+            if cfg.get('open_gripper'):
+                start = read(out/'action_mapping.json')['gripper_action']['start']
+                if proposed[start] != 1.:
+                    raise ValueError('Known-degradation gripper command mismatch')
             goal = world_goal(sample['robot_root_position'][0], sample['robot_root_orientation'][0], sample['target_command'][0][:3])
             if math.dist(goal, sample['goal_position_world'][0]) > 1e-6:
                 raise ValueError('World-frame goal mismatch')

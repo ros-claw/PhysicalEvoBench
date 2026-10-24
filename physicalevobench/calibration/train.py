@@ -84,6 +84,9 @@ def main():
                         action = torch.as_tensor(request['actions'], device=base.device)
                         if action.shape != (cfg['num_envs'],8) or not torch.isfinite(action).all():
                             raise ValueError('Invalid learner action')
+                        proposed = action.detach().cpu().numpy().copy()
+                        if cfg.get('action_limit') is not None:
+                            action = action.clamp(-cfg['action_limit'], cfg['action_limit'])
                         if reserved + cfg['num_envs'] > cfg['transition_budget']:
                             raise RuntimeError('Training transition budget exhausted')
                         reserved += cfg['num_envs']
@@ -100,10 +103,12 @@ def main():
                                     'rewards':reward.detach().cpu().numpy().copy(),
                                     'dones':dones.cpu().numpy().copy(), 'time_outs':trunc.cpu().numpy().copy()}
                         evidence = {'before_policy':before['policy'], 'before_task_obs':before['task_obs'],
-                                    'actions':request['actions'], 'rewards':response['rewards'],
+                                    'actions':action.detach().cpu().numpy().copy(), 'rewards':response['rewards'],
                                     'dones':response['dones'], 'time_outs':response['time_outs'],
                                     'after_policy':response['observations']['policy'],
                                     'after_task_obs':response['observations']['task_obs'], 'evaluator_mass':mass}
+                        if cfg.get('action_limit') is not None:
+                            evidence['proposed_actions'] = proposed
                         for k,v in evidence.items():
                             arrays.setdefault(k,[]).append(v)
                         connection.send(response)
