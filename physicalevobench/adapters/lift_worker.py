@@ -15,7 +15,8 @@ def tensor_json(value):
 
 
 class LiftWorker:
-    def __init__(self, checkpoint, output_dir, record_camera_video=False):
+    def __init__(self, checkpoint, output_dir, record_camera_video=False, stability_mode=False,
+                 action_limit=None):
         import torch
 
         from isaaclab_arena.environments.arena_env_builder import ArenaEnvBuilder
@@ -32,8 +33,12 @@ class LiftWorker:
         self.checkpoint = Path(checkpoint)
         self.checkpoint_hash = sha256(checkpoint)
         self.record_camera_video = record_camera_video
+        self.stability_mode = stability_mode
+        self.action_limit = action_limit
+        if action_limit is not None and action_limit != 1000.:
+            raise ValueError('Only the registered numerical envelope is supported')
         definition = LiftObjectEnvironment().build(LiftObjectEnvironmentCfg(
-            enable_cameras=record_camera_video
+            enable_cameras=record_camera_video, rl_training_mode=stability_mode
         ))
         variation = definition.scene.assets["dex_cube"].get_variation("mass")
         variation.apply_cfg(ObjectMassVariationCfg(
@@ -137,6 +142,7 @@ class LiftWorker:
         steps = 0
         frames = []
         safety_positions = []
+        stability_samples = []
         with (directory / "trace.jsonl").open("w") as trace:
             for step in range(self.base.max_episode_length + 1):
                 with torch.inference_mode():
@@ -157,6 +163,8 @@ class LiftWorker:
                         action = torch.tensor([transformed], dtype=raw.dtype, device=raw.device)
                     if not torch.isfinite(action).all():
                         raise RuntimeError("Nonfinite action: infrastructure failure, not task failure")
+                    if self.action_limit is not None:
+                        action = action.clamp(-self.action_limit, self.action_limit)
                     if ((action < self.action_low) | (action > self.action_high)).any():
                         raise RuntimeError("Action outside the live environment action space")
                     joints = self.as_torch(robot.data.joint_pos)
@@ -170,6 +178,29 @@ class LiftWorker:
                     if self.record_camera_video:
                         camera = next(iter(observation["camera_obs"].values()))
                         frames.append(camera[0, ..., :3].detach().cpu().numpy())
+                    stability_state = {}
+                    if self.stability_mode:
+                        from isaaclab.utils.math import combine_frame_transforms
+                        from isaaclab.managers import SceneEntityCfg
+                        from isaaclab_arena.tasks.terminations import lift_object_rl_success
+
+                        root_p = self.as_torch(robot.data.root_pos_w)
+                        root_q = self.as_torch(robot.data.root_quat_w)
+                        command = self.base.command_manager.get_command("object_pose")
+                        goal, _ = combine_frame_transforms(root_p, root_q, command[:, :3])
+                        stability_state = {
+                            "object_velocity": tensor_json(self.as_torch(cube.data.root_vel_w)),
+                            "goal_position_world": tensor_json(goal),
+                            "robot_root_position": tensor_json(root_p),
+                            "robot_root_orientation": tensor_json(root_q),
+                            "target_command": tensor_json(command),
+                            "step_dt": self.base.step_dt,
+                            "instant_predicate": bool(lift_object_rl_success(
+                                self.base, object_cfg=SceneEntityCfg("dex_cube"),
+                                rl_training=False)[0]),
+                        }
+                        stability_samples.append({**stability_state, "object_position":
+                                                  tensor_json(self.as_torch(cube.data.root_pos_w))})
                     trace.write(json.dumps({"step": step, "raw_action": tensor_json(raw),
                                             "applied_action": tensor_json(action),
                                             "controller_proprioception": proprioception,
@@ -179,7 +210,8 @@ class LiftWorker:
                                             "joint_position": tensor_json(joints),
                                             "joint_velocity": tensor_json(self.as_torch(robot.data.joint_vel)),
                                             "ee_position": tensor_json(self.as_torch(self.base.scene["ee_frame"].data.target_pos_w)),
-                                            "object_position": tensor_json(self.as_torch(cube.data.root_pos_w))},
+                                            "object_position": tensor_json(self.as_torch(cube.data.root_pos_w)),
+                                            **stability_state},
                                            allow_nan=False) + "\n")
                     observation, _, terminated, truncated, _ = self.env.step(action)
                     steps += 1
@@ -215,11 +247,23 @@ class LiftWorker:
                "ignored_zero_step_resets": len(raw_records) - len(finished)}
         from physicalevobench.calibration.safety import summarize_safety
 
+        if self.action_limit is not None and not self.stability_mode:
+            row.update(environment_id="PEB-Lift-Mass-NumericalEnvelope-v1", action_limit=self.action_limit)
+
         safety = summarize_safety(safety_positions, initial["joint_limits"][0],
                                   robot.joint_names, self.base.step_dt)
         if safety["violation_joint_samples"] != joint_violations:
             raise RuntimeError("Safety diagnostic disagrees with historical count")
         save_json(directory / "sampled_safety.json", safety)
+        if self.stability_mode:
+            from physicalevobench.stability.metrics import holding_metrics
+
+            metric = holding_metrics(stability_samples)
+            row.update(environment_id="PEB-Lift-Mass-Stability-v1", upstream_success=official["success"],
+                       success=metric["stable_success"], stability=metric)
+            if self.action_limit is not None:
+                row.update(environment_id="PEB-Lift-Mass-Stability-v2", action_limit=self.action_limit)
+            save_json(directory / "holding.json", metric)
         save_json(directory / "episode.json", row)
         if frames:
             import imageio.v2 as imageio

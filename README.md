@@ -3,9 +3,57 @@
 Benchmarking Self-Improving Embodied Agents through Physical Feedback.
 
 PhysicalEvoBench measures whether physical failures lead to an executable skill change and whether
-its frozen version helps on independent conditions. The first track uses Franka Lift Object in
+its frozen version helps on independent conditions. The initial v0.1 track uses Franka Lift Object in
 Isaac Lab-Arena/PhysX, object mass perturbations, frozen official RSL-RL weights and bounded arm gain.
-It is a **state-observation skill-adaptation harness**, not model-weight learning or pure vision.
+Later experiments add actual PPO weight updates. The tasks use privileged state observations.
+
+## Three-seed, three-round confirmation (registered 2026-10-24)
+
+**Stable self-evolution was not established. All five registered scientific gates failed.**
+The completed fixed study ran **18 PPO jobs, 11,059,200 real PhysX training transitions
+and 4,610 evaluation episodes**. All 18 actual actor/critic/optimizer audits passed;
+changed parameters alone do not establish improvement. All nine continual candidates
+were rejected, with a failed finger maximum-depth guard in every decision. All
+three final continual trajectories therefore retained the original checkpoint.
+
+| Learning seed | Frozen /128 | Identity /128 | Final retained continual /128 | Retained restart /128 |
+| --- | --- | --- | --- | --- |
+| 0 | 34 | 32 | 36 | 36 |
+| 1 | 29 | 35 | 34 | 57 |
+| 2 | 24 | 26 | 23 | 27 |
+
+Pooled final retained success is **93/384**, versus **87/384**
+frozen and **93/384** identity replay. These continual models are identical;
+the differences are replay variation. The identical-policy safety replay also failed
+the registered guard in **3/3** trajectories, exposing sensitivity to sampled
+safety variability. No failed candidate was retroactively promoted.
+
+A separately preregistered **576-episode diagnosis on 192 new paired conditions**
+tested every trajectory's latest raw candidate, without selecting the best run or
+adding training: original **46/192**, raw continual **68/192**,
+latest raw restart **68/192**. Raw continual vs original: **+11.46 pp**,
+adjusted conditional interval **[+0.52, +22.40] pp**.
+Per-trajectory raw continual successes are 16→32, 11→28 and 19→8 (each out of 64); the third trajectory regresses. Raw continual vs latest raw restart has zero pooled difference, with adjusted conditional interval [-10.94, +10.94] pp. This diagnostic cannot rescue failed retention, multi-round stability or safety gates.
+
+All arms use the registered +/-1000 numerical action envelope and original official
+lift success; sustained holding is unmeasured in these early-terminating episodes.
+The separate full-horizon holding calibration failed (original 0/12 low-speed holds).
+Earlier numerical failures and all costs remain published: another **3,686,400 training
+transitions and 52 diagnostic/calibration episodes**. Including the raw diagnosis,
+this investigation completed **14,745,600 training transitions and 5,238 evaluation
+or diagnostic episodes**, kept in separate inferential studies.
+
+[Main results](docs/experiments/STABILITY_RESULTS_20261024.md) ·
+[Raw-policy diagnosis](docs/experiments/RAW_POLICY_PROBE_RESULTS_20261024.md) ·
+[Preregistration](docs/experiments/STABILITY_PROTOCOL_V3_20261024.md) ·
+[Verified main evidence](docs/evidence/stability-20261024) ·
+[Verified diagnostic evidence](docs/evidence/raw-policy-probe-20261024).
+Public archive verification recomputes raw outcomes, all training transition values
+and statistics; licensed model tensor checks were performed locally and are excluded
+from public weight redistribution. Intervals are conditional on three fixed learned
+trajectories, with no population or unlimited self-evolution guarantee.
+
+## Historical v0.1.0 baseline
 
 **v0.1.0 ran two real 48-episode executions, including a fresh clone. Promotion and rollback both work;
 stable skill improvement has not been demonstrated.** See the [implementation report](docs/implementation/MVP_IMPLEMENTATION_REPORT.md).
@@ -65,7 +113,7 @@ controller adaptations; no model-weight training or demonstrated self-evolution 
 
 ## Calibration and real weight learning (2026-10-23)
 
-Train-only PPO completed **614,400 real transitions** and 200 optimizer iterations.
+Train-only PPO completed **614,400 real transitions** and 200 PPO iterations (20 minibatch optimizer steps per iteration).
 Validation promoted the changed model (6/24 → 8/24). The initial 32 fresh heldout
 pairs scored **4/32 original versus 10/32 learned**, +18.75 pp (conditional interval
 [+3.125, +34.375] pp; exact one-sided p=0.0352).

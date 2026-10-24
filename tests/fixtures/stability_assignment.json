@@ -1,0 +1,50 @@
+{
+  "source_config": "preflight/block-0-frozen/config.json",
+  "source_config_sha256": "ce0eeb64d147eb4225ce1b0a858df0cad3610a5255fa692b36fb940c3f0c2467",
+  "source_registration_sha256": "2fc99ba2e4f4a0d9d8a37c58ced7cc21c27df5877d9b8fb7455cf7e15b7ac260",
+  "config": {
+    "arm": "frozen",
+    "checkpoint_path": "/home/dell/models/physicalevobench/franka_lift/model_1999.pt",
+    "checkpoint_sha256": "babbbfd363f894443ffe494f26c5b6e0485fb35d4f5480c088295c23fc2a13aa",
+    "action_limit": 1000.0,
+    "official_mode": true,
+    "physical_budget": 2,
+    "jobs": [
+      {
+        "episode_id": "diagnostic-preflight-000-frozen",
+        "condition": {
+          "condition_id": "diagnostic-preflight-000",
+          "seed": 779112934,
+          "object_mass_kg": 2.8592653449434504,
+          "split": "diagnostic"
+        }
+      },
+      {
+        "episode_id": "diagnostic-preflight-001-frozen",
+        "condition": {
+          "condition_id": "diagnostic-preflight-001",
+          "seed": 192765503,
+          "object_mass_kg": 2.852119739973724,
+          "split": "diagnostic"
+        }
+      }
+    ]
+  },
+  "conditions": [
+    {
+      "condition_id": "diagnostic-preflight-000",
+      "seed": 779112934,
+      "object_mass_kg": 2.8592653449434504,
+      "split": "diagnostic"
+    },
+    {
+      "condition_id": "diagnostic-preflight-001",
+      "seed": 192765503,
+      "object_mass_kg": 2.852119739973724,
+      "split": "diagnostic"
+    }
+  ],
+  "arm": "frozen",
+  "checkpoint_path": "/home/dell/models/physicalevobench/franka_lift/model_1999.pt",
+  "checkpoint_sha256": "babbbfd363f894443ffe494f26c5b6e0485fb35d4f5480c088295c23fc2a13aa"
+}

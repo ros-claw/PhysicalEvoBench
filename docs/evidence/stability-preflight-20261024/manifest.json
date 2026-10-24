@@ -1,0 +1,139 @@
+{
+  "schema": "stability-delivery-1",
+  "files": [
+    {
+      "path": "peb-stability-20261024-001/preflight/block-0-frozen/action_mapping.json",
+      "sha256": "59518975f120eb90ac77800686f77608e0e560995739e81a025f5d1cb891b4eb",
+      "size": 514
+    },
+    {
+      "path": "peb-stability-20261024-001/preflight/block-0-frozen/audit.json",
+      "sha256": "6004470ac1194f74ccc0c694cbd437f29e68859a55fbb85b42b2fb970473c755",
+      "size": 139
+    },
+    {
+      "path": "peb-stability-20261024-001/preflight/block-0-frozen/budget_ledger.json",
+      "sha256": "a0e88643a5b17edd035b66e881923b4e549bf77417fcf87af51fa020c51a6322",
+      "size": 235
+    },
+    {
+      "path": "peb-stability-20261024-001/preflight/block-0-frozen/config.json",
+      "sha256": "35ccdebaa8ad161378f050018186de1db0bd70416ee96da42ed622974e00190b",
+      "size": 739
+    },
+    {
+      "path": "peb-stability-20261024-001/preflight/block-0-frozen/console.log",
+      "sha256": "577096a4431fac491a4973e041d010e727824a9583afe146cc35bbd045b8ae4c",
+      "size": 67572
+    },
+    {
+      "path": "peb-stability-20261024-001/preflight/block-0-frozen/episodes/diagnostic-preflight-000-frozen/episode.json",
+      "sha256": "f0f94828633f5f3e31f18a93dc5e59e2d8a0da2cbc784e82356134fab132ebe6",
+      "size": 4376
+    },
+    {
+      "path": "peb-stability-20261024-001/preflight/block-0-frozen/episodes/diagnostic-preflight-000-frozen/holding.json",
+      "sha256": "deca3066c38372b6927091be1bb3805cbb54a9e5aa1dc8edb5ffeb4dca6e8ef8",
+      "size": 354
+    },
+    {
+      "path": "peb-stability-20261024-001/preflight/block-0-frozen/episodes/diagnostic-preflight-000-frozen/initial_state.json",
+      "sha256": "d40a1b58f39d11084363f7e7d7638c17d2b234216abab92cbb07daa026eebc1a",
+      "size": 1739
+    },
+    {
+      "path": "peb-stability-20261024-001/preflight/block-0-frozen/episodes/diagnostic-preflight-000-frozen/sampled_safety.json",
+      "sha256": "037877aedbb3b1c02e25984d0f503f2e0c61fb82134037e06f2ef4d4c8551007",
+      "size": 2403
+    },
+    {
+      "path": "peb-stability-20261024-001/preflight/block-0-frozen/episodes/diagnostic-preflight-000-frozen/skill.json",
+      "sha256": "64d42b1e096d5ca8de3f73641f08658e5e7a593ed3398604d1cb4c1493d49e32",
+      "size": 260
+    },
+    {
+      "path": "peb-stability-20261024-001/preflight/block-0-frozen/episodes/diagnostic-preflight-000-frozen/trace.jsonl.gz",
+      "sha256": "9ffbd0e2e20b475007028b54fcdfeecc2ba30710f0ce03f7bf1645858f4834b3",
+      "size": 4968
+    },
+    {
+      "path": "peb-stability-20261024-001/preflight/block-0-frozen/episodes/diagnostic-preflight-000-frozen/upstream.jsonl",
+      "sha256": "11b6bdfcb40a30b6e5987fb9878222e035033c6a6e7385bb86a343f252cc7f28",
+      "size": 573
+    },
+    {
+      "path": "peb-stability-20261024-001/preflight/block-0-frozen/episodes/diagnostic-preflight-001-frozen/episode.json",
+      "sha256": "9f8778910a3faa5740da8db75682dbe9263aeef0509169d808f3ae68a74450de",
+      "size": 4428
+    },
+    {
+      "path": "peb-stability-20261024-001/preflight/block-0-frozen/episodes/diagnostic-preflight-001-frozen/holding.json",
+      "sha256": "8179af1251b22cf7ee2f0c82c26b29309325ba893e2a256a7ce6a2616db66652",
+      "size": 356
+    },
+    {
+      "path": "peb-stability-20261024-001/preflight/block-0-frozen/episodes/diagnostic-preflight-001-frozen/initial_state.json",
+      "sha256": "e964613fb23b98143f5e0bd177021e11a307112ae754b232b9d2ced0181d99ef",
+      "size": 1739
+    },
+    {
+      "path": "peb-stability-20261024-001/preflight/block-0-frozen/episodes/diagnostic-preflight-001-frozen/sampled_safety.json",
+      "sha256": "b8f998b27d5f5c748c7877ea6619d8ee83e21691fcd0687ec2942fe5073ea9b7",
+      "size": 2457
+    },
+    {
+      "path": "peb-stability-20261024-001/preflight/block-0-frozen/episodes/diagnostic-preflight-001-frozen/skill.json",
+      "sha256": "64d42b1e096d5ca8de3f73641f08658e5e7a593ed3398604d1cb4c1493d49e32",
+      "size": 260
+    },
+    {
+      "path": "peb-stability-20261024-001/preflight/block-0-frozen/episodes/diagnostic-preflight-001-frozen/trace.jsonl.gz",
+      "sha256": "472c3c4df5907866f0abbeac498bd6b91b06f1c9ecd48751345a0f492ca5043f",
+      "size": 152523
+    },
+    {
+      "path": "peb-stability-20261024-001/preflight/block-0-frozen/episodes/diagnostic-preflight-001-frozen/upstream.jsonl",
+      "sha256": "a5267de1ae27c628fcaab30b2fe85d4c708b36fc23032f047c8c48529badedbf",
+      "size": 1147
+    },
+    {
+      "path": "peb-stability-20261024-001/preflight/block-0-frozen/episodes.jsonl",
+      "sha256": "8be10c5b7f44f0b4e8cb582861134b50e0a9ae9b789f579de3393f7169f0f8e9",
+      "size": 7352
+    },
+    {
+      "path": "peb-stability-20261024-001/preflight/block-0-frozen/launch.json",
+      "sha256": "b89cb0a7f15fe440ade7e019eae6b709f79166bd27b987dde31763bb4eb425e9",
+      "size": 416
+    },
+    {
+      "path": "peb-stability-20261024-001/preflight/block-0-frozen/process.json",
+      "sha256": "9d36d149b22fea8a97614c2408a32c0953ea08c0443b3bb974ca2bb7065fc25d",
+      "size": 75
+    },
+    {
+      "path": "peb-stability-20261024-001/preflight/block-0-frozen/status.json",
+      "sha256": "5136cb7b23ad064be114624d534eeea02d2ddee75caba597ce494501ea5853f8",
+      "size": 45
+    },
+    {
+      "path": "peb-stability-20261024-001/preflight/frozen_arms.json",
+      "sha256": "9ad94036d86695bacbcc96bac9f850d8a676ff9b6812d2ad5ff9e6997d582e82",
+      "size": 179
+    },
+    {
+      "path": "peb-stability-20261024-001/registration.json",
+      "sha256": "56c56136e3096e7e6ad0df5cd4423788b6852933a30fb0bb63b906b369f4642c",
+      "size": 317256
+    },
+    {
+      "path": "peb-stability-20261024-001/status.json",
+      "sha256": "1b15f5ea31590a9c768f82f669be5a6570592ec8fe9233264318b5b2e4bedb90",
+      "size": 116
+    }
+  ],
+  "source_commits": [
+    "aa63c0daaf6197ace152b2779a6d363e28fbd852"
+  ],
+  "models": "EXCLUDED_SEPARATE_NVIDIA_LICENSE"
+}

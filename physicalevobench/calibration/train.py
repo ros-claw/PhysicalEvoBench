@@ -4,6 +4,7 @@ import argparse
 import json
 import subprocess
 import sys
+import hashlib
 from multiprocessing.connection import Listener
 from pathlib import Path
 
@@ -49,8 +50,10 @@ def main():
         candidate = Path(cfg['candidate_path']).expanduser()
         learner_cfg = {'checkpoint':str(checkpoint), 'output':str(candidate),
                        'learner_seed':cfg['learner_seed'], 'iterations':cfg['iterations']}
+        if cfg.get('stability_study'):
+            learner_cfg['learning_rate'] = cfg['learning_rate']
         save_json(out/'learner_request.json', learner_cfg)
-        socket = str(out/'learner.sock')
+        socket = '/tmp/peb-' + hashlib.sha256(str(out).encode()).hexdigest()[:24] + '.sock'
         # Only a local trusted child connects. This is not an adversarial security boundary.
         listener = Listener(socket, family='AF_UNIX')
         learner_log = (out/'learner_console.log').open('w')
@@ -81,6 +84,9 @@ def main():
                         action = torch.as_tensor(request['actions'], device=base.device)
                         if action.shape != (cfg['num_envs'],8) or not torch.isfinite(action).all():
                             raise ValueError('Invalid learner action')
+                        proposed = action.detach().cpu().numpy().copy()
+                        if cfg.get('action_limit') is not None:
+                            action = action.clamp(-cfg['action_limit'], cfg['action_limit'])
                         if reserved + cfg['num_envs'] > cfg['transition_budget']:
                             raise RuntimeError('Training transition budget exhausted')
                         reserved += cfg['num_envs']
@@ -97,16 +103,23 @@ def main():
                                     'rewards':reward.detach().cpu().numpy().copy(),
                                     'dones':dones.cpu().numpy().copy(), 'time_outs':trunc.cpu().numpy().copy()}
                         evidence = {'before_policy':before['policy'], 'before_task_obs':before['task_obs'],
-                                    'actions':request['actions'], 'rewards':response['rewards'],
+                                    'actions':action.detach().cpu().numpy().copy(), 'rewards':response['rewards'],
                                     'dones':response['dones'], 'time_outs':response['time_outs'],
                                     'after_policy':response['observations']['policy'],
                                     'after_task_obs':response['observations']['task_obs'], 'evaluator_mass':mass}
+                        if cfg.get('action_limit') is not None:
+                            evidence['proposed_actions'] = proposed
                         for k,v in evidence.items():
                             arrays.setdefault(k,[]).append(v)
                         connection.send(response)
                         if (step+1) % 24 == 0:
                             path = out/'transitions'/f'iteration-{(step+1)//24:04d}.npz'
-                            np.savez_compressed(path, **{k:np.stack(v) for k,v in arrays.items()})
+                            packed = {k:np.stack(v) for k,v in arrays.items()}
+                            if cfg.get('stability_study'):
+                                for group in ('policy', 'task_obs'):
+                                    packed['stream_'+group] = np.concatenate([
+                                        packed.pop('before_'+group)[:1], packed.pop('after_'+group)], axis=0)
+                            np.savez_compressed(path, **packed)
                             arrays = {}
                             chunks.append({'path':str(path.relative_to(out)), 'sha256':sha256(path)})
                             save_json(out/'progress.json', {'vector_steps':step+1, 'transitions':consumed,

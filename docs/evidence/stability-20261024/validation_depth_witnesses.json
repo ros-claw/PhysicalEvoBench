@@ -1,0 +1,114 @@
+{
+  "role": "POSTHOC_EXPLANATION_OF_FIXED_RECORDED_DECISIONS",
+  "changes_any_decision": false,
+  "witnesses": [
+    {
+      "decision": "s0-continual/round-1/decision.json",
+      "failed_joint_depth_components": [
+        {
+          "joint": "panda_finger_joint2",
+          "unit": "m",
+          "incumbent_maximum_depth": 0.008105631917715073,
+          "candidate_maximum_depth": 0.01563289761543274,
+          "registered_allowed_increase": 0.002
+        }
+      ]
+    },
+    {
+      "decision": "s0-continual/round-2/decision.json",
+      "failed_joint_depth_components": [
+        {
+          "joint": "panda_finger_joint2",
+          "unit": "m",
+          "incumbent_maximum_depth": 0.008184101432561874,
+          "candidate_maximum_depth": 0.022652793675661087,
+          "registered_allowed_increase": 0.002
+        }
+      ]
+    },
+    {
+      "decision": "s0-continual/round-3/decision.json",
+      "failed_joint_depth_components": [
+        {
+          "joint": "panda_finger_joint2",
+          "unit": "m",
+          "incumbent_maximum_depth": 0.005053624510765076,
+          "candidate_maximum_depth": 0.021184474229812622,
+          "registered_allowed_increase": 0.002
+        }
+      ]
+    },
+    {
+      "decision": "s1-continual/round-1/decision.json",
+      "failed_joint_depth_components": [
+        {
+          "joint": "panda_finger_joint1",
+          "unit": "m",
+          "incumbent_maximum_depth": 0.019812965765595436,
+          "candidate_maximum_depth": 0.03041517734527588,
+          "registered_allowed_increase": 0.002
+        }
+      ]
+    },
+    {
+      "decision": "s1-continual/round-2/decision.json",
+      "failed_joint_depth_components": [
+        {
+          "joint": "panda_finger_joint2",
+          "unit": "m",
+          "incumbent_maximum_depth": 0.0051394253969192505,
+          "candidate_maximum_depth": 0.04130823537707329,
+          "registered_allowed_increase": 0.002
+        }
+      ]
+    },
+    {
+      "decision": "s1-continual/round-3/decision.json",
+      "failed_joint_depth_components": [
+        {
+          "joint": "panda_finger_joint2",
+          "unit": "m",
+          "incumbent_maximum_depth": 0.003270179033279419,
+          "candidate_maximum_depth": 0.03043152019381523,
+          "registered_allowed_increase": 0.002
+        }
+      ]
+    },
+    {
+      "decision": "s2-continual/round-1/decision.json",
+      "failed_joint_depth_components": [
+        {
+          "joint": "panda_finger_joint2",
+          "unit": "m",
+          "incumbent_maximum_depth": 0.0058613792061805725,
+          "candidate_maximum_depth": 0.024103187024593353,
+          "registered_allowed_increase": 0.002
+        }
+      ]
+    },
+    {
+      "decision": "s2-continual/round-2/decision.json",
+      "failed_joint_depth_components": [
+        {
+          "joint": "panda_finger_joint2",
+          "unit": "m",
+          "incumbent_maximum_depth": 0.009118650108575821,
+          "candidate_maximum_depth": 0.01928013004362583,
+          "registered_allowed_increase": 0.002
+        }
+      ]
+    },
+    {
+      "decision": "s2-continual/round-3/decision.json",
+      "failed_joint_depth_components": [
+        {
+          "joint": "panda_finger_joint2",
+          "unit": "m",
+          "incumbent_maximum_depth": 0.0017820224165916443,
+          "candidate_maximum_depth": 0.013539306819438934,
+          "registered_allowed_increase": 0.002
+        }
+      ]
+    }
+  ]
+}

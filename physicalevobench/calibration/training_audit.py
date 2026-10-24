@@ -13,10 +13,10 @@ from physicalevobench.calibration.public_schema import exact_fields
 
 def main():
     import numpy as np
-    import torch
 
     p=argparse.ArgumentParser()
     p.add_argument('--run-dir',required=True)
+    p.add_argument('--public-data-only',action='store_true')
     a=p.parse_args()
     out=Path(a.run_dir)
     def load(path):
@@ -24,29 +24,47 @@ def main():
     cfg=load(out/'config.json')
     archive=load(out/'training_archive.json')
     request=load(out/'learner_request.json')
-    exact_fields(request,('checkpoint','output','learner_seed','iterations'))
+    fields = ('checkpoint','output','learner_seed','iterations')
+    exact_fields(request, fields + (('learning_rate',) if cfg.get('stability_study') else ()))
     ledger=[json.loads(x) for x in (out/'budget_ledger.jsonl').read_text().splitlines()]
     if len(ledger)!=cfg['iterations']*24 or any(r['reserved_transitions']!=(i+1)*cfg['num_envs'] for i,r in enumerate(ledger)):
         raise ValueError('Training reservation ledger mismatch')
     transitions=done=0
     reward_min, reward_max, action_max = float('inf'), -float('inf'), 0.
+    proposed_max, clipped_components = 0., 0
     previous=None
+    reward_means=[]
     unfinished_lengths=np.zeros(cfg['num_envs'], dtype=np.int64)
     for chunk in archive['chunks']:
         path=out/chunk['path']
         if sha256(path)!=chunk['sha256']:
             raise ValueError('Training transition archive digest mismatch')
-        with np.load(path,allow_pickle=False) as data:
+        with np.load(path,allow_pickle=False) as packed:
+            data = {k: packed[k] for k in packed.files}
+            if cfg.get('stability_study'):
+                for group in ('policy','task_obs'):
+                    stream = data.pop('stream_'+group)
+                    if stream.shape[0] != 25:
+                        raise ValueError('Compact observation stream length mismatch')
+                    data['before_'+group], data['after_'+group] = stream[:-1], stream[1:]
             expected={'before_policy','before_task_obs','actions','rewards','dones','time_outs',
                       'after_policy','after_task_obs','evaluator_mass'}
-            if set(data.files)!=expected or data['actions'].shape!=(24,cfg['num_envs'],8):
+            if cfg.get('action_limit') is not None:
+                expected.add('proposed_actions')
+                if cfg['action_limit'] != 1000. or not np.array_equal(data['actions'],np.clip(data['proposed_actions'],-1000.,1000.)):
+                    raise ValueError('Numerical action envelope mismatch')
+            if set(data)!=expected or data['actions'].shape!=(24,cfg['num_envs'],8):
                 raise ValueError('Transition shape/fields mismatch')
-            for k in data.files:
+            for k in data:
                 if not np.isfinite(data[k]).all():
                     raise ValueError('Nonfinite training data')
             reward_min=min(reward_min,float(data['rewards'].min()))
+            reward_means.extend(float(row.mean()) for row in data['rewards'])
             reward_max=max(reward_max,float(data['rewards'].max()))
             action_max=max(action_max,float(np.abs(data['actions']).max()))
+            proposed = data.get('proposed_actions',data['actions'])
+            proposed_max=max(proposed_max,float(np.abs(proposed).max()))
+            clipped_components+=int(np.count_nonzero(proposed != data['actions']))
             mass=data['evaluator_mass']
             if mass.min()<.8-1e-6 or mass.max()>3.2+1e-6:
                 raise ValueError('Training mass outside registered range')
@@ -68,6 +86,33 @@ def main():
     completed_steps=sum(row['episode_length'] for row in completed)
     if len(completed)!=done or completed_steps+int(unfinished_lengths.sum())!=transitions:
         raise ValueError('Official training episode lengths plus unfinished rollouts do not cover transition budget')
+    metadata = out.parent/'model' if cfg.get('stability_study') else Path(request['output']).parent
+    losses=load(metadata/'training_losses.json')
+    nonfinite=[i+1 for i,row in enumerate(losses) if not np.isfinite(list(row.values())).all()]
+    if len(losses)!=cfg['iterations']:
+        raise ValueError('Missing optimizer updates')
+    if cfg.get('stability_study'):
+        from physicalevobench.stability.metrics import train_recipe
+
+        public_rewards=load(metadata/'public_reward_means.json')
+        if not np.allclose(public_rewards,reward_means,rtol=1e-6,atol=1e-7):
+            raise ValueError('Public reward summary differs from archived training rewards')
+        if load(metadata/'next_recipe.json') != train_recipe(public_rewards,request['learning_rate']):
+            raise ValueError('Train-only scheduler decision mismatch')
+    common={'reward_min':reward_min,'reward_max':reward_max,'maximum_action_abs':action_max,
+            'maximum_proposed_action_abs':proposed_max,'clipped_action_components':clipped_components,
+            'transitions':transitions,'completed_training_episodes':done,
+            'unfinished_rollout_steps':int(unfinished_lengths.sum()),'completed_episode_steps':completed_steps,
+            'optimizer_iterations':len(losses),'nonfinite_loss_updates':nonfinite}
+    if a.public_data_only:
+        result={**common,'status':'RAW_DATA_VERIFIED','finite_optimizer_losses':not nonfinite,
+                'model_tensors':'NOT_VERIFIED_SEPARATELY_LICENSED',
+                'scope':'numeric transitions, continuity, mass range, costs, public rewards and scheduler; no weight or gain claim'}
+        save_json(out/'public_transition_audit.json',result)
+        print(json.dumps(result,indent=2))
+        return
+    import torch
+
     original=torch.load(request['checkpoint'],map_location='cpu',weights_only=False)
     candidate=torch.load(request['output'],map_location='cpu',weights_only=False)
     norms={k:float((candidate['actor_state_dict'][k]-v).norm())
@@ -77,13 +122,9 @@ def main():
         raise ValueError('No frozen actual model change')
     if sha256(request['checkpoint'])!=cfg['checkpoint_sha256']:
         raise ValueError('Original model changed')
-    losses=load(Path(request['output']).parent/'training_losses.json')
-    if len(losses)!=cfg['iterations'] or not all(np.isfinite(list(row.values())).all() for row in losses):
+    if nonfinite:
         raise ValueError('Missing or nonfinite optimizer updates')
-    result={'reward_min':reward_min,'reward_max':reward_max,'maximum_action_abs':action_max,
-            'status':'PASS','transitions':transitions,'completed_training_episodes':done,
-            'unfinished_rollout_steps':int(unfinished_lengths.sum()),'completed_episode_steps':completed_steps,
-            'optimizer_iterations':len(losses),'actor_changed':True,
+    result={**common,'status':'PASS','actor_changed':True,
             'actor_parameter_change_norms':norms,'candidate_sha256':sha256(request['output']),
             'learner_request_fields':list(request),'learner_feedback_fields':['observations','rewards','dones','time_outs'],
             'scope':'train-only payload contract and actual weight update; no improvement claim'}

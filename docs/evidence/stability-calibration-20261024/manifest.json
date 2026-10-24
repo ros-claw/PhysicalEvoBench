@@ -1,0 +1,1860 @@
+{
+  "schema": "stability-delivery-1",
+  "files": [
+    {
+      "path": "peb-envelope-calibration-20261024-001/open_gripper/action_mapping.json",
+      "sha256": "59518975f120eb90ac77800686f77608e0e560995739e81a025f5d1cb891b4eb",
+      "size": 514
+    },
+    {
+      "path": "peb-envelope-calibration-20261024-001/open_gripper/audit.json",
+      "sha256": "b4b7736e4386779e1e50059ab06c7f70acc5f3def4482063d1b8e8039c886cb4",
+      "size": 140
+    },
+    {
+      "path": "peb-envelope-calibration-20261024-001/open_gripper/budget_ledger.json",
+      "sha256": "3e96916b5295ec94ac088d7104169a886200dd297a68d39ff90ba2a2f36020b3",
+      "size": 1455
+    },
+    {
+      "path": "peb-envelope-calibration-20261024-001/open_gripper/config.json",
+      "sha256": "822db1c8482c8d1a021809c200704b8e300466bf8772c76726b79606e9320bcb",
+      "size": 3256
+    },
+    {
+      "path": "peb-envelope-calibration-20261024-001/open_gripper/console.log",
+      "sha256": "b1ff3fe93e8211774c3895c1e01376198d11a8c934d422c764af241696932bdb",
+      "size": 84067
+    },
+    {
+      "path": "peb-envelope-calibration-20261024-001/open_gripper/episodes/envelope-calibration-00-open_gripper/episode.json",
+      "sha256": "4304069d54dfbc813fbb23e873364942301dde61d9757e3ca6839f60a9be4674",
+      "size": 4519
+    },
+    {
+      "path": "peb-envelope-calibration-20261024-001/open_gripper/episodes/envelope-calibration-00-open_gripper/holding.json",
+      "sha256": "8179af1251b22cf7ee2f0c82c26b29309325ba893e2a256a7ce6a2616db66652",
+      "size": 356
+    },
+    {
+      "path": "peb-envelope-calibration-20261024-001/open_gripper/episodes/envelope-calibration-00-open_gripper/initial_state.json",
+      "sha256": "997ea928bae5422e4fca8c005c0ad0321b81a2cfcbd107121cec30e7cfb29e99",
+      "size": 1727
+    },
+    {
+      "path": "peb-envelope-calibration-20261024-001/open_gripper/episodes/envelope-calibration-00-open_gripper/sampled_safety.json",
+      "sha256": "05163135bfc1c17bc587e3cde1e18cbb58a079a1edb2625734f81c7d417861ba",
+      "size": 2497
+    },
+    {
+      "path": "peb-envelope-calibration-20261024-001/open_gripper/episodes/envelope-calibration-00-open_gripper/skill.json",
+      "sha256": "64d42b1e096d5ca8de3f73641f08658e5e7a593ed3398604d1cb4c1493d49e32",
+      "size": 260
+    },
+    {
+      "path": "peb-envelope-calibration-20261024-001/open_gripper/episodes/envelope-calibration-00-open_gripper/trace.jsonl.gz",
+      "sha256": "88f6f882419a6c8b79c37f6c174f0795e71e8d5d3c6a1cbd69541e314a705016",
+      "size": 149666
+    },
+    {
+      "path": "peb-envelope-calibration-20261024-001/open_gripper/episodes/envelope-calibration-00-open_gripper/upstream.jsonl",
+      "sha256": "132e0db647f5ada875b32333bd4ca4c1e3f8a628ac94fc4a941030fd3815e747",
+      "size": 576
+    },
+    {
+      "path": "peb-envelope-calibration-20261024-001/open_gripper/episodes/envelope-calibration-01-open_gripper/episode.json",
+      "sha256": "03bc9a7490253b2a7aba68e5b90827206de890db54ecb966d89ef4bf0be5f531",
+      "size": 4477
+    },
+    {
+      "path": "peb-envelope-calibration-20261024-001/open_gripper/episodes/envelope-calibration-01-open_gripper/holding.json",
+      "sha256": "8179af1251b22cf7ee2f0c82c26b29309325ba893e2a256a7ce6a2616db66652",
+      "size": 356
+    },
+    {
+      "path": "peb-envelope-calibration-20261024-001/open_gripper/episodes/envelope-calibration-01-open_gripper/initial_state.json",
+      "sha256": "0b20995fb9be74f33b4c8d48363d8d5941b3b4d5090edbc4807289f2290c2ee5",
+      "size": 1730
+    },
+    {
+      "path": "peb-envelope-calibration-20261024-001/open_gripper/episodes/envelope-calibration-01-open_gripper/sampled_safety.json",
+      "sha256": "6da15e087942cbeac53bfd4b73040a97b2b449c9fb27da00d13c73cf4e952fd5",
+      "size": 2459
+    },
+    {
+      "path": "peb-envelope-calibration-20261024-001/open_gripper/episodes/envelope-calibration-01-open_gripper/skill.json",
+      "sha256": "64d42b1e096d5ca8de3f73641f08658e5e7a593ed3398604d1cb4c1493d49e32",
+      "size": 260
+    },
+    {
+      "path": "peb-envelope-calibration-20261024-001/open_gripper/episodes/envelope-calibration-01-open_gripper/trace.jsonl.gz",
+      "sha256": "f74020b688d3f4bd7b8ce3cf7d01f63640d2867d642be0f2381e483812d564f1",
+      "size": 149817
+    },
+    {
+      "path": "peb-envelope-calibration-20261024-001/open_gripper/episodes/envelope-calibration-01-open_gripper/upstream.jsonl",
+      "sha256": "919de6eec1eb730a6d4ebabf577704121b398a84721412b71f5bf141c4bcfae6",
+      "size": 1150
+    },
+    {
+      "path": "peb-envelope-calibration-20261024-001/open_gripper/episodes/envelope-calibration-02-open_gripper/episode.json",
+      "sha256": "ce0881bf70dc993291213b9e2f33f875f26989370f0b908b14c05806a7f9eb7f",
+      "size": 4482
+    },
+    {
+      "path": "peb-envelope-calibration-20261024-001/open_gripper/episodes/envelope-calibration-02-open_gripper/holding.json",
+      "sha256": "8179af1251b22cf7ee2f0c82c26b29309325ba893e2a256a7ce6a2616db66652",
+      "size": 356
+    },
+    {
+      "path": "peb-envelope-calibration-20261024-001/open_gripper/episodes/envelope-calibration-02-open_gripper/initial_state.json",
+      "sha256": "a4c138c4146be6a582b62c13f046e05b1a4c0d670d297fb912e772ba1641ff5a",
+      "size": 1728
+    },
+    {
+      "path": "peb-envelope-calibration-20261024-001/open_gripper/episodes/envelope-calibration-02-open_gripper/sampled_safety.json",
+      "sha256": "b74bd2d270ac1cc97740df65553b3ffabfa8210cafcc77d6c97e282dbc4f2058",
+      "size": 2460
+    },
+    {
+      "path": "peb-envelope-calibration-20261024-001/open_gripper/episodes/envelope-calibration-02-open_gripper/skill.json",
+      "sha256": "64d42b1e096d5ca8de3f73641f08658e5e7a593ed3398604d1cb4c1493d49e32",
+      "size": 260
+    },
+    {
+      "path": "peb-envelope-calibration-20261024-001/open_gripper/episodes/envelope-calibration-02-open_gripper/trace.jsonl.gz",
+      "sha256": "4667464118ec6a1f65e94a5c1190eaea0b32c8ecc44ca0e5f46ed70fa4ec7c6c",
+      "size": 148706
+    },
+    {
+      "path": "peb-envelope-calibration-20261024-001/open_gripper/episodes/envelope-calibration-02-open_gripper/upstream.jsonl",
+      "sha256": "91e6726ef0a4792245971404e4c26f9e5cf4abf2a8b9e0b708f95a2ee5d20c14",
+      "size": 1150
+    },
+    {
+      "path": "peb-envelope-calibration-20261024-001/open_gripper/episodes/envelope-calibration-03-open_gripper/episode.json",
+      "sha256": "74d02d412b3923f1a41a0423e881c7c848dab8fe0ccad2c747f2da9f1bde266a",
+      "size": 4483
+    },
+    {
+      "path": "peb-envelope-calibration-20261024-001/open_gripper/episodes/envelope-calibration-03-open_gripper/holding.json",
+      "sha256": "d9f5305bf2d5d2f6c6c7f6e604007e41bac575bdc7136cd154f33894e8c99292",
+      "size": 356
+    },
+    {
+      "path": "peb-envelope-calibration-20261024-001/open_gripper/episodes/envelope-calibration-03-open_gripper/initial_state.json",
+      "sha256": "c3de68a16ae8021b73847ea0fc8feb75c083642509cb8c3616fcf2d8999e46e6",
+      "size": 1728
+    },
+    {
+      "path": "peb-envelope-calibration-20261024-001/open_gripper/episodes/envelope-calibration-03-open_gripper/sampled_safety.json",
+      "sha256": "2e994837733dd23aef69ae7ec908729b7b8dac8aa07dd81f2839cb4bb62f1973",
+      "size": 2459
+    },
+    {
+      "path": "peb-envelope-calibration-20261024-001/open_gripper/episodes/envelope-calibration-03-open_gripper/skill.json",
+      "sha256": "64d42b1e096d5ca8de3f73641f08658e5e7a593ed3398604d1cb4c1493d49e32",
+      "size": 260
+    },
+    {
+      "path": "peb-envelope-calibration-20261024-001/open_gripper/episodes/envelope-calibration-03-open_gripper/trace.jsonl.gz",
+      "sha256": "7ca3d30b127eb291476fa3dd2b9865f44573776e5e7d0efeab112ef11c599929",
+      "size": 132191
+    },
+    {
+      "path": "peb-envelope-calibration-20261024-001/open_gripper/episodes/envelope-calibration-03-open_gripper/upstream.jsonl",
+      "sha256": "97696dcc5c607378fc67edc706ddec1999da8f920b6e3b6a2712b12aebb58156",
+      "size": 1150
+    },
+    {
+      "path": "peb-envelope-calibration-20261024-001/open_gripper/episodes/envelope-calibration-04-open_gripper/episode.json",
+      "sha256": "086dd0ae49e94ca12bf894bf1eefb8ba9ab272025a50b87388caf53c1c8c91ef",
+      "size": 4477
+    },
+    {
+      "path": "peb-envelope-calibration-20261024-001/open_gripper/episodes/envelope-calibration-04-open_gripper/holding.json",
+      "sha256": "8179af1251b22cf7ee2f0c82c26b29309325ba893e2a256a7ce6a2616db66652",
+      "size": 356
+    },
+    {
+      "path": "peb-envelope-calibration-20261024-001/open_gripper/episodes/envelope-calibration-04-open_gripper/initial_state.json",
+      "sha256": "21ba205e9c0807a53cbfcd770c2e18bc3759a3a91c1e10397b95aeac4e815155",
+      "size": 1729
+    },
+    {
+      "path": "peb-envelope-calibration-20261024-001/open_gripper/episodes/envelope-calibration-04-open_gripper/sampled_safety.json",
+      "sha256": "ed21a67eb962759ab10fe6d362a585199dba219212ce3c0b7d95e3c09698890f",
+      "size": 2456
+    },
+    {
+      "path": "peb-envelope-calibration-20261024-001/open_gripper/episodes/envelope-calibration-04-open_gripper/skill.json",
+      "sha256": "64d42b1e096d5ca8de3f73641f08658e5e7a593ed3398604d1cb4c1493d49e32",
+      "size": 260
+    },
+    {
+      "path": "peb-envelope-calibration-20261024-001/open_gripper/episodes/envelope-calibration-04-open_gripper/trace.jsonl.gz",
+      "sha256": "d420a9474c3a208d70b7e32406295aa3608b4d64b0297c45ea840aef2ff5857b",
+      "size": 148780
+    },
+    {
+      "path": "peb-envelope-calibration-20261024-001/open_gripper/episodes/envelope-calibration-04-open_gripper/upstream.jsonl",
+      "sha256": "c6fbcd2052afd3cf0d11e85b5054f5805292f18b8ce198451f6b213bf323c415",
+      "size": 1150
+    },
+    {
+      "path": "peb-envelope-calibration-20261024-001/open_gripper/episodes/envelope-calibration-05-open_gripper/episode.json",
+      "sha256": "b715024e7190775d5dd152a384f96d851c691b147979c0a04aea18dc479797e1",
+      "size": 4483
+    },
+    {
+      "path": "peb-envelope-calibration-20261024-001/open_gripper/episodes/envelope-calibration-05-open_gripper/holding.json",
+      "sha256": "8179af1251b22cf7ee2f0c82c26b29309325ba893e2a256a7ce6a2616db66652",
+      "size": 356
+    },
+    {
+      "path": "peb-envelope-calibration-20261024-001/open_gripper/episodes/envelope-calibration-05-open_gripper/initial_state.json",
+      "sha256": "b8ab54a574ded969b98199a9b6f9a5803a7e5b80173cd16c58e566e15c0b8c42",
+      "size": 1732
+    },
+    {
+      "path": "peb-envelope-calibration-20261024-001/open_gripper/episodes/envelope-calibration-05-open_gripper/sampled_safety.json",
+      "sha256": "3403b03a34dcfde7b65eb6a4b5a31a4d1e43421fcb160811d6153b686458276b",
+      "size": 2461
+    },
+    {
+      "path": "peb-envelope-calibration-20261024-001/open_gripper/episodes/envelope-calibration-05-open_gripper/skill.json",
+      "sha256": "64d42b1e096d5ca8de3f73641f08658e5e7a593ed3398604d1cb4c1493d49e32",
+      "size": 260
+    },
+    {
+      "path": "peb-envelope-calibration-20261024-001/open_gripper/episodes/envelope-calibration-05-open_gripper/trace.jsonl.gz",
+      "sha256": "062d9ebf7b8f7df74d085af24c6f81ad009c055d34dc9e3c41926be4eef9bcaf",
+      "size": 148539
+    },
+    {
+      "path": "peb-envelope-calibration-20261024-001/open_gripper/episodes/envelope-calibration-05-open_gripper/upstream.jsonl",
+      "sha256": "231b23fb47967f5b8f9642ab897fe513ba9f50ee0825d456266d6faffdd178dc",
+      "size": 1151
+    },
+    {
+      "path": "peb-envelope-calibration-20261024-001/open_gripper/episodes/envelope-calibration-06-open_gripper/episode.json",
+      "sha256": "e77d7950c3c961cba44d3e4748370eedcfdf96fba413813a0bf8fa5935fafe14",
+      "size": 4446
+    },
+    {
+      "path": "peb-envelope-calibration-20261024-001/open_gripper/episodes/envelope-calibration-06-open_gripper/holding.json",
+      "sha256": "8179af1251b22cf7ee2f0c82c26b29309325ba893e2a256a7ce6a2616db66652",
+      "size": 356
+    },
+    {
+      "path": "peb-envelope-calibration-20261024-001/open_gripper/episodes/envelope-calibration-06-open_gripper/initial_state.json",
+      "sha256": "dc0c083afc432a9cf48336731f8f16ba01f38689758143ed0bcf6d3d4f3e17ac",
+      "size": 1729
+    },
+    {
+      "path": "peb-envelope-calibration-20261024-001/open_gripper/episodes/envelope-calibration-06-open_gripper/sampled_safety.json",
+      "sha256": "4f8da06f6d99d5732c43ea9ac35272696f318b097c35cdfdff0005eeb44d9da1",
+      "size": 2424
+    },
+    {
+      "path": "peb-envelope-calibration-20261024-001/open_gripper/episodes/envelope-calibration-06-open_gripper/skill.json",
+      "sha256": "64d42b1e096d5ca8de3f73641f08658e5e7a593ed3398604d1cb4c1493d49e32",
+      "size": 260
+    },
+    {
+      "path": "peb-envelope-calibration-20261024-001/open_gripper/episodes/envelope-calibration-06-open_gripper/trace.jsonl.gz",
+      "sha256": "42597a386a0e6699d8ad525de8296abef60ac1218001947a36577e7a635f7f11",
+      "size": 148883
+    },
+    {
+      "path": "peb-envelope-calibration-20261024-001/open_gripper/episodes/envelope-calibration-06-open_gripper/upstream.jsonl",
+      "sha256": "e7aabd2d3844fdb062320e9f19df82df62ae6b7ae731a14ddb27e9337394b30c",
+      "size": 1152
+    },
+    {
+      "path": "peb-envelope-calibration-20261024-001/open_gripper/episodes/envelope-calibration-07-open_gripper/episode.json",
+      "sha256": "d2bdf84ffd6caf7037ce68a2b25c9368e83e1d1ca47777642b992969c4e2783e",
+      "size": 4442
+    },
+    {
+      "path": "peb-envelope-calibration-20261024-001/open_gripper/episodes/envelope-calibration-07-open_gripper/holding.json",
+      "sha256": "8179af1251b22cf7ee2f0c82c26b29309325ba893e2a256a7ce6a2616db66652",
+      "size": 356
+    },
+    {
+      "path": "peb-envelope-calibration-20261024-001/open_gripper/episodes/envelope-calibration-07-open_gripper/initial_state.json",
+      "sha256": "67e12ce64f8496505d3221b43bfcfba64e07dc0cce0d181d3812c84d7fd28c47",
+      "size": 1728
+    },
+    {
+      "path": "peb-envelope-calibration-20261024-001/open_gripper/episodes/envelope-calibration-07-open_gripper/sampled_safety.json",
+      "sha256": "5eef30686a8246a175747b1a6d7b5e082696d979000683fb1ab35dd2068bda56",
+      "size": 2421
+    },
+    {
+      "path": "peb-envelope-calibration-20261024-001/open_gripper/episodes/envelope-calibration-07-open_gripper/skill.json",
+      "sha256": "64d42b1e096d5ca8de3f73641f08658e5e7a593ed3398604d1cb4c1493d49e32",
+      "size": 260
+    },
+    {
+      "path": "peb-envelope-calibration-20261024-001/open_gripper/episodes/envelope-calibration-07-open_gripper/trace.jsonl.gz",
+      "sha256": "d27208b02225f8b3f7d0e51220b6b3343470eedc238af79a19e6f167538c5552",
+      "size": 150466
+    },
+    {
+      "path": "peb-envelope-calibration-20261024-001/open_gripper/episodes/envelope-calibration-07-open_gripper/upstream.jsonl",
+      "sha256": "1a053140f9d9bcb26070577456f0bb49506d52d68753824badfa7241f20ed97b",
+      "size": 1152
+    },
+    {
+      "path": "peb-envelope-calibration-20261024-001/open_gripper/episodes/envelope-calibration-08-open_gripper/episode.json",
+      "sha256": "9c6afe020e115bb404f49e74de85fe89dd29cd2b6743ddde47f5de6bed6f16bd",
+      "size": 4449
+    },
+    {
+      "path": "peb-envelope-calibration-20261024-001/open_gripper/episodes/envelope-calibration-08-open_gripper/holding.json",
+      "sha256": "4ef4a1e682e57666e7be336c21fc008c5135277f83fbb83bd6604383a973434b",
+      "size": 356
+    },
+    {
+      "path": "peb-envelope-calibration-20261024-001/open_gripper/episodes/envelope-calibration-08-open_gripper/initial_state.json",
+      "sha256": "ac322c48b68d866bb0d31cee2422d12e9a760a7817899edb504ac8555e0b0eb7",
+      "size": 1731
+    },
+    {
+      "path": "peb-envelope-calibration-20261024-001/open_gripper/episodes/envelope-calibration-08-open_gripper/sampled_safety.json",
+      "sha256": "42d0f1e2d842a6b678490c508f779d8e7d19326f9278adc3c894e1311b22c2c6",
+      "size": 2422
+    },
+    {
+      "path": "peb-envelope-calibration-20261024-001/open_gripper/episodes/envelope-calibration-08-open_gripper/skill.json",
+      "sha256": "64d42b1e096d5ca8de3f73641f08658e5e7a593ed3398604d1cb4c1493d49e32",
+      "size": 260
+    },
+    {
+      "path": "peb-envelope-calibration-20261024-001/open_gripper/episodes/envelope-calibration-08-open_gripper/trace.jsonl.gz",
+      "sha256": "67bea7fcbb4d6830683da050312c9df5fd6ba6929b9fcf722c25ea2018223216",
+      "size": 76776
+    },
+    {
+      "path": "peb-envelope-calibration-20261024-001/open_gripper/episodes/envelope-calibration-08-open_gripper/upstream.jsonl",
+      "sha256": "75a16a8355f0d3f964a139b76bd6839c2a42da49997755af4ace15dc1b93c959",
+      "size": 1152
+    },
+    {
+      "path": "peb-envelope-calibration-20261024-001/open_gripper/episodes/envelope-calibration-09-open_gripper/episode.json",
+      "sha256": "936a7bf9f718681f99801ad21dac68980ccc918512c8c9b5c8b5f99f019592cf",
+      "size": 4479
+    },
+    {
+      "path": "peb-envelope-calibration-20261024-001/open_gripper/episodes/envelope-calibration-09-open_gripper/holding.json",
+      "sha256": "8179af1251b22cf7ee2f0c82c26b29309325ba893e2a256a7ce6a2616db66652",
+      "size": 356
+    },
+    {
+      "path": "peb-envelope-calibration-20261024-001/open_gripper/episodes/envelope-calibration-09-open_gripper/initial_state.json",
+      "sha256": "2ba06693fd6c964cb96c79abb0711c3264ae22b1184669291616b40e484f46ce",
+      "size": 1729
+    },
+    {
+      "path": "peb-envelope-calibration-20261024-001/open_gripper/episodes/envelope-calibration-09-open_gripper/sampled_safety.json",
+      "sha256": "8979af9f8bbecb8deb91d4b6c7051e12f82229d032aada4665c93c9ad92a16f0",
+      "size": 2457
+    },
+    {
+      "path": "peb-envelope-calibration-20261024-001/open_gripper/episodes/envelope-calibration-09-open_gripper/skill.json",
+      "sha256": "64d42b1e096d5ca8de3f73641f08658e5e7a593ed3398604d1cb4c1493d49e32",
+      "size": 260
+    },
+    {
+      "path": "peb-envelope-calibration-20261024-001/open_gripper/episodes/envelope-calibration-09-open_gripper/trace.jsonl.gz",
+      "sha256": "42e605437f11c3dddac6bb23985b02776bb69144a4f49d8c36c605f6aa7d5c5b",
+      "size": 148547
+    },
+    {
+      "path": "peb-envelope-calibration-20261024-001/open_gripper/episodes/envelope-calibration-09-open_gripper/upstream.jsonl",
+      "sha256": "374d1cc21a46fe9314934c923103c870623f942d9bb41c64412106e6ae7b45ab",
+      "size": 1152
+    },
+    {
+      "path": "peb-envelope-calibration-20261024-001/open_gripper/episodes/envelope-calibration-10-open_gripper/episode.json",
+      "sha256": "393758ed38c7c79b54629b10eb5165cb7cf060a6dfb0e6c6bd1d4eeb0051744d",
+      "size": 4480
+    },
+    {
+      "path": "peb-envelope-calibration-20261024-001/open_gripper/episodes/envelope-calibration-10-open_gripper/holding.json",
+      "sha256": "8179af1251b22cf7ee2f0c82c26b29309325ba893e2a256a7ce6a2616db66652",
+      "size": 356
+    },
+    {
+      "path": "peb-envelope-calibration-20261024-001/open_gripper/episodes/envelope-calibration-10-open_gripper/initial_state.json",
+      "sha256": "6eca6d3a4c11c938dbbba81a27ca07085d093ad22da82e541bceee557e5934ee",
+      "size": 1736
+    },
+    {
+      "path": "peb-envelope-calibration-20261024-001/open_gripper/episodes/envelope-calibration-10-open_gripper/sampled_safety.json",
+      "sha256": "fb329b9245586e1046035428863a22baaae1e7a4c0394968da7c477586238408",
+      "size": 2458
+    },
+    {
+      "path": "peb-envelope-calibration-20261024-001/open_gripper/episodes/envelope-calibration-10-open_gripper/skill.json",
+      "sha256": "64d42b1e096d5ca8de3f73641f08658e5e7a593ed3398604d1cb4c1493d49e32",
+      "size": 260
+    },
+    {
+      "path": "peb-envelope-calibration-20261024-001/open_gripper/episodes/envelope-calibration-10-open_gripper/trace.jsonl.gz",
+      "sha256": "2c2baa21937e1d531258f09a3bf16a31b68e07c64948a1b03b0a582b287039b9",
+      "size": 150734
+    },
+    {
+      "path": "peb-envelope-calibration-20261024-001/open_gripper/episodes/envelope-calibration-10-open_gripper/upstream.jsonl",
+      "sha256": "77bd21afc1c6e7f6239e90eb04b65c5b09d33c3904b37b5db496f0323f7e4e98",
+      "size": 1152
+    },
+    {
+      "path": "peb-envelope-calibration-20261024-001/open_gripper/episodes/envelope-calibration-11-open_gripper/episode.json",
+      "sha256": "38cc03b3909605bbfce9d7c31295eb14b226fa750b1a8e0275f554cc29301ce8",
+      "size": 4486
+    },
+    {
+      "path": "peb-envelope-calibration-20261024-001/open_gripper/episodes/envelope-calibration-11-open_gripper/holding.json",
+      "sha256": "ad776640e77837806dd22b84f937391310717d9e9e73dfa5dfaa9b88e05a3738",
+      "size": 356
+    },
+    {
+      "path": "peb-envelope-calibration-20261024-001/open_gripper/episodes/envelope-calibration-11-open_gripper/initial_state.json",
+      "sha256": "7f34776d8af8e9919c259081ddaf15e6fdbf179dfe21f5a02dbd4ebb7d79ec16",
+      "size": 1729
+    },
+    {
+      "path": "peb-envelope-calibration-20261024-001/open_gripper/episodes/envelope-calibration-11-open_gripper/sampled_safety.json",
+      "sha256": "e5280013ab07d4c332e5b7a6dce3aa067e6946032f1a6d217df68f3a907b9486",
+      "size": 2458
+    },
+    {
+      "path": "peb-envelope-calibration-20261024-001/open_gripper/episodes/envelope-calibration-11-open_gripper/skill.json",
+      "sha256": "64d42b1e096d5ca8de3f73641f08658e5e7a593ed3398604d1cb4c1493d49e32",
+      "size": 260
+    },
+    {
+      "path": "peb-envelope-calibration-20261024-001/open_gripper/episodes/envelope-calibration-11-open_gripper/trace.jsonl.gz",
+      "sha256": "6e4c4999095eb285c8faf71c4295141d49e03b08b3d74b56b2f2feb19de15613",
+      "size": 134653
+    },
+    {
+      "path": "peb-envelope-calibration-20261024-001/open_gripper/episodes/envelope-calibration-11-open_gripper/upstream.jsonl",
+      "sha256": "cb5565b1a756509eb340b4d0e94abdfb3ed8b9d14d93f065dd600e0a12f173d1",
+      "size": 1152
+    },
+    {
+      "path": "peb-envelope-calibration-20261024-001/open_gripper/episodes.jsonl",
+      "sha256": "c06ec1b23870a0e1ffe3be0cb6006653f3274b2e9ac68ef88967f4bd606b5457",
+      "size": 44967
+    },
+    {
+      "path": "peb-envelope-calibration-20261024-001/open_gripper/launch.json",
+      "sha256": "6febcc0d90466b5949b917ca497615bfa3b70cceeabad5af5db789ad02b7f8d6",
+      "size": 415
+    },
+    {
+      "path": "peb-envelope-calibration-20261024-001/open_gripper/process.json",
+      "sha256": "8bc1223a105f4ac0f7e9f93fd49988daa72d0b40ec496a0f9c18087147c52968",
+      "size": 75
+    },
+    {
+      "path": "peb-envelope-calibration-20261024-001/open_gripper/status.json",
+      "sha256": "d03dda3037e2ef1a5a13f313a3a41435eb39e4ea778e48340322205f7a143c3e",
+      "size": 46
+    },
+    {
+      "path": "peb-envelope-calibration-20261024-001/original/action_mapping.json",
+      "sha256": "59518975f120eb90ac77800686f77608e0e560995739e81a025f5d1cb891b4eb",
+      "size": 514
+    },
+    {
+      "path": "peb-envelope-calibration-20261024-001/original/audit.json",
+      "sha256": "b4b7736e4386779e1e50059ab06c7f70acc5f3def4482063d1b8e8039c886cb4",
+      "size": 140
+    },
+    {
+      "path": "peb-envelope-calibration-20261024-001/original/budget_ledger.json",
+      "sha256": "3a165db35b1e67931eab6cdb9e97ac349c6114833b97a4add4c8a65857771d7a",
+      "size": 1407
+    },
+    {
+      "path": "peb-envelope-calibration-20261024-001/original/config.json",
+      "sha256": "e6046d87db7a183a2ac4425986cff4553992d77148f5c6f449e26b825f9029ff",
+      "size": 3205
+    },
+    {
+      "path": "peb-envelope-calibration-20261024-001/original/console.log",
+      "sha256": "47587a1e83663b653a68dddec228a4da6e3cb843b86c7590841ffcafabcc019d",
+      "size": 83757
+    },
+    {
+      "path": "peb-envelope-calibration-20261024-001/original/episodes/envelope-calibration-00-original/episode.json",
+      "sha256": "218cb68f8759fbb1d19ec0cbbcbbfc97cd66bb9d4ceec4177b0e38da0a734758",
+      "size": 4406
+    },
+    {
+      "path": "peb-envelope-calibration-20261024-001/original/episodes/envelope-calibration-00-original/holding.json",
+      "sha256": "d58fedd508e52a732eb4040751ae286c7713eb078ae02411d4a4187ae7049e9d",
+      "size": 357
+    },
+    {
+      "path": "peb-envelope-calibration-20261024-001/original/episodes/envelope-calibration-00-original/initial_state.json",
+      "sha256": "997ea928bae5422e4fca8c005c0ad0321b81a2cfcbd107121cec30e7cfb29e99",
+      "size": 1727
+    },
+    {
+      "path": "peb-envelope-calibration-20261024-001/original/episodes/envelope-calibration-00-original/sampled_safety.json",
+      "sha256": "7c1a1fa96b49d8215e7cbc94806a7ce048d4c2d14cae97ccdd462be9d13e8089",
+      "size": 2408
+    },
+    {
+      "path": "peb-envelope-calibration-20261024-001/original/episodes/envelope-calibration-00-original/skill.json",
+      "sha256": "64d42b1e096d5ca8de3f73641f08658e5e7a593ed3398604d1cb4c1493d49e32",
+      "size": 260
+    },
+    {
+      "path": "peb-envelope-calibration-20261024-001/original/episodes/envelope-calibration-00-original/trace.jsonl.gz",
+      "sha256": "d92bd3725b2fdd3dd06cb976bec7ba9b89f05142b65b11f878a4a3f951c803af",
+      "size": 154552
+    },
+    {
+      "path": "peb-envelope-calibration-20261024-001/original/episodes/envelope-calibration-00-original/upstream.jsonl",
+      "sha256": "6cf1669d911e186b9a93a5513e4843e69ab28219da09ce3559dd272a0f194bd4",
+      "size": 576
+    },
+    {
+      "path": "peb-envelope-calibration-20261024-001/original/episodes/envelope-calibration-01-original/episode.json",
+      "sha256": "478298cb3b8c4e9096de18bb5277a44742c7445bd55593ec1dafcb300371fadc",
+      "size": 4405
+    },
+    {
+      "path": "peb-envelope-calibration-20261024-001/original/episodes/envelope-calibration-01-original/holding.json",
+      "sha256": "d58fedd508e52a732eb4040751ae286c7713eb078ae02411d4a4187ae7049e9d",
+      "size": 357
+    },
+    {
+      "path": "peb-envelope-calibration-20261024-001/original/episodes/envelope-calibration-01-original/initial_state.json",
+      "sha256": "0b20995fb9be74f33b4c8d48363d8d5941b3b4d5090edbc4807289f2290c2ee5",
+      "size": 1730
+    },
+    {
+      "path": "peb-envelope-calibration-20261024-001/original/episodes/envelope-calibration-01-original/sampled_safety.json",
+      "sha256": "0421f1e594481f0ae39e21331b20b9be21becd92a7da0e2f0d964a5e570d3ea6",
+      "size": 2406
+    },
+    {
+      "path": "peb-envelope-calibration-20261024-001/original/episodes/envelope-calibration-01-original/skill.json",
+      "sha256": "64d42b1e096d5ca8de3f73641f08658e5e7a593ed3398604d1cb4c1493d49e32",
+      "size": 260
+    },
+    {
+      "path": "peb-envelope-calibration-20261024-001/original/episodes/envelope-calibration-01-original/trace.jsonl.gz",
+      "sha256": "25f2930047c5326272d961b07322f72e015bfbbe9e548f084c7103d7709d6455",
+      "size": 152916
+    },
+    {
+      "path": "peb-envelope-calibration-20261024-001/original/episodes/envelope-calibration-01-original/upstream.jsonl",
+      "sha256": "f1fc3c17868a2c4eb2a657ef48c03488f2b1a6a0818f92c2525a41d6288d2256",
+      "size": 1150
+    },
+    {
+      "path": "peb-envelope-calibration-20261024-001/original/episodes/envelope-calibration-02-original/episode.json",
+      "sha256": "ec70997744d4432d212759269b7e62cf4a0b654c656e519a8e747fef2ecfa1b6",
+      "size": 4406
+    },
+    {
+      "path": "peb-envelope-calibration-20261024-001/original/episodes/envelope-calibration-02-original/holding.json",
+      "sha256": "ba50e41e9de0eb0311c7a1cb688177a430679d33970fec3b9c22838c84d9f53c",
+      "size": 357
+    },
+    {
+      "path": "peb-envelope-calibration-20261024-001/original/episodes/envelope-calibration-02-original/initial_state.json",
+      "sha256": "a4c138c4146be6a582b62c13f046e05b1a4c0d670d297fb912e772ba1641ff5a",
+      "size": 1728
+    },
+    {
+      "path": "peb-envelope-calibration-20261024-001/original/episodes/envelope-calibration-02-original/sampled_safety.json",
+      "sha256": "7fc52fa415e2e931f61f26cd264267a75faf38a19a32dd48871f5f9fb6fb9b78",
+      "size": 2407
+    },
+    {
+      "path": "peb-envelope-calibration-20261024-001/original/episodes/envelope-calibration-02-original/skill.json",
+      "sha256": "64d42b1e096d5ca8de3f73641f08658e5e7a593ed3398604d1cb4c1493d49e32",
+      "size": 260
+    },
+    {
+      "path": "peb-envelope-calibration-20261024-001/original/episodes/envelope-calibration-02-original/trace.jsonl.gz",
+      "sha256": "2bbeed35c08baa22658c4d7236f80e26c4fbd63c140e293915352518b7e95250",
+      "size": 153418
+    },
+    {
+      "path": "peb-envelope-calibration-20261024-001/original/episodes/envelope-calibration-02-original/upstream.jsonl",
+      "sha256": "7942379a10d025aeb10c31e62cb241fdbba9f67166504cda8a67f20285e20e69",
+      "size": 1150
+    },
+    {
+      "path": "peb-envelope-calibration-20261024-001/original/episodes/envelope-calibration-03-original/episode.json",
+      "sha256": "8e28705421e70fc1a5e285dbb9dd4e3b4ba5476ab72739a6d6cc8e5d4d38bf63",
+      "size": 4406
+    },
+    {
+      "path": "peb-envelope-calibration-20261024-001/original/episodes/envelope-calibration-03-original/holding.json",
+      "sha256": "081beb323e226fed5f1fd9564d8a178e71e8ed04c081f1623f44a907abaccb0b",
+      "size": 357
+    },
+    {
+      "path": "peb-envelope-calibration-20261024-001/original/episodes/envelope-calibration-03-original/initial_state.json",
+      "sha256": "c3de68a16ae8021b73847ea0fc8feb75c083642509cb8c3616fcf2d8999e46e6",
+      "size": 1728
+    },
+    {
+      "path": "peb-envelope-calibration-20261024-001/original/episodes/envelope-calibration-03-original/sampled_safety.json",
+      "sha256": "93e305e6aace403d6a12453fd5680847a012c0de16e7f33bfaf4fc9dd1c8823f",
+      "size": 2408
+    },
+    {
+      "path": "peb-envelope-calibration-20261024-001/original/episodes/envelope-calibration-03-original/skill.json",
+      "sha256": "64d42b1e096d5ca8de3f73641f08658e5e7a593ed3398604d1cb4c1493d49e32",
+      "size": 260
+    },
+    {
+      "path": "peb-envelope-calibration-20261024-001/original/episodes/envelope-calibration-03-original/trace.jsonl.gz",
+      "sha256": "a4ca60b304283c064c6ecd7987d4e229ab4387ff668f575e22b6bff4d090e7c6",
+      "size": 153045
+    },
+    {
+      "path": "peb-envelope-calibration-20261024-001/original/episodes/envelope-calibration-03-original/upstream.jsonl",
+      "sha256": "b9dbdadc342ad94afc1ee807ead252bc6fa869112b84a0fd13d12eb8dcd5f0b5",
+      "size": 1150
+    },
+    {
+      "path": "peb-envelope-calibration-20261024-001/original/episodes/envelope-calibration-04-original/episode.json",
+      "sha256": "a67e31a628683038f57409cc3be29a0af607a953d3a8cf7b5ffaa97a42e78942",
+      "size": 4404
+    },
+    {
+      "path": "peb-envelope-calibration-20261024-001/original/episodes/envelope-calibration-04-original/holding.json",
+      "sha256": "8d1470bac8383f8ebbf9f391e30708233f9199b56bbc432d3633a604aaf9b3b9",
+      "size": 357
+    },
+    {
+      "path": "peb-envelope-calibration-20261024-001/original/episodes/envelope-calibration-04-original/initial_state.json",
+      "sha256": "21ba205e9c0807a53cbfcd770c2e18bc3759a3a91c1e10397b95aeac4e815155",
+      "size": 1729
+    },
+    {
+      "path": "peb-envelope-calibration-20261024-001/original/episodes/envelope-calibration-04-original/sampled_safety.json",
+      "sha256": "fbd5a2cd430908b491e98921e66226b23fd44568becc35986acd615b370442b4",
+      "size": 2407
+    },
+    {
+      "path": "peb-envelope-calibration-20261024-001/original/episodes/envelope-calibration-04-original/skill.json",
+      "sha256": "64d42b1e096d5ca8de3f73641f08658e5e7a593ed3398604d1cb4c1493d49e32",
+      "size": 260
+    },
+    {
+      "path": "peb-envelope-calibration-20261024-001/original/episodes/envelope-calibration-04-original/trace.jsonl.gz",
+      "sha256": "df75449376da0b13f846c6f173b33edc2233e4ca95e202a9a97c7186051af6b3",
+      "size": 154619
+    },
+    {
+      "path": "peb-envelope-calibration-20261024-001/original/episodes/envelope-calibration-04-original/upstream.jsonl",
+      "sha256": "e5b57f420eb059a3b89c57950af79bdb6bd1d9a83c0a96be1e5de61c9ccaf475",
+      "size": 1150
+    },
+    {
+      "path": "peb-envelope-calibration-20261024-001/original/episodes/envelope-calibration-05-original/episode.json",
+      "sha256": "2354a5b4dbba79db54ba0e7e2d70ed79c377bff8b995ffca098d4f4c4233d4b0",
+      "size": 4408
+    },
+    {
+      "path": "peb-envelope-calibration-20261024-001/original/episodes/envelope-calibration-05-original/holding.json",
+      "sha256": "c109378213ee59c3a7c5b3473b8c9369b2c7146172be1ab616b8cc214671674c",
+      "size": 357
+    },
+    {
+      "path": "peb-envelope-calibration-20261024-001/original/episodes/envelope-calibration-05-original/initial_state.json",
+      "sha256": "b8ab54a574ded969b98199a9b6f9a5803a7e5b80173cd16c58e566e15c0b8c42",
+      "size": 1732
+    },
+    {
+      "path": "peb-envelope-calibration-20261024-001/original/episodes/envelope-calibration-05-original/sampled_safety.json",
+      "sha256": "cd49db028895fe9570811e445b25f60a92638130719414f837fcf023169efb53",
+      "size": 2409
+    },
+    {
+      "path": "peb-envelope-calibration-20261024-001/original/episodes/envelope-calibration-05-original/skill.json",
+      "sha256": "64d42b1e096d5ca8de3f73641f08658e5e7a593ed3398604d1cb4c1493d49e32",
+      "size": 260
+    },
+    {
+      "path": "peb-envelope-calibration-20261024-001/original/episodes/envelope-calibration-05-original/trace.jsonl.gz",
+      "sha256": "4363d5765b0cebf591ff5e1eba1acd15645ef5c10c0962b28f497ee4afa05e87",
+      "size": 152951
+    },
+    {
+      "path": "peb-envelope-calibration-20261024-001/original/episodes/envelope-calibration-05-original/upstream.jsonl",
+      "sha256": "7fea36db85c435b3ab2b99c183f7a2fe1162898def668a6ccf4386f14a3ea0f6",
+      "size": 1151
+    },
+    {
+      "path": "peb-envelope-calibration-20261024-001/original/episodes/envelope-calibration-06-original/episode.json",
+      "sha256": "97cefe1f0c98730229d981f627ac444d6385e87b81a563d63ebbd884ac8e7467",
+      "size": 4406
+    },
+    {
+      "path": "peb-envelope-calibration-20261024-001/original/episodes/envelope-calibration-06-original/holding.json",
+      "sha256": "e13cb25644a38d61f2eae210bb2a67c7983609ed9228d0f3fd401b36860685e5",
+      "size": 356
+    },
+    {
+      "path": "peb-envelope-calibration-20261024-001/original/episodes/envelope-calibration-06-original/initial_state.json",
+      "sha256": "dc0c083afc432a9cf48336731f8f16ba01f38689758143ed0bcf6d3d4f3e17ac",
+      "size": 1729
+    },
+    {
+      "path": "peb-envelope-calibration-20261024-001/original/episodes/envelope-calibration-06-original/sampled_safety.json",
+      "sha256": "d3f56d0710b0b0fe2414759ff6140c02b78c5c886369b37cff206428c3219f62",
+      "size": 2409
+    },
+    {
+      "path": "peb-envelope-calibration-20261024-001/original/episodes/envelope-calibration-06-original/skill.json",
+      "sha256": "64d42b1e096d5ca8de3f73641f08658e5e7a593ed3398604d1cb4c1493d49e32",
+      "size": 260
+    },
+    {
+      "path": "peb-envelope-calibration-20261024-001/original/episodes/envelope-calibration-06-original/trace.jsonl.gz",
+      "sha256": "beedd973f1ac01ce33eb1c8424d5742a14e1612b003493fab0c7c6f016c4bc53",
+      "size": 154831
+    },
+    {
+      "path": "peb-envelope-calibration-20261024-001/original/episodes/envelope-calibration-06-original/upstream.jsonl",
+      "sha256": "1136e818fa56ca909bb0335a2a4e6eeb1773728ee1a2a2f6fab3d43199ec9124",
+      "size": 1152
+    },
+    {
+      "path": "peb-envelope-calibration-20261024-001/original/episodes/envelope-calibration-07-original/episode.json",
+      "sha256": "4a9677b112f24a27426508bbdb7b5d0fa8f31f89cd01a49bdbd54e90818d432c",
+      "size": 4406
+    },
+    {
+      "path": "peb-envelope-calibration-20261024-001/original/episodes/envelope-calibration-07-original/holding.json",
+      "sha256": "9353f621bb8ec924496038dbfa1ccf0eb0931f495a4f106fcecab7770ff54438",
+      "size": 357
+    },
+    {
+      "path": "peb-envelope-calibration-20261024-001/original/episodes/envelope-calibration-07-original/initial_state.json",
+      "sha256": "67e12ce64f8496505d3221b43bfcfba64e07dc0cce0d181d3812c84d7fd28c47",
+      "size": 1728
+    },
+    {
+      "path": "peb-envelope-calibration-20261024-001/original/episodes/envelope-calibration-07-original/sampled_safety.json",
+      "sha256": "e3e9ecaadff1241468e81ef4d332e5e1a7a5126e99362f8d962b77663a43b28f",
+      "size": 2409
+    },
+    {
+      "path": "peb-envelope-calibration-20261024-001/original/episodes/envelope-calibration-07-original/skill.json",
+      "sha256": "64d42b1e096d5ca8de3f73641f08658e5e7a593ed3398604d1cb4c1493d49e32",
+      "size": 260
+    },
+    {
+      "path": "peb-envelope-calibration-20261024-001/original/episodes/envelope-calibration-07-original/trace.jsonl.gz",
+      "sha256": "db313b9c1d76d885eae94caf077ca4a2c306b71e951624f3f46a43f9d2c7655a",
+      "size": 153385
+    },
+    {
+      "path": "peb-envelope-calibration-20261024-001/original/episodes/envelope-calibration-07-original/upstream.jsonl",
+      "sha256": "abf5ce1b85a405fc40a822b56cebfde47af370ad9616f221d3d41c2aa3c87ae4",
+      "size": 1152
+    },
+    {
+      "path": "peb-envelope-calibration-20261024-001/original/episodes/envelope-calibration-08-original/episode.json",
+      "sha256": "db2b7e58967127413b30ca9ce7059e145c6c603e2a034a4e9c42e2c40c13b968",
+      "size": 4407
+    },
+    {
+      "path": "peb-envelope-calibration-20261024-001/original/episodes/envelope-calibration-08-original/holding.json",
+      "sha256": "c375cafeb71594d60b35e80182c97200e782efbf2bcc78b1ea22f247e46a841f",
+      "size": 357
+    },
+    {
+      "path": "peb-envelope-calibration-20261024-001/original/episodes/envelope-calibration-08-original/initial_state.json",
+      "sha256": "ac322c48b68d866bb0d31cee2422d12e9a760a7817899edb504ac8555e0b0eb7",
+      "size": 1731
+    },
+    {
+      "path": "peb-envelope-calibration-20261024-001/original/episodes/envelope-calibration-08-original/sampled_safety.json",
+      "sha256": "f5e5bd97e7d9520f9917cd9497c2d00ed7037027f7195347e8a4d3c6c2b3e940",
+      "size": 2408
+    },
+    {
+      "path": "peb-envelope-calibration-20261024-001/original/episodes/envelope-calibration-08-original/skill.json",
+      "sha256": "64d42b1e096d5ca8de3f73641f08658e5e7a593ed3398604d1cb4c1493d49e32",
+      "size": 260
+    },
+    {
+      "path": "peb-envelope-calibration-20261024-001/original/episodes/envelope-calibration-08-original/trace.jsonl.gz",
+      "sha256": "dd858d84db6b2b4e76dc13aa337f0ba292bf29be62738574e245f02d685999c7",
+      "size": 155299
+    },
+    {
+      "path": "peb-envelope-calibration-20261024-001/original/episodes/envelope-calibration-08-original/upstream.jsonl",
+      "sha256": "3f74c0deb809d040a0b054984462a3f4b8c323be54d4e2bdf66bff1c00f74e9b",
+      "size": 1152
+    },
+    {
+      "path": "peb-envelope-calibration-20261024-001/original/episodes/envelope-calibration-09-original/episode.json",
+      "sha256": "d51541b84e60084129aacfcb16f795d2d74bd50b0e709e4e711f24127d565a5f",
+      "size": 4404
+    },
+    {
+      "path": "peb-envelope-calibration-20261024-001/original/episodes/envelope-calibration-09-original/holding.json",
+      "sha256": "34502d5543776887493f5ce3d82714db46905175d8511357e080731974153942",
+      "size": 357
+    },
+    {
+      "path": "peb-envelope-calibration-20261024-001/original/episodes/envelope-calibration-09-original/initial_state.json",
+      "sha256": "2ba06693fd6c964cb96c79abb0711c3264ae22b1184669291616b40e484f46ce",
+      "size": 1729
+    },
+    {
+      "path": "peb-envelope-calibration-20261024-001/original/episodes/envelope-calibration-09-original/sampled_safety.json",
+      "sha256": "168f38239670fc8f717b697faff366941b05bd8f10ad71a1296c211a187e5413",
+      "size": 2407
+    },
+    {
+      "path": "peb-envelope-calibration-20261024-001/original/episodes/envelope-calibration-09-original/skill.json",
+      "sha256": "64d42b1e096d5ca8de3f73641f08658e5e7a593ed3398604d1cb4c1493d49e32",
+      "size": 260
+    },
+    {
+      "path": "peb-envelope-calibration-20261024-001/original/episodes/envelope-calibration-09-original/trace.jsonl.gz",
+      "sha256": "9fe35fddf61d823f1b511d0e7565145d0043774304aa144f5a71ba3026bf4f75",
+      "size": 152948
+    },
+    {
+      "path": "peb-envelope-calibration-20261024-001/original/episodes/envelope-calibration-09-original/upstream.jsonl",
+      "sha256": "65f7ef72b99990b672f334661b210f47dc5c98e7a18e93029bf9aa724038a44c",
+      "size": 1152
+    },
+    {
+      "path": "peb-envelope-calibration-20261024-001/original/episodes/envelope-calibration-10-original/episode.json",
+      "sha256": "ee57e33a5f6f56b5778a2871e043b71f505eba9221229f36e8d5b5f7d77d1b9e",
+      "size": 4406
+    },
+    {
+      "path": "peb-envelope-calibration-20261024-001/original/episodes/envelope-calibration-10-original/holding.json",
+      "sha256": "085309661b2ca0e2d255a237e72378e1d2f655b987d22f6a119c36c108de58db",
+      "size": 357
+    },
+    {
+      "path": "peb-envelope-calibration-20261024-001/original/episodes/envelope-calibration-10-original/initial_state.json",
+      "sha256": "6eca6d3a4c11c938dbbba81a27ca07085d093ad22da82e541bceee557e5934ee",
+      "size": 1736
+    },
+    {
+      "path": "peb-envelope-calibration-20261024-001/original/episodes/envelope-calibration-10-original/sampled_safety.json",
+      "sha256": "b25a2cb8a4ecb43e0db215027712b44656a73c2dfd53b37e434f2deea340531e",
+      "size": 2408
+    },
+    {
+      "path": "peb-envelope-calibration-20261024-001/original/episodes/envelope-calibration-10-original/skill.json",
+      "sha256": "64d42b1e096d5ca8de3f73641f08658e5e7a593ed3398604d1cb4c1493d49e32",
+      "size": 260
+    },
+    {
+      "path": "peb-envelope-calibration-20261024-001/original/episodes/envelope-calibration-10-original/trace.jsonl.gz",
+      "sha256": "14a2700ea4f43b53274af246d53145d80e248e6f43c248db5adf603051ca8524",
+      "size": 155729
+    },
+    {
+      "path": "peb-envelope-calibration-20261024-001/original/episodes/envelope-calibration-10-original/upstream.jsonl",
+      "sha256": "e349b7ee8292e82dd0c029807ad40fa5f7b0ef8c0ae17c0a2637641e676c738a",
+      "size": 1152
+    },
+    {
+      "path": "peb-envelope-calibration-20261024-001/original/episodes/envelope-calibration-11-original/episode.json",
+      "sha256": "a128bc710c472c340f8f5892d405710c84eec39f61a63b4f4f2572cd39a2f6e9",
+      "size": 4404
+    },
+    {
+      "path": "peb-envelope-calibration-20261024-001/original/episodes/envelope-calibration-11-original/holding.json",
+      "sha256": "5073df71478173083f32de1b3ddcb0c192e392039d952b121806ab822ea12f7d",
+      "size": 356
+    },
+    {
+      "path": "peb-envelope-calibration-20261024-001/original/episodes/envelope-calibration-11-original/initial_state.json",
+      "sha256": "7f34776d8af8e9919c259081ddaf15e6fdbf179dfe21f5a02dbd4ebb7d79ec16",
+      "size": 1729
+    },
+    {
+      "path": "peb-envelope-calibration-20261024-001/original/episodes/envelope-calibration-11-original/sampled_safety.json",
+      "sha256": "6bdfea87941d92fda6c7a3e9d6b483af699e95106fb5d15ae3c3ef233932f16f",
+      "size": 2406
+    },
+    {
+      "path": "peb-envelope-calibration-20261024-001/original/episodes/envelope-calibration-11-original/skill.json",
+      "sha256": "64d42b1e096d5ca8de3f73641f08658e5e7a593ed3398604d1cb4c1493d49e32",
+      "size": 260
+    },
+    {
+      "path": "peb-envelope-calibration-20261024-001/original/episodes/envelope-calibration-11-original/trace.jsonl.gz",
+      "sha256": "d3f3de5694c3ec64c289a6685cf630e840b8e52a935a0bcce2cc012a879f1516",
+      "size": 154445
+    },
+    {
+      "path": "peb-envelope-calibration-20261024-001/original/episodes/envelope-calibration-11-original/upstream.jsonl",
+      "sha256": "9ee3151f190a90d4b61d9e744b8beaae16794832ac9d1a36967bf5b4521f08cb",
+      "size": 1152
+    },
+    {
+      "path": "peb-envelope-calibration-20261024-001/original/episodes.jsonl",
+      "sha256": "b87e45e9a5a29b8a6bcea30b404d6ef7e7622d673fe204cf561be8f77f1b5a30",
+      "size": 44132
+    },
+    {
+      "path": "peb-envelope-calibration-20261024-001/original/launch.json",
+      "sha256": "4819ea1653839191b9d68e5a5183e21d60c9d66e0da07adee93060e9a5640873",
+      "size": 411
+    },
+    {
+      "path": "peb-envelope-calibration-20261024-001/original/process.json",
+      "sha256": "44798b999858bb335da51390a08efef8d0737dd9d8686f18717a1669dc24fcd7",
+      "size": 75
+    },
+    {
+      "path": "peb-envelope-calibration-20261024-001/original/status.json",
+      "sha256": "d03dda3037e2ef1a5a13f313a3a41435eb39e4ea778e48340322205f7a143c3e",
+      "size": 46
+    },
+    {
+      "path": "peb-envelope-calibration-20261024-001/registration.json",
+      "sha256": "4bd1278ff821be14307c74f01afd1c2fbda52ddf7204c530d35698539aa4527f",
+      "size": 8203
+    },
+    {
+      "path": "peb-envelope-calibration-20261024-001/results.json",
+      "sha256": "0b9bec401eb75b23a9dea2a7d868b6d3d3bdc54c22565244ca350b59ff798f4c",
+      "size": 240
+    },
+    {
+      "path": "peb-official-calibration-20261024-001/block-0-open_gripper/action_mapping.json",
+      "sha256": "59518975f120eb90ac77800686f77608e0e560995739e81a025f5d1cb891b4eb",
+      "size": 514
+    },
+    {
+      "path": "peb-official-calibration-20261024-001/block-0-open_gripper/audit.json",
+      "sha256": "362c2b562eda29b24fa6b003c4d33661b4df9aa61c39413c462439d9950caf3b",
+      "size": 139
+    },
+    {
+      "path": "peb-official-calibration-20261024-001/block-0-open_gripper/budget_ledger.json",
+      "sha256": "5d5b5f5ea88afd7fd1e7360d5379b4384b67900d62c241a4864527e6a31946df",
+      "size": 729
+    },
+    {
+      "path": "peb-official-calibration-20261024-001/block-0-open_gripper/config.json",
+      "sha256": "1e8ea6a20653b0c3c88c0275a2bc657994b4ee7f452c4714e0091347c4f31561",
+      "size": 1830
+    },
+    {
+      "path": "peb-official-calibration-20261024-001/block-0-open_gripper/console.log",
+      "sha256": "d6127d6bbd53a17a587bca99da13bb58fc8d370c0b9cb3948713fcc43e82323c",
+      "size": 72135
+    },
+    {
+      "path": "peb-official-calibration-20261024-001/block-0-open_gripper/episodes/envelope-calibration-00-open_gripper/episode.json",
+      "sha256": "310c2ffaa0d7034b94efb930e52dee10c042652b696933519b825372fcd81808",
+      "size": 4135
+    },
+    {
+      "path": "peb-official-calibration-20261024-001/block-0-open_gripper/episodes/envelope-calibration-00-open_gripper/initial_state.json",
+      "sha256": "4032f62e94d9aff7eb4d193325cc7df833380a1e887e870f07db5fbd6c9b90a1",
+      "size": 1731
+    },
+    {
+      "path": "peb-official-calibration-20261024-001/block-0-open_gripper/episodes/envelope-calibration-00-open_gripper/sampled_safety.json",
+      "sha256": "7097d79bf6b757d3ddf62485ac4301d7e9e6db1763ec84007a698cd90c2720f9",
+      "size": 2522
+    },
+    {
+      "path": "peb-official-calibration-20261024-001/block-0-open_gripper/episodes/envelope-calibration-00-open_gripper/skill.json",
+      "sha256": "64d42b1e096d5ca8de3f73641f08658e5e7a593ed3398604d1cb4c1493d49e32",
+      "size": 260
+    },
+    {
+      "path": "peb-official-calibration-20261024-001/block-0-open_gripper/episodes/envelope-calibration-00-open_gripper/trace.jsonl.gz",
+      "sha256": "19bcca1386bd216cbd75f941120fab020504c3adaeb8c206ededfc06ecaad46e",
+      "size": 133274
+    },
+    {
+      "path": "peb-official-calibration-20261024-001/block-0-open_gripper/episodes/envelope-calibration-00-open_gripper/upstream.jsonl",
+      "sha256": "a34b5ae5ea19ff9a2410affb2085fcf1fe1672801cc68e7aca3e03bbe4a83f73",
+      "size": 577
+    },
+    {
+      "path": "peb-official-calibration-20261024-001/block-0-open_gripper/episodes/envelope-calibration-01-open_gripper/episode.json",
+      "sha256": "812b3112377c38033e7797084bc7becc2d8322219ee21a1c78182b4cd7e014ce",
+      "size": 4033
+    },
+    {
+      "path": "peb-official-calibration-20261024-001/block-0-open_gripper/episodes/envelope-calibration-01-open_gripper/initial_state.json",
+      "sha256": "b8a9bc39650acb128dc3a5355c3e3c8a919ba42d490d1a254eab542304457b40",
+      "size": 1728
+    },
+    {
+      "path": "peb-official-calibration-20261024-001/block-0-open_gripper/episodes/envelope-calibration-01-open_gripper/sampled_safety.json",
+      "sha256": "3d5d0230c53642c5a3acbfeaacb17ba80b0146ae09791ea3103640137c3c9848",
+      "size": 2422
+    },
+    {
+      "path": "peb-official-calibration-20261024-001/block-0-open_gripper/episodes/envelope-calibration-01-open_gripper/skill.json",
+      "sha256": "64d42b1e096d5ca8de3f73641f08658e5e7a593ed3398604d1cb4c1493d49e32",
+      "size": 260
+    },
+    {
+      "path": "peb-official-calibration-20261024-001/block-0-open_gripper/episodes/envelope-calibration-01-open_gripper/trace.jsonl.gz",
+      "sha256": "57ae4c829526ee06eb308b80b1d7188f9b54639e728e357452c793185dea02fc",
+      "size": 131738
+    },
+    {
+      "path": "peb-official-calibration-20261024-001/block-0-open_gripper/episodes/envelope-calibration-01-open_gripper/upstream.jsonl",
+      "sha256": "78d69b89efdd5b4664d3b5a6aff921291fe45e324324a79f2b80f49174750913",
+      "size": 1152
+    },
+    {
+      "path": "peb-official-calibration-20261024-001/block-0-open_gripper/episodes/envelope-calibration-02-open_gripper/episode.json",
+      "sha256": "34eb860ebfc9776fcafbee98289f2b73254258ee61e9626b41c742f4fc4efab8",
+      "size": 4073
+    },
+    {
+      "path": "peb-official-calibration-20261024-001/block-0-open_gripper/episodes/envelope-calibration-02-open_gripper/initial_state.json",
+      "sha256": "4beb10d3a0083bca344f29d7d598bf2b997a59713891cda36f2864f37fe1e3ab",
+      "size": 1728
+    },
+    {
+      "path": "peb-official-calibration-20261024-001/block-0-open_gripper/episodes/envelope-calibration-02-open_gripper/sampled_safety.json",
+      "sha256": "2f386ca9ea022c59781e7265195bea59357fdd6a30863adcd18be4b5f3f65607",
+      "size": 2460
+    },
+    {
+      "path": "peb-official-calibration-20261024-001/block-0-open_gripper/episodes/envelope-calibration-02-open_gripper/skill.json",
+      "sha256": "64d42b1e096d5ca8de3f73641f08658e5e7a593ed3398604d1cb4c1493d49e32",
+      "size": 260
+    },
+    {
+      "path": "peb-official-calibration-20261024-001/block-0-open_gripper/episodes/envelope-calibration-02-open_gripper/trace.jsonl.gz",
+      "sha256": "a4ec929aea29f9c66c7a1fba0e1fce84180f94c077271ee0ecfc33266398dfac",
+      "size": 129950
+    },
+    {
+      "path": "peb-official-calibration-20261024-001/block-0-open_gripper/episodes/envelope-calibration-02-open_gripper/upstream.jsonl",
+      "sha256": "d0049e12f3768b5993683ec57e4f21b974cdfbb73949200034acff5ffacf11c1",
+      "size": 1152
+    },
+    {
+      "path": "peb-official-calibration-20261024-001/block-0-open_gripper/episodes/envelope-calibration-03-open_gripper/episode.json",
+      "sha256": "2551fd457dafe4a95825104df5169e05525171b9d073a942c1bfb08704ae0abd",
+      "size": 4035
+    },
+    {
+      "path": "peb-official-calibration-20261024-001/block-0-open_gripper/episodes/envelope-calibration-03-open_gripper/initial_state.json",
+      "sha256": "c7797cd4bdc37fb910fa9756302099114e34940e576b326389754d45009525f0",
+      "size": 1729
+    },
+    {
+      "path": "peb-official-calibration-20261024-001/block-0-open_gripper/episodes/envelope-calibration-03-open_gripper/sampled_safety.json",
+      "sha256": "574d442782acb9512d401708cd8293dd3a4a9f55b711431addb0b6938d8a8f0e",
+      "size": 2422
+    },
+    {
+      "path": "peb-official-calibration-20261024-001/block-0-open_gripper/episodes/envelope-calibration-03-open_gripper/skill.json",
+      "sha256": "64d42b1e096d5ca8de3f73641f08658e5e7a593ed3398604d1cb4c1493d49e32",
+      "size": 260
+    },
+    {
+      "path": "peb-official-calibration-20261024-001/block-0-open_gripper/episodes/envelope-calibration-03-open_gripper/trace.jsonl.gz",
+      "sha256": "82a9f8ea2b6b7f08fbd609bec42296dedff3eaed14f62ec97ce0a65553362f0d",
+      "size": 132811
+    },
+    {
+      "path": "peb-official-calibration-20261024-001/block-0-open_gripper/episodes/envelope-calibration-03-open_gripper/upstream.jsonl",
+      "sha256": "9b9517ccb3450952c2911ee24989266713acc78728e52777dc95fbc19ee222a9",
+      "size": 1152
+    },
+    {
+      "path": "peb-official-calibration-20261024-001/block-0-open_gripper/episodes/envelope-calibration-04-open_gripper/episode.json",
+      "sha256": "bc59cbd108490047d103ce4a7af09a9ebcbd0c1d9e2fc29cf92633e9b84be1b4",
+      "size": 4054
+    },
+    {
+      "path": "peb-official-calibration-20261024-001/block-0-open_gripper/episodes/envelope-calibration-04-open_gripper/initial_state.json",
+      "sha256": "30b7cb21a371721f162059411de5a5f37900492a819f0b19e70572339e1c3cf5",
+      "size": 1731
+    },
+    {
+      "path": "peb-official-calibration-20261024-001/block-0-open_gripper/episodes/envelope-calibration-04-open_gripper/sampled_safety.json",
+      "sha256": "ceaecb02f9da4704fc9318b250b58e1d7f0f1b74b0dc50dbbc5f3f07bf415c85",
+      "size": 2443
+    },
+    {
+      "path": "peb-official-calibration-20261024-001/block-0-open_gripper/episodes/envelope-calibration-04-open_gripper/skill.json",
+      "sha256": "64d42b1e096d5ca8de3f73641f08658e5e7a593ed3398604d1cb4c1493d49e32",
+      "size": 260
+    },
+    {
+      "path": "peb-official-calibration-20261024-001/block-0-open_gripper/episodes/envelope-calibration-04-open_gripper/trace.jsonl.gz",
+      "sha256": "5a7527565477e2d49c131c22686987e6d8b4fc0d2cf873f47f357670a6c7c3e8",
+      "size": 131338
+    },
+    {
+      "path": "peb-official-calibration-20261024-001/block-0-open_gripper/episodes/envelope-calibration-04-open_gripper/upstream.jsonl",
+      "sha256": "1e32dc50007dcd2aea7f0fc00343c7a5644f1da9766e157834fd2984c0e7c30b",
+      "size": 1152
+    },
+    {
+      "path": "peb-official-calibration-20261024-001/block-0-open_gripper/episodes/envelope-calibration-05-open_gripper/episode.json",
+      "sha256": "465410cff56a1d8153cd89123f5a2f3aa0c9fee9d93411aac0cebe97cfe6790b",
+      "size": 4053
+    },
+    {
+      "path": "peb-official-calibration-20261024-001/block-0-open_gripper/episodes/envelope-calibration-05-open_gripper/initial_state.json",
+      "sha256": "a672a243f6be8a89e39b696cb6e5c8a221a598adc1950034daacc7a5b1304d37",
+      "size": 1732
+    },
+    {
+      "path": "peb-official-calibration-20261024-001/block-0-open_gripper/episodes/envelope-calibration-05-open_gripper/sampled_safety.json",
+      "sha256": "bd9418203d163c051301ae52dab41e82cee173078dc176a7c31bc745376ccef9",
+      "size": 2422
+    },
+    {
+      "path": "peb-official-calibration-20261024-001/block-0-open_gripper/episodes/envelope-calibration-05-open_gripper/skill.json",
+      "sha256": "64d42b1e096d5ca8de3f73641f08658e5e7a593ed3398604d1cb4c1493d49e32",
+      "size": 260
+    },
+    {
+      "path": "peb-official-calibration-20261024-001/block-0-open_gripper/episodes/envelope-calibration-05-open_gripper/trace.jsonl.gz",
+      "sha256": "1ddd47eca66363966d3aa8e484db51665e1e33409ee14e7a7090ffebc35da71e",
+      "size": 87882
+    },
+    {
+      "path": "peb-official-calibration-20261024-001/block-0-open_gripper/episodes/envelope-calibration-05-open_gripper/upstream.jsonl",
+      "sha256": "4c8e471c65e0b2c3b296e8834b35117a9d859a2d5e3d4222b1a99794562d09e9",
+      "size": 1153
+    },
+    {
+      "path": "peb-official-calibration-20261024-001/block-0-open_gripper/episodes.jsonl",
+      "sha256": "023326ae3da80dc3ee161137a76fbff4b6071446d7dc0edd75f9e528e947c8a7",
+      "size": 20327
+    },
+    {
+      "path": "peb-official-calibration-20261024-001/block-0-open_gripper/launch.json",
+      "sha256": "1ec05659659b1ce36a0a004ca2a140c608b8d83e632637455067ab5bf5207c91",
+      "size": 423
+    },
+    {
+      "path": "peb-official-calibration-20261024-001/block-0-open_gripper/process.json",
+      "sha256": "dd49abad942484332f475502785cb2502786ddee447ff4ba053dd689476b9231",
+      "size": 75
+    },
+    {
+      "path": "peb-official-calibration-20261024-001/block-0-open_gripper/status.json",
+      "sha256": "11869607c772dd742f649d3b872e3ab65a8bb1e57dc4604cc02a9567e52b83c6",
+      "size": 45
+    },
+    {
+      "path": "peb-official-calibration-20261024-001/block-0-original/action_mapping.json",
+      "sha256": "59518975f120eb90ac77800686f77608e0e560995739e81a025f5d1cb891b4eb",
+      "size": 514
+    },
+    {
+      "path": "peb-official-calibration-20261024-001/block-0-original/audit.json",
+      "sha256": "362c2b562eda29b24fa6b003c4d33661b4df9aa61c39413c462439d9950caf3b",
+      "size": 139
+    },
+    {
+      "path": "peb-official-calibration-20261024-001/block-0-original/budget_ledger.json",
+      "sha256": "2add224c7e0b7e668ec5a44fd389c5338406ce4d464574805f2385b53b49fdf3",
+      "size": 705
+    },
+    {
+      "path": "peb-official-calibration-20261024-001/block-0-original/config.json",
+      "sha256": "6349013bb00ecf09729e02bbde47db852453453a2c54ac1d467d8eb6a2339294",
+      "size": 1803
+    },
+    {
+      "path": "peb-official-calibration-20261024-001/block-0-original/console.log",
+      "sha256": "c28f5009f7301e1420eea95ffad500cf7b713d4e6a7d456f4ef1db4deabb59db",
+      "size": 71846
+    },
+    {
+      "path": "peb-official-calibration-20261024-001/block-0-original/episodes/envelope-calibration-00-original/episode.json",
+      "sha256": "758098a51b81257d659e98b922a4184fe6643067d5a11efcecdbcc74f083510a",
+      "size": 3978
+    },
+    {
+      "path": "peb-official-calibration-20261024-001/block-0-original/episodes/envelope-calibration-00-original/initial_state.json",
+      "sha256": "4032f62e94d9aff7eb4d193325cc7df833380a1e887e870f07db5fbd6c9b90a1",
+      "size": 1731
+    },
+    {
+      "path": "peb-official-calibration-20261024-001/block-0-original/episodes/envelope-calibration-00-original/sampled_safety.json",
+      "sha256": "06365cfa0e9dbd875b6762428f0fb119cb7c8076e536b2d4e0a6d7ead5874968",
+      "size": 2407
+    },
+    {
+      "path": "peb-official-calibration-20261024-001/block-0-original/episodes/envelope-calibration-00-original/skill.json",
+      "sha256": "64d42b1e096d5ca8de3f73641f08658e5e7a593ed3398604d1cb4c1493d49e32",
+      "size": 260
+    },
+    {
+      "path": "peb-official-calibration-20261024-001/block-0-original/episodes/envelope-calibration-00-original/trace.jsonl.gz",
+      "sha256": "7161f62a319996d06eedce7127eb3e3dd5c6b5563553500b5e7a2762557c0fec",
+      "size": 30549
+    },
+    {
+      "path": "peb-official-calibration-20261024-001/block-0-original/episodes/envelope-calibration-00-original/upstream.jsonl",
+      "sha256": "b536e500fe88679d207c39614b7052372bf3193469b7d43e05666ab78d07f087",
+      "size": 720
+    },
+    {
+      "path": "peb-official-calibration-20261024-001/block-0-original/episodes/envelope-calibration-01-original/episode.json",
+      "sha256": "636e0762933ec1c9d6dd60d7046eb0347bb92e67ba6300e373645ce7de18acf9",
+      "size": 3978
+    },
+    {
+      "path": "peb-official-calibration-20261024-001/block-0-original/episodes/envelope-calibration-01-original/initial_state.json",
+      "sha256": "b8a9bc39650acb128dc3a5355c3e3c8a919ba42d490d1a254eab542304457b40",
+      "size": 1728
+    },
+    {
+      "path": "peb-official-calibration-20261024-001/block-0-original/episodes/envelope-calibration-01-original/sampled_safety.json",
+      "sha256": "791c25eb5378e3d074604f414e0e82c7f580abc5680d42f717de7aeb930956e0",
+      "size": 2407
+    },
+    {
+      "path": "peb-official-calibration-20261024-001/block-0-original/episodes/envelope-calibration-01-original/skill.json",
+      "sha256": "64d42b1e096d5ca8de3f73641f08658e5e7a593ed3398604d1cb4c1493d49e32",
+      "size": 260
+    },
+    {
+      "path": "peb-official-calibration-20261024-001/block-0-original/episodes/envelope-calibration-01-original/trace.jsonl.gz",
+      "sha256": "64aa5669e62a5db270a18791b98eae95970a732bad958e4dd84d013768e666a0",
+      "size": 33810
+    },
+    {
+      "path": "peb-official-calibration-20261024-001/block-0-original/episodes/envelope-calibration-01-original/upstream.jsonl",
+      "sha256": "1ca7a3bc3dad747454d56983f7fdce48d29712aeebd8895fa4cecb7f4ed42108",
+      "size": 1439
+    },
+    {
+      "path": "peb-official-calibration-20261024-001/block-0-original/episodes/envelope-calibration-02-original/episode.json",
+      "sha256": "1774f253439b908f05ed8b4ecdb4d110b1c2455b066dabc2520b96d60d203a1e",
+      "size": 3978
+    },
+    {
+      "path": "peb-official-calibration-20261024-001/block-0-original/episodes/envelope-calibration-02-original/initial_state.json",
+      "sha256": "4beb10d3a0083bca344f29d7d598bf2b997a59713891cda36f2864f37fe1e3ab",
+      "size": 1728
+    },
+    {
+      "path": "peb-official-calibration-20261024-001/block-0-original/episodes/envelope-calibration-02-original/sampled_safety.json",
+      "sha256": "557da5d1b1736012493473f54e2af48a6162bb3955703fa2282715b6b46dcdc0",
+      "size": 2407
+    },
+    {
+      "path": "peb-official-calibration-20261024-001/block-0-original/episodes/envelope-calibration-02-original/skill.json",
+      "sha256": "64d42b1e096d5ca8de3f73641f08658e5e7a593ed3398604d1cb4c1493d49e32",
+      "size": 260
+    },
+    {
+      "path": "peb-official-calibration-20261024-001/block-0-original/episodes/envelope-calibration-02-original/trace.jsonl.gz",
+      "sha256": "ada9cda643e86f0d160803f4a83437e7c5efc302d5ef9e0702d328d77d24706a",
+      "size": 29945
+    },
+    {
+      "path": "peb-official-calibration-20261024-001/block-0-original/episodes/envelope-calibration-02-original/upstream.jsonl",
+      "sha256": "9d28ecfd0100526dd575dff97fdf763924bfbe2c81fd28a2e4a7e3f1238627e4",
+      "size": 1439
+    },
+    {
+      "path": "peb-official-calibration-20261024-001/block-0-original/episodes/envelope-calibration-03-original/episode.json",
+      "sha256": "adec74d93fa3cea5433bd25fd1cdd664f3cc2d92f1cf4da7720d5150c5adf448",
+      "size": 3974
+    },
+    {
+      "path": "peb-official-calibration-20261024-001/block-0-original/episodes/envelope-calibration-03-original/initial_state.json",
+      "sha256": "c7797cd4bdc37fb910fa9756302099114e34940e576b326389754d45009525f0",
+      "size": 1729
+    },
+    {
+      "path": "peb-official-calibration-20261024-001/block-0-original/episodes/envelope-calibration-03-original/sampled_safety.json",
+      "sha256": "affe3f389c6924d0098287d6294162415da45287532b56ddff99d197dc9c6f33",
+      "size": 2405
+    },
+    {
+      "path": "peb-official-calibration-20261024-001/block-0-original/episodes/envelope-calibration-03-original/skill.json",
+      "sha256": "64d42b1e096d5ca8de3f73641f08658e5e7a593ed3398604d1cb4c1493d49e32",
+      "size": 260
+    },
+    {
+      "path": "peb-official-calibration-20261024-001/block-0-original/episodes/envelope-calibration-03-original/trace.jsonl.gz",
+      "sha256": "92b56c6dc53bd327c3252d13cee50999209c6e017ea68739f5ba877099ea272b",
+      "size": 27784
+    },
+    {
+      "path": "peb-official-calibration-20261024-001/block-0-original/episodes/envelope-calibration-03-original/upstream.jsonl",
+      "sha256": "4bf0d567f4be7d559a645e8048b828fcb0791c98b33030b576555d15548c0577",
+      "size": 1439
+    },
+    {
+      "path": "peb-official-calibration-20261024-001/block-0-original/episodes/envelope-calibration-04-original/episode.json",
+      "sha256": "fc992f1358cf33905ecdcd785204854d19c4df22a76262cd4207615238f322c4",
+      "size": 3977
+    },
+    {
+      "path": "peb-official-calibration-20261024-001/block-0-original/episodes/envelope-calibration-04-original/initial_state.json",
+      "sha256": "30b7cb21a371721f162059411de5a5f37900492a819f0b19e70572339e1c3cf5",
+      "size": 1731
+    },
+    {
+      "path": "peb-official-calibration-20261024-001/block-0-original/episodes/envelope-calibration-04-original/sampled_safety.json",
+      "sha256": "d53843d29ad3c6bc2722148e05ec0acc1570800f7f4866859ba786d8604ece40",
+      "size": 2406
+    },
+    {
+      "path": "peb-official-calibration-20261024-001/block-0-original/episodes/envelope-calibration-04-original/skill.json",
+      "sha256": "64d42b1e096d5ca8de3f73641f08658e5e7a593ed3398604d1cb4c1493d49e32",
+      "size": 260
+    },
+    {
+      "path": "peb-official-calibration-20261024-001/block-0-original/episodes/envelope-calibration-04-original/trace.jsonl.gz",
+      "sha256": "bd1e26c81f943779d7c1a88f5e804e3fe4482eceb41fcb24da9ab3aeb85ec56d",
+      "size": 29949
+    },
+    {
+      "path": "peb-official-calibration-20261024-001/block-0-original/episodes/envelope-calibration-04-original/upstream.jsonl",
+      "sha256": "4a8795424203b13cdf5d952faf4b88b6655445b75fcb5fe34e1e676529d273f3",
+      "size": 1439
+    },
+    {
+      "path": "peb-official-calibration-20261024-001/block-0-original/episodes/envelope-calibration-05-original/episode.json",
+      "sha256": "a7d4e2060d74cbc3c3700c5a3dff97251a420cbc95a9c0fbaf17432ce8d7abb8",
+      "size": 3977
+    },
+    {
+      "path": "peb-official-calibration-20261024-001/block-0-original/episodes/envelope-calibration-05-original/initial_state.json",
+      "sha256": "a672a243f6be8a89e39b696cb6e5c8a221a598adc1950034daacc7a5b1304d37",
+      "size": 1732
+    },
+    {
+      "path": "peb-official-calibration-20261024-001/block-0-original/episodes/envelope-calibration-05-original/sampled_safety.json",
+      "sha256": "7d3db6fe296c133172ebb61d077ca28aeca58646536479da2573b571786752bd",
+      "size": 2407
+    },
+    {
+      "path": "peb-official-calibration-20261024-001/block-0-original/episodes/envelope-calibration-05-original/skill.json",
+      "sha256": "64d42b1e096d5ca8de3f73641f08658e5e7a593ed3398604d1cb4c1493d49e32",
+      "size": 260
+    },
+    {
+      "path": "peb-official-calibration-20261024-001/block-0-original/episodes/envelope-calibration-05-original/trace.jsonl.gz",
+      "sha256": "46984274849046aea60893a8dcee9327f68b8ca3ee834e0c85d74777e5e5af44",
+      "size": 30017
+    },
+    {
+      "path": "peb-official-calibration-20261024-001/block-0-original/episodes/envelope-calibration-05-original/upstream.jsonl",
+      "sha256": "c9b8cb4d91a7c1425744d6c14d97e1e733697a1c7a23902f29af6daa015816be",
+      "size": 1440
+    },
+    {
+      "path": "peb-official-calibration-20261024-001/block-0-original/episodes.jsonl",
+      "sha256": "2e6780cd0b3b09fcc3617405fae84848d0f5dc44610cdbad48db5da2f073bc3d",
+      "size": 19806
+    },
+    {
+      "path": "peb-official-calibration-20261024-001/block-0-original/launch.json",
+      "sha256": "76ad20784bac0e744b079b9c1976fbd648699c061644e2bb55467f15d7f69661",
+      "size": 419
+    },
+    {
+      "path": "peb-official-calibration-20261024-001/block-0-original/process.json",
+      "sha256": "eca768a71a9c2570f98def91b5e8c0032990f45efc6fe7f8c76e8c4ae8e4af81",
+      "size": 75
+    },
+    {
+      "path": "peb-official-calibration-20261024-001/block-0-original/status.json",
+      "sha256": "11869607c772dd742f649d3b872e3ab65a8bb1e57dc4604cc02a9567e52b83c6",
+      "size": 45
+    },
+    {
+      "path": "peb-official-calibration-20261024-001/block-1-open_gripper/action_mapping.json",
+      "sha256": "59518975f120eb90ac77800686f77608e0e560995739e81a025f5d1cb891b4eb",
+      "size": 514
+    },
+    {
+      "path": "peb-official-calibration-20261024-001/block-1-open_gripper/audit.json",
+      "sha256": "362c2b562eda29b24fa6b003c4d33661b4df9aa61c39413c462439d9950caf3b",
+      "size": 139
+    },
+    {
+      "path": "peb-official-calibration-20261024-001/block-1-open_gripper/budget_ledger.json",
+      "sha256": "a30f09ddebf7d0caa634b042201ce7455f2f289f948d3c470f1c782cd017b0b6",
+      "size": 729
+    },
+    {
+      "path": "peb-official-calibration-20261024-001/block-1-open_gripper/config.json",
+      "sha256": "8f921fd4e8f5903b69f74cf1f7ec7d6c74fc3af4d4e15e632936c16b9ea3fd7e",
+      "size": 1830
+    },
+    {
+      "path": "peb-official-calibration-20261024-001/block-1-open_gripper/console.log",
+      "sha256": "6329f2bfe77bf721393831df0604e74b25249b8b4655a0ab43ff2b5c7a075797",
+      "size": 72125
+    },
+    {
+      "path": "peb-official-calibration-20261024-001/block-1-open_gripper/episodes/envelope-calibration-06-open_gripper/episode.json",
+      "sha256": "4e17fd10e6fe450d65aef7bd017b27b9d7cb6091785f5212a257f529ffd9eea6",
+      "size": 4018
+    },
+    {
+      "path": "peb-official-calibration-20261024-001/block-1-open_gripper/episodes/envelope-calibration-06-open_gripper/initial_state.json",
+      "sha256": "d5b87c6e5bc048cdd8c03d77a6f51c7b6d0a30700bb5f6aef8bd74f71b1757a3",
+      "size": 1730
+    },
+    {
+      "path": "peb-official-calibration-20261024-001/block-1-open_gripper/episodes/envelope-calibration-06-open_gripper/sampled_safety.json",
+      "sha256": "0cdedae17db8a402bf8fc9a0f416922b8db99c2112728988f5d20a9645e1a12d",
+      "size": 2403
+    },
+    {
+      "path": "peb-official-calibration-20261024-001/block-1-open_gripper/episodes/envelope-calibration-06-open_gripper/skill.json",
+      "sha256": "64d42b1e096d5ca8de3f73641f08658e5e7a593ed3398604d1cb4c1493d49e32",
+      "size": 260
+    },
+    {
+      "path": "peb-official-calibration-20261024-001/block-1-open_gripper/episodes/envelope-calibration-06-open_gripper/trace.jsonl.gz",
+      "sha256": "8a7af4589616534b796cdc70aaa32c0cf8738fe44e771eef60313d05b120a0aa",
+      "size": 4515
+    },
+    {
+      "path": "peb-official-calibration-20261024-001/block-1-open_gripper/episodes/envelope-calibration-06-open_gripper/upstream.jsonl",
+      "sha256": "ea835f490d8db5dade54e8e4df5868f7be7a27a270b5dedf8f5ee9dfde9c55b2",
+      "size": 575
+    },
+    {
+      "path": "peb-official-calibration-20261024-001/block-1-open_gripper/episodes/envelope-calibration-07-open_gripper/episode.json",
+      "sha256": "e9afdd1604924ec762100d44dcb6a837c66c7166b121b54d46b7c69ca3dc7b12",
+      "size": 4116
+    },
+    {
+      "path": "peb-official-calibration-20261024-001/block-1-open_gripper/episodes/envelope-calibration-07-open_gripper/initial_state.json",
+      "sha256": "10f96acd56a1f19593bbc65a1bb5d9a2ec18d41b5e2c0dc028c17faebcf08e24",
+      "size": 1732
+    },
+    {
+      "path": "peb-official-calibration-20261024-001/block-1-open_gripper/episodes/envelope-calibration-07-open_gripper/sampled_safety.json",
+      "sha256": "34a0926e50cc393969edfe88e63b32c24ccb99600e1f94b8584f50f9193ea9ab",
+      "size": 2497
+    },
+    {
+      "path": "peb-official-calibration-20261024-001/block-1-open_gripper/episodes/envelope-calibration-07-open_gripper/skill.json",
+      "sha256": "64d42b1e096d5ca8de3f73641f08658e5e7a593ed3398604d1cb4c1493d49e32",
+      "size": 260
+    },
+    {
+      "path": "peb-official-calibration-20261024-001/block-1-open_gripper/episodes/envelope-calibration-07-open_gripper/trace.jsonl.gz",
+      "sha256": "eda713eeb55bc32c4943e33b3b229cc336737e8203ea1c94901630a5512ef6d2",
+      "size": 84309
+    },
+    {
+      "path": "peb-official-calibration-20261024-001/block-1-open_gripper/episodes/envelope-calibration-07-open_gripper/upstream.jsonl",
+      "sha256": "0a3879d9482548334c7e4a39e5843bb892dbbc8d75964d4271997221b9848527",
+      "size": 1152
+    },
+    {
+      "path": "peb-official-calibration-20261024-001/block-1-open_gripper/episodes/envelope-calibration-08-open_gripper/episode.json",
+      "sha256": "8db3e966f2a0993ac56dca7af36e706b52a6a2613c96e82d933ea5f795504539",
+      "size": 4068
+    },
+    {
+      "path": "peb-official-calibration-20261024-001/block-1-open_gripper/episodes/envelope-calibration-08-open_gripper/initial_state.json",
+      "sha256": "55e51ad194ff6219a6f837fda9e44300114c9fcf7c1c2b202becefe474e53a90",
+      "size": 1732
+    },
+    {
+      "path": "peb-official-calibration-20261024-001/block-1-open_gripper/episodes/envelope-calibration-08-open_gripper/sampled_safety.json",
+      "sha256": "f4ab3ba3454efee2993b5cc9875294e68773f56d4d1aa580f468c21d8d3233b8",
+      "size": 2457
+    },
+    {
+      "path": "peb-official-calibration-20261024-001/block-1-open_gripper/episodes/envelope-calibration-08-open_gripper/skill.json",
+      "sha256": "64d42b1e096d5ca8de3f73641f08658e5e7a593ed3398604d1cb4c1493d49e32",
+      "size": 260
+    },
+    {
+      "path": "peb-official-calibration-20261024-001/block-1-open_gripper/episodes/envelope-calibration-08-open_gripper/trace.jsonl.gz",
+      "sha256": "80a170f8a31e565cfd00e3fd22cee02fd04e25f057cfa950fe892d2cedd6d2f6",
+      "size": 129614
+    },
+    {
+      "path": "peb-official-calibration-20261024-001/block-1-open_gripper/episodes/envelope-calibration-08-open_gripper/upstream.jsonl",
+      "sha256": "10bc4cd4ed86ab385c8316b90f7f8ce7ebc59e1b35b291ebea44e1b72b6caf2e",
+      "size": 1152
+    },
+    {
+      "path": "peb-official-calibration-20261024-001/block-1-open_gripper/episodes/envelope-calibration-09-open_gripper/episode.json",
+      "sha256": "635daf4afe081cbbdc7fd15b3878a62efbe4ff96bcd08e6d242da03ba74bbac4",
+      "size": 4068
+    },
+    {
+      "path": "peb-official-calibration-20261024-001/block-1-open_gripper/episodes/envelope-calibration-09-open_gripper/initial_state.json",
+      "sha256": "3df1862e0ccbab83e2f16baac51f3705f5e2a8ed427892642ed0f7e752c89f31",
+      "size": 1729
+    },
+    {
+      "path": "peb-official-calibration-20261024-001/block-1-open_gripper/episodes/envelope-calibration-09-open_gripper/sampled_safety.json",
+      "sha256": "a292c9348125946c0a84b13fae03d85c2af6ad87e763413cfba24f3d57e39e5d",
+      "size": 2457
+    },
+    {
+      "path": "peb-official-calibration-20261024-001/block-1-open_gripper/episodes/envelope-calibration-09-open_gripper/skill.json",
+      "sha256": "64d42b1e096d5ca8de3f73641f08658e5e7a593ed3398604d1cb4c1493d49e32",
+      "size": 260
+    },
+    {
+      "path": "peb-official-calibration-20261024-001/block-1-open_gripper/episodes/envelope-calibration-09-open_gripper/trace.jsonl.gz",
+      "sha256": "5c761284d041300bfbba47e78c998c0efde03338d4ef3f68fb83d1ba4b80fa3e",
+      "size": 131123
+    },
+    {
+      "path": "peb-official-calibration-20261024-001/block-1-open_gripper/episodes/envelope-calibration-09-open_gripper/upstream.jsonl",
+      "sha256": "eec46c4978eeda4fca68c22c5db2e686ffe8c805701ada93cb959471af73f623",
+      "size": 1152
+    },
+    {
+      "path": "peb-official-calibration-20261024-001/block-1-open_gripper/episodes/envelope-calibration-10-open_gripper/episode.json",
+      "sha256": "91c80b81fa6fd7319da35e0c6f4ee001633d45d204e2d0e294005769b4c22de8",
+      "size": 4113
+    },
+    {
+      "path": "peb-official-calibration-20261024-001/block-1-open_gripper/episodes/envelope-calibration-10-open_gripper/initial_state.json",
+      "sha256": "8ba485e5fece0c057aaead12447416f8c229bf11f4ef67563748bc20db26f2eb",
+      "size": 1724
+    },
+    {
+      "path": "peb-official-calibration-20261024-001/block-1-open_gripper/episodes/envelope-calibration-10-open_gripper/sampled_safety.json",
+      "sha256": "487bbdd3a78255f0678b3d3ffcc478eb64ceb1808517813030f141d9f694f1ac",
+      "size": 2494
+    },
+    {
+      "path": "peb-official-calibration-20261024-001/block-1-open_gripper/episodes/envelope-calibration-10-open_gripper/skill.json",
+      "sha256": "64d42b1e096d5ca8de3f73641f08658e5e7a593ed3398604d1cb4c1493d49e32",
+      "size": 260
+    },
+    {
+      "path": "peb-official-calibration-20261024-001/block-1-open_gripper/episodes/envelope-calibration-10-open_gripper/trace.jsonl.gz",
+      "sha256": "e9590bb267e16fb400f23d0c8f9b9c81f9b31f0b1ba550ce429495d7374b3e6c",
+      "size": 98188
+    },
+    {
+      "path": "peb-official-calibration-20261024-001/block-1-open_gripper/episodes/envelope-calibration-10-open_gripper/upstream.jsonl",
+      "sha256": "0b8e919573358fb3968efa56d660a89784b0700cde514b274426bf424f187fc8",
+      "size": 1152
+    },
+    {
+      "path": "peb-official-calibration-20261024-001/block-1-open_gripper/episodes/envelope-calibration-11-open_gripper/episode.json",
+      "sha256": "87b5bf9fb2892a5d13675831d713616a93096cb82f3e3608256ab82581fdae77",
+      "size": 4037
+    },
+    {
+      "path": "peb-official-calibration-20261024-001/block-1-open_gripper/episodes/envelope-calibration-11-open_gripper/initial_state.json",
+      "sha256": "21e800d12fc16d17bcdab7e0743fd34aa20393c4f33c4a6374589668bb4d085b",
+      "size": 1731
+    },
+    {
+      "path": "peb-official-calibration-20261024-001/block-1-open_gripper/episodes/envelope-calibration-11-open_gripper/sampled_safety.json",
+      "sha256": "31cf125d43474c036a3690f6096cf310f17c9a7d2cd8ae514f12c1f33705ea3a",
+      "size": 2421
+    },
+    {
+      "path": "peb-official-calibration-20261024-001/block-1-open_gripper/episodes/envelope-calibration-11-open_gripper/skill.json",
+      "sha256": "64d42b1e096d5ca8de3f73641f08658e5e7a593ed3398604d1cb4c1493d49e32",
+      "size": 260
+    },
+    {
+      "path": "peb-official-calibration-20261024-001/block-1-open_gripper/episodes/envelope-calibration-11-open_gripper/trace.jsonl.gz",
+      "sha256": "a5e67fe51508048194db5f59431d08395c0dde07172bef2e6aee45bf43f245e1",
+      "size": 117457
+    },
+    {
+      "path": "peb-official-calibration-20261024-001/block-1-open_gripper/episodes/envelope-calibration-11-open_gripper/upstream.jsonl",
+      "sha256": "abe129dd402b7ae8f4087de94da016efd788fb913cd9a7c0e4fea1e48dc0a637",
+      "size": 1153
+    },
+    {
+      "path": "peb-official-calibration-20261024-001/block-1-open_gripper/episodes.jsonl",
+      "sha256": "8ae677a485b4131275d8f1de2761766beb83ccb00829e24342057b701c861909",
+      "size": 20364
+    },
+    {
+      "path": "peb-official-calibration-20261024-001/block-1-open_gripper/launch.json",
+      "sha256": "9d872fcf475cbb3496e0c1e51dc31a74eb7439bb6e53c79cfbee266e77cee7f0",
+      "size": 423
+    },
+    {
+      "path": "peb-official-calibration-20261024-001/block-1-open_gripper/process.json",
+      "sha256": "c64649bb40847fa7ef4d3fb09bb6181315809d9b7ee11e14e5ba85365f029f87",
+      "size": 75
+    },
+    {
+      "path": "peb-official-calibration-20261024-001/block-1-open_gripper/status.json",
+      "sha256": "11869607c772dd742f649d3b872e3ab65a8bb1e57dc4604cc02a9567e52b83c6",
+      "size": 45
+    },
+    {
+      "path": "peb-official-calibration-20261024-001/block-1-original/action_mapping.json",
+      "sha256": "59518975f120eb90ac77800686f77608e0e560995739e81a025f5d1cb891b4eb",
+      "size": 514
+    },
+    {
+      "path": "peb-official-calibration-20261024-001/block-1-original/audit.json",
+      "sha256": "362c2b562eda29b24fa6b003c4d33661b4df9aa61c39413c462439d9950caf3b",
+      "size": 139
+    },
+    {
+      "path": "peb-official-calibration-20261024-001/block-1-original/budget_ledger.json",
+      "sha256": "ff6726cb97b00c28569fcb79912270012c8fd26619ca231cf76af0d7e15463a3",
+      "size": 705
+    },
+    {
+      "path": "peb-official-calibration-20261024-001/block-1-original/config.json",
+      "sha256": "e3df6865ff2a909c60ff0683ee02f35d3833ffbc5c8a517effca2037ad1d2a61",
+      "size": 1803
+    },
+    {
+      "path": "peb-official-calibration-20261024-001/block-1-original/console.log",
+      "sha256": "c7ad6a3f3b8c3f4c1f67299a6b6b799fbf270b8ffc8c04364251fec78adc4262",
+      "size": 71859
+    },
+    {
+      "path": "peb-official-calibration-20261024-001/block-1-original/episodes/envelope-calibration-06-original/episode.json",
+      "sha256": "1286bd07a7965536f027cce39a3ed235ef0428f6900520dcd96009110a563576",
+      "size": 3976
+    },
+    {
+      "path": "peb-official-calibration-20261024-001/block-1-original/episodes/envelope-calibration-06-original/initial_state.json",
+      "sha256": "d5b87c6e5bc048cdd8c03d77a6f51c7b6d0a30700bb5f6aef8bd74f71b1757a3",
+      "size": 1730
+    },
+    {
+      "path": "peb-official-calibration-20261024-001/block-1-original/episodes/envelope-calibration-06-original/sampled_safety.json",
+      "sha256": "9018be8084794b68c8e6884cb3ffc6785d23aabec8f97940017b0ba64cdf2cf4",
+      "size": 2405
+    },
+    {
+      "path": "peb-official-calibration-20261024-001/block-1-original/episodes/envelope-calibration-06-original/skill.json",
+      "sha256": "64d42b1e096d5ca8de3f73641f08658e5e7a593ed3398604d1cb4c1493d49e32",
+      "size": 260
+    },
+    {
+      "path": "peb-official-calibration-20261024-001/block-1-original/episodes/envelope-calibration-06-original/trace.jsonl.gz",
+      "sha256": "33b0b48011fdfe309a5b9f9f4c64c227a10ae0259bfdfa432a4afb8045ae5f06",
+      "size": 29421
+    },
+    {
+      "path": "peb-official-calibration-20261024-001/block-1-original/episodes/envelope-calibration-06-original/upstream.jsonl",
+      "sha256": "a463ec718d8d4154542427c2c9a16784b11f12d8f8b54fe3541d0a522461f761",
+      "size": 720
+    },
+    {
+      "path": "peb-official-calibration-20261024-001/block-1-original/episodes/envelope-calibration-07-original/episode.json",
+      "sha256": "3569c1902256c781996888f18d3c7e00a9cbc61e79da9a607ce77a4e701962ab",
+      "size": 3977
+    },
+    {
+      "path": "peb-official-calibration-20261024-001/block-1-original/episodes/envelope-calibration-07-original/initial_state.json",
+      "sha256": "10f96acd56a1f19593bbc65a1bb5d9a2ec18d41b5e2c0dc028c17faebcf08e24",
+      "size": 1732
+    },
+    {
+      "path": "peb-official-calibration-20261024-001/block-1-original/episodes/envelope-calibration-07-original/sampled_safety.json",
+      "sha256": "2ff6509b49e428ee0085e5d8cae9f8cbcd3e120de27efd73edec23d03c9a9ac8",
+      "size": 2406
+    },
+    {
+      "path": "peb-official-calibration-20261024-001/block-1-original/episodes/envelope-calibration-07-original/skill.json",
+      "sha256": "64d42b1e096d5ca8de3f73641f08658e5e7a593ed3398604d1cb4c1493d49e32",
+      "size": 260
+    },
+    {
+      "path": "peb-official-calibration-20261024-001/block-1-original/episodes/envelope-calibration-07-original/trace.jsonl.gz",
+      "sha256": "d10722ada48ee40a58cc8e94c5d256a049c31f7e6bf5acef0c1d92dc526e0f1d",
+      "size": 28388
+    },
+    {
+      "path": "peb-official-calibration-20261024-001/block-1-original/episodes/envelope-calibration-07-original/upstream.jsonl",
+      "sha256": "79e3a676cfa2ca0df1cd06da0af664bea4e74e4bd7bd622f9757c142d0b24f8d",
+      "size": 1439
+    },
+    {
+      "path": "peb-official-calibration-20261024-001/block-1-original/episodes/envelope-calibration-08-original/episode.json",
+      "sha256": "8017ab9227d022acee45790c27a27a798e745f78795ed0bbedac2c20b40cbc31",
+      "size": 3977
+    },
+    {
+      "path": "peb-official-calibration-20261024-001/block-1-original/episodes/envelope-calibration-08-original/initial_state.json",
+      "sha256": "55e51ad194ff6219a6f837fda9e44300114c9fcf7c1c2b202becefe474e53a90",
+      "size": 1732
+    },
+    {
+      "path": "peb-official-calibration-20261024-001/block-1-original/episodes/envelope-calibration-08-original/sampled_safety.json",
+      "sha256": "0d6be70cb51dfdcba138e770124eb07a6cd6451b0aebba93f70919c7c0664844",
+      "size": 2407
+    },
+    {
+      "path": "peb-official-calibration-20261024-001/block-1-original/episodes/envelope-calibration-08-original/skill.json",
+      "sha256": "64d42b1e096d5ca8de3f73641f08658e5e7a593ed3398604d1cb4c1493d49e32",
+      "size": 260
+    },
+    {
+      "path": "peb-official-calibration-20261024-001/block-1-original/episodes/envelope-calibration-08-original/trace.jsonl.gz",
+      "sha256": "de0bf4bc7b59c999aa1bc2d3a45d7952f473541e6ac8882c6f5795bf6a6ba9d4",
+      "size": 31123
+    },
+    {
+      "path": "peb-official-calibration-20261024-001/block-1-original/episodes/envelope-calibration-08-original/upstream.jsonl",
+      "sha256": "b5419c4bf3a8ad300c4d06c779421eec6b5a8cbb4571f71c16ad699cb18cadf3",
+      "size": 1439
+    },
+    {
+      "path": "peb-official-calibration-20261024-001/block-1-original/episodes/envelope-calibration-09-original/episode.json",
+      "sha256": "24378cd966dbfd27cc24c89849cacdbec3e028f259f397e39190160f061393bb",
+      "size": 3976
+    },
+    {
+      "path": "peb-official-calibration-20261024-001/block-1-original/episodes/envelope-calibration-09-original/initial_state.json",
+      "sha256": "3df1862e0ccbab83e2f16baac51f3705f5e2a8ed427892642ed0f7e752c89f31",
+      "size": 1729
+    },
+    {
+      "path": "peb-official-calibration-20261024-001/block-1-original/episodes/envelope-calibration-09-original/sampled_safety.json",
+      "sha256": "26aef97a1aa789d947298d716a0c87e6281aa1cbc74937a89809b6d23eb38d88",
+      "size": 2407
+    },
+    {
+      "path": "peb-official-calibration-20261024-001/block-1-original/episodes/envelope-calibration-09-original/skill.json",
+      "sha256": "64d42b1e096d5ca8de3f73641f08658e5e7a593ed3398604d1cb4c1493d49e32",
+      "size": 260
+    },
+    {
+      "path": "peb-official-calibration-20261024-001/block-1-original/episodes/envelope-calibration-09-original/trace.jsonl.gz",
+      "sha256": "28ecaceba0f134fcd8120302a71f9c4ae8b46684ddbc4753efe5bf7c0245af00",
+      "size": 30503
+    },
+    {
+      "path": "peb-official-calibration-20261024-001/block-1-original/episodes/envelope-calibration-09-original/upstream.jsonl",
+      "sha256": "395c47c116d566438291a4c49603668e808693cd5f42961b929517c2865c78bb",
+      "size": 1439
+    },
+    {
+      "path": "peb-official-calibration-20261024-001/block-1-original/episodes/envelope-calibration-10-original/episode.json",
+      "sha256": "d7bfe0843bc2a8a7c935f847513e05778a51a8b97226009bd8a2f6d052f44fa5",
+      "size": 3977
+    },
+    {
+      "path": "peb-official-calibration-20261024-001/block-1-original/episodes/envelope-calibration-10-original/initial_state.json",
+      "sha256": "8ba485e5fece0c057aaead12447416f8c229bf11f4ef67563748bc20db26f2eb",
+      "size": 1724
+    },
+    {
+      "path": "peb-official-calibration-20261024-001/block-1-original/episodes/envelope-calibration-10-original/sampled_safety.json",
+      "sha256": "4683bb786d0c3d74e6df9a1d62c6d19c4a6e4b558cdac16446bb88679627f134",
+      "size": 2406
+    },
+    {
+      "path": "peb-official-calibration-20261024-001/block-1-original/episodes/envelope-calibration-10-original/skill.json",
+      "sha256": "64d42b1e096d5ca8de3f73641f08658e5e7a593ed3398604d1cb4c1493d49e32",
+      "size": 260
+    },
+    {
+      "path": "peb-official-calibration-20261024-001/block-1-original/episodes/envelope-calibration-10-original/trace.jsonl.gz",
+      "sha256": "c1d2d6e2649afaaf5e337f9db58d7e921ee07b4322b03a99fc8bf208d3cc2142",
+      "size": 28830
+    },
+    {
+      "path": "peb-official-calibration-20261024-001/block-1-original/episodes/envelope-calibration-10-original/upstream.jsonl",
+      "sha256": "1875d5c7795617448a1be35d6c29b50fed73f5433a52a60217e47755cb45c15d",
+      "size": 1439
+    },
+    {
+      "path": "peb-official-calibration-20261024-001/block-1-original/episodes/envelope-calibration-11-original/episode.json",
+      "sha256": "9aded583d18b22e51923cffd9d2c62e44a1676771897e053b85070947b0e4bd5",
+      "size": 3990
+    },
+    {
+      "path": "peb-official-calibration-20261024-001/block-1-original/episodes/envelope-calibration-11-original/initial_state.json",
+      "sha256": "21e800d12fc16d17bcdab7e0743fd34aa20393c4f33c4a6374589668bb4d085b",
+      "size": 1731
+    },
+    {
+      "path": "peb-official-calibration-20261024-001/block-1-original/episodes/envelope-calibration-11-original/sampled_safety.json",
+      "sha256": "8e24757f05f9a337990e19c6353152edd7e2483a0ec870a464e994d59f5fed13",
+      "size": 2406
+    },
+    {
+      "path": "peb-official-calibration-20261024-001/block-1-original/episodes/envelope-calibration-11-original/skill.json",
+      "sha256": "64d42b1e096d5ca8de3f73641f08658e5e7a593ed3398604d1cb4c1493d49e32",
+      "size": 260
+    },
+    {
+      "path": "peb-official-calibration-20261024-001/block-1-original/episodes/envelope-calibration-11-original/trace.jsonl.gz",
+      "sha256": "8ba30c3d9c8cdcaee0ade932f72a935387a6bd3555e689aa033d8d26a8f14b77",
+      "size": 26167
+    },
+    {
+      "path": "peb-official-calibration-20261024-001/block-1-original/episodes/envelope-calibration-11-original/upstream.jsonl",
+      "sha256": "cf9686e856efec2c5987f6f0946c1103f24cf16f42318263f6d1bd76edc08a2f",
+      "size": 1440
+    },
+    {
+      "path": "peb-official-calibration-20261024-001/block-1-original/episodes.jsonl",
+      "sha256": "716e8be9bf8fa8d6307afc83e66ca3b80a9b95d3a24243cdf4990493568adf9b",
+      "size": 19817
+    },
+    {
+      "path": "peb-official-calibration-20261024-001/block-1-original/launch.json",
+      "sha256": "6f027cb70bacd38cfb1a2041a0bcb1b0a24a61ba442d0bfeff70aecef01bd2c9",
+      "size": 419
+    },
+    {
+      "path": "peb-official-calibration-20261024-001/block-1-original/process.json",
+      "sha256": "167d357a7fdcd5f714c98c05da5ee149ccaf20275b2bf6d6c7c9b3f40bd9a21e",
+      "size": 75
+    },
+    {
+      "path": "peb-official-calibration-20261024-001/block-1-original/status.json",
+      "sha256": "11869607c772dd742f649d3b872e3ab65a8bb1e57dc4604cc02a9567e52b83c6",
+      "size": 45
+    },
+    {
+      "path": "peb-official-calibration-20261024-001/registration.json",
+      "sha256": "dbcd4ba97d53bf75cfa2e806af79fb9467de27963c5027df10ce7bd4fe756086",
+      "size": 8220
+    },
+    {
+      "path": "peb-official-calibration-20261024-001/results.json",
+      "sha256": "39cc0ef9568511421e88f24ebfab38a0b363e7a3d4205562561d6c2d44e2237a",
+      "size": 232
+    }
+  ],
+  "source_commits": [
+    "187cbc42dec0977f186ab4cfce5c341800d19ee9",
+    "82e5d67a0e42107403ef357776479f2df91e51f1"
+  ],
+  "models": "EXCLUDED_SEPARATE_NVIDIA_LICENSE"
+}
