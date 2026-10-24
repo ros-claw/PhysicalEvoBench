@@ -107,3 +107,42 @@ Next priorities:
 1. Expand calibration and evaluation across independent seeds, accounting for GPU replay variability.
 2. Add budget-matched random search before making feedback-specific claims.
 3. Investigate out-of-validation joint-limit behavior before extending safety claims.
+
+
+## Multi-round weight-adaptation confirmation (2026-10-24 registration)
+
+The historical v0.1 delivery gates above remain distinct from efficacy. A new fixed
+three-seed, three-round study completed 18 PPO jobs, 11,059,200 actual transitions,
+44,615 completed training episodes and 4,610 evaluation
+episodes. All actual actor/critic/optimizer checks passed; **all five scientific
+stability gates failed**. Zero continual candidates were promoted (nine decisions);
+one restart candidate was promoted. All final continual checkpoints remained original.
+Final retained continual 93/384, frozen 87/384 and identity
+93/384 therefore reflect replay variability. Identical-policy safety
+replays failed in 3/3 trajectories. No threshold was relaxed after outcomes.
+
+A separately registered raw-final-model diagnosis completed 576 more evaluation
+episodes with no new learning. Original 46/192, raw continual
+68/192, latest raw restart 68/192. This diagnosis
+cannot override failed promotions or confirm multi-round stability. Earlier failure
+costs remain separate: 3,686,400 training transitions, 14,892 completed training
+episodes and 52 diagnostic/calibration episodes, including failed numerical and
+low-speed holding checks. Overall new investigation: 14,745,600 training transitions
+and 5,238 completed evaluation/diagnostic episodes; the earlier studies above are
+not pooled into this inference.
+
+All native workers used committed source snapshots and unchanged pinned Arena/Lab
+checkouts. Proposed and applied actions, every lossless transition chunk, raw
+physical traces, candidate lineage, reservations, private decisions and frozen
+heldout assignments are archived. Independent public extraction recomputed raw
+outcomes, numeric transitions, scheduler decisions and statistics. Actual private
+model/optimizer tensors were audited before and after heldout; licensed weights
+are excluded from redistribution. The common numerical envelope is not a safety
+guarantee; sustained holding and collision safety remain unestablished.
+
+See [main results](../experiments/STABILITY_RESULTS_20261024.md),
+[raw-policy diagnosis](../experiments/RAW_POLICY_PROBE_RESULTS_20261024.md),
+[main verified evidence](../evidence/stability-20261024) and
+[diagnostic evidence](../evidence/raw-policy-probe-20261024).
+Feature [PR #6](https://github.com/ros-claw/PhysicalEvoBench/pull/6) is for review;
+no new acceptance merge or release is implied by this negative confirmation.

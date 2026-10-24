@@ -1,0 +1,20 @@
+{
+  "argv": [
+    "uv",
+    "run",
+    "python",
+    "scripts/verify_stability_delivery.py",
+    "--evidence",
+    "docs/evidence/raw-policy-probe-20261024",
+    "--output",
+    ".cache/raw-policy-final-strict-public-verification-20261024"
+  ],
+  "environment": {
+    "CUDA_VISIBLE_DEVICES": ""
+  },
+  "returncode": 0,
+  "completed_at": "2026-10-24T17:47:59.042965+00:00",
+  "additional_physics_episodes": 0,
+  "receipt_sha256": "3d6176f9bc60bcafd7b9a9a6422feca909ed7639281eca1b7ef0f9a938f19290",
+  "source_commit": "a926470ce8b8f65deb4832515db9529fb7ac8b8e"
+}

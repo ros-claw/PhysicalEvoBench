@@ -1,0 +1,113 @@
+{
+  "diagnostics-launch.json": {
+    "argv": [
+      "/code/rosclaw/physicalEvoBench/.venv/bin/python3",
+      "scripts/diagnose_stability_study.py",
+      "--run-dir",
+      "/home/dell/peb-stability-20261024-003"
+    ],
+    "started_at": "2026-10-24T17:02:03.679289+00:00"
+  },
+  "diagnostics-process.json": {
+    "returncode": 0,
+    "finished_at": "2026-10-24T17:02:03.944519+00:00"
+  },
+  "models-launch.json": {
+    "argv": [
+      "/code/rosclaw/physicalEvoBench/external/IsaacLab-Arena/.venv/bin/python",
+      "scripts/audit_stability_models.py",
+      "--run-dir",
+      "/home/dell/peb-stability-20261024-003"
+    ],
+    "started_at": "2026-10-24T17:00:48.217943+00:00"
+  },
+  "models-process.json": {
+    "returncode": 0,
+    "finished_at": "2026-10-24T17:00:50.790699+00:00"
+  },
+  "package-launch.json": {
+    "argv": [
+      "/code/rosclaw/physicalEvoBench/.venv/bin/python3",
+      "scripts/package_stability_study.py",
+      "--run-dir",
+      "/home/dell/peb-stability-20261024-003",
+      "--output",
+      "/code/rosclaw/physicalEvoBench/docs/evidence/stability-20261024"
+    ],
+    "started_at": "2026-10-24T17:02:04.217511+00:00"
+  },
+  "package-process.json": {
+    "returncode": 0,
+    "finished_at": "2026-10-24T17:03:55.830680+00:00"
+  },
+  "public_verify-launch.json": {
+    "argv": [
+      "/code/rosclaw/physicalEvoBench/.venv/bin/python3",
+      "scripts/verify_stability_delivery.py",
+      "--evidence",
+      "/code/rosclaw/physicalEvoBench/docs/evidence/stability-20261024",
+      "--output",
+      "/home/dell/peb-stability-public-verification-20261024-003",
+      "--numpy-python",
+      "/code/rosclaw/physicalEvoBench/external/IsaacLab-Arena/.venv/bin/python"
+    ],
+    "started_at": "2026-10-24T17:03:55.831246+00:00"
+  },
+  "public_verify-process.json": {
+    "returncode": 0,
+    "finished_at": "2026-10-24T17:05:50.816703+00:00"
+  },
+  "report-launch.json": {
+    "argv": [
+      "/code/rosclaw/physicalEvoBench/.venv/bin/python3",
+      "scripts/report_stability_study.py",
+      "--run-dir",
+      "/home/dell/peb-stability-20261024-003",
+      "--output",
+      "docs/experiments/STABILITY_RESULTS_20261024.md"
+    ],
+    "started_at": "2026-10-24T17:02:03.945142+00:00"
+  },
+  "report-process.json": {
+    "returncode": 0,
+    "finished_at": "2026-10-24T17:02:04.217175+00:00"
+  },
+  "request.json": {
+    "argv": [
+      "scripts/finalize_stability_study.py",
+      "--wait",
+      "--run-dir",
+      "/home/dell/peb-stability-20261024-003",
+      "--evidence",
+      "/code/rosclaw/physicalEvoBench/docs/evidence/stability-20261024",
+      "--verify-output",
+      "/home/dell/peb-stability-public-verification-20261024-003",
+      "--log-dir",
+      "/code/rosclaw/physicalEvoBench/runs/stability-delivery-20261024-003"
+    ],
+    "started_at": "2026-10-24T12:39:47.587136+00:00",
+    "note": "audit-only pipeline; zero additional physics episodes"
+  },
+  "source.json": {
+    "source_commit": "1e4917cda9eeb2bae2380d52470aefb22f36a55c",
+    "processing_started_at": "2026-10-24T17:00:48.212219+00:00"
+  },
+  "status.json": {
+    "status": "COMPLETED",
+    "finished_at": "2026-10-24T17:05:50.817060+00:00",
+    "scientific_outcome": "STABLE_SELF_EVOLUTION_NOT_ESTABLISHED"
+  },
+  "study-launch.json": {
+    "argv": [
+      "/code/rosclaw/physicalEvoBench/.venv/bin/python3",
+      "scripts/audit_stability_study.py",
+      "--run-dir",
+      "/home/dell/peb-stability-20261024-003"
+    ],
+    "started_at": "2026-10-24T17:00:50.790996+00:00"
+  },
+  "study-process.json": {
+    "returncode": 0,
+    "finished_at": "2026-10-24T17:02:03.679035+00:00"
+  }
+}

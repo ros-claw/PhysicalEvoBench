@@ -1,0 +1,22 @@
+{
+  "argv": [
+    "uv",
+    "run",
+    "python",
+    "scripts/verify_stability_delivery.py",
+    "--evidence",
+    "docs/evidence/stability-20261024",
+    "--output",
+    ".cache/stability-final-strict-public-verification-20261024",
+    "--numpy-python",
+    "/code/rosclaw/physicalEvoBench/external/IsaacLab-Arena/.venv/bin/python"
+  ],
+  "environment": {
+    "CUDA_VISIBLE_DEVICES": ""
+  },
+  "returncode": 0,
+  "completed_at": "2026-10-24T17:47:56.327126+00:00",
+  "additional_physics_episodes": 0,
+  "receipt_sha256": "a0fe98699621c15d169842bd54b856b3fbd3d47f04e6f4549c690807bb71a706",
+  "source_commit": "a926470ce8b8f65deb4832515db9529fb7ac8b8e"
+}
