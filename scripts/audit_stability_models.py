@@ -55,6 +55,8 @@ def main():
             raise ValueError(f'Nonfinite parameter/optimizer state: {path.parent}')
         norms = {key: float((after['actor_state_dict'][key]-value).norm())
                  for key, value in before['actor_state_dict'].items() if value.is_floating_point()}
+        if not all(math.isfinite(value) for value in norms.values()):
+            raise ValueError('Nonfinite parameter update norm')
         if any(not math.isclose(value, previous_audit['actor_parameter_change_norms'][key],
                                 rel_tol=1e-6, abs_tol=1e-8) for key, value in norms.items()):
             raise ValueError('Archived actor update norm disagrees with actual tensors')

@@ -91,7 +91,9 @@ def audit_worker(out):
         if safety != row['safety'] or safety['violation_joint_samples'] != row['joint_limit_violation_count']:
             raise ValueError('Safety score mismatch')
     save_json(out/'audit.json', {'status': 'PASS', 'physical_episodes': len(recorded),
-                                'scope': 'raw trace, pinned predicate, goal transform, safety, readback, reservations'})
+                                'scope': ('raw trace, upstream official outcomes, numerical envelope, safety, readback, reservations'
+                                          if cfg.get('official_mode') else
+                                          'raw trace, pinned predicate, goal transform, holding, safety, readback, reservations')})
     return recorded
 
 
