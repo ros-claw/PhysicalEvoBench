@@ -1,4 +1,4 @@
-"""Lossless evidence delivery, split below 64 MiB; never distributes model weights."""
+"""Lossless evidence delivery, split below 48 MiB; never distributes model weights."""
 
 import argparse
 import io
@@ -18,7 +18,7 @@ def package(root, inputs, destination):
             if path.is_file() and path.suffix not in ('.pt', '.pth', '.hdf5'):
                 if 'recorder' not in path.relative_to(study).parts:
                     paths.append((path, Path(study.name)/path.relative_to(study)))
-    limit = 64*1024*1024
+    limit = 48*1024*1024
     groups, current, size = [], [], 0
     for item in paths:
         cost = item[0].stat().st_size
