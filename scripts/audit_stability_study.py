@@ -13,8 +13,8 @@ from physicalevobench.stability.study import summarize
 def verify(out):
     out = Path(out)
     reg = read(out/'registration.json')
-    if reg['schema'] != 'stability-2' or reg['action_limit'] != 1000.:
-        raise ValueError('This verifier expects the numerical-envelope v2 study')
+    if reg['schema'] != 'stability-3' or reg['action_limit'] != 1000. or reg['primary_metric'] != 'upstream_official_lift_success':
+        raise ValueError('This verifier expects the preregistered official-task v3 study')
     expected_lanes = [(s, a) for s in range(3) for a in ('continual', 'restart')]
     if [(lane['seed'], lane['algorithm']) for lane in reg['lanes']] != expected_lanes:
         raise ValueError('Registered learning replication design changed')
@@ -55,6 +55,8 @@ def verify(out):
                 cfg, launch = read(child/'config.json'), read(child/'launch.json')
                 if cfg.get('action_limit') != reg['action_limit']:
                     raise ValueError('Numerical envelope differs between evaluation arms')
+                if cfg.get('official_mode') is not True:
+                    raise ValueError('Evaluation did not use the original official success termination')
                 if launch['runtime_source'] != reg['runtime_source']:
                     raise ValueError('Mutable or incorrect source launch')
                 frozen = read(parent/'frozen_arms.json')[arm]

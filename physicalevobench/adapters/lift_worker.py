@@ -247,6 +247,9 @@ class LiftWorker:
                "ignored_zero_step_resets": len(raw_records) - len(finished)}
         from physicalevobench.calibration.safety import summarize_safety
 
+        if self.action_limit is not None and not self.stability_mode:
+            row.update(environment_id="PEB-Lift-Mass-NumericalEnvelope-v1", action_limit=self.action_limit)
+
         safety = summarize_safety(safety_positions, initial["joint_limits"][0],
                                   robot.joint_names, self.base.step_dt)
         if safety["violation_joint_samples"] != joint_violations:

@@ -46,6 +46,8 @@ def audit_worker(out):
         if row['base_checkpoint_sha256'] != cfg['checkpoint_sha256']:
             raise ValueError('Model lineage mismatch')
         expected_env = 'PEB-Lift-Mass-Stability-v2' if cfg.get('action_limit') else 'PEB-Lift-Mass-Stability-v1'
+        if cfg.get('official_mode'):
+            expected_env = 'PEB-Lift-Mass-NumericalEnvelope-v1'
         if row['environment_id'] != expected_env or row.get('action_limit') != cfg.get('action_limit'):
             raise ValueError('Environment/envelope identity mismatch')
         state = read(directory/'initial_state.json')
@@ -68,17 +70,24 @@ def audit_worker(out):
                 start = read(out/'action_mapping.json')['gripper_action']['start']
                 if proposed[start] != 1.:
                     raise ValueError('Known-degradation gripper command mismatch')
-            goal = world_goal(sample['robot_root_position'][0], sample['robot_root_orientation'][0], sample['target_command'][0][:3])
-            if math.dist(goal, sample['goal_position_world'][0]) > 1e-6:
-                raise ValueError('World-frame goal mismatch')
-        metric = holding_metrics(trace)
-        if metric != row['stability'] or metric != read(directory/'holding.json') or row['success'] != metric['stable_success']:
-            raise ValueError('Holding score mismatch')
+            if not cfg.get('official_mode'):
+                goal = world_goal(sample['robot_root_position'][0], sample['robot_root_orientation'][0], sample['target_command'][0][:3])
+                if math.dist(goal, sample['goal_position_world'][0]) > 1e-6:
+                    raise ValueError('World-frame goal mismatch')
+        if not cfg.get('official_mode'):
+            metric = holding_metrics(trace)
+            if metric != row['stability'] or metric != read(directory/'holding.json') or row['success'] != metric['stable_success']:
+                raise ValueError('Holding score mismatch')
         upstream = [r for r in rows(directory/'upstream.jsonl') if r.get('episode_length', 0) > 0]
-        if len(upstream) != 1 or upstream[0]['episode_length'] != len(trace) or upstream[0]['success'] is not False:
-            raise ValueError('Training-mode evaluation completion mismatch')
+        if len(upstream) != 1 or upstream[0]['episode_length'] != len(trace):
+            raise ValueError('Upstream evaluation completion mismatch')
+        if cfg.get('official_mode'):
+            if type(row['success']) is not bool or upstream[0]['success'] != row['success']:
+                raise ValueError('Official success differs from stored score')
+        elif upstream[0]['success'] is not False:
+            raise ValueError('Training-mode evaluation success was not disabled')
         safety = summarize_safety([s['joint_position'][0] for s in trace], state['joint_limits'][0],
-                                  [r['joint'] for r in row['safety']['per_joint']], trace[0]['step_dt'])
+                                  [r['joint'] for r in row['safety']['per_joint']], .02)
         if safety != row['safety'] or safety['violation_joint_samples'] != row['joint_limit_violation_count']:
             raise ValueError('Safety score mismatch')
     save_json(out/'audit.json', {'status': 'PASS', 'physical_episodes': len(recorded),
@@ -96,3 +105,9 @@ def assert_pairs(left, right):
         sb = read(Path(pb)/b['initial_state_artifact'])
         if sa != sb:
             raise ValueError('Paired initial physical state mismatch')
+        first = []
+        for row, directory in ((a, pa), (b, pb)):
+            with gzip.open(Path(directory)/row['trace_artifact'], 'rt') as stream:
+                first.append(json.loads(stream.readline()))
+        if any(first[0][key] != first[1][key] for key in ('observation', 'joint_velocity')):
+            raise ValueError('Paired initial public observation or velocity mismatch')

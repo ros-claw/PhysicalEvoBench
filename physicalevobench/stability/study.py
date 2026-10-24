@@ -12,7 +12,7 @@ from physicalevobench.doctor import command, save_json, sha256
 from physicalevobench.evaluation.confirmation import now
 from physicalevobench.evaluation.seed_registry import published_seeds
 from physicalevobench.stability.audit import assert_pairs, audit_worker, read
-from physicalevobench.stability.metrics import paired_interval, promote
+from physicalevobench.stability.metrics import instant_success, paired_interval, promote
 
 
 def launch(root, source, directory, module, gpu):
@@ -50,11 +50,13 @@ def register(root, out):
         raise ValueError('Commit protocol and source before registration')
     ref = command(['git', 'rev-parse', 'HEAD'], cwd=root)['stdout']
     source, hashes = snapshot_source(root, ref)
-    calibration = out.parent/'peb-envelope-calibration-20261024-001'
+    calibration = out.parent/'peb-official-calibration-20261024-001'
     if read(calibration/'results.json')['status'] != 'PASS':
         raise ValueError('Complete the preregistered envelope calibration first')
     excluded = published_seeds(root)
     excluded.update(c['seed'] for c in read(calibration/'registration.json')['conditions'])
+    for prior in out.parent.glob('peb-envelope-calibration-*/registration.json'):
+        excluded.update(c['seed'] for c in read(prior)['conditions'])
     prior_registrations = []
     for path in sorted(out.parent.glob('peb-stability-*/registration.json')):
         previous = read(path)
@@ -91,7 +93,7 @@ def register(root, out):
                 {'round': r, 'learner_seed': fresh(), 'environment_seed': fresh(),
                  'validation': conditions(f'validation-s{seed}-{algorithm}-r{r}', 64)}
                 for r in range(1, 4)]})
-    registration = {'schema': 'stability-2', 'action_limit': 1000.,
+    registration = {'schema': 'stability-3', 'action_limit': 1000., 'primary_metric': 'upstream_official_lift_success',
                     'registered_at': now(), 'source_commit': ref,
                     'runtime_source': str(source), 'source_sha256': hashes, 'lanes': lanes,
                     'heldout': [conditions(f'heldout-s{s}', 128) for s in range(3)],
@@ -104,7 +106,7 @@ def register(root, out):
                     'calibration': {'path': str(calibration),
                                     'registration_sha256': sha256(calibration/'registration.json'),
                                     'results_sha256': sha256(calibration/'results.json')},
-                    'protocol': 'docs/experiments/STABILITY_PROTOCOL_V2_20261024.md'}
+                    'protocol': 'docs/experiments/STABILITY_PROTOCOL_V3_20261024.md'}
     if sha256(registration['checkpoint_path']) != registration['checkpoint_sha256']:
         raise ValueError('Base checkpoint changed')
     out.mkdir(parents=True, exist_ok=False)
@@ -115,13 +117,13 @@ def register(root, out):
 def evaluation(root, source, parent, arms, conditions):
     plans, locations = [], {arm: [] for arm in arms}
     # Two or four blocks rotate each policy through separate native GPU workers.
-    block_size = 32
+    block_size = 16 if len(conditions) == 64 else 32
     for block, offset in enumerate(range(0, len(conditions), block_size)):
         for arm_index, (arm, checkpoint) in enumerate(arms.items()):
             child = parent/f'block-{block}-{arm}'
             child.mkdir(parents=True)
             cfg = {'arm': arm, 'checkpoint_path': str(checkpoint), 'checkpoint_sha256': sha256(checkpoint),
-                   'action_limit': 1000.,
+                   'action_limit': 1000., 'official_mode': True,
                    'physical_budget': len(conditions[offset:offset+block_size]),
                    'jobs': [{'episode_id': f"{c['condition_id']}-{arm}", 'condition': c}
                             for c in conditions[offset:offset+block_size]]}
@@ -188,11 +190,12 @@ def summarize(out, heldout, trajectories):
         'two_actual_promotions_each_seed': all(sum(t['decisions'][r]['promote'] for r in range(3)) >= 2 for t in trajectories if t['algorithm'] == 'continual'),
         'sampled_safety_guards': all(s['pass'] for s in safety),
     }
-    result = {'status': 'STABLE_BOUNDED_ADAPTATION_SUPPORTED' if all(gates.values()) else 'STABLE_SELF_EVOLUTION_NOT_ESTABLISHED',
+    result = {'status': 'STABLE_BOUNDED_TASK_ADAPTATION_SUPPORTED' if all(gates.values()) else 'STABLE_SELF_EVOLUTION_NOT_ESTABLISHED',
+              'primary_metric': 'upstream_official_lift_success',
               'gates': gates, 'comparisons': comparisons, 'safety_per_seed': safety,
               'equal_budget_advantage_supported': comparisons['final_vs_restart']['interval'][0] > 0,
-              'counts': [{arm: {'stable': sum(r['success'] for r in data), 'instant': sum(r['stability']['instant_success'] for r in data), 'episodes': len(data)} for arm, data in seed.items()} for seed in heldout],
-              'scope': '3 learned trajectories, 3 rounds, this simulator/task/mass range/5-second horizon; no unlimited or general self-evolution claim'}
+              'counts': [{arm: {'successes': sum(r['success'] for r in data), 'instant': sum(instant_success(r) for r in data), 'episodes': len(data)} for arm, data in seed.items()} for seed in heldout],
+              'scope': '3 learned trajectories, 3 rounds, original lift predicate with a common numerical action envelope; no sustained holding, unlimited or general self-evolution claim'}
     save_json(out/'results.json', result)
     return result
 

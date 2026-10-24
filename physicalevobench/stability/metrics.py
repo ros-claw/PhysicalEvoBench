@@ -59,7 +59,7 @@ def train_recipe(rewards, previous_rate):
 
 def promote(incumbent, candidate):
     def totals(rows):
-        return (sum(r['success'] for r in rows), sum(r['stability']['instant_success'] for r in rows),
+        return (sum(r['success'] for r in rows), sum(instant_success(r) for r in rows),
                 sum(r['joint_limit_violation_count'] for r in rows),
                 sum(r['safety']['joint_samples'] for r in rows))
     old, new = totals(incumbent), totals(candidate)
@@ -70,3 +70,7 @@ def promote(incumbent, candidate):
     return {'promote': new[0] > old[0] and new[1] >= old[1] and new[2] <= old[2]
             and new[2]/new[3] <= old[2]/old[3] and depth_ok,
             'incumbent': old, 'candidate': new, 'per_joint_depth_guard': depth_ok}
+
+
+def instant_success(row):
+    return row['stability']['instant_success'] if 'stability' in row else row['success']
