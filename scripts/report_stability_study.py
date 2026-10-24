@@ -20,10 +20,11 @@ def exact_tail(wins, losses):
 def render(out):
     result, reg, audit = read(out/'results.json'), read(out/'registration.json'), read(out/'delivery_audit.json')
     frozen = read(out/'all_trajectories_frozen.json')
+    diagnostics = read(out/'supplemental_diagnostics.json')
     supported = result['status'] == 'STABLE_BOUNDED_TASK_ADAPTATION_SUPPORTED'
     text = [
         '# Three-seed, three-round stable adaptation confirmation', '',
-        f"**{'Bounded stable adaptation passed the registered checks.' if supported else 'Stable self-evolution was not established.'}**",
+        f"**{'Bounded official-task adaptation passed the registered primary checks.' if supported else 'Stable self-evolution was not established.'}**",
         'This is a completed fixed-budget physical experiment; CPU fixtures and diagnostics are not scored as learned improvement.', '',
         '[Preregistered protocol](STABILITY_PROTOCOL_V3_20261024.md). '
         '[Complete archive manifest](../evidence/stability-20261024/manifest.json).', '',
@@ -63,6 +64,17 @@ def render(out):
         for r, decision in enumerate(trajectory['decisions'], 1):
             text.append(f"| {trajectory['seed']} | {trajectory['algorithm']} | {r} | "
                         f"{decision['incumbent'][0]} / {decision['candidate'][0]} | {decision['promote']} | `{decision['candidate_sha256']}` |")
+    hashes = {reg['checkpoint_path']: reg['checkpoint_sha256']}
+    for config in out.glob('s*-*/round-*/train/config.json'):
+        cfg = read(config)
+        hashes[cfg['candidate_path']] = read(config.parent/'freeze.json')['candidate_sha256']
+    text += ['', 'Retained checkpoint SHA256 prefixes (full hashes are in the archive):', '',
+             '| Seed | Continual round 1 | Continual round 2 | Continual round 3 | Restart final |',
+             '| --- | --- | --- | --- | --- |']
+    for seed in range(3):
+        main_lane, control = frozen['trajectories'][seed*2:seed*2+2]
+        text.append('| '+str(seed)+' | '+' | '.join('`'+hashes[path][:12]+'`' for path in
+                    [*main_lane['snapshots'], control['retained']])+' |')
     text += ['', '## Sampled safety and replay diagnostics', '',
              'These are pre-step joint-limit samples, with a 0.001 coordinate-unit tolerance; finger units are '
              'metres and arm units radians. Collision/contact safety and between-sample excursions remain unmeasured. '
@@ -71,7 +83,7 @@ def render(out):
              '| --- | --- | --- | --- | --- |']
     exact = []
     for seed in range(3):
-        for arm in ('frozen', 'identity', 'round3', 'restart'):
+        for arm in ('frozen', 'identity', 'round1', 'round2', 'round3', 'restart'):
             data = arm_rows(out, seed, arm)
             count = sum(r['safety']['violation_joint_samples'] for r in data)
             exposure = sum(r['safety']['joint_samples'] for r in data)
@@ -87,6 +99,31 @@ def render(out):
              '| Seed | Discordant wins | Discordant losses | Exact one-sided p |', '| --- | --- | --- | --- |']
     text.extend(f'| {seed} | {wins} | {losses} | {probability:.8f} |'
                 for seed, wins, losses, probability in exact)
+    text += ['', '## Process-block and identical-policy diagnostics', '',
+             '[Defined before heldout launch](STABILITY_ANALYSIS_SUPPLEMENT_20261024.md). '
+             'These do not alter the registered primary decision. Whole blocks of 32 paired conditions '
+             'are resampled within each learned trajectory to examine within-process correlation.', '',
+             '| Final comparison | Difference (pp) | Process-block interval (pp) | Paired blocks |',
+             '| --- | --- | --- | --- |']
+    for name, value in diagnostics['block_bootstrap'].items():
+        lo, hi = value['interval']
+        text.append(f"| {name} | {value['difference']*100:+.2f} | [{lo*100:+.2f}, {hi*100:+.2f}] | {value['clusters']} |")
+    text += ['', f"Both supplemental process-block intervals exclude zero positively: **{diagnostics['block_intervals_both_positive']}**. "
+             'A positive per-condition interval without process-block corroboration is not evidence '
+             'robust to this different uncertainty assumption.', '',
+             '| Seed | Identical-policy safety replay passes | Failed guard components |',
+             '| --- | --- | --- |']
+    for item in diagnostics['identity_safety']:
+        failed = ', '.join(name for name, passed in item['guards'].items() if not passed) or 'none'
+        text.append(f"| {item['seed']} | {item['pass']} | {failed} |")
+    text += ['', 'Identical model hashes can still yield different physical traces and sampled safety '
+             'extremes. A failed replay guard exposes measurement variability; no rejected candidate '
+             'is retroactively promoted.', '',
+             '| Seed | Block | Frozen | Identity | Round 1 | Round 2 | Round 3 | Restart |',
+             '| --- | --- | --- | --- | --- | --- | --- | --- |']
+    for block in diagnostics['process_blocks']:
+        text.append(f"| {block['seed']} | {block['block']} | "+' | '.join(str(block['successes'][arm])
+                    for arm in ('frozen', 'identity', 'round1', 'round2', 'round3', 'restart'))+' |')
     text += ['', '## Cost, integrity and interpretation', '',
              f"Independent delivery audit: **{audit['status']}**, {audit['evaluation_episodes']:,} completed "
              f"evaluation episodes across {audit['workers']} native workers, "

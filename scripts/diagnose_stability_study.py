@@ -18,7 +18,7 @@ def safety_comparison(old, new):
             'new_count_exposure': [b[2], b[3]], 'any_violation_rate_difference': episode_delta}
 
 
-def diagnose(out):
+def diagnose(out, write=True):
     out = Path(out)
     if read(out/'status.json')['status'] != 'COMPLETED':
         raise ValueError('Diagnostics require the completed fixed study')
@@ -60,7 +60,8 @@ def diagnose(out):
               'main_registration_sha256': sha256(out/'registration.json'),
               'analysis_source_sha256': sha256(Path(__file__)),
               'block_intervals_both_positive': all(d['interval'][0] > 0 for d in intervals.values())}
-    save_json(out/'supplemental_diagnostics.json', result)
+    if write:
+        save_json(out/'supplemental_diagnostics.json', result)
     return result
 
 

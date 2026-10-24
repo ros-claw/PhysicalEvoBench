@@ -11,7 +11,12 @@ def registered_seed_values(payload):
     if isinstance(payload, dict):
         for key, value in payload.items():
             if key in {'seed', 'learner_seed', 'environment_seed'} and type(value) is int:
-                seeds.add(value)
+                # In this study's lane schema, seed=0/1/2 labels a trajectory;
+                # actual RNG seeds live inside its rounds, never in this index.
+                trajectory_index = (key == 'seed' and payload.get('algorithm') in ('continual', 'restart')
+                                    and isinstance(payload.get('rounds'), list))
+                if not trajectory_index:
+                    seeds.add(value)
             elif key == 'seeds' and isinstance(value, list):
                 seeds.update(v for v in value if type(v) is int)
             seeds.update(registered_seed_values(value))

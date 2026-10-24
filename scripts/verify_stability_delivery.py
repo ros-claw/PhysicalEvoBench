@@ -8,6 +8,7 @@ import tarfile
 from pathlib import Path
 
 from audit_stability_study import verify
+from diagnose_stability_study import diagnose
 
 from physicalevobench.doctor import save_json, sha256
 from physicalevobench.stability.audit import assert_pairs, audit_worker, read, rows
@@ -69,6 +70,8 @@ def main():
                                  'counts': counts, 'episodes': sum(map(len, pairs.values()))})
         elif read(registration.parent/'status.json')['status'] == 'COMPLETED':
             studies.append(verify(registration.parent))
+            if diagnose(registration.parent, write=False) != read(registration.parent/'supplemental_diagnostics.json'):
+                raise ValueError('Supplemental process-block/identity diagnostics changed')
         else:
             for worker in registration.parent.glob('preflight/block-*'):
                 failed_diagnostics += len(audit_worker(worker))

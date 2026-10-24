@@ -72,6 +72,10 @@ def verify(out):
 
     evaluation(out/'preflight', reg['preflight'], ['frozen'])
     trajectories = read(out/'all_trajectories_frozen.json')['trajectories']
+    model_audit = read(out/'private_model_audit.json')
+    if model_audit['status'] != 'PASS' or model_audit['jobs'] != 18:
+        raise ValueError('Missing complete private tensor/optimizer/metadata audit')
+    model_records = {r['job']: r for r in model_audit['models']}
     train_transitions = train_completed = train_unfinished = 0
     for lane, trajectory in zip(reg['lanes'], trajectories, strict=True):
         previous = reg['checkpoint_path']
@@ -80,6 +84,11 @@ def verify(out):
         for i, recipe in enumerate(lane['rounds']):
             prefix = out/f"s{lane['seed']}-{lane['algorithm']}"/f'round-{i+1}'
             cfg = read(prefix/'train/config.json')
+            tensor_check = model_records[str((prefix/'train').relative_to(out))]
+            if tensor_check['input_sha256'] != cfg['checkpoint_sha256'] or tensor_check['candidate_sha256'] != read(prefix/'train/freeze.json')['candidate_sha256']:
+                raise ValueError('Private tensor audit refers to different models')
+            if not all(tensor_check[k] for k in ('deterministic_actor_changed', 'all_checkpoint_tensors_finite', 'optimizer_state_finite', 'metadata_preserved')):
+                raise ValueError('Actual model/optimizer/metadata health audit failed')
             if cfg.get('action_limit') != reg['action_limit']:
                 raise ValueError('Training and evaluation numerical envelopes differ')
             if (cfg['num_envs'], cfg['iterations'], cfg['transition_budget']) != (128, 200, 614400):

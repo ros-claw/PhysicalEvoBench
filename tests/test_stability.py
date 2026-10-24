@@ -52,14 +52,24 @@ def test_seed_stratification_preserves_negative_seed_and_labels_scope():
     assert 'not a population' in result['scope']
 
 
+def test_process_correlation_can_widen_uncertainty_without_changing_effect():
+    # Statistical fixture only: all wins co-occur in one of four process blocks.
+    conditions = paired_interval([[1]*32+[0]*96]*3, draws=2000, alpha=.025)
+    blocks = paired_interval([[1, 0, 0, 0]]*3, draws=2000, alpha=.025)
+    assert conditions['difference'] == blocks['difference'] == .25
+    assert conditions['interval'][0] > .1
+    assert blocks['interval'][0] == 0.
+
+
 def test_nested_planned_seeds_are_excluded_without_treating_budgets_as_seeds():
     from physicalevobench.evaluation.seed_registry import registered_seed_values
 
     metadata = {'heldout': [[{'seed': 123}]],
-                'lanes': [{'rounds': [{'learner_seed': 456, 'environment_seed': 789,
+                'lanes': [{'seed': 0, 'algorithm': 'continual', 'rounds': [{'learner_seed': 456, 'environment_seed': 789,
                                       'validation': [{'seed': 987}]}]}],
                 'physical_budget': 1000, 'success': True, 'seeds': [654, False]}
     assert registered_seed_values(metadata) == {123, 456, 789, 987, 654}
+    assert registered_seed_values({'condition_id': 'real-rng-zero', 'seed': 0}) == {0}
 
 
 def recorded_preflight(tmp_path):
