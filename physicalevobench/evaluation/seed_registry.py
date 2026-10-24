@@ -5,6 +5,22 @@ import tarfile
 from pathlib import Path
 
 
+def registered_seed_values(payload):
+    """Include nested planned trajectories, not just completed episode job lists."""
+    seeds = set()
+    if isinstance(payload, dict):
+        for key, value in payload.items():
+            if key in {'seed', 'learner_seed', 'environment_seed'} and type(value) is int:
+                seeds.add(value)
+            elif key == 'seeds' and isinstance(value, list):
+                seeds.update(v for v in value if type(v) is int)
+            seeds.update(registered_seed_values(value))
+    elif isinstance(payload, list):
+        for value in payload:
+            seeds.update(registered_seed_values(value))
+    return seeds
+
+
 def published_seeds(project_root):
     evidence = Path(project_root) / 'docs/evidence'
     seeds = {42, 1000, 1001}
@@ -22,10 +38,5 @@ def published_seeds(project_root):
                     if member.size > 1_000_000:
                         raise ValueError('Unexpectedly large configuration')
                     payload=json.loads(archive.extractfile(member).read())
-                    conditions=payload.get('conditions',[])
-                    if isinstance(conditions,list):
-                        seeds.update(c['seed'] for c in conditions)
-                    seeds.update(j['condition']['seed'] for j in payload.get('jobs', []))
-                    if 'environment_seed' in payload:
-                        seeds.add(payload['environment_seed'])
+                    seeds.update(registered_seed_values(payload))
     return seeds

@@ -45,12 +45,13 @@ def parallel(function, plans, workers):
         return results
 
 
-def register(root, out):
+def register(root, out, checkpoint=None, calibration=None):
     if command(['git', 'status', '--porcelain'], cwd=root)['stdout']:
         raise ValueError('Commit protocol and source before registration')
     ref = command(['git', 'rev-parse', 'HEAD'], cwd=root)['stdout']
     source, hashes = snapshot_source(root, ref)
-    calibration = out.parent/'peb-official-calibration-20261024-001'
+    calibration = (Path(calibration).expanduser().absolute() if calibration else
+                   out.parent/'peb-official-calibration-20261024-001')
     if read(calibration/'results.json')['status'] != 'PASS':
         raise ValueError('Complete the preregistered envelope calibration first')
     excluded = published_seeds(root)
@@ -100,7 +101,7 @@ def register(root, out):
                     'preflight': conditions('diagnostic-preflight', 2),
                     'training_budget': 11059200, 'validation_episode_budget': 2304,
                     'heldout_episode_budget': 2304, 'preflight_episode_budget': 2,
-                    'checkpoint_path': '/home/dell/models/physicalevobench/franka_lift/model_1999.pt',
+                    'checkpoint_path': str(Path(checkpoint or '~/models/physicalevobench/franka_lift/model_1999.pt').expanduser().absolute()),
                     'checkpoint_sha256': 'babbbfd363f894443ffe494f26c5b6e0485fb35d4f5480c088295c23fc2a13aa',
                     'prior_registrations': prior_registrations,
                     'calibration': {'path': str(calibration),
@@ -204,9 +205,11 @@ def main():
     p = argparse.ArgumentParser()
     p.add_argument('--output', required=True)
     p.add_argument('--root', default=str(Path.cwd()))
+    p.add_argument('--checkpoint', help='Original downloaded NVIDIA checkpoint; expected SHA256 is fixed')
+    p.add_argument('--calibration', help='Completed official calibration directory')
     args = p.parse_args()
     root, out = Path(args.root).absolute(), Path(args.output).absolute()
-    reg = register(root, out)
+    reg = register(root, out, args.checkpoint, args.calibration)
     source, original = Path(reg['runtime_source']), Path(reg['checkpoint_path'])
     try:
         evaluation(root, source, out/'preflight', {'frozen': original}, reg['preflight'])

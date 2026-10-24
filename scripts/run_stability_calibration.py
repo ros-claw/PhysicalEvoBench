@@ -16,6 +16,7 @@ def main():
     p = argparse.ArgumentParser()
     p.add_argument('--output', required=True)
     p.add_argument('--official', action='store_true')
+    p.add_argument('--checkpoint', default='~/models/physicalevobench/franka_lift/model_1999.pt')
     a = p.parse_args()
     root, out = Path(__file__).resolve().parents[1], Path(a.output).absolute()
     if command(['git', 'status', '--porcelain'], cwd=root)['stdout']:
@@ -43,7 +44,7 @@ def main():
         excluded.add(seed)
         conditions.append({'condition_id': f'envelope-calibration-{i:02d}', 'split': 'diagnostic',
                            'seed': seed, 'object_mass_kg': .1})
-    checkpoint = '/home/dell/models/physicalevobench/franka_lift/model_1999.pt'
+    checkpoint = str(Path(a.checkpoint).expanduser().absolute())
     cfg = {'checkpoint_path': checkpoint, 'checkpoint_sha256': sha256(checkpoint),
            'action_limit': 1000., 'physical_budget': 6, 'source_commit': ref, 'official_mode': a.official}
     if cfg['checkpoint_sha256'] != 'babbbfd363f894443ffe494f26c5b6e0485fb35d4f5480c088295c23fc2a13aa':

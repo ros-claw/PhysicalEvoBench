@@ -38,7 +38,9 @@ def package(root, inputs, destination):
             for path, name in group:
                 archive.add(path, arcname=str(name), recursive=False)
                 manifest.append({'path': str(name), 'sha256': sha256(path), 'size': path.stat().st_size})
-    refs = sorted({json.loads((study/'registration.json').read_text())['source_commit'] for study in inputs})
+    registered_refs = sorted({json.loads((study/'registration.json').read_text())['source_commit'] for study in inputs})
+    delivery_ref = subprocess.check_output(['git', 'rev-parse', 'HEAD'], cwd=root, text=True).strip()
+    refs = sorted(set(registered_refs + [delivery_ref]))
     for ref in refs:
         data = subprocess.check_output(['git', 'archive', '--format=tar', ref,
                                         'physicalevobench', 'scripts', 'configs', 'docs/experiments',
@@ -48,7 +50,9 @@ def package(root, inputs, destination):
             for member in original:
                 output.addfile(member, original.extractfile(member) if member.isfile() else None)
     save_json(destination/'manifest.json', {'schema': 'stability-delivery-1', 'files': manifest,
-                                          'source_commits': refs, 'models': 'EXCLUDED_SEPARATE_NVIDIA_LICENSE'})
+                                          'source_commits': refs, 'registered_source_commits': registered_refs,
+                                          'delivery_tool_source_commit': delivery_ref,
+                                          'models': 'EXCLUDED_SEPARATE_NVIDIA_LICENSE'})
     checksums = {p.name: sha256(p) for p in sorted(destination.iterdir()) if p.is_file()}
     save_json(destination/'SHA256SUMS.json', checksums)
     return {'archives': len(groups), 'files': len(manifest), 'bytes': sum(p.stat().st_size for p in destination.iterdir())}

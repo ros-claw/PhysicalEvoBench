@@ -52,6 +52,16 @@ def test_seed_stratification_preserves_negative_seed_and_labels_scope():
     assert 'not a population' in result['scope']
 
 
+def test_nested_planned_seeds_are_excluded_without_treating_budgets_as_seeds():
+    from physicalevobench.evaluation.seed_registry import registered_seed_values
+
+    metadata = {'heldout': [[{'seed': 123}]],
+                'lanes': [{'rounds': [{'learner_seed': 456, 'environment_seed': 789,
+                                      'validation': [{'seed': 987}]}]}],
+                'physical_budget': 1000, 'success': True, 'seeds': [654, False]}
+    assert registered_seed_values(metadata) == {123, 456, 789, 987, 654}
+
+
 def recorded_preflight(tmp_path):
     import tarfile
     from pathlib import Path
