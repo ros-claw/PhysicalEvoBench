@@ -12,6 +12,7 @@ from diagnose_stability_study import diagnose
 
 from physicalevobench.doctor import save_json, sha256
 from physicalevobench.stability.audit import assert_pairs, audit_worker, read, rows
+from physicalevobench.stability.raw_probe import audit_probe
 
 
 def main():
@@ -39,14 +40,16 @@ def main():
     for ref in manifest['source_commits']:
         with tarfile.open(evidence/f'source-{ref}.tar.gz') as archive:
             archive.extractall(out/'sources'/ref, filter='data')
-    checked_sources, failed_diagnostics, studies, calibrations = 0, 0, [], []
+    checked_sources, failed_diagnostics, studies, calibrations, probes = 0, 0, [], [], []
     for registration in sorted(out.glob('*/registration.json')):
         reg = read(registration)
         for name, digest in reg['source_sha256'].items():
             if sha256(out/'sources'/reg['source_commit']/name) != digest:
                 raise ValueError('Registered source snapshot mismatch')
             checked_sources += 1
-        if 'criteria' in reg and 'conditions' in reg:
+        if reg.get('schema') == 'raw-policy-probe-1':
+            probes.append(audit_probe(registration.parent))
+        elif 'criteria' in reg and 'conditions' in reg:
             pairs = {arm: [] for arm in ('original', 'open_gripper')}
             for cfg in sorted(registration.parent.glob('*/config.json')):
                 arm = read(cfg)['arm']
@@ -99,6 +102,7 @@ def main():
                                                       *sorted((Path(__file__).resolve().parents[1]/'physicalevobench').rglob('*.py'))]},
               'completed_studies': studies, 'aborted_attempt_diagnostic_episodes': failed_diagnostics,
               'calibrations': calibrations, 'training_completed_episodes_from_raw_records': failed_training_episodes,
+              'raw_policy_probes': probes,
               'public_numeric_transition_audits': transition_audits,
               'private_tensor_audit': 'not rerun: separately licensed model files excluded',
               'training_transition_values': ('NUMERICALLY_RECOMPUTED' if a.numpy_python else 'archive hashes verified; supply --numpy-python to recompute values'),
