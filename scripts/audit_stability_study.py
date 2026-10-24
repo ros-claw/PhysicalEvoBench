@@ -1,6 +1,7 @@
 """Independent full-study verification; requires raw files, not a simulator."""
 
 import argparse
+import tempfile
 from pathlib import Path
 
 from physicalevobench.doctor import save_json, sha256
@@ -109,7 +110,9 @@ def verify(out):
         heldout.append(evaluation(parent, reg['heldout'][seed],
                                   ['frozen', 'identity', 'round1', 'round2', 'round3', 'restart']))
     original_results = read(out/'results.json')
-    reconstructed = summarize(out, heldout, trajectories)
+    # Recompute elsewhere so a failed comparison never replaces the submitted result.
+    with tempfile.TemporaryDirectory(prefix='peb-stability-audit-') as scratch:
+        reconstructed = summarize(Path(scratch), heldout, trajectories)
     if reconstructed != original_results:
         raise ValueError('Final scientific decision/statistics mismatch')
     episodes = sum(map(len, workers.values()))
