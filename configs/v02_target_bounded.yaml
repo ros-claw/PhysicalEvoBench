@@ -1,0 +1,15 @@
+schema: live-joint-target-envelope-v02
+scope: diagnostic target envelope; actual physical state is independently measured
+position_bounds: live_hard_joint_limits
+target_rate_caps:
+  arm_rad_s: 1.0
+  finger_m_s: 0.04
+target_rate_rule: min_live_solver_velocity_limit_and_cap
+binary_gripper:
+  negative: close_0_m
+  nonnegative: open_0.04_m
+hard_boundary:
+  finger_depth_m: 0.01
+  arm_depth_rad: 0.1
+numerical_action_limit: 1000.0
+physics_parameter_changes: none

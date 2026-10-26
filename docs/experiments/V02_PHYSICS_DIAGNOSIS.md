@@ -1,6 +1,6 @@
 # v0.2 物理与控制诊断
 
-登记阶段：W1 原生仪表尚未验证，不将下列计划当完成结果。历史结论保持不变。
+状态：W1 原生仪表已通过两种终止模式集成和16回合代表案例补跑；W2/W3独立登记运行中。历史结论保持不变。下面明确区分已完成结果和待验证假设。
 
 ## 已确认（离线）
 
@@ -28,3 +28,51 @@
 证据入口将由实际运行补充：`control_semantics.json`、`history_diagnosis.json`、逐回合首越限、物理/目标轨迹、terminal pre-reset。
 
 官方参考：[关节稳定性指南](https://docs.omniverse.nvidia.com/kit/docs/omni_physics/110.0/dev_guide/guides/articulation_stability_guide.html)、[确定性说明](https://isaac-sim.github.io/IsaacLab/main/source/how-to/reproducibility.html)。这些是排查指导；运行 API 以固定安装源码为准。
+
+## 2026-10-26 实际完成的 W1 结果
+
+原始四回合集成记录分为 smoke-001 和 smoke-002（各两回合），均实际完成。001初版把Python层约束结果作为下发目标记录；002修正为ActionTerm写入后读回float32值，两版源码和实际成本均保留，不把001冒充修正后的记录。002全部控制步通过仿射动作映射和物理目标包络的逐步重算；250控制步对应1000个post-physics记录，dt为0.005秒、控制dt为0.02秒、decimation=4。终止前关节位置/速度和物体位置/速度与最后物理样本一致。未发现该后端隐藏decimation；不对PhysX内部不可见求解迭代作采样声明。
+
+读回九个可动关节，11个USD关节（7转动、2移动、2固定），stage单位1m。手指live hard范围为[0,0.0399999991]m、live velocity limit约0.2m/s；机械臂限位为rad、USD角度限位为degree，不能直接按相同数字比较。已采样关节的applied schemas未列出mimic API，不能据此把未遍历资产或全部求解器约束都宣称排除；W3新版本进一步保存body0/body1等关系目标。ContactSensor成功读回净力及cube-filtered力；implicit actuator的computed/applied_torque字段不是求解器真实关节驱动力，仍未获得该测量。
+
+受限执行配置见 `configs/v02_target_bounded.yaml`，运行真值是每个worker的control_semantics.json和注册源码。这个配置文件记录已运行版本的参数，不倒改已登记源码或物理条件。
+
+代表案例按9类别去重为8实例，每个实例补跑两种执行层，16回合全部完成并经独立审计。成对初始物理状态8/8完全相同；这些是新补跑，不能替代历史原始终态。
+
+| 新补跑执行层 | 回合 | post-physics瞬时到达 | 严重事件 | >1mm越界回合 | 最大手指越界 |
+|---|---:|---:|---:|---:|---:|
+| NumericalOnly | 8 | 2 | 3 | 4 | 17.960 mm |
+| TargetBounded | 8 | 0 | 0 | 2 | 7.136 mm |
+
+这8个实例是按极端行为有意选择的小样本，不是一般成功率或风险率估计。严重边界会提前终止，因此新版本峰值不能直接与历史不中断峰值比较。TargetBounded减少这批案例的严重事件，但显著改变了策略执行，不能宣称无代价修好物理或已得到合格基线。
+
+### 首次越界提供了什么线索
+
+- sample-00 NumericalOnly：第65控制步、全局物理计数263首次超过1mm，手指目标仍为正常打开位置0.04m，左指速度约1.581m/s，净接触力z约1289.47N、cube-filtered力为零。
+- 同条件TargetBounded：第224控制步才首次超过1mm，右指目标仍为0.04m，右指速度约-1.687m/s，净接触力z约262.61N、cube-filtered力为零。
+- sample-03 NumericalOnly：第40控制步已在关闭目标0m时首次越界，两指cube-filtered接触力非零。
+- sample-05 TargetBounded：第234控制步打开目标0.04m时首次越界，右指净接触力z约47.96N、cube-filtered为零，随后该回合最大越界达7.136mm。
+
+因此至少存在“正常二值指目标+非cube净接触”和“闭合抓取cube接触”两类越界上下文。目标约束不能阻止所有实际状态越界；报告的solver速度限值也不等于瞬时状态必然受限。尚未区分非cube力究竟来自桌面、自碰撞或其他接触，尚未进行dt/effort/接触因素的单因素因果试验。不能从同期力峰值唯一推出NVIDIA缺陷、mimic竞争或驱动刚度是根因。
+
+历史384对同模型主研究记录中，110对没有记录值/长度差异，274对有轨迹差异，66对官方结果不同；274对的物体首次差异中位数为第5控制步，关节为第7步，动作第5步。跨GPU/进程块混杂仍在，不能归因为单一因素。当前W2会在同GPU和同动作接口下收窄这个问题。
+
+本地原始入口：`/home/dell/peb-v02-smoke-20261026-002`、`/home/dell/peb-v02-representatives-20261026-001`；离线历史入口 `runs/v02-history-20261026/history_diagnosis.json`。代表案例的 `diagnosis.json` 保存逐案例首次越界动作、速度、接触证据，`episode_metrics.csv` 为可检查汇总。
+
+### 一回合最小复现
+
+以下命令会先注册**额外1个**实际诊断回合，使用原登记commit的不可变源码、相同模型SHA和条件；需要本地已有单独许可的模型，不承诺逐位复现：
+
+```bash
+uv run python scripts/reproduce_v02_case.py \
+  --registration /home/dell/peb-v02-representatives-20261026-001/registration.json \
+  --worker sample-00-NumericalOnly --gpu 0 \
+  --output /home/dell/peb-v02-minimal-repro-NEW
+```
+
+只审核已完成证据、不启动仿真：
+
+```bash
+uv run python scripts/report_v02_diagnostics.py \
+  --run-dir /home/dell/peb-v02-representatives-20261026-001
+```
