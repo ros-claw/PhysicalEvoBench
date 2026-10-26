@@ -126,6 +126,8 @@ def audit_run(directory):
         worker = directory/plan['name']
         if read(worker/'config.json') != plan:
             raise ValueError('Worker differs from registered plan')
+        if plan.get('policy_config_sha256') and sha256(worker/'policy_config.yaml') != plan['policy_config_sha256']:
+            raise ValueError('Inference policy configuration digest mismatch')
         if read(worker/'process.json')['returncode'] != 0:
             raise ValueError('Native process did not complete')
         recorded = rows(worker/'episodes.jsonl')

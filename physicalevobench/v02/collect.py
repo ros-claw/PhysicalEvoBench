@@ -27,6 +27,10 @@ def main():
 
         if sha256(cfg['checkpoint_path']) != cfg['checkpoint_sha256']:
             raise ValueError('Diagnostic model hash mismatch')
+        if cfg.get('policy_config_sha256') and sha256(Path(cfg['checkpoint_path']).parent/'params/agent.yaml') != cfg['policy_config_sha256']:
+            raise ValueError('Registered inference policy configuration changed')
+        if cfg.get('policy_config_sha256'):
+            shutil.copyfile(Path(cfg['checkpoint_path']).parent/'params/agent.yaml', out/'policy_config.yaml')
         worker = DiagnosticWorker(cfg['checkpoint_path'], out, cfg)
         if cfg.get('reference_controller'):
             from physicalevobench.calibration.policies import GeometryExpert, OpenGripper

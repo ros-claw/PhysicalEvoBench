@@ -40,6 +40,7 @@ def main():
 
     def add(name, model, conditions, mode='LegacyInstant', layer='TargetBounded'):
         plans.append({'name':name, 'checkpoint_path':model, 'checkpoint_sha256':sha256(model),
+                      'policy_config_sha256': sha256(Path(model).parent/'params/agent.yaml'),
                       'mode':mode, 'execution_layer':layer,
                       'physical_budget':len(conditions), 'jobs':[
                           {'episode_id':f"{name}-{i:03d}",'condition':c} for i,c in enumerate(conditions)]})

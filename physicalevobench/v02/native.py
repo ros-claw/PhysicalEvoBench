@@ -84,6 +84,8 @@ class DiagnosticWorker(LiftWorker):
             if '/env_0/' in str(prim.GetPath()) and 'Joint' in prim.GetTypeName():
                 joints.append({'path': str(prim.GetPath()), 'type': prim.GetTypeName(),
                                'schemas': list(prim.GetAppliedSchemas()),
+                               'relationships': {r.GetName(): [str(p) for p in r.GetTargets()]
+                                                 for r in prim.GetRelationships()},
                                'attributes': {a.GetName(): str(a.Get()) for a in prim.GetAttributes()
                                               if any(t in a.GetName().lower() for t in ('limit', 'axis', 'drive', 'mimic'))}})
         semantics = {'schema': 'v02-control-semantics', 'mode': self.diag_cfg['mode'],
@@ -96,6 +98,8 @@ class DiagnosticWorker(LiftWorker):
                      'decimation': self.base.cfg.decimation,
                      'backend_handles_decimation': self.base._physics_handles_decimation,
                      'stage_metres_per_unit': UsdGeom.GetStageMetersPerUnit(stage), 'usd_joints': joints,
+                     'unit_conventions': {'live_revolute': 'radians', 'usd_revolute_limits': 'degrees',
+                                          'live_prismatic': 'metres', 'usd_prismatic': 'stage units'},
                      'actuators': {k: str(v) for k, v in self.robot.cfg.actuators.items()},
                      'hard_boundary': {'finger_depth_m': .01, 'arm_depth_rad': .1},
                      'target_rate_caps': {'arm_rad_s': 1., 'finger_m_s': .04},
