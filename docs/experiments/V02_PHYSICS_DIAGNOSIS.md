@@ -76,3 +76,14 @@ uv run python scripts/reproduce_v02_case.py \
 uv run python scripts/report_v02_diagnostics.py \
   --run-dir /home/dell/peb-v02-representatives-20261026-001
 ```
+
+上述一回合脚本已实际运行于 `/home/dell/peb-v02-minimal-repro-20261026-001` 并通过审计：第170控制步结束、严重边界终止、最大手指越界14.622mm。原代表补跑为67步和17.960mm，故这是严重问题的再次出现，**不是相同时间和相同轨迹的逐位复现**。新增1回合已计入本阶段实际成本。
+
+对齐图（每张n=1，时间零点为该回合首次测得>1mm越界，物理采样5ms；不能跨图把不同时间零点当作同一物理时刻）：
+
+- [原始策略、NumericalOnly](figures/v02-first-violation/sample-00-NumericalOnly.png)
+- [同条件、TargetBounded](figures/v02-first-violation/sample-00-TargetBounded.png)
+- [持续学习候选、cube接触](figures/v02-first-violation/sample-03-NumericalOnly.png)
+- [受限执行层仍有状态越界](figures/v02-first-violation/sample-05-TargetBounded.png)
+
+图表脚本 `scripts/plot_v02_diagnostics.py` 不启动SimulationApp；使用已固定Arena解释器的matplotlib，输入经audit_run重算通过后才绘图。图源SHA见对应目录plot_sources.json，数值来自原始物理记录，线段只连接采样点，不声明采样间状态已测量。
