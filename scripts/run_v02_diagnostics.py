@@ -103,9 +103,8 @@ def main():
         if a.after:
             predecessor = Path(a.after)
             save_json(out/'status.json', {'status': 'QUEUED', 'after': str(predecessor), 'at': now()})
-            while not (predecessor/'status.json').exists():
-                time.sleep(5)
-            while read(predecessor/'status.json')['status'] == 'QUEUED':
+            while (not (predecessor/'status.json').exists() or
+                   read(predecessor/'status.json')['status'] in ('QUEUED', 'RUNNING')):
                 time.sleep(5)
             if read(predecessor/'status.json')['status'] != 'COMPLETED':
                 raise ValueError('Prerequisite diagnostic did not complete; no dependent physics launched')
