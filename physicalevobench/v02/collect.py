@@ -37,6 +37,12 @@ def main():
 
             if cfg['reference_controller'] == 'GeometryExpert':
                 worker.policy = GeometryExpert(worker)
+            elif cfg['reference_controller'] in ('StateBasedReference', 'StateBasedReferenceOpen'):
+                from physicalevobench.v02.reference_native import OpenReference, StateBasedReference
+
+                worker.policy = StateBasedReference(worker,cfg['reference_config'])
+                if cfg['reference_controller'] == 'StateBasedReferenceOpen':
+                    worker.policy = OpenReference(worker.policy,worker.action_mapping['gripper_action']['start'])
             elif cfg['reference_controller'] == 'OpenGripper':
                 worker.policy = OpenGripper(worker.policy, worker.action_mapping['gripper_action']['start'])
             elif cfg['reference_controller'] != 'Original':

@@ -145,6 +145,8 @@ def audit_run(directory):
             raise ValueError('Execution identity mismatch')
         if any(meta[k] != reg[k] for k in ('hard_boundary', 'target_rate_caps')):
             raise ValueError('Registered execution limits changed')
+        if 'task_version' in plan and any(meta[k] != plan[k] for k in ('task_version','horizon_s','reference_config')):
+            raise ValueError('Reference task horizon or controller configuration changed')
         for row, job, reservation in zip(recorded, plan['jobs'], ledger, strict=True):
             episode = worker/'episodes'/job['episode_id']
             if row != read(episode/'episode.json') or row['episode_id'] != job['episode_id'] or reservation['episode_id'] != job['episode_id']:
@@ -156,6 +158,8 @@ def audit_run(directory):
                     abs(state['mass_readback_kg'][0][0]-job['condition']['object_mass_kg']) > 1e-5):
                 raise ValueError('Condition or physical mass mismatch')
             expected_id = 'PEB-Lift-v02-'+plan['mode']+'-'+plan['execution_layer']
+            if 'task_version' in plan:
+                expected_id += '-'+plan['task_version']
             if row['environment_id'] != expected_id or row['schema_version'] != '0.2-diagnostic':
                 raise ValueError('Versioned environment identity mismatch')
             trace_path = worker/row['trace_artifact']

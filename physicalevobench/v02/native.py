@@ -36,6 +36,11 @@ class DiagnosticWorker(LiftWorker):
 
                 if callback:
                     env_cfg = callback(env_cfg)
+                if 'horizon_s' in self.diag_cfg:
+                    horizon = self.diag_cfg['horizon_s']
+                    if horizon not in (5.,10.) or self.diag_cfg.get('task_version') != f'state-reference-h{horizon:g}-v1':
+                        raise ValueError('Reference horizon must have a distinct registered task version')
+                    env_cfg.episode_length_s = horizon
                 env_cfg.terminations.v02_hard_boundary = TerminationTermCfg(func=hard_boundary)
                 env_cfg.scene.robot.spawn.activate_contact_sensors = True
                 for label, body in [('left', 'panda_leftfinger'), ('right', 'panda_rightfinger')]:
@@ -105,6 +110,9 @@ class DiagnosticWorker(LiftWorker):
                      'target_rate_caps': {'arm_rad_s': 1., 'finger_m_s': .04},
                      'force_scope': 'ContactSensor net/pair forces; actuator command is not measured contact',
                      'state_hook': 'scene.update after original, and recorder.record_pre_reset before autoreset'}
+        if 'task_version' in self.diag_cfg:
+            semantics.update(task_version=self.diag_cfg['task_version'],horizon_s=self.base.max_episode_length_s,
+                             reference_config=self.diag_cfg['reference_config'])
         save_json(self.output_dir/'control_semantics.json', semantics)
 
     def _snapshot(self, phase):
@@ -229,5 +237,7 @@ class DiagnosticWorker(LiftWorker):
         row.update(schema_version='0.2-diagnostic',
                    environment_id='PEB-Lift-v02-'+self.diag_cfg['mode']+'-'+self.diag_cfg['execution_layer'],
                    diagnostic=metrics, terminal_pre_reset_artifact=str((directory/'terminal_pre_reset.json').relative_to(self.output_dir)))
+        if 'task_version' in self.diag_cfg:
+            row['environment_id'] += '-'+self.diag_cfg['task_version']
         save_json(directory/'episode.json', row)
         return row
