@@ -121,7 +121,7 @@ CPU当前98项测试与Ruff通过。新增测试检查：时间不能触发未�
 
 64回合包含37个不同条件：12个教师开发条件，两版独立确认各12个条件（每条件reference/open两回合），参数诊断一个条件重放四次。它们不是64个独立条件；两版确认也不是同一条件配对的算法效果研究。
 
-归档入口：[完整原始证据及独立审计](../evidence/state-reference-20261026/README.md)。公开校验不需要私有模型或SimulationApp：
+归档入口：[完整原始证据及独立审计](../evidence/state-reference-20261026/README.md)。独立解包审计已PASS：882个原始/派生文件、387项注册源文件哈希检查，全部64回合及派生门控重新计算。公开校验不需要私有模型或SimulationApp：
 
 ```bash
 uv run python scripts/verify_stability_delivery.py \
