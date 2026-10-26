@@ -1,0 +1,388 @@
+{
+  "schema": "v02-control-semantics",
+  "mode": "LegacyInstant",
+  "execution_layer": "TargetBounded",
+  "action_terms": {
+    "arm_action": {
+      "class": "JointPositionAction",
+      "mapping": {
+        "start": 0,
+        "stop": 7,
+        "joint_names": [
+          "panda_joint1",
+          "panda_joint2",
+          "panda_joint3",
+          "panda_joint4",
+          "panda_joint5",
+          "panda_joint6",
+          "panda_joint7"
+        ],
+        "term_class": "JointPositionAction"
+      },
+      "scale": 0.5,
+      "offset": [
+        [
+          0.0,
+          -0.5690000057220459,
+          0.0,
+          -2.809999942779541,
+          0.0,
+          3.0369999408721924,
+          0.7409999966621399
+        ]
+      ],
+      "open_command": null,
+      "close_command": null
+    },
+    "gripper_action": {
+      "class": "BinaryJointPositionAction",
+      "mapping": {
+        "start": 7,
+        "stop": 8,
+        "joint_names": [
+          "panda_finger_joint1",
+          "panda_finger_joint2"
+        ],
+        "term_class": "BinaryJointPositionAction",
+        "joint_indices": [
+          7,
+          8
+        ]
+      },
+      "scale": null,
+      "offset": null,
+      "open_command": [
+        0.03999999910593033,
+        0.03999999910593033
+      ],
+      "close_command": [
+        0.0,
+        0.0
+      ]
+    }
+  },
+  "joint_names": [
+    "panda_joint1",
+    "panda_joint2",
+    "panda_joint3",
+    "panda_joint4",
+    "panda_joint5",
+    "panda_joint6",
+    "panda_joint7",
+    "panda_finger_joint1",
+    "panda_finger_joint2"
+  ],
+  "hard_limits": [
+    [
+      -2.8973000049591064,
+      2.8973000049591064
+    ],
+    [
+      -1.7627999782562256,
+      1.7627999782562256
+    ],
+    [
+      -2.8973000049591064,
+      2.8973000049591064
+    ],
+    [
+      -3.0717999935150146,
+      -0.0697999969124794
+    ],
+    [
+      -2.8973000049591064,
+      2.8973000049591064
+    ],
+    [
+      -0.017500000074505806,
+      3.752500057220459
+    ],
+    [
+      -2.8973000049591064,
+      2.8973000049591064
+    ],
+    [
+      0.0,
+      0.03999999910593033
+    ],
+    [
+      0.0,
+      0.03999999910593033
+    ]
+  ],
+  "soft_limits": {
+    "value": [
+      [
+        [
+          -2.8973000049591064,
+          2.8973000049591064
+        ],
+        [
+          -1.7627999782562256,
+          1.7627999782562256
+        ],
+        [
+          -2.8973000049591064,
+          2.8973000049591064
+        ],
+        [
+          -3.0717999935150146,
+          -0.06979990005493164
+        ],
+        [
+          -2.8973000049591064,
+          2.8973000049591064
+        ],
+        [
+          -0.017499923706054688,
+          3.752500057220459
+        ],
+        [
+          -2.8973000049591064,
+          2.8973000049591064
+        ],
+        [
+          0.0,
+          0.03999999910593033
+        ],
+        [
+          0.0,
+          0.03999999910593033
+        ]
+      ]
+    ],
+    "source": "soft_joint_pos_limits"
+  },
+  "solver_velocity_limits": [
+    2.174999952316284,
+    2.174999952316284,
+    2.174999952316284,
+    2.174999952316284,
+    2.6100003719329834,
+    2.6100003719329834,
+    2.6100003719329834,
+    0.20000000298023224,
+    0.20000000298023224
+  ],
+  "solver_effort_limits": {
+    "value": [
+      [
+        87.0,
+        87.0,
+        87.0,
+        87.0,
+        12.0,
+        12.0,
+        12.0,
+        200.0,
+        200.0
+      ]
+    ],
+    "source": "joint_effort_limits"
+  },
+  "physics_dt": 0.005,
+  "control_dt": 0.02,
+  "decimation": 4,
+  "backend_handles_decimation": false,
+  "stage_metres_per_unit": 1.0,
+  "usd_joints": [
+    {
+      "path": "/World/envs/env_0/Robot/panda_link0/panda_joint1",
+      "type": "PhysicsRevoluteJoint",
+      "schemas": [
+        "PhysxJointAPI",
+        "PhysicsDriveAPI:angular"
+      ],
+      "attributes": {
+        "drive:angular:physics:damping": "80.0",
+        "drive:angular:physics:maxForce": "87.0",
+        "drive:angular:physics:stiffness": "400.0",
+        "drive:angular:physics:targetPosition": "0.0",
+        "drive:angular:physics:targetVelocity": "0.0",
+        "drive:angular:physics:type": "force",
+        "physics:axis": "X",
+        "physics:lowerLimit": "-166.00306701660156",
+        "physics:upperLimit": "166.00306701660156"
+      }
+    },
+    {
+      "path": "/World/envs/env_0/Robot/rootJoint",
+      "type": "PhysicsFixedJoint",
+      "schemas": [],
+      "attributes": {}
+    },
+    {
+      "path": "/World/envs/env_0/Robot/panda_link1/panda_joint2",
+      "type": "PhysicsRevoluteJoint",
+      "schemas": [
+        "PhysxJointAPI",
+        "PhysicsDriveAPI:angular"
+      ],
+      "attributes": {
+        "drive:angular:physics:damping": "80.0",
+        "drive:angular:physics:maxForce": "87.0",
+        "drive:angular:physics:stiffness": "400.0",
+        "drive:angular:physics:targetPosition": "-57.295799255371094",
+        "drive:angular:physics:targetVelocity": "0.0",
+        "drive:angular:physics:type": "force",
+        "physics:axis": "X",
+        "physics:lowerLimit": "-101.0009994506836",
+        "physics:upperLimit": "101.0009994506836"
+      }
+    },
+    {
+      "path": "/World/envs/env_0/Robot/panda_link2/panda_joint3",
+      "type": "PhysicsRevoluteJoint",
+      "schemas": [
+        "PhysxJointAPI",
+        "PhysicsDriveAPI:angular"
+      ],
+      "attributes": {
+        "drive:angular:physics:damping": "80.0",
+        "drive:angular:physics:maxForce": "87.0",
+        "drive:angular:physics:stiffness": "400.0",
+        "drive:angular:physics:targetPosition": "0.0",
+        "drive:angular:physics:targetVelocity": "0.0",
+        "drive:angular:physics:type": "force",
+        "physics:axis": "X",
+        "physics:lowerLimit": "-166.00306701660156",
+        "physics:upperLimit": "166.00306701660156"
+      }
+    },
+    {
+      "path": "/World/envs/env_0/Robot/panda_link3/panda_joint4",
+      "type": "PhysicsRevoluteJoint",
+      "schemas": [
+        "PhysxJointAPI",
+        "PhysicsDriveAPI:angular"
+      ],
+      "attributes": {
+        "drive:angular:physics:damping": "80.0",
+        "drive:angular:physics:maxForce": "87.0",
+        "drive:angular:physics:stiffness": "400.0",
+        "drive:angular:physics:targetPosition": "-126.0510025024414",
+        "drive:angular:physics:targetVelocity": "0.0",
+        "drive:angular:physics:type": "force",
+        "physics:axis": "X",
+        "physics:lowerLimit": "-176.0011749267578",
+        "physics:upperLimit": "-3.9992451667785645"
+      }
+    },
+    {
+      "path": "/World/envs/env_0/Robot/panda_link4/panda_joint5",
+      "type": "PhysicsRevoluteJoint",
+      "schemas": [
+        "PhysxJointAPI",
+        "PhysicsDriveAPI:angular"
+      ],
+      "attributes": {
+        "drive:angular:physics:damping": "80.0",
+        "drive:angular:physics:maxForce": "12.0",
+        "drive:angular:physics:stiffness": "400.0",
+        "drive:angular:physics:targetPosition": "0.0",
+        "drive:angular:physics:targetVelocity": "0.0",
+        "drive:angular:physics:type": "force",
+        "physics:axis": "X",
+        "physics:lowerLimit": "-166.00306701660156",
+        "physics:upperLimit": "166.00306701660156"
+      }
+    },
+    {
+      "path": "/World/envs/env_0/Robot/panda_link5/panda_joint6",
+      "type": "PhysicsRevoluteJoint",
+      "schemas": [
+        "PhysxJointAPI",
+        "PhysicsDriveAPI:angular"
+      ],
+      "attributes": {
+        "drive:angular:physics:damping": "80.0",
+        "drive:angular:physics:maxForce": "12.0",
+        "drive:angular:physics:stiffness": "400.0",
+        "drive:angular:physics:targetPosition": "137.50999450683594",
+        "drive:angular:physics:targetVelocity": "0.0",
+        "drive:angular:physics:type": "force",
+        "physics:axis": "X",
+        "physics:lowerLimit": "-1.0026761293411255",
+        "physics:upperLimit": "215.00241088867188"
+      }
+    },
+    {
+      "path": "/World/envs/env_0/Robot/panda_link6/panda_joint7",
+      "type": "PhysicsRevoluteJoint",
+      "schemas": [
+        "PhysxJointAPI",
+        "PhysicsDriveAPI:angular"
+      ],
+      "attributes": {
+        "drive:angular:physics:damping": "80.0",
+        "drive:angular:physics:maxForce": "12.0",
+        "drive:angular:physics:stiffness": "400.0",
+        "drive:angular:physics:targetPosition": "45.83660125732422",
+        "drive:angular:physics:targetVelocity": "0.0",
+        "drive:angular:physics:type": "force",
+        "physics:axis": "X",
+        "physics:lowerLimit": "-166.00306701660156",
+        "physics:upperLimit": "166.00306701660156"
+      }
+    },
+    {
+      "path": "/World/envs/env_0/Robot/panda_link7/panda_hand_joint",
+      "type": "PhysicsFixedJoint",
+      "schemas": [],
+      "attributes": {}
+    },
+    {
+      "path": "/World/envs/env_0/Robot/panda_hand/panda_finger_joint1",
+      "type": "PhysicsPrismaticJoint",
+      "schemas": [
+        "PhysxJointAPI",
+        "PhysicsDriveAPI:linear"
+      ],
+      "attributes": {
+        "drive:linear:physics:damping": "100.0",
+        "drive:linear:physics:maxForce": "200.0",
+        "drive:linear:physics:stiffness": "1000000.0",
+        "drive:linear:physics:targetPosition": "0.019999999552965164",
+        "drive:linear:physics:targetVelocity": "0.0",
+        "drive:linear:physics:type": "force",
+        "physics:axis": "X",
+        "physics:lowerLimit": "0.0",
+        "physics:upperLimit": "0.03999999910593033"
+      }
+    },
+    {
+      "path": "/World/envs/env_0/Robot/panda_hand/panda_finger_joint2",
+      "type": "PhysicsPrismaticJoint",
+      "schemas": [
+        "PhysxJointAPI",
+        "PhysicsDriveAPI:linear"
+      ],
+      "attributes": {
+        "drive:linear:physics:damping": "100.0",
+        "drive:linear:physics:maxForce": "200.0",
+        "drive:linear:physics:stiffness": "1000000.0",
+        "drive:linear:physics:targetPosition": "0.019999999552965164",
+        "drive:linear:physics:targetVelocity": "0.0",
+        "drive:linear:physics:type": "force",
+        "physics:axis": "X",
+        "physics:lowerLimit": "0.0",
+        "physics:upperLimit": "0.03999999910593033"
+      }
+    }
+  ],
+  "actuators": {
+    "panda_shoulder": "ImplicitActuatorCfg(class_type='isaaclab.actuators.actuator_pd:ImplicitActuator', joint_names_expr=['panda_joint[1-4]'], actuator_effort_limit=None, actuator_velocity_limit=None, joint_effort_limit=87.0, joint_velocity_limit=None, effort_limit_sim=None, velocity_limit_sim=None, stiffness=80.0, damping=4.0, armature=0.001, friction=None, dynamic_friction=None, viscous_friction=None, effort_limit=None, velocity_limit=None)",
+    "panda_forearm": "ImplicitActuatorCfg(class_type='isaaclab.actuators.actuator_pd:ImplicitActuator', joint_names_expr=['panda_joint[5-7]'], actuator_effort_limit=None, actuator_velocity_limit=None, joint_effort_limit=12.0, joint_velocity_limit=None, effort_limit_sim=None, velocity_limit_sim=None, stiffness=80.0, damping=4.0, armature=0.001, friction=None, dynamic_friction=None, viscous_friction=None, effort_limit=None, velocity_limit=None)",
+    "panda_hand": "ImplicitActuatorCfg(class_type='isaaclab.actuators.actuator_pd:ImplicitActuator', joint_names_expr=['panda_finger_joint.*'], actuator_effort_limit=None, actuator_velocity_limit=None, joint_effort_limit=200.0, joint_velocity_limit=None, effort_limit_sim=None, velocity_limit_sim=None, stiffness=2000.0, damping=100.0, armature=None, friction=None, dynamic_friction=None, viscous_friction=None, effort_limit=None, velocity_limit=None)"
+  },
+  "hard_boundary": {
+    "finger_depth_m": 0.01,
+    "arm_depth_rad": 0.1
+  },
+  "target_rate_caps": {
+    "arm_rad_s": 1.0,
+    "finger_m_s": 0.04
+  },
+  "force_scope": "ContactSensor net/pair forces; actuator command is not measured contact",
+  "state_hook": "scene.update after original, and recorder.record_pre_reset before autoreset"
+}

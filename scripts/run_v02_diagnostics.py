@@ -16,7 +16,7 @@ from physicalevobench.v02.audit import episode_metrics
 
 def main():
     p = argparse.ArgumentParser()
-    p.add_argument('--phase', choices=['smoke', 'representatives', 'repeatability'], required=True)
+    p.add_argument('--phase', choices=['smoke', 'representatives', 'repeatability', 'reachability'], required=True)
     p.add_argument('--output', required=True)
     p.add_argument('--gpu', type=int, default=0)
     p.add_argument('--checkpoint', default='/home/dell/models/physicalevobench/franka_lift/model_1999.pt')
@@ -58,7 +58,7 @@ def main():
             seen.add(identity)
             for layer in ('NumericalOnly','TargetBounded'):
                 add(f"sample-{i:02d}-{layer}",item['checkpoint_path'],[item['condition']],layer=layer)
-    else:
+    elif a.phase == 'repeatability':
         excluded=published_seeds(root)
         rng=random.Random(2026102602)
         conditions=[]
@@ -73,6 +73,20 @@ def main():
         for repeat in range(3):
             for i,c in enumerate(conditions):
                 add(f'fresh-r{repeat}-{i:02d}',checkpoint,[c])
+    else:
+        excluded = published_seeds(root)
+        rng = random.Random(2026102603)
+        conditions = []
+        for i in range(12):
+            seed = rng.randrange(2**31)
+            while seed in excluded:
+                seed = rng.randrange(2**31)
+            excluded.add(seed)
+            conditions.append({'condition_id': f'v02-reachability-{i:02d}', 'split': 'development',
+                               'seed': seed, 'object_mass_kg': [.1,.4,.8,1.6][i//3]})
+        for controller in ('Original', 'GeometryExpert', 'OpenGripper'):
+            add(controller, checkpoint, conditions, mode='FixedHorizonDiagnostic')
+            plans[-1]['reference_controller'] = controller
     out.mkdir(parents=True,exist_ok=False)
     save_json(out/'registration.json',{'schema':'v02-diagnostics-1','phase':a.phase,'source_commit':ref,
               'source_sha256':hashes,'runtime_source':str(source),'registered_at':now(),

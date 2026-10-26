@@ -217,6 +217,10 @@ class DiagnosticWorker(LiftWorker):
         from physicalevobench.v02.audit import episode_metrics
 
         metrics = episode_metrics(directory, self.output_dir/'control_semantics.json')
+        if self.diag_cfg['mode'] == 'FixedHorizonDiagnostic':
+            row['success'] = metrics['holding']['stable_success']
+            row['termination_reason'] = ('hard_boundary' if metrics['hard_boundary_terminated'] else 'horizon')
+            row['failure_type'] = None if row['success'] else 'effective_task_not_completed'
         row.update(schema_version='0.2-diagnostic',
                    environment_id='PEB-Lift-v02-'+self.diag_cfg['mode']+'-'+self.diag_cfg['execution_layer'],
                    diagnostic=metrics, terminal_pre_reset_artifact=str((directory/'terminal_pre_reset.json').relative_to(self.output_dir)))

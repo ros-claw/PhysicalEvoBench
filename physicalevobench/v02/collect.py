@@ -28,6 +28,25 @@ def main():
         if sha256(cfg['checkpoint_path']) != cfg['checkpoint_sha256']:
             raise ValueError('Diagnostic model hash mismatch')
         worker = DiagnosticWorker(cfg['checkpoint_path'], out, cfg)
+        if cfg.get('reference_controller'):
+            from physicalevobench.calibration.policies import GeometryExpert, OpenGripper
+
+            if cfg['reference_controller'] == 'GeometryExpert':
+                worker.policy = GeometryExpert(worker)
+            elif cfg['reference_controller'] == 'OpenGripper':
+                worker.policy = OpenGripper(worker.policy, worker.action_mapping['gripper_action']['start'])
+            elif cfg['reference_controller'] != 'Original':
+                raise ValueError('Unknown calibrated reference attempt')
+            # Keep proposal capture at the outer policy boundary, including the
+            # expert/negative control. No evaluator or physics changes here.
+            policy_action = worker.policy.get_action
+
+            def propose(env, observation):
+                value = policy_action(env, observation)
+                worker.last_network_proposal = value.clone()
+                return value
+
+            worker.policy.get_action = propose
         ledger, rows = [], []
         try:
             for job in cfg['jobs']:
