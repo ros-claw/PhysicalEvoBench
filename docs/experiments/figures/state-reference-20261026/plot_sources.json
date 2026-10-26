@@ -1,0 +1,22 @@
+{
+  "cases": [
+    {
+      "episode": "/home/dell/peb-reference-confirm-20261026-001/StateBasedReference/episodes/StateBasedReference-007",
+      "episode_sha256": "bc7c5da1d61ba119e87d74d0bb651ddc47065f4995d10187e628eedaac8b8c40",
+      "physics_sha256": "3d398632af27c9324576990d239ec5e7d1f819de6d1acb440819e87f1ff0da64",
+      "trace_sha256": "21e5395dd17269cacf5fa72d9dd394e0a37a426e0af0ea3daa599f0dcae057af"
+    },
+    {
+      "episode": "/home/dell/peb-reference-dev-b3-20261026-001/StateBasedReference/episodes/StateBasedReference-000",
+      "episode_sha256": "84910a61eaeb485b289e02a805522817f5bb1f59a08287a3f8ef5273cb6dcd0a",
+      "physics_sha256": "b138fc0028a05bfa738eebd4aab808688a9a6cddca8058e722cd3edbf4fef4ab",
+      "trace_sha256": "a27f076f94c72408473fe121fa18763d05a7ac102bdfc296add54783a5c3e295"
+    }
+  ],
+  "registrations": {
+    "/home/dell/peb-reference-confirm-20261026-001": "7beb910a1d8fce96da00f88ebfb8990f4aab5f7f30d7fe2f33c7924f233bc0e6",
+    "/home/dell/peb-reference-confirm-v2-20261026-001": "c3ad831b575e0dc31a0e81eecef4cebeec2b32657179d71af38c3b4d7e81a187",
+    "/home/dell/peb-reference-dev-b3-20261026-001": "790e4e0491c56a32719f12a1a60bcd31756082f7a1112c425299187ab63ab520"
+  },
+  "scope": "Standalone observed traces/counts; lines connect recorded samples, no between-sample or learner-population claim"
+}

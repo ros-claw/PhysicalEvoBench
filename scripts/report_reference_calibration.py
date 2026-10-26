@@ -10,6 +10,7 @@ from physicalevobench.doctor import save_json, sha256
 from physicalevobench.stability.audit import read
 from physicalevobench.v02.audit import audit_run, records
 from physicalevobench.v02.reference import BoundedJointIntegral, ReferenceConfig, ReferenceFSM
+from physicalevobench.v02.reference_artifact import digest
 
 
 def report(directory):
@@ -142,6 +143,22 @@ def terminal_followup(directory):
     value={'schema':'reference-terminal-followup-1','episodes':result,
            'scope':'Control-sampled post-physics followup and terminal pre-reset; additive observation, no changed gate'}
     save_json(directory/'reference_terminal_followup.json',value)
+    return value
+
+
+def controller_identities(directory):
+    """Full program identity; preserve inherited legacy checkpoint-skill fields."""
+    directory=Path(directory)
+    reg=read(directory/'registration.json')
+    entries=[]
+    for plan in reg['plans']:
+        content={'source_commit':reg['source_commit'],**{key:plan[key] for key in
+                 ('reference_controller','reference_config','task_version','horizon_s','execution_layer','checkpoint_sha256')}}
+        entries.append({'worker':plan['name'],'effective_controller_sha256':digest(content),'content':content,
+                        'legacy_row_skill_sha256':read(directory/plan['name']/'episodes'/plan['jobs'][0]['episode_id']/'episode.json')['skill_sha256']})
+    value={'schema':'reference-controller-identities-1','controllers':entries,
+           'scope':'Identity includes executable source/controller/config/task, never conditions or results. Legacy row skill_sha256 is inherited checkpoint/gain context, not full reference identity.'}
+    save_json(directory/'controller_identity.json',value)
     return value
 
 
