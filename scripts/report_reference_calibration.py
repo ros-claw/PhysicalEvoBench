@@ -96,7 +96,8 @@ def report(directory):
         reference = [e for e in episodes if e['worker']=='StateBasedReference']
         negative = [e for e in episodes if e['worker']=='StateBasedReferenceOpen']
         positive = len(reference)==12 and all(sum(e['holding'] for e in reference if e['mass_kg']==m)>=5 for m in (.1,.4))
-        result['reference_gate_passed'] = positive and safe and len(negative)==12 and not any(e['holding'] for e in negative)
+        reference_safe = not any(e['any_violation'] or e['hard_event'] for e in reference)
+        result['reference_gate_passed'] = positive and reference_safe and len(negative)==12 and not any(e['holding'] for e in negative)
         result['scope'] = 'Independent finite reference calibration only; no autonomous or stable self-evolution claim'
     save_json(directory/'reference_diagnosis.json',result)
     return result
