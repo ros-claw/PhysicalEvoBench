@@ -1,0 +1,42 @@
+[
+  {
+    "figure": "sample-00-NumericalOnly.png",
+    "episode": "/home/dell/peb-v02-representatives-20261026-001/sample-00-NumericalOnly/episodes/sample-00-NumericalOnly-000",
+    "episode_sha256": "5ae4f06da1c2f9bbf280220314b547f29c1dbe4f9d1d52b7423f10d798c1e77f",
+    "raw_files": {
+      "controls.jsonl.gz": "b8593664cbc82a6e47be091c5b5cc43be8178174311b3ab9d9ec5ba336c66b21",
+      "physics.jsonl.gz": "831a84272c085412f88a21f95a80670436b066665ab8ff4dd11063cf23ce5cab"
+    },
+    "scope": "Recorded samples connected for readability; simultaneous telemetry is not unique causal attribution"
+  },
+  {
+    "figure": "sample-00-TargetBounded.png",
+    "episode": "/home/dell/peb-v02-representatives-20261026-001/sample-00-TargetBounded/episodes/sample-00-TargetBounded-000",
+    "episode_sha256": "f6b7e173e63ed233104e7995fac87b9976dbef6144365b170f709ee25d91b732",
+    "raw_files": {
+      "controls.jsonl.gz": "2825c50ed0ac0027412171a6d91db5037b7b21e84728de055bfc36b483317efd",
+      "physics.jsonl.gz": "42aa6c28dc6e76007ae82f721534ec9571dc13cd617dda61a8a0f25d10432349"
+    },
+    "scope": "Recorded samples connected for readability; simultaneous telemetry is not unique causal attribution"
+  },
+  {
+    "figure": "sample-03-NumericalOnly.png",
+    "episode": "/home/dell/peb-v02-representatives-20261026-001/sample-03-NumericalOnly/episodes/sample-03-NumericalOnly-000",
+    "episode_sha256": "07930c40073e77888e7bcab6d0bbf2c0cfad2e7e4b428267dd9c296001299323",
+    "raw_files": {
+      "controls.jsonl.gz": "e47fc0388b3804683e97057f3be7917b713c93b99f8836cdcee66503751b2782",
+      "physics.jsonl.gz": "7d347b9d2b4dca36e8cd444e0bd060359e87e3a8c991a217d63c02d5f4ed41d5"
+    },
+    "scope": "Recorded samples connected for readability; simultaneous telemetry is not unique causal attribution"
+  },
+  {
+    "figure": "sample-05-TargetBounded.png",
+    "episode": "/home/dell/peb-v02-representatives-20261026-001/sample-05-TargetBounded/episodes/sample-05-TargetBounded-000",
+    "episode_sha256": "a27d87b6dccce54ed9ae3ab2ce8bd8cb55a38a47178994e2305e72b2af7487a7",
+    "raw_files": {
+      "controls.jsonl.gz": "e215d086eee2aa86966a1ee8cd5b3c43046ecdc1c4398be0633e281a702abf5e",
+      "physics.jsonl.gz": "0bd212a907efbc4288fc6c4ca6b901eed4616033a5956c4e3f28b6d59bb7632d"
+    },
+    "scope": "Recorded samples connected for readability; simultaneous telemetry is not unique causal attribution"
+  }
+]
