@@ -39,8 +39,10 @@ def package(root, inputs, destination):
                 archive.add(path, arcname=str(name), recursive=False)
                 manifest.append({'path': str(name), 'sha256': sha256(path), 'size': path.stat().st_size})
     registered_refs = sorted({json.loads((study/'registration.json').read_text())['source_commit'] for study in inputs})
+    launcher_refs = {json.loads((study/'registration.json').read_text()).get('launcher_commit') for study in inputs}
+    launcher_refs.discard(None)
     delivery_ref = subprocess.check_output(['git', 'rev-parse', 'HEAD'], cwd=root, text=True).strip()
-    refs = sorted(set(registered_refs + [delivery_ref]))
+    refs = sorted(set(registered_refs + [delivery_ref]) | launcher_refs)
     for ref in refs:
         data = subprocess.check_output(['git', 'archive', '--format=tar', ref,
                                         'physicalevobench', 'scripts', 'configs', 'docs/experiments',

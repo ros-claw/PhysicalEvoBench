@@ -1,0 +1,13 @@
+{
+  "source_commit": "0f501909411257f0ae82b4afbb92311278308333",
+  "physical_run": "/home/dell/peb-v02-smoke-20261026-002/LegacyInstant",
+  "episode_id": "LegacyInstant-000",
+  "scope": "Actual native 250 controls/1000 physics steps; instrumentation regression only, not positive reference",
+  "files": {
+    "terminal_pre_reset.json": "82044cef59c99c782643ee1b3a61bd0c5d728d142673e7d74d72a007e73976c2",
+    "initial_capture.json": "c55784afbfc0a176c6fd4c43c7fb480a9452da67865bdd1b24c5754aeb092003",
+    "control_semantics.json": "838de78fcce90a36a883c32b95edbc12a2cfcf1c67da9415b10882342f4af714",
+    "physics.jsonl.gz": "b23396d18199200f4368783a3aff9a31cc77092de7314517f15b3fd9e8bc2672",
+    "controls.jsonl.gz": "ff7d5315369dbb59de9b07d1eca07686e22688f9359a2b0d01ed4ebea44a7a95"
+  }
+}

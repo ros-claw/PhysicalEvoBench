@@ -16,7 +16,7 @@ def tensor_json(value):
 
 class LiftWorker:
     def __init__(self, checkpoint, output_dir, record_camera_video=False, stability_mode=False,
-                 action_limit=None):
+                 action_limit=None, environment_transform=None):
         import torch
 
         from isaaclab_arena.environments.arena_env_builder import ArenaEnvBuilder
@@ -40,6 +40,8 @@ class LiftWorker:
         definition = LiftObjectEnvironment().build(LiftObjectEnvironmentCfg(
             enable_cameras=record_camera_video, rl_training_mode=stability_mode
         ))
+        if environment_transform is not None:
+            definition = environment_transform(definition)
         variation = definition.scene.assets["dex_cube"].get_variation("mass")
         variation.apply_cfg(ObjectMassVariationCfg(
             sampler_cfg=UniformSamplerCfg(low=[0.1], high=[0.1]), recompute_inertia=True

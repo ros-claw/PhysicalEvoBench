@@ -9,10 +9,12 @@ from pathlib import Path
 
 from audit_stability_study import verify
 from diagnose_stability_study import diagnose
+from report_v02_diagnostics import report as report_v02
 
 from physicalevobench.doctor import save_json, sha256
 from physicalevobench.stability.audit import assert_pairs, audit_worker, read, rows
 from physicalevobench.stability.raw_probe import audit_probe
+from physicalevobench.v02.audit import audit_run as audit_v02
 
 
 def main():
@@ -43,13 +45,21 @@ def main():
         with tarfile.open(evidence/f'source-{ref}.tar.gz') as archive:
             archive.extractall(out/'sources'/ref, filter='data')
     checked_sources, failed_diagnostics, studies, calibrations, probes = 0, 0, [], [], []
+    v02 = []
     for registration in sorted(out.glob('*/registration.json')):
         reg = read(registration)
         for name, digest in reg['source_sha256'].items():
             if sha256(out/'sources'/reg['source_commit']/name) != digest:
                 raise ValueError('Registered source snapshot mismatch')
             checked_sources += 1
-        if reg.get('schema') == 'raw-policy-probe-1':
+        if reg.get('schema') == 'v02-diagnostics-1':
+            v02.append(audit_v02(registration.parent))
+            if (registration.parent/'diagnosis.json').exists():
+                stored = read(registration.parent/'diagnosis.json')
+                stored_csv = (registration.parent/'episode_metrics.csv').read_bytes()
+                if report_v02(registration.parent) != stored or (registration.parent/'episode_metrics.csv').read_bytes() != stored_csv:
+                    raise ValueError('V02 derived diagnosis, CSV or stage gate changed')
+        elif reg.get('schema') == 'raw-policy-probe-1':
             probes.append(audit_probe(registration.parent))
         elif 'criteria' in reg and 'conditions' in reg:
             pairs = {arm: [] for arm in ('original', 'open_gripper')}
@@ -114,6 +124,7 @@ def main():
               'completed_studies': studies, 'aborted_attempt_diagnostic_episodes': failed_diagnostics,
               'calibrations': calibrations, 'training_completed_episodes_from_raw_records': failed_training_episodes,
               'raw_policy_probes': probes,
+              'v02_diagnostics': v02,
               'public_numeric_transition_audits': transition_audits,
               'private_tensor_audit': 'not rerun: separately licensed model files excluded',
               'training_transition_values': ('NUMERICALLY_RECOMPUTED' if a.numpy_python else 'archive hashes verified; supply --numpy-python to recompute values'),
