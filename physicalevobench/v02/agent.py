@@ -167,7 +167,7 @@ class AgentAdapter:
 
 
 class ReferenceAgentAdapter(AgentAdapter):
-    """Same budgeted tools restricted to two verified reference parameters."""
+    """Two bounded reference parameters; physical activation remains gated."""
 
     program_class = ReferenceSkill
 

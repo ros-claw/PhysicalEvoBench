@@ -73,6 +73,10 @@ def main():
         data = read(file)
         excluded.update(registered_seed_values(data))
         prior.append({'path':str(file),'sha256':sha256(file)})
+        if (a.phase=='confirmation' and data['phase']=='reference-confirmation'
+                and data['source_commit']==ref and data['plans'][0]['reference_config']==configuration
+                and data['plans'][0]['horizon_s']==a.horizon):
+            raise ValueError('This frozen reference already reserved its independent confirmation; no seed retries')
     if a.phase == 'development':
         development_budgets = sum(read(item['path'])['physical_budget'] for item in prior
                                   if read(item['path'])['phase']=='reference-development')

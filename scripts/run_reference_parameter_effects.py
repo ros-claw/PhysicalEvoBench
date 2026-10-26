@@ -37,6 +37,11 @@ def report(directory):
         data[plan['name']] = {'plan':plan,'row':row,'initial':read(episode/'initial_state.json'),
                              'trace':records(episode/'trace.jsonl.gz'),
                              'controls':records(episode/'controls.jsonl.gz')}
+        actual_fsm=ReferenceFSM(ReferenceConfig(**plan['reference_config']))
+        for sample in data[plan['name']]['trace']:
+            diagnostic=sample['policy_diagnostics']
+            if actual_fsm.update(diagnostic['public'],.02)!=diagnostic['decision']:
+                raise ValueError('Actual reference ignored or changed skill parameters')
     baseline = data['baseline']
     pairs = {}
     for name in ('identity','clearance','close_wait'):
@@ -75,6 +80,7 @@ def main():
     p.add_argument('--confirmation',required=True)
     p.add_argument('--output',required=True)
     p.add_argument('--gpu',type=int,default=2)
+    p.add_argument('--stage',choices=['development','w4-activation'],default='development')
     a=p.parse_args()
     root,out,confirmation=Path.cwd(),Path(a.output).absolute(),Path(a.confirmation)
     if command(['git','status','--porcelain'],cwd=root)['stdout']:
@@ -85,13 +91,18 @@ def main():
     source,hashes=snapshot_source(root,base['source_commit'])
     excluded=published_seeds(root)
     development=0
+    activation_reservations=0
     for file in out.parent.glob('peb-reference-*/registration.json'):
         value=read(file)
         excluded.update(registered_seed_values(value))
         if value['phase'] in ('reference-development','reference-parameter-effects'):
             development+=value['physical_budget']
-    if development+4>12:
+        if value['phase']=='reference-parameter-activation':
+            activation_reservations+=value['physical_budget']
+    if a.stage=='development' and development+4>12:
         raise ValueError('Total development cap includes parameter trials')
+    if a.stage=='w4-activation' and activation_reservations:
+        raise ValueError('The single four-episode activation budget was already registered')
     rng=random.Random(2026102605)
     seed=rng.randrange(2**31)
     while seed in excluded:
@@ -106,13 +117,15 @@ def main():
                       'jobs':[{'episode_id':name+'-000','condition':condition}]})
     out.mkdir(parents=True,exist_ok=False)
     shutil.copyfile(confirmation/'frozen_reference.json',out/'baseline_reference.json')
-    save_json(out/'registration.json',{'schema':'v02-diagnostics-1','phase':'reference-parameter-effects',
+    save_json(out/'registration.json',{'schema':'v02-diagnostics-1',
+              'phase':'reference-parameter-effects' if a.stage=='development' else 'reference-parameter-activation',
               'source_commit':base['source_commit'],'source_sha256':hashes,'runtime_source':str(source),
               'launcher_commit':command(['git','rev-parse','HEAD'],cwd=root)['stdout'],
               'registered_at':now(),'gpu':a.gpu,'physical_budget':4,'plans':plans,
               'hard_boundary':{'finger_depth_m':.01,'arm_depth_rad':.1},'target_rate_caps':{'arm_rad_s':1.,'finger_m_s':.04},
               'baseline_reference_file_sha256':sha256(out/'baseline_reference.json'),
-              'protocol':'docs/experiments/REFERENCE_PARAMETER_EFFECT_PROTOCOL_20261026.md',
+              'protocol':('docs/experiments/REFERENCE_PARAMETER_EFFECT_PROTOCOL_20261026.md' if a.stage=='development' else
+                          'docs/experiments/REFERENCE_W4_ACTIVATION_PROTOCOL_20261026.md'),
               'score_role':'parameter activation only; actual repeated episodes all counted'})
     complete=[]
     try:

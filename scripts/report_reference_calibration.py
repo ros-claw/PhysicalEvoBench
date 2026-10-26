@@ -109,6 +109,42 @@ def report(directory):
     return result
 
 
+def terminal_followup(directory):
+    """Separate additive evidence; does not change frozen success definitions."""
+    directory=Path(directory)
+    audit_run(directory)
+    result=[]
+    for row in read(directory/'results.json')['episodes']:
+        worker=directory/row['worker']
+        meta=read(worker/'control_semantics.json')
+        episode=worker/'episodes'/row['episode_id']
+        frames=records(episode/'physics.jsonl.gz')
+        controls={frame['control_step']:frame for frame in frames}
+        span=0
+        first_hold=None
+        left_after_hold=False
+        for step,frame in controls.items():
+            distance=math.dist(frame['object_position'][0],frame['goal_position_world'][0])
+            speed=math.sqrt(sum(v*v for v in frame['object_velocity'][0][:3]))
+            qualifies=distance<.05 and speed<=.2
+            span=span+1 if qualifies else 0
+            if first_hold is None and (span-1)*meta['control_dt']>=.3-1e-12:
+                first_hold=(step+1)*meta['control_dt']
+            if first_hold is not None and distance>=.05:
+                left_after_hold=True
+        last=frames[-1]
+        distance=math.dist(last['object_position'][0],last['goal_position_world'][0])
+        speed=math.sqrt(sum(v*v for v in last['object_velocity'][0][:3]))
+        result.append({'worker':row['worker'],'episode_id':row['episode_id'],
+                       'first_effective_hold_time_s':first_hold,'left_goal_after_first_hold':left_after_hold,
+                       'terminal_goal_distance_m':distance,'terminal_speed_m_s':speed,
+                       'terminal_effective_predicate':distance<.05 and speed<=.2})
+    value={'schema':'reference-terminal-followup-1','episodes':result,
+           'scope':'Control-sampled post-physics followup and terminal pre-reset; additive observation, no changed gate'}
+    save_json(directory/'reference_terminal_followup.json',value)
+    return value
+
+
 if __name__=='__main__':
     p=argparse.ArgumentParser()
     p.add_argument('--run-dir',required=True)
