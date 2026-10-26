@@ -108,7 +108,8 @@ class DiagnosticWorker(LiftWorker):
                      'actuators': {k: str(v) for k, v in self.robot.cfg.actuators.items()},
                      'hard_boundary': {'finger_depth_m': .01, 'arm_depth_rad': .1},
                      'target_rate_caps': {'arm_rad_s': 1., 'finger_m_s': .04},
-                     'force_scope': 'ContactSensor net/pair forces; actuator command is not measured contact',
+                     'force_scope': 'ContactSensor net-normal and cube-filtered normal forces; tangential NOT_MEASURED',
+                     'pair_force_kind': 'PhysX pair force is normal_force_matrix_w; tangential force NOT_MEASURED',
                      'state_hook': 'scene.update after original, and recorder.record_pre_reset before autoreset'}
         if 'task_version' in self.diag_cfg:
             semantics.update(task_version=self.diag_cfg['task_version'],horizon_s=self.base.max_episode_length_s,
@@ -123,8 +124,8 @@ class DiagnosticWorker(LiftWorker):
         contacts = {}
         for name in ('left', 'right'):
             sensor = self.base.scene['v02_contact_'+name]
-            contacts[name] = {'net_force_w': self._optional(sensor.data, 'net_forces_w'),
-                              'cube_force_matrix_w': self._optional(sensor.data, 'force_matrix_w')}
+            contacts[name] = {'net_force_w': self._optional(sensor.data, 'net_normal_forces_w'),
+                              'cube_force_matrix_w': self._optional(sensor.data, 'normal_force_matrix_w')}
         return {'phase': phase, 'control_step': len(self.controls)-1,
                 'physics_step_global': self.base._sim_step_counter,
                 'joint_position': tensor_json(self.as_torch(self.robot.data.joint_pos)),

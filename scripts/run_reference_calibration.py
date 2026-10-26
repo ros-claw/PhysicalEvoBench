@@ -55,6 +55,7 @@ def main():
         raise ValueError('Reference checkpoint identity changed')
     excluded = published_seeds(root)
     prior = []
+    extension_evidence = []
     for file in sorted(out.parent.glob('peb-reference-*/registration.json')):
         data = read(file)
         excluded.update(registered_seed_values(data))
@@ -73,8 +74,17 @@ def main():
                        if read(item['path'])['phase']=='reference-development' and
                        read(item['path'])['plans'][0]['horizon_s']==5. and
                        (Path(item['path']).parent/'results.json').exists()]
-            if (not a.extension_reason or len(a.extension_reason)<20 or
-                    not any(report(path)['time_extension_evidence'] for path in earlier)):
+            for path in earlier:
+                result = report(path)
+                verified_lift = [e['episode_id'] for e in result['episodes'] if
+                                 e['termination']=='horizon' and e['steps']==250 and e['last_phase']=='lift'
+                                 and not e['holding'] and any(t['transition_reason']=='object_follows_probe_not_contact_alone'
+                                                             for t in e['transitions'])]
+                if result['time_extension_evidence'] or verified_lift:
+                    extension_evidence.append({'registration_sha256':sha256(path/'registration.json'),
+                                               'diagnosis_sha256':sha256(path/'reference_diagnosis.json'),
+                                               'verified_lift_timeout_episodes':verified_lift})
+            if not a.extension_reason or len(a.extension_reason)<20 or not extension_evidence:
                 raise ValueError('Ten-second version requires recorded five-second stage/time evidence and justification')
     rng = random.Random(2026102700+a.batch+(100 if a.phase=='confirmation' else 0))
     count = 4 if a.phase=='development' else 12
@@ -100,9 +110,11 @@ def main():
               'launcher_commit':command(['git','rev-parse','HEAD'],cwd=root)['stdout'],
               'registered_at':now(),'gpu':a.gpu,'physical_budget':count*len(controllers),'plans':plans,
               'batch':a.batch,'extension_reason':a.extension_reason,
+              'extension_evidence':extension_evidence,
               'hard_boundary':{'finger_depth_m':.01,'arm_depth_rad':.1},
               'target_rate_caps':{'arm_rad_s':1.,'finger_m_s':.04},'prior_registrations':prior,
-              'protocol':'docs/experiments/STATE_REFERENCE_PROTOCOL_20261026.md',
+              'protocol':('docs/experiments/STATE_REFERENCE_H10_PROTOCOL_20261026.md' if a.horizon==10. else
+                          'docs/experiments/STATE_REFERENCE_PROTOCOL_20261026.md'),
               'frozen_development':None if frozen is None else {'path':str(frozen),'registration_sha256':sha256(frozen/'registration.json')},
               'score_role':'reference calibration; never self-evolution efficacy'})
     completed = []

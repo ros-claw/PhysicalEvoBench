@@ -30,7 +30,7 @@ class StateBasedReference(GeometryExpert):
                                           w.base.command_manager.get_command('object_pose')[:,:3])
         contacts = []
         for side in ('left','right'):
-            value = w.as_torch(w.base.scene['v02_contact_'+side].data.force_matrix_w)
+            value = w.as_torch(w.base.scene['v02_contact_'+side].data.normal_force_matrix_w)
             contacts.append(float(value.reshape(-1,3).norm(dim=-1).max()))
         public = {'ee_position':p[0].tolist(),'object_position':obj[0].tolist(),
                   'ee_quaternion_xyzw':q[0].tolist(),
