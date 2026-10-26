@@ -3,6 +3,7 @@
 import argparse
 import json
 import random
+import time
 from pathlib import Path
 
 from physicalevobench.calibration.source_snapshot import snapshot_source
@@ -22,6 +23,7 @@ def main():
     p.add_argument('--checkpoint', default='/home/dell/models/physicalevobench/franka_lift/model_1999.pt')
     p.add_argument('--history', default='runs/v02-history-20261026/history_diagnosis.json')
     p.add_argument('--smoke', help='Completed instrumented smoke, required after integration')
+    p.add_argument('--after', help='Queue behind a registered diagnostic run; never overlap native workers')
     a = p.parse_args()
     root, out = Path.cwd(), Path(a.output).absolute()
     if command(['git','status','--porcelain'],cwd=root)['stdout']:
@@ -93,9 +95,21 @@ def main():
               'gpu':a.gpu,'physical_budget':sum(p['physical_budget'] for p in plans),
               'hard_boundary':{'finger_depth_m':.01,'arm_depth_rad':.1},
               'target_rate_caps':{'arm_rad_s':1.,'finger_m_s':.04},
-              'plans':plans,'score_role':'development diagnosis only; no learning or heldout efficacy score'})
+              'plans':plans,'score_role':'development diagnosis only; no learning or heldout efficacy score',
+              'after': None if not a.after else {'path': str(Path(a.after).absolute()),
+                                               'registration_sha256': sha256(Path(a.after)/'registration.json')}})
     completed=[]
     try:
+        if a.after:
+            predecessor = Path(a.after)
+            save_json(out/'status.json', {'status': 'QUEUED', 'after': str(predecessor), 'at': now()})
+            while not (predecessor/'status.json').exists():
+                time.sleep(5)
+            while read(predecessor/'status.json')['status'] == 'QUEUED':
+                time.sleep(5)
+            if read(predecessor/'status.json')['status'] != 'COMPLETED':
+                raise ValueError('Prerequisite diagnostic did not complete; no dependent physics launched')
+        save_json(out/'status.json', {'status': 'RUNNING', 'at': now()})
         for plan in plans:
             child=out/plan['name']
             child.mkdir()
