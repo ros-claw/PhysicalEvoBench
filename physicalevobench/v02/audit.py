@@ -119,6 +119,12 @@ def audit_run(directory):
     reg = read(directory/'registration.json')
     if reg['schema'] != 'v02-diagnostics-1':
         raise ValueError('Unsupported v02 registration')
+    status = read(directory/'status.json')
+    if status['status'] == 'CANCELLED_BEFORE_LAUNCH':
+        if status['actual_episodes'] != 0 or list(directory.glob('*/launch.json')) or list(directory.glob('*/episodes/*/upstream.jsonl')):
+            raise ValueError('Cancelled reservation has physical launch/completion evidence')
+        return {'status': 'CANCELLED_BEFORE_LAUNCH', 'phase': reg['phase'], 'episodes': 0,
+                'registered_budget': reg['physical_budget'], 'reason': status['reason']}
     if sum(p['physical_budget'] for p in reg['plans']) != reg['physical_budget']:
         raise ValueError('Registration budget mismatch')
     completed = []

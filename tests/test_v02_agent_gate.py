@@ -37,7 +37,8 @@ def test_program_reloads_in_fresh_session_and_failed_trials_keep_cost(tmp_path):
     def failed(program, handle):
         raise RuntimeError('native failure')
 
-    adapter = AgentAdapter(lambda: {'joint_position': [0]*7}, failed, failed, 1, 0, tmp_path/'ledger')
+    adapter = AgentAdapter(lambda: {'joint_position': [0]*7}, failed, failed, 1, 0, tmp_path/'ledger',
+                           {'trial':['public-train-000'], 'validate':[]})
     program = SkillProgram((Phase('close', 25, (0, -.5, 0, -2., 0, 2., .7), 'close'),))
     ref = adapter.propose(program.to_dict())
     assert adapter.propose(program.to_dict()) == ref
@@ -66,3 +67,17 @@ def test_program_rejects_evaluator_code_or_physics_edits():
         SkillProgram.from_dict({'schema': 'v02-joint-program-1', 'phases': [], 'gravity': 0})
     with pytest.raises(TypeError):
         Phase('close', 10, (0,)*7, 'close', python='import os')
+
+
+def test_private_truth_and_heldout_handles_do_not_cross_agent_api(tmp_path):
+    adapter = AgentAdapter(lambda: {'object_mass_kg': .1}, lambda *a: {'seed':123}, lambda *a: {},
+                           1, 0, tmp_path/'ledger', {'trial':['train-a'], 'validate':[]})
+    with pytest.raises(ValueError, match='private/evaluator'):
+        adapter.observe()
+    ref = adapter.propose(SkillProgram((Phase('hold', 25, (0,)*7, 'open'),)).to_dict())
+    with pytest.raises(ValueError, match='unauthorized'):
+        adapter.run_trial(ref, 'heldout-a')
+    assert adapter.remaining['trial'] == 1
+    with pytest.raises(ValueError, match='private/evaluator'):
+        adapter.run_trial(ref, 'train-a')
+    assert adapter.remaining['trial'] == 0

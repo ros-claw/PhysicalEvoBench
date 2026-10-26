@@ -9,6 +9,7 @@ Physical use and parameter-effect validation remain gated on W3 calibration.
 import hashlib
 import json
 import math
+import os
 from dataclasses import asdict, dataclass
 from pathlib import Path
 
@@ -80,7 +81,8 @@ class SkillProgram:
 class AgentAdapter:
     """Evaluator-owned tools. The model/tool caller itself is external to this API."""
 
-    def __init__(self, observe, trial, validate, trial_budget, validation_budget, ledger_path):
+    def __init__(self, observe, trial, validate, trial_budget, validation_budget, ledger_path,
+                 condition_handles=None):
         if any(type(n) is not int or n < 0 for n in (trial_budget, validation_budget)):
             raise ValueError('Explicit nonnegative interaction budgets required')
         self._observe, self._trial, self._validate = observe, trial, validate
@@ -89,9 +91,24 @@ class AgentAdapter:
         if self.ledger_path.exists():
             raise ValueError('Use a new evaluator session ledger')
         self.programs, self.frozen = {}, None
+        handles = condition_handles or {'trial': (), 'validate': ()}
+        if set(handles) != {'trial', 'validate'}:
+            raise ValueError('Only training and development validation handles are allowed')
+        self.handles = {key: frozenset(value) for key,value in handles.items()}
+        if self.handles['trial'] & self.handles['validate'] or any(
+                not isinstance(v,str) or not v for values in self.handles.values() for v in values):
+            raise ValueError('Disjoint opaque condition handles required')
+
+    @staticmethod
+    def _public(value, allowed):
+        if not isinstance(value,dict) or set(value)-set(allowed):
+            raise ValueError('Unsupported private/evaluator field in public tool response')
+        return json.loads(json.dumps(value,allow_nan=False))
 
     def observe(self):
-        return self._observe()
+        return self._public(self._observe(), ('joint_position','joint_velocity','gripper_position',
+                            'gripper_velocity','object_position','object_velocity','goal_position',
+                            'phase','contact_status'))
 
     def propose(self, payload):
         if self.frozen:
@@ -103,17 +120,21 @@ class AgentAdapter:
     def _run(self, kind, reference, handle):
         if self.frozen or reference not in self.programs or self.remaining[kind] <= 0:
             raise ValueError('Frozen, unknown candidate or exhausted tool budget')
-        if not isinstance(handle, str) or not handle:
-            raise ValueError('Opaque public condition handle required')
+        if handle not in self.handles[kind]:
+            raise ValueError('Unknown or unauthorized condition handle; heldout is never a tool')
         # Persist the cost before callback. Failed trials also consume budget.
         reservation = {'tool': kind, 'program_sha256': reference, 'condition_handle': handle}
         self.ledger_path.parent.mkdir(parents=True, exist_ok=True)
         with self.ledger_path.open('a') as stream:
             stream.write(json.dumps(reservation, sort_keys=True)+'\n')
             stream.flush()
+            os.fsync(stream.fileno())
         self.remaining[kind] -= 1
         callback = self._trial if kind == 'trial' else self._validate
-        return callback(self.programs[reference], handle)
+        return self._public(callback(self.programs[reference], handle),
+                            ('execution_status','effective_success','instant_success','holding_span_s',
+                             'violation_rate','violation_time_fraction','depth_q95_fraction','hard_event',
+                             'steps','cost_episodes','failure_reason'))
 
     def run_trial(self, candidate_ref, training_condition_handle):
         return self._run('trial', candidate_ref, training_condition_handle)

@@ -223,7 +223,8 @@ class DiagnosticWorker(LiftWorker):
         metrics = episode_metrics(directory, self.output_dir/'control_semantics.json')
         if self.diag_cfg['mode'] == 'FixedHorizonDiagnostic':
             row['success'] = metrics['holding']['stable_success']
-            row['termination_reason'] = ('hard_boundary' if metrics['hard_boundary_terminated'] else 'horizon')
+            row['termination_reason'] = ('hard_boundary' if metrics['hard_boundary_terminated'] else
+                                         ('horizon' if self.terminal['truncated'][0] else 'task_failure'))
             row['failure_type'] = None if row['success'] else 'effective_task_not_completed'
         row.update(schema_version='0.2-diagnostic',
                    environment_id='PEB-Lift-v02-'+self.diag_cfg['mode']+'-'+self.diag_cfg['execution_layer'],
