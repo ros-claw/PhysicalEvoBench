@@ -4,6 +4,7 @@ import argparse
 import json
 import random
 import shutil
+import time
 from dataclasses import asdict
 from pathlib import Path
 
@@ -28,6 +29,8 @@ def main():
     p.add_argument('--reference-config')
     p.add_argument('--frozen-development')
     p.add_argument('--extension-reason',help='Observed reason for a separately versioned ten-second diagnostic')
+    p.add_argument('--development-mass',type=float,choices=[.1,.4],default=.1)
+    p.add_argument('--after',help='Queue behind an existing diagnostic; never overlap GPU workers')
     a = p.parse_args()
     root,out = Path.cwd(),Path(a.output).absolute()
     if command(['git','status','--porcelain'],cwd=root)['stdout']:
@@ -46,7 +49,7 @@ def main():
             raise ValueError('Development did not qualify; no confirmation physics authorized')
         registered = read(frozen/'registration.json')
         plan = registered['plans'][0]
-        if plan['horizon_s'] != a.horizon or plan['reference_config'] != configuration:
+        if plan['horizon_s'] != a.horizon or asdict(ReferenceConfig(**plan['reference_config'])) != configuration:
             raise ValueError('Frozen controller changed before independent confirmation')
         # Reuse exact development runtime, not a newer untested controller.
         ref = registered['source_commit']
@@ -105,7 +108,7 @@ def main():
             seed = rng.randrange(2**31)
         excluded.add(seed)
         conditions.append({'condition_id':f'reference-{a.phase}-b{a.batch}-{i:02d}',
-                           'split':a.phase,'seed':seed,'object_mass_kg':.1 if i<count/2 or count==4 else .4})
+                           'split':a.phase,'seed':seed,'object_mass_kg':a.development_mass if a.phase=='development' else (.1 if i<count/2 else .4)})
     controllers = ['StateBasedReference'] if a.phase=='development' else ['StateBasedReference','StateBasedReferenceOpen']
     plans = [{'name':c,'checkpoint_path':checkpoint,'checkpoint_sha256':model_hash,
               'policy_config_sha256':sha256(Path(checkpoint).parent/'params/agent.yaml'),
@@ -122,16 +125,32 @@ def main():
               'launcher_commit':command(['git','rev-parse','HEAD'],cwd=root)['stdout'],
               'registered_at':now(),'gpu':a.gpu,'physical_budget':count*len(controllers),'plans':plans,
               'batch':a.batch,'extension_reason':a.extension_reason,
+              'after':None if not a.after else {'path':str(Path(a.after).absolute()),'registration_sha256':sha256(Path(a.after)/'registration.json')},
               'extension_evidence':extension_evidence,
               'hard_boundary':{'finger_depth_m':.01,'arm_depth_rad':.1},
               'target_rate_caps':{'arm_rad_s':1.,'finger_m_s':.04},'prior_registrations':prior,
-              'protocol':('docs/experiments/STATE_REFERENCE_H10_PROTOCOL_20261026.md' if a.horizon==10. else
+              'protocol':('docs/experiments/STATE_REFERENCE_V2_PROTOCOL_20261026.md' if configuration.get('joint_integral_gain_s',0)>0 else
+                          'docs/experiments/STATE_REFERENCE_H10_PROTOCOL_20261026.md' if a.horizon==10. else
                           'docs/experiments/STATE_REFERENCE_PROTOCOL_20261026.md'),
               'frozen_development':None if frozen is None else {'path':str(frozen),'registration_sha256':sha256(frozen/'registration.json')},
               'frozen_reference_sha256':None if frozen is None else sha256(out/'frozen_reference.json'),
               'score_role':'reference calibration; never self-evolution efficacy'})
     completed = []
     try:
+        if a.after:
+            predecessor=Path(a.after)
+            save_json(out/'status.json',{'status':'QUEUED','after':str(predecessor),'at':now()})
+            while True:
+                try:
+                    status=read(predecessor/'status.json')['status']
+                except (FileNotFoundError,json.JSONDecodeError):
+                    status='RUNNING'
+                if status not in ('RUNNING','QUEUED'):
+                    break
+                time.sleep(5)
+            if status!='COMPLETED':
+                raise ValueError('Prerequisite did not complete; no dependent native launch')
+        save_json(out/'status.json',{'status':'RUNNING','at':now()})
         for plan in plans:
             child = out/plan['name']
             child.mkdir()

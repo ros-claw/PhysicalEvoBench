@@ -64,3 +64,45 @@ def test_reference_freezes_and_loads_only_the_same_controller_and_task(tmp_path)
     path.write_text(json.dumps(value))
     with pytest.raises(ValueError,match='digest'):
         load(path)
+
+
+def test_reference_agent_artifact_binds_only_two_controls_and_reloads_in_fresh_instance(tmp_path):
+    from dataclasses import asdict
+
+    import pytest
+
+    from physicalevobench.v02.agent import ReferenceAgentAdapter
+    from physicalevobench.v02.reference import ReferenceConfig
+    from physicalevobench.v02.reference_artifact import ReferenceSkill, digest
+
+    base={'schema':'state-reference-artifact-1','source_commit':'a'*40,
+          'reference_config':asdict(ReferenceConfig()),'horizon_s':10.,
+          'task_version':'state-reference-h10-v1','checkpoint_sha256':'b'*64}
+    skill=ReferenceSkill(digest(base),approach_clearance_m=.12)
+    adapter=ReferenceAgentAdapter(lambda:{},lambda *a:{},lambda *a:{},0,0,tmp_path/'ledger',base_reference=base)
+    ref=adapter.propose(skill.to_dict())
+    configuration=adapter.programs[ref].configuration(base)
+    assert configuration['approach_clearance_m']==.12
+    assert configuration['probe_lift_m']==base['reference_config']['probe_lift_m']
+    assert base['horizon_s']==10.
+    artifact=tmp_path/'skill.json'
+    adapter.freeze(ref,artifact)
+    fresh=ReferenceAgentAdapter(lambda:{},lambda *a:{},lambda *a:{},0,0,tmp_path/'fresh',base_reference=base)
+    assert fresh.load(artifact)==ref
+    with pytest.raises(ValueError,match='different frozen'):
+        fresh.propose(ReferenceSkill('c'*64).to_dict())
+    with pytest.raises(TypeError):
+        fresh.propose({**skill.to_dict(),'object_mass_kg':0})
+
+
+def test_payload_feedback_integral_is_bounded_and_cleared_outside_lift():
+    import pytest
+
+    from physicalevobench.v02.reference import BoundedJointIntegral
+
+    value=BoundedJointIntegral(1.,.12)
+    for _ in range(1000):
+        result=value.update([.1]*7,.02,True)
+    assert result==[.12]*7
+    assert value.update([.1]*7,.02,False)==[0.]*7
+    assert value.update([-.1]*7,.02,True)==pytest.approx([-.002]*7)

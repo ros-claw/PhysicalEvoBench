@@ -1,7 +1,7 @@
 """State-based DLS teacher in the common physical target envelope."""
 
 from physicalevobench.calibration.policies import GeometryExpert, OpenGripper
-from physicalevobench.v02.reference import ReferenceConfig, ReferenceFSM
+from physicalevobench.v02.reference import BoundedJointIntegral, ReferenceConfig, ReferenceFSM
 
 
 class StateBasedReference(GeometryExpert):
@@ -12,6 +12,8 @@ class StateBasedReference(GeometryExpert):
     def reset(self):
         super().reset()
         self.fsm = ReferenceFSM(self.configuration)
+        self.integral = BoundedJointIntegral(self.configuration.joint_integral_gain_s,
+                                             self.configuration.joint_integral_limit_rad)
 
     def get_action(self, env, observation):
         from isaaclab.utils.math import (
@@ -52,18 +54,21 @@ class StateBasedReference(GeometryExpert):
         current = w.as_torch(robot.data.joint_pos)[:,self.joint_ids]
         desired = self.ik.compute(p,q,jac,current)
         delta = desired-current
-        desired = current+delta*(.10/delta.abs().amax(dim=-1,keepdim=True).clamp(min=.10))
+        delta = delta*(.10/delta.abs().amax(dim=-1,keepdim=True).clamp(min=.10))
+        bias = self.integral.update(delta[0].tolist(),w.base.step_dt,decision['phase'] in ('lift','hold'))
+        desired = current+delta
         limits = w.as_torch(robot.data.joint_pos_limits)[:,self.joint_ids]
         desired = desired.clamp(limits[...,0]+.02,limits[...,1]-.02)
         gravity = w.as_torch(robot.data.gravity_compensation_forces)[:,self.joint_ids]
         stiffness = w.as_torch(robot.data.joint_stiffness)[:,self.joint_ids]
-        desired = desired+gravity/stiffness
+        desired = desired+gravity/stiffness+t.tensor([bias],device=p.device)
         term = w.base.action_manager.get_term('arm_action')
         action = t.zeros((1,8),device=p.device)
         action[:,w.arm_slice] = (desired-term._offset)/term._scale
         action[:,w.action_mapping['gripper_action']['start']] = 1 if decision['gripper']=='open' else -1
         self.diagnostics = {'reference_schema':'state-reference-1','public':public,**decision,
                             'decision':decision,
+                            'bounded_joint_integral_rad':bias,'joint_error_feedback_rad':delta[0].tolist(),
                             'ee_position':p.tolist(),'target_position':target.tolist()}
         self.step += 1
         return action

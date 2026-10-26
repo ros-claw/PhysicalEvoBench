@@ -23,6 +23,22 @@ class ReferenceConfig:
     relative_drift_m: float = .025
     close_timeout_s: float = 1.2
     maximum_recoveries: int = 1
+    joint_integral_gain_s: float = 0.
+    joint_integral_limit_rad: float = .12
+
+
+class BoundedJointIntegral:
+    def __init__(self,gain,limit):
+        if not math.isfinite(gain) or not math.isfinite(limit) or gain<0 or not 0<limit<=.2:
+            raise ValueError('Finite nonnegative feedback gain and bounded joint offset required')
+        self.gain,self.limit,self.value=gain,limit,[0.]*7
+
+    def update(self,error,dt,active):
+        if len(error)!=7 or not all(math.isfinite(v) for v in error) or not math.isfinite(dt) or dt<=0:
+            raise ValueError('Seven finite joint errors and positive interval required')
+        self.value = ([max(-self.limit,min(self.limit,value+self.gain*dt*delta))
+                       for value,delta in zip(self.value,error,strict=True)] if active else [0.]*7)
+        return list(self.value)
 
 
 class ReferenceFSM:

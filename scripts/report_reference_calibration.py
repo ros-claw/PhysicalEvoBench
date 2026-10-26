@@ -9,7 +9,7 @@ from pathlib import Path
 from physicalevobench.doctor import save_json, sha256
 from physicalevobench.stability.audit import read
 from physicalevobench.v02.audit import audit_run, records
-from physicalevobench.v02.reference import ReferenceConfig, ReferenceFSM
+from physicalevobench.v02.reference import BoundedJointIntegral, ReferenceConfig, ReferenceFSM
 
 
 def report(directory):
@@ -23,7 +23,9 @@ def report(directory):
         ep = worker/'episodes'/row['episode_id']
         trace,frames = records(ep/'trace.jsonl.gz'),records(ep/'physics.jsonl.gz')
         initial = read(ep/'initial_capture.json')
-        fsm = ReferenceFSM(ReferenceConfig(**cfg['reference_config']))
+        config = ReferenceConfig(**cfg['reference_config'])
+        fsm = ReferenceFSM(config)
+        integral = BoundedJointIntegral(config.joint_integral_gain_s,config.joint_integral_limit_rad)
         phases,transitions = Counter(),[]
         errors = []
         for sample in trace:
@@ -32,6 +34,10 @@ def report(directory):
             decision = fsm.update(public,meta['control_dt'])
             if decision != diagnostic['decision']:
                 raise ValueError('Reference phase or state guard differs from raw observations')
+            if config.joint_integral_gain_s>0:
+                expected_bias=integral.update(diagnostic['joint_error_feedback_rad'],meta['control_dt'],decision['phase'] in ('lift','hold'))
+                if expected_bias!=diagnostic['bounded_joint_integral_rad']:
+                    raise ValueError('Reference bounded integral differs from observable feedback')
             if (public['ee_position'] != sample['ee_position'][0][0] or
                     public['object_position'] != sample['object_position'][0] or
                     public['object_velocity'] != sample['object_velocity'][0][:3] or
