@@ -36,6 +36,11 @@ class DiagnosticWorker(LiftWorker):
 
                 if callback:
                     env_cfg = callback(env_cfg)
+                if 'horizon_s' in self.diag_cfg:
+                    horizon = self.diag_cfg['horizon_s']
+                    if horizon not in (5.,10.) or self.diag_cfg.get('task_version') != f'state-reference-h{horizon:g}-v1':
+                        raise ValueError('Reference horizon must have a distinct registered task version')
+                    env_cfg.episode_length_s = horizon
                 env_cfg.terminations.v02_hard_boundary = TerminationTermCfg(func=hard_boundary)
                 env_cfg.scene.robot.spawn.activate_contact_sensors = True
                 for label, body in [('left', 'panda_leftfinger'), ('right', 'panda_rightfinger')]:
@@ -103,8 +108,12 @@ class DiagnosticWorker(LiftWorker):
                      'actuators': {k: str(v) for k, v in self.robot.cfg.actuators.items()},
                      'hard_boundary': {'finger_depth_m': .01, 'arm_depth_rad': .1},
                      'target_rate_caps': {'arm_rad_s': 1., 'finger_m_s': .04},
-                     'force_scope': 'ContactSensor net/pair forces; actuator command is not measured contact',
+                     'force_scope': 'ContactSensor net-normal and cube-filtered normal forces; tangential NOT_MEASURED',
+                     'pair_force_kind': 'PhysX pair force is normal_force_matrix_w; tangential force NOT_MEASURED',
                      'state_hook': 'scene.update after original, and recorder.record_pre_reset before autoreset'}
+        if 'task_version' in self.diag_cfg:
+            semantics.update(task_version=self.diag_cfg['task_version'],horizon_s=self.base.max_episode_length_s,
+                             reference_config=self.diag_cfg['reference_config'])
         save_json(self.output_dir/'control_semantics.json', semantics)
 
     def _snapshot(self, phase):
@@ -115,8 +124,8 @@ class DiagnosticWorker(LiftWorker):
         contacts = {}
         for name in ('left', 'right'):
             sensor = self.base.scene['v02_contact_'+name]
-            contacts[name] = {'net_force_w': self._optional(sensor.data, 'net_forces_w'),
-                              'cube_force_matrix_w': self._optional(sensor.data, 'force_matrix_w')}
+            contacts[name] = {'net_force_w': self._optional(sensor.data, 'net_normal_forces_w'),
+                              'cube_force_matrix_w': self._optional(sensor.data, 'normal_force_matrix_w')}
         return {'phase': phase, 'control_step': len(self.controls)-1,
                 'physics_step_global': self.base._sim_step_counter,
                 'joint_position': tensor_json(self.as_torch(self.robot.data.joint_pos)),
@@ -229,5 +238,7 @@ class DiagnosticWorker(LiftWorker):
         row.update(schema_version='0.2-diagnostic',
                    environment_id='PEB-Lift-v02-'+self.diag_cfg['mode']+'-'+self.diag_cfg['execution_layer'],
                    diagnostic=metrics, terminal_pre_reset_artifact=str((directory/'terminal_pre_reset.json').relative_to(self.output_dir)))
+        if 'task_version' in self.diag_cfg:
+            row['environment_id'] += '-'+self.diag_cfg['task_version']
         save_json(directory/'episode.json', row)
         return row

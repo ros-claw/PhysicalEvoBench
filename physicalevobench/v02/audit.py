@@ -127,6 +127,17 @@ def audit_run(directory):
                 'registered_budget': reg['physical_budget'], 'reason': status['reason']}
     if sum(p['physical_budget'] for p in reg['plans']) != reg['physical_budget']:
         raise ValueError('Registration budget mismatch')
+    if reg.get('frozen_reference_sha256'):
+        from physicalevobench.v02.reference_artifact import load
+
+        artifact_path = directory/'frozen_reference.json'
+        if sha256(artifact_path)!=reg['frozen_reference_sha256']:
+            raise ValueError('Frozen reference artifact changed')
+        artifact = load(artifact_path)
+        if artifact['source_commit']!=reg['source_commit'] or any(
+                plan[key]!=artifact[key] for plan in reg['plans'] for key in
+                ('reference_config','task_version','horizon_s','checkpoint_sha256')):
+            raise ValueError('Fresh worker plans differ from frozen executable reference')
     completed = []
     for plan in reg['plans']:
         worker = directory/plan['name']
@@ -145,6 +156,8 @@ def audit_run(directory):
             raise ValueError('Execution identity mismatch')
         if any(meta[k] != reg[k] for k in ('hard_boundary', 'target_rate_caps')):
             raise ValueError('Registered execution limits changed')
+        if 'task_version' in plan and any(meta[k] != plan[k] for k in ('task_version','horizon_s','reference_config')):
+            raise ValueError('Reference task horizon or controller configuration changed')
         for row, job, reservation in zip(recorded, plan['jobs'], ledger, strict=True):
             episode = worker/'episodes'/job['episode_id']
             if row != read(episode/'episode.json') or row['episode_id'] != job['episode_id'] or reservation['episode_id'] != job['episode_id']:
@@ -156,6 +169,8 @@ def audit_run(directory):
                     abs(state['mass_readback_kg'][0][0]-job['condition']['object_mass_kg']) > 1e-5):
                 raise ValueError('Condition or physical mass mismatch')
             expected_id = 'PEB-Lift-v02-'+plan['mode']+'-'+plan['execution_layer']
+            if 'task_version' in plan:
+                expected_id += '-'+plan['task_version']
             if row['environment_id'] != expected_id or row['schema_version'] != '0.2-diagnostic':
                 raise ValueError('Versioned environment identity mismatch')
             trace_path = worker/row['trace_artifact']

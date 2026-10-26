@@ -7,6 +7,22 @@ its frozen version helps on independent conditions. The initial v0.1 track uses 
 Isaac Lab-Arena/PhysX, object mass perturbations, frozen official RSL-RL weights and bounded arm gain.
 Later experiments add actual PPO weight updates. The tasks use privileged state observations.
 
+## State-based reference calibration (later on 2026-10-26)
+
+**A separately versioned ten-second reference task passed finite independent calibration.**
+The state-based teacher verifies pose, bilateral contact and object-follow before lifting;
+bounded joint-error integration addresses the heavy-load tracking failure. Independent
+v2 effective holds are **6/6 at 0.1 kg and 5/6 at 0.4 kg**, with **0/12** for its
+open-gripper control and no registered joint-position violations. V1's failed heavy-load
+confirmation and the original five-second failure are preserved. This stage ran **64
+diagnostic episodes**, including four separately budgeted parameter-activation checks.
+No PPO training or actual autonomous-Agent comparison ran; this is a calibrated reference,
+not proof of stable self-evolution.
+
+[本轮完整报告](docs/implementation/STATE_REFERENCE_实施报告_20261026.md) ·
+[Frozen reference protocol](docs/experiments/STATE_REFERENCE_V2_PROTOCOL_20261026.md) ·
+[Evidence](docs/evidence/state-reference-20261026).
+
 ## v0.2 physical diagnosis and calibration (2026-10-26)
 
 **The reference calibration failed; actual Agent learning comparisons remain gated off.**

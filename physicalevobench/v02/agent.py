@@ -13,6 +13,8 @@ import os
 from dataclasses import asdict, dataclass
 from pathlib import Path
 
+from physicalevobench.v02.reference_artifact import ReferenceSkill
+
 
 @dataclass(frozen=True)
 class Phase:
@@ -81,6 +83,8 @@ class SkillProgram:
 class AgentAdapter:
     """Evaluator-owned tools. The model/tool caller itself is external to this API."""
 
+    program_class = SkillProgram
+
     def __init__(self, observe, trial, validate, trial_budget, validation_budget, ledger_path,
                  condition_handles=None):
         if any(type(n) is not int or n < 0 for n in (trial_budget, validation_budget)):
@@ -113,7 +117,7 @@ class AgentAdapter:
     def propose(self, payload):
         if self.frozen:
             raise ValueError('Session already frozen')
-        program = SkillProgram.from_dict(payload)
+        program = self.program_class.from_dict(payload)
         self.programs[program.sha256] = program
         return program.sha256
 
@@ -160,3 +164,20 @@ class AgentAdapter:
             del self.programs[reference]
             raise ValueError('Frozen artifact digest mismatch')
         return reference
+
+
+class ReferenceAgentAdapter(AgentAdapter):
+    """Budgeted tools for a frozen reference and two bounded control parameters."""
+
+    program_class = ReferenceSkill
+
+    def __init__(self,*args,base_reference,**kwargs):
+        from physicalevobench.v02.reference_artifact import validate
+
+        validate(base_reference)
+        self.base_reference = json.loads(json.dumps(base_reference))
+        super().__init__(*args,**kwargs)
+
+    def propose(self,payload):
+        self.program_class.from_dict(payload).configuration(self.base_reference)
+        return super().propose(payload)

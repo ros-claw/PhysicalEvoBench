@@ -10,6 +10,9 @@ from pathlib import Path
 from audit_stability_study import verify
 from diagnose_stability_study import diagnose
 from report_v02_diagnostics import report as report_v02
+from report_reference_calibration import report as report_reference
+from report_reference_calibration import controller_identities, terminal_followup
+from run_reference_parameter_effects import report as report_reference_parameters
 
 from physicalevobench.doctor import save_json, sha256
 from physicalevobench.stability.audit import assert_pairs, audit_worker, read, rows
@@ -54,6 +57,22 @@ def main():
             checked_sources += 1
         if reg.get('schema') == 'v02-diagnostics-1':
             v02.append(audit_v02(registration.parent))
+            if (registration.parent/'reference_diagnosis.json').exists():
+                stored_reference = read(registration.parent/'reference_diagnosis.json')
+                if report_reference(registration.parent) != stored_reference:
+                    raise ValueError('Reference state transitions, development or confirmation gate changed')
+            if (registration.parent/'parameter_effects.json').exists():
+                stored_parameters = read(registration.parent/'parameter_effects.json')
+                if report_reference_parameters(registration.parent)!=stored_parameters:
+                    raise ValueError('Reference parameter activation report changed')
+            if (registration.parent/'reference_terminal_followup.json').exists():
+                stored_terminal=read(registration.parent/'reference_terminal_followup.json')
+                if terminal_followup(registration.parent)!=stored_terminal:
+                    raise ValueError('Reference post-hold or terminal followup changed')
+            if (registration.parent/'controller_identity.json').exists():
+                stored_identity=read(registration.parent/'controller_identity.json')
+                if controller_identities(registration.parent)!=stored_identity:
+                    raise ValueError('Reference executable program identity changed')
             if (registration.parent/'diagnosis.json').exists():
                 stored = read(registration.parent/'diagnosis.json')
                 stored_csv = (registration.parent/'episode_metrics.csv').read_bytes()
