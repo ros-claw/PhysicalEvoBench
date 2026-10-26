@@ -127,6 +127,17 @@ def audit_run(directory):
                 'registered_budget': reg['physical_budget'], 'reason': status['reason']}
     if sum(p['physical_budget'] for p in reg['plans']) != reg['physical_budget']:
         raise ValueError('Registration budget mismatch')
+    if reg.get('frozen_reference_sha256'):
+        from physicalevobench.v02.reference_artifact import load
+
+        artifact_path = directory/'frozen_reference.json'
+        if sha256(artifact_path)!=reg['frozen_reference_sha256']:
+            raise ValueError('Frozen reference artifact changed')
+        artifact = load(artifact_path)
+        if artifact['source_commit']!=reg['source_commit'] or any(
+                plan[key]!=artifact[key] for plan in reg['plans'] for key in
+                ('reference_config','task_version','horizon_s','checkpoint_sha256')):
+            raise ValueError('Fresh worker plans differ from frozen executable reference')
     completed = []
     for plan in reg['plans']:
         worker = directory/plan['name']

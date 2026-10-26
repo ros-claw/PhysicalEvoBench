@@ -22,6 +22,7 @@ def report(directory):
         cfg,meta = read(worker/'config.json'),read(worker/'control_semantics.json')
         ep = worker/'episodes'/row['episode_id']
         trace,frames = records(ep/'trace.jsonl.gz'),records(ep/'physics.jsonl.gz')
+        initial = read(ep/'initial_capture.json')
         fsm = ReferenceFSM(ReferenceConfig(**cfg['reference_config']))
         phases,transitions = Counter(),[]
         errors = []
@@ -36,6 +37,19 @@ def report(directory):
                     public['object_velocity'] != sample['object_velocity'][0][:3] or
                     public['goal_position'] != sample['goal_position_world'][0]):
                 raise ValueError('Reference public geometry differs from trace')
+            fingers = [i for i,n in enumerate(meta['joint_names']) if 'finger' in n]
+            if public['finger_position'] != [sample['joint_position'][0][i] for i in fingers]:
+                raise ValueError('Reference finger aperture differs from physical trace')
+            previous_frame = initial if sample['step']==0 else frames[sample['step']*meta['decimation']-1]
+            def force_magnitude(value):
+                if isinstance(value[0],list):
+                    return max(force_magnitude(v) for v in value)
+                return math.sqrt(sum(v*v for v in value))
+
+            contacts = [force_magnitude(previous_frame['contacts'][side]['cube_force_matrix_w']['value'])
+                        for side in ('left','right')]
+            if any(not math.isclose(a,b,rel_tol=1e-6,abs_tol=1e-4) for a,b in zip(contacts,public['cube_contact_force'],strict=True)):
+                raise ValueError('Reference contact guard differs from preceding physics sample')
             q = public['ee_quaternion_xyzw']
             angle = 2*math.acos(min(1.,abs(q[0])/math.sqrt(sum(v*v for v in q))))
             if not math.isclose(angle,public['orientation_error'],abs_tol=1e-3):

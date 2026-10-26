@@ -10,6 +10,7 @@ from pathlib import Path
 from audit_stability_study import verify
 from diagnose_stability_study import diagnose
 from report_v02_diagnostics import report as report_v02
+from report_reference_calibration import report as report_reference
 
 from physicalevobench.doctor import save_json, sha256
 from physicalevobench.stability.audit import assert_pairs, audit_worker, read, rows
@@ -54,6 +55,10 @@ def main():
             checked_sources += 1
         if reg.get('schema') == 'v02-diagnostics-1':
             v02.append(audit_v02(registration.parent))
+            if (registration.parent/'reference_diagnosis.json').exists():
+                stored_reference = read(registration.parent/'reference_diagnosis.json')
+                if report_reference(registration.parent) != stored_reference:
+                    raise ValueError('Reference state transitions, development or confirmation gate changed')
             if (registration.parent/'diagnosis.json').exists():
                 stored = read(registration.parent/'diagnosis.json')
                 stored_csv = (registration.parent/'episode_metrics.csv').read_bytes()

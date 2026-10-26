@@ -3,6 +3,7 @@
 import argparse
 import json
 import random
+import shutil
 from dataclasses import asdict
 from pathlib import Path
 
@@ -14,6 +15,7 @@ from physicalevobench.stability.audit import read, rows
 from physicalevobench.stability.study import launch
 from physicalevobench.v02.audit import audit_run
 from physicalevobench.v02.reference import ReferenceConfig
+from physicalevobench.v02.reference_artifact import freeze, load
 
 
 def main():
@@ -49,6 +51,14 @@ def main():
         # Reuse exact development runtime, not a newer untested controller.
         ref = registered['source_commit']
         source,hashes = snapshot_source(root,ref)
+        artifact = frozen/'frozen_reference.json'
+        payload = {'schema':'state-reference-artifact-1','source_commit':ref,
+                   **{key:plan[key] for key in ('reference_config','horizon_s','task_version','checkpoint_sha256')}}
+        if not artifact.exists():
+            freeze(payload,artifact)
+        if load(artifact)!=payload:
+            raise ValueError('Frozen reference does not match qualified development')
+        configuration = load(artifact)['reference_config']
     checkpoint = '/home/dell/models/physicalevobench/franka_lift/model_1999.pt'
     model_hash = sha256(checkpoint)
     if model_hash != 'babbbfd363f894443ffe494f26c5b6e0485fb35d4f5480c088295c23fc2a13aa':
@@ -105,6 +115,8 @@ def main():
               'physical_budget':count,'jobs':[{'episode_id':f'{c}-{i:03d}','condition':condition}
                                             for i,condition in enumerate(conditions)]} for c in controllers]
     out.mkdir(parents=True,exist_ok=False)
+    if frozen is not None:
+        shutil.copyfile(frozen/'frozen_reference.json',out/'frozen_reference.json')
     save_json(out/'registration.json',{'schema':'v02-diagnostics-1','phase':'reference-'+a.phase,
               'source_commit':ref,'runtime_source':str(source),'source_sha256':hashes,
               'launcher_commit':command(['git','rev-parse','HEAD'],cwd=root)['stdout'],
@@ -116,6 +128,7 @@ def main():
               'protocol':('docs/experiments/STATE_REFERENCE_H10_PROTOCOL_20261026.md' if a.horizon==10. else
                           'docs/experiments/STATE_REFERENCE_PROTOCOL_20261026.md'),
               'frozen_development':None if frozen is None else {'path':str(frozen),'registration_sha256':sha256(frozen/'registration.json')},
+              'frozen_reference_sha256':None if frozen is None else sha256(out/'frozen_reference.json'),
               'score_role':'reference calibration; never self-evolution efficacy'})
     completed = []
     try:

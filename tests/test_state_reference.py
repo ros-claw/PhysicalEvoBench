@@ -42,3 +42,25 @@ def test_contact_enters_probe_but_object_follow_is_required_before_goal_lift():
     result=advance(fsm,{**grasp,'ee_position':[.5,0,.075],'object_position':[.5,0,.07]})
     assert result['phase']=='lift'
     assert result['transition_reason']=='object_follows_probe_not_contact_alone'
+
+
+def test_reference_freezes_and_loads_only_the_same_controller_and_task(tmp_path):
+    import json
+    from dataclasses import asdict
+
+    import pytest
+
+    from physicalevobench.v02.reference import ReferenceConfig
+    from physicalevobench.v02.reference_artifact import freeze, load
+
+    payload={'schema':'state-reference-artifact-1','source_commit':'a'*40,
+             'reference_config':asdict(ReferenceConfig()),'horizon_s':10.,
+             'task_version':'state-reference-h10-v1','checkpoint_sha256':'b'*64}
+    path=tmp_path/'skill.json'
+    freeze(payload,path)
+    assert load(path)==payload
+    value=json.loads(path.read_text())
+    value['payload']['horizon_s']=5.
+    path.write_text(json.dumps(value))
+    with pytest.raises(ValueError,match='digest'):
+        load(path)
