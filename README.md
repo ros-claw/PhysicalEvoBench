@@ -7,6 +7,24 @@ its frozen version helps on independent conditions. The initial v0.1 track uses 
 Isaac Lab-Arena/PhysX, object mass perturbations, frozen official RSL-RL weights and bounded arm gain.
 Later experiments add actual PPO weight updates. The tasks use privileged state observations.
 
+## v0.2 physical diagnosis and calibration (2026-10-26)
+
+**The reference calibration failed; actual Agent learning comparisons remain gated off.**
+This stage added live physical target bounds, post-physics substep recording and terminal
+capture before autoreset, without changing historical scores. It completed **153 diagnostic
+episodes, 35,333 control steps and 141,332 physics samples**, with zero new training.
+The selected representative cases showed fewer severe events under bounded targets but
+no task completions; target bounds did not prevent every actual state violation.
+The 96-episode startup/reset experiment had a zero-success floor. Original, geometric
+teacher and open-gripper reference arms each achieved **0/12 effective holds** in the
+36-episode calibration, so W3 did not pass. The narrow artifact/tool API is CPU-tested;
+it is not an executed autonomous Agent or evidence of self-evolution.
+
+[阶段实施报告](docs/implementation/V02_阶段实施报告_20261026.md) ·
+[Physical diagnosis](docs/experiments/V02_PHYSICS_DIAGNOSIS.md) ·
+[Calibration and stop gate](docs/experiments/V02_CALIBRATION.md) ·
+[Publicly re-audited evidence](docs/evidence/v02-physics-20261026).
+
 ## Three-seed, three-round confirmation (registered 2026-10-24)
 
 **Stable self-evolution was not established. All five registered scientific gates failed.**
