@@ -146,6 +146,15 @@ class DiagnosticWorker(LiftWorker):
                     term = self.base.action_manager.get_term(name)
                     term._processed_actions[:] = torch.tensor(
                         [[constrained['applied_target'][i] for i in indices]], device=action.device)
+            actual_targets = [None]*len(self.robot.joint_names)
+            for name, indices in self.joint_indices.items():
+                term = self.base.action_manager.get_term(name)
+                for index, value in zip(indices, term.processed_actions[0].tolist(), strict=True):
+                    actual_targets[index] = value
+            constrained['requested_bounded_target'] = constrained['applied_target']
+            constrained['applied_target'] = actual_targets
+            if self.diag_cfg['execution_layer']=='TargetBounded':
+                self.layer.previous = actual_targets
             self.controls.append({'control_step': len(self.controls),
                                   'network_proposal': tensor_json(self.last_network_proposal),
                                   'accepted_raw_action': tensor_json(action), **constrained})

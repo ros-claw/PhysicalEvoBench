@@ -33,8 +33,24 @@ def episode_metrics(directory, semantics):
             raise ValueError('Action sequence changed')
         if meta['execution_layer'] == 'TargetBounded':
             result = layer.apply(control['processed_target'])
-            if any(abs(a-b) > 1e-7 for a, b in zip(result['applied_target'], control['applied_target'], strict=True)):
+            if any(not math.isclose(a,b,rel_tol=1e-6,abs_tol=1e-7)
+                   for a,b in zip(result['applied_target'],control['applied_target'],strict=True)):
                 raise ValueError('Physical target envelope mismatch')
+            layer.previous = control['applied_target']
+        expected = [None]*len(names)
+        raw = control['accepted_raw_action'][0]
+        for term_name, term in meta['action_terms'].items():
+            mapping = term['mapping']
+            if term_name == 'arm_action':
+                targets = [v*term['scale']+offset for v,offset in zip(
+                    raw[mapping['start']:mapping['stop']],term['offset'][0],strict=True)]
+            else:
+                targets = term['close_command'] if raw[mapping['start']] < 0 else term['open_command']
+            for name,value in zip(mapping['joint_names'],targets,strict=True):
+                expected[names.index(name)] = value
+        if any(not math.isclose(a,b,rel_tol=1e-6,abs_tol=1e-7)
+               for a,b in zip(expected,control['processed_target'],strict=True)):
+            raise ValueError('Raw action to physical target mapping mismatch')
     first, maximum, durations = None, [0.]*len(names), [0.]*len(names)
     holding_samples = {}
     previous = initial['physics_step_global']

@@ -83,7 +83,8 @@ def main():
     completed=[]
     try:
         for plan in plans:
-            child=out/plan['name'];child.mkdir()
+            child=out/plan['name']
+            child.mkdir()
             save_json(child/'config.json',plan)
             save_json(child/'worker_reservation.json',{'episodes':plan['physical_budget'],'reserved_at':now()})
             load=command(['nvidia-smi','--query-gpu=index,uuid,memory.used,utilization.gpu','--format=csv,noheader'])
@@ -104,7 +105,11 @@ def main():
         save_json(out/'status.json',{'status':'COMPLETED','episodes':len(completed),'finished_at':now()})
         print({'status':'COMPLETED','episodes':len(completed)})
     except Exception as error:
-        save_json(out/'status.json',{'status':'INFRA_FAILURE','episodes':len(completed),'error':str(error),'at':now()})
+        physical = [json.loads(line) for path in out.glob('*/episodes/*/upstream.jsonl')
+                    for line in path.read_text().splitlines() if line.strip()]
+        save_json(out/'status.json',{'status':'INFRA_FAILURE','audited_episodes':len(completed),
+                  'completed_physics_episodes':sum(row.get('episode_length',0)>0 for row in physical),
+                  'error':str(error),'at':now()})
         raise
 
 
