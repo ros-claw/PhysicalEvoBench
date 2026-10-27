@@ -124,3 +124,27 @@ def test_cyclic_program_exhaustion_latches_open_instead_of_resetting_budget():
     for _ in range(20):
         assert fsm.update(obs,.02)['phase']=='failed'
     assert fsm.transitions==65
+
+
+def test_place_does_not_bridge_missing_control_samples():
+    initial,frames=place_frames()
+    frames[10]['control_step']=100
+    with pytest.raises(ValueError,match='Continuous'):
+        place_metrics(initial,frames)
+
+
+def test_evidence_extraction_rejects_absolute_paths_and_links():
+    import io
+    import tarfile
+
+    from physicalevobench.core.delivery import safe_members
+    for name,kind in [('../escape',tarfile.REGTYPE),('/absolute',tarfile.REGTYPE),('link',tarfile.SYMTYPE)]:
+        buf=io.BytesIO()
+        with tarfile.open(fileobj=buf,mode='w') as archive:
+            info=tarfile.TarInfo(name)
+            info.type=kind
+            archive.addfile(info)
+        buf.seek(0)
+        with tarfile.open(fileobj=buf,mode='r') as archive:
+            with pytest.raises(ValueError,match='safe'):
+                list(safe_members(archive))

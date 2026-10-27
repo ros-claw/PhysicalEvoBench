@@ -10,6 +10,8 @@ def place_metrics(initial,frames,control_dt=.02):
     target=[origin[0]+.12,origin[1]+.12,.021]
     # The last post-physics sample of every control is the scoring sample.
     controls={f['control_step']:f for f in frames}
+    if list(controls)!=list(range(len(controls))):
+        raise ValueError('Continuous ordered control samples required')
     lifted=transported=False
     run=maximum=0
     first=None
