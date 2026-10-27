@@ -125,6 +125,9 @@ def run(root,out,reference,gpu,model,b1,after_b1=False,participant_command=None,
                 read(previous.parent/'status.json')['status']!='CANCELLED_BEFORE_LAUNCH'):
             raise ValueError('The single initial Agent pilot was already reserved; no outcome-based retry')
     base=load_reference(reference)
+    calibration=read(b1/'registration.json')
+    if calibration.get('baseline_reference_file_sha256')!=sha256(reference):
+        raise ValueError('Pilot reference differs from its registered calibration input')
     source_commit=command(['git','rev-parse','HEAD'],cwd=root)['stdout']
     make_payload=partial(payload,executor_commit=source_commit)
     transport=participant_command or ['codex']
