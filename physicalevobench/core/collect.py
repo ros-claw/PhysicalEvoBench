@@ -73,6 +73,7 @@ def main():
                     from physicalevobench.core.metrics import place_metrics
                     row['place']=place_metrics(worker.initial_capture,worker.frames)
                     row['success']=row['place']['success']
+                    row['failure_type']=None if row['success'] else 'place_task_not_completed'
                 save_json(out/'episodes'/job['episode_id']/'episode.json',row)
                 completed.append(row)
                 (out/'episodes.jsonl').write_text(''.join(json.dumps(r)+'\n' for r in completed))

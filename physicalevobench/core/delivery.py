@@ -36,6 +36,8 @@ def package(root,out,studies):
                 for key in ('source_commit','launcher_commit'):
                     if data.get(key):
                         commits.add(data[key])
+            if f.name=='prelaunch_recovery.json':
+                commits.add(json.loads(f.read_text())['recovery_launcher_commit'])
             if f.name=='source_identity.json':
                 commits.add(json.loads(f.read_text())['commit'])
     groups=[]

@@ -167,3 +167,22 @@ def test_program_skip_probe_keeps_current_grasp_frame_instead_of_initial_ee_offs
         decision=fsm.update(obs,.02)
     assert decision['program_node']=='lift'
     assert fsm.offset==pytest.approx([0,0,.005])
+
+
+def test_place_feedback_uses_place_result_instead_of_auxiliary_lift_flags(tmp_path):
+    import gzip
+
+    from physicalevobench.core.pilot import public_feedback
+    trace=tmp_path/'trace.jsonl.gz'
+    with gzip.open(trace,'wt') as stream:
+        stream.write(json.dumps({'step':0,'policy_diagnostics':{'public':{},'decision':{'phase':'hold'}}})+'\n')
+    row={'success':True,'steps':1000,'failure_type':'effective_task_not_completed',
+         'termination_reason':'horizon','trace_artifact':trace.name,
+         'diagnostic':{'holding':{'maximum_holding_span_s':0.},'first_violation':None,'hard_boundary_terminated':False},
+         'place':{'success':True,'maximum_stable_span_s':.8}}
+    feedback=public_feedback(tmp_path,row)
+    assert feedback['effective_success'] and feedback['failure_reason'] is None
+    assert feedback['holding_span_s']==.8
+    row['success']=False
+    row['failure_type']=None
+    assert public_feedback(tmp_path,row)['failure_reason']=='place_task_not_completed'

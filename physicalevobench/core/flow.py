@@ -314,8 +314,9 @@ def run(root,out,pilot,confirmation,gpu):
         value=load(out/f'{method}-final.json')
         evaluate(root,out,source,base,gpu,'final-'+method,value,'place',groups['heldout'])
         evaluate(root,out,source,base,gpu,'retention-'+method,value,'lift',retention)
+    result=summarize(out)
     save_json(out/'status.json',{'status':'COMPLETED','at':now()})
-    print(json.dumps(summarize(out),indent=2))
+    print(json.dumps(result,indent=2))
 
 
 def main():

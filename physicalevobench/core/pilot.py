@@ -84,8 +84,10 @@ def public_feedback(directory,row):
     samples=[{'step':s['step'],**s['policy_diagnostics']['public'],
               'phase':s['policy_diagnostics']['decision']['phase']} for s in trace[::50]]
     return {'effective_success':row['success'],'steps':row['steps'],'cost_episodes':1,
-            'failure_reason':row['failure_type'],'termination_reason':row['termination_reason'],
-            'holding_span_s':diagnostic['holding']['maximum_holding_span_s'],
+            'failure_reason':(None if row['success'] else ('place_task_not_completed' if row.get('place') else row['failure_type'])),
+            'termination_reason':row['termination_reason'],
+            'holding_span_s':(row['place']['maximum_stable_span_s'] if row.get('place') else
+                              diagnostic['holding']['maximum_holding_span_s']),
             'registered_position_violation':diagnostic['first_violation'] is not None,
             'public_state_samples':samples,'hard_event':diagnostic['hard_boundary_terminated']}
 
@@ -273,9 +275,10 @@ def run(root,out,reference,gpu,model,b1,after_b1=False,participant_command=None,
                 session.trial(trial_job(base,skill,c,identity,i))
         finally:
             session.close()
-    save_json(out/'status.json',{'status':'COMPLETED','finished_at':now()})
     from physicalevobench.core.audit import audit_pilot
-    print(json.dumps(audit_pilot(out),indent=2))
+    result=audit_pilot(out)
+    save_json(out/'status.json',{'status':'COMPLETED','finished_at':now()})
+    print(json.dumps(result,indent=2))
 
 
 def main():
