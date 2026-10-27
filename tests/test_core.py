@@ -65,7 +65,8 @@ def test_place_requires_physical_release_transport_and_full_stable_span():
     assert not place_metrics(*place_frames(count=25))['success']
     assert not place_metrics(*place_frames(finger_position=[.02,.02]))['success']
     assert not place_metrics(*place_frames(ee_position_world=[[.62,.12,.03]]))['success']
-    assert not place_metrics(initial,frames[2:])['success']  # no prior lift
+    no_lift=[{**f,'control_step':i} for i,f in enumerate(frames[2:])]
+    assert not place_metrics(initial,no_lift)['success']  # no prior lift
     assert not place_metrics(*place_frames(object_velocity=[[.2,0,0,0,0,0]]))['success']
 
 
