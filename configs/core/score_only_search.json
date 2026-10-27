@@ -1,0 +1,1 @@
+{"schema":"core-method-1","method":"score_only_search","track":"P","initial_reference":"configs/core/frozen_reference.json","learning_episode_budget":8,"candidate_distribution":"initial_then_uniform_7","proposal_seed":2026102704,"score_information":"boolean_task_outcome_only","online_model_calls_per_test_episode":0}

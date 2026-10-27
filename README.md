@@ -7,6 +7,23 @@ its frozen version helps on independent conditions. The initial v0.1 track uses 
 Isaac Lab-Arena/PhysX, object mass perturbations, frozen official RSL-RL weights and bounded arm gain.
 Later experiments add actual PPO weight updates. The tasks use privileged state observations.
 
+## Core benchmark development (2026-10-27)
+
+The new [Benchmark Card](BENCHMARK_CARD.md) separates parameter adaptation from bounded
+skill-program learning, with matched budgets, actual-model tools, frozen artifacts,
+independent test instances and artifact deletion. T0 keeps the calibrated ten-second
+score; T1 Pick–Transport–Place has its own feasibility and independent reference gate.
+This is a development Alpha contract, not a claim of stable learning or a new release.
+
+[Lightweight participant quickstart](docs/core/QUICKSTART.md) ·
+[Registered stage budgets](docs/core/CORE_PROTOCOL_20261027.md) ·
+[Program schema](docs/core/S_PROGRAM_SCHEMA.md).
+
+```bash
+uv run physicalevobench-core smoke                         # CPU only, zero physics
+uv run physicalevobench-core audit --run-dir /path/to/run # offline evidence recomputation
+```
+
 ## State-based reference calibration (later on 2026-10-26)
 
 **A separately versioned ten-second reference task passed finite independent calibration.**

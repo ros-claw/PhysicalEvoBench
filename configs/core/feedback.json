@@ -1,0 +1,1 @@
+{"schema":"core-method-1","method":"feedback_persistent","track":"P","initial_reference":"configs/core/frozen_reference.json","learning_episode_budget":8,"transport":"codex_or_generic_stdin","model":"gpt-6.1-terra","model_call_budget":12,"input_token_budget":250000,"output_token_budget":24000,"timeout_per_call_s":120,"online_model_calls_per_test_episode":0}
