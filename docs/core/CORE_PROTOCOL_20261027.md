@@ -165,3 +165,25 @@ learning seed/budget. T1 dev003 had already started after that terminal status; 
 it finish and queue recovered T0 learning after its native worker exits. No T1
 feedback is given to the T0 participant. Further confirmation/flow waits for the
 actual Agent pilot. Dependent launches now require the derived result to exist.
+
+## Sole T1 development correction (the remaining four episodes)
+
+Initial T1 dev003's first three completed positive episodes all failed the same
+unchanged place criterion after actual lift and transport. The3/4 gate is already
+unreachable; register exactly one correction on four fresh positives (two per
+calibrated mass), bringing actual development reservation to12. Keep original8
+outcomes. No new negative development trials and no further corrective configuration.
+
+One graph candidate only: release/retreat/done `mode=hold` keeps existing bounded
+joint feedback active while the gripper opens; release minimum increases from0.35s
+to0.70s before retreat. At the original release, the mode reset clears integral
+bias while fingers still need rate-limited opening. This is a new-task feasibility
+hypothesis, not established unique causality. No changes to IK, integral gain/limit,
+drives, scoring,20s horizon or T0 reference. Require≥3/4 corrected positives and no
+hard event to freeze. Then one independent confirmation12 with its own6 forced-open;
+if either gate fails, stop T1/transfer claims and record the negative result.
+
+The correction is a developer task-feasibility change, explicitly not Agent learning.
+The task-flow starting library must use that exact frozen confirmed graph for all
+methods. P learning remains queued after initial T1 dev, correction after P learning;
+all run sequentially. No development outcome is sent to the T0 model participant.
