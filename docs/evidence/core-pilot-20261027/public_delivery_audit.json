@@ -1,0 +1,424 @@
+{
+  "schema": "core-delivery-audit-1",
+  "status": "PASS",
+  "raw_files": 1455,
+  "registered_source_checks": 888,
+  "studies": {
+    "peb-core-b1-20261027-001": {
+      "schema": "core-parameter-space-results-1",
+      "audit": {
+        "status": "PASS",
+        "phase": "core-parameter-space-1",
+        "episodes": 48,
+        "scope": "registration, reservations, model IDs, mass, upstream completions, actions, substeps and terminal recomputed; no efficacy claim"
+      },
+      "workers": [
+        {
+          "worker": "grid-00",
+          "skill": {
+            "schema": "reference-skill-1",
+            "base_reference_sha256": "3afd2f34102079831e4cddba8ed8a8eb8a99809754ed7adf52695a5dda09f282",
+            "approach_clearance_m": 0.12,
+            "minimum_close_s": 0.45
+          },
+          "successes": 3,
+          "episodes": 4,
+          "by_condition": {
+            "core-b1-dev-03": false,
+            "core-b1-dev-02": true,
+            "core-b1-dev-00": true,
+            "core-b1-dev-01": true
+          },
+          "holding_spans_s": [
+            0.0,
+            3.3200000000000003,
+            4.0,
+            3.72
+          ]
+        },
+        {
+          "worker": "grid-01",
+          "skill": {
+            "schema": "reference-skill-1",
+            "base_reference_sha256": "3afd2f34102079831e4cddba8ed8a8eb8a99809754ed7adf52695a5dda09f282",
+            "approach_clearance_m": 0.1,
+            "minimum_close_s": 0.2
+          },
+          "successes": 4,
+          "episodes": 4,
+          "by_condition": {
+            "core-b1-dev-01": true,
+            "core-b1-dev-03": true,
+            "core-b1-dev-02": true,
+            "core-b1-dev-00": true
+          },
+          "holding_spans_s": [
+            3.8000000000000003,
+            3.7,
+            3.24,
+            3.98
+          ]
+        },
+        {
+          "worker": "grid-02",
+          "skill": {
+            "schema": "reference-skill-1",
+            "base_reference_sha256": "3afd2f34102079831e4cddba8ed8a8eb8a99809754ed7adf52695a5dda09f282",
+            "approach_clearance_m": 0.1,
+            "minimum_close_s": 0.7
+          },
+          "successes": 4,
+          "episodes": 4,
+          "by_condition": {
+            "core-b1-dev-02": true,
+            "core-b1-dev-03": true,
+            "core-b1-dev-01": true,
+            "core-b1-dev-00": true
+          },
+          "holding_spans_s": [
+            3.08,
+            3.5,
+            3.48,
+            3.74
+          ]
+        },
+        {
+          "worker": "identity-0",
+          "skill": {
+            "schema": "reference-skill-1",
+            "base_reference_sha256": "3afd2f34102079831e4cddba8ed8a8eb8a99809754ed7adf52695a5dda09f282",
+            "approach_clearance_m": 0.1,
+            "minimum_close_s": 0.2
+          },
+          "successes": 4,
+          "episodes": 4,
+          "by_condition": {
+            "core-b1-dev-03": true,
+            "core-b1-dev-02": true,
+            "core-b1-dev-01": true,
+            "core-b1-dev-00": true
+          },
+          "holding_spans_s": [
+            3.7,
+            3.24,
+            3.74,
+            3.98
+          ]
+        },
+        {
+          "worker": "grid-03",
+          "skill": {
+            "schema": "reference-skill-1",
+            "base_reference_sha256": "3afd2f34102079831e4cddba8ed8a8eb8a99809754ed7adf52695a5dda09f282",
+            "approach_clearance_m": 0.08,
+            "minimum_close_s": 0.2
+          },
+          "successes": 4,
+          "episodes": 4,
+          "by_condition": {
+            "core-b1-dev-03": true,
+            "core-b1-dev-02": true,
+            "core-b1-dev-00": true,
+            "core-b1-dev-01": true
+          },
+          "holding_spans_s": [
+            3.54,
+            3.16,
+            3.96,
+            3.74
+          ]
+        },
+        {
+          "worker": "grid-04",
+          "skill": {
+            "schema": "reference-skill-1",
+            "base_reference_sha256": "3afd2f34102079831e4cddba8ed8a8eb8a99809754ed7adf52695a5dda09f282",
+            "approach_clearance_m": 0.08,
+            "minimum_close_s": 0.45
+          },
+          "successes": 4,
+          "episodes": 4,
+          "by_condition": {
+            "core-b1-dev-03": true,
+            "core-b1-dev-01": true,
+            "core-b1-dev-00": true,
+            "core-b1-dev-02": true
+          },
+          "holding_spans_s": [
+            3.2600000000000002,
+            3.68,
+            3.86,
+            3.22
+          ]
+        },
+        {
+          "worker": "grid-05",
+          "skill": {
+            "schema": "reference-skill-1",
+            "base_reference_sha256": "3afd2f34102079831e4cddba8ed8a8eb8a99809754ed7adf52695a5dda09f282",
+            "approach_clearance_m": 0.12,
+            "minimum_close_s": 0.7
+          },
+          "successes": 4,
+          "episodes": 4,
+          "by_condition": {
+            "core-b1-dev-01": true,
+            "core-b1-dev-03": true,
+            "core-b1-dev-02": true,
+            "core-b1-dev-00": true
+          },
+          "holding_spans_s": [
+            3.54,
+            3.56,
+            3.1,
+            3.8000000000000003
+          ]
+        },
+        {
+          "worker": "identity-1",
+          "skill": {
+            "schema": "reference-skill-1",
+            "base_reference_sha256": "3afd2f34102079831e4cddba8ed8a8eb8a99809754ed7adf52695a5dda09f282",
+            "approach_clearance_m": 0.1,
+            "minimum_close_s": 0.2
+          },
+          "successes": 4,
+          "episodes": 4,
+          "by_condition": {
+            "core-b1-dev-03": true,
+            "core-b1-dev-01": true,
+            "core-b1-dev-00": true,
+            "core-b1-dev-02": true
+          },
+          "holding_spans_s": [
+            3.4,
+            3.74,
+            3.98,
+            3.2600000000000002
+          ]
+        },
+        {
+          "worker": "grid-06",
+          "skill": {
+            "schema": "reference-skill-1",
+            "base_reference_sha256": "3afd2f34102079831e4cddba8ed8a8eb8a99809754ed7adf52695a5dda09f282",
+            "approach_clearance_m": 0.1,
+            "minimum_close_s": 0.45
+          },
+          "successes": 4,
+          "episodes": 4,
+          "by_condition": {
+            "core-b1-dev-02": true,
+            "core-b1-dev-03": true,
+            "core-b1-dev-00": true,
+            "core-b1-dev-01": true
+          },
+          "holding_spans_s": [
+            3.2800000000000002,
+            3.74,
+            3.94,
+            3.66
+          ]
+        },
+        {
+          "worker": "grid-07",
+          "skill": {
+            "schema": "reference-skill-1",
+            "base_reference_sha256": "3afd2f34102079831e4cddba8ed8a8eb8a99809754ed7adf52695a5dda09f282",
+            "approach_clearance_m": 0.08,
+            "minimum_close_s": 0.7
+          },
+          "successes": 4,
+          "episodes": 4,
+          "by_condition": {
+            "core-b1-dev-02": true,
+            "core-b1-dev-03": true,
+            "core-b1-dev-00": true,
+            "core-b1-dev-01": true
+          },
+          "holding_spans_s": [
+            3.02,
+            3.46,
+            3.68,
+            3.44
+          ]
+        },
+        {
+          "worker": "grid-08",
+          "skill": {
+            "schema": "reference-skill-1",
+            "base_reference_sha256": "3afd2f34102079831e4cddba8ed8a8eb8a99809754ed7adf52695a5dda09f282",
+            "approach_clearance_m": 0.12,
+            "minimum_close_s": 0.2
+          },
+          "successes": 4,
+          "episodes": 4,
+          "by_condition": {
+            "core-b1-dev-01": true,
+            "core-b1-dev-00": true,
+            "core-b1-dev-03": true,
+            "core-b1-dev-02": true
+          },
+          "holding_spans_s": [
+            3.86,
+            4.0200000000000005,
+            3.74,
+            3.34
+          ]
+        },
+        {
+          "worker": "identity-2",
+          "skill": {
+            "schema": "reference-skill-1",
+            "base_reference_sha256": "3afd2f34102079831e4cddba8ed8a8eb8a99809754ed7adf52695a5dda09f282",
+            "approach_clearance_m": 0.1,
+            "minimum_close_s": 0.2
+          },
+          "successes": 3,
+          "episodes": 4,
+          "by_condition": {
+            "core-b1-dev-03": false,
+            "core-b1-dev-02": true,
+            "core-b1-dev-01": true,
+            "core-b1-dev-00": true
+          },
+          "holding_spans_s": [
+            0.0,
+            3.24,
+            3.74,
+            3.98
+          ]
+        }
+      ],
+      "grid_success_range": [
+        3,
+        4
+      ],
+      "identity_success_range": [
+        3,
+        4
+      ],
+      "routing": "P_SMOKE_ONLY_UNCONFIRMED",
+      "scope": "48 physical episodes, four independent development conditions, zero learning runs. No efficacy inference from timing or post-hoc parameter selection. P remains interface smoke unless an independent study is registered; continue to S/T1."
+    },
+    "peb-core-pilot-20261027-001": {
+      "status": "CANCELLED_BEFORE_LAUNCH",
+      "episodes": 0
+    },
+    "peb-core-pilot-20261027-002": {
+      "schema": "core-pilot-results-1",
+      "audit": "PASS",
+      "episodes": 28,
+      "control_steps": 14000,
+      "physics_samples": 56000,
+      "independent_feedback_learning_runs": 1,
+      "independent_search_learning_runs": 1,
+      "training_episodes": {
+        "train-feedback": 4,
+        "train-search": 8
+      },
+      "model_cost": {
+        "calls": 5,
+        "input_tokens": 84474,
+        "output_tokens": 371
+      },
+      "arms": {
+        "ablation": {
+          "successes": 4,
+          "episodes": 4,
+          "scores": {
+            "core-pilot-heldout-00": true,
+            "core-pilot-heldout-01": true,
+            "core-pilot-heldout-02": true,
+            "core-pilot-heldout-03": true
+          },
+          "artifact_hash": "6ea42574c1f3b7c0a9ee80e445c6bed7e5f0c17e28556cc4d9e7cd1ee46cb6f7",
+          "skill_hash": "a58a7cc93213602bfdb392c05994823a2e46135e99318a508f3ef300d8e1b2e7"
+        },
+        "frozen": {
+          "successes": 4,
+          "episodes": 4,
+          "scores": {
+            "core-pilot-heldout-01": true,
+            "core-pilot-heldout-02": true,
+            "core-pilot-heldout-03": true,
+            "core-pilot-heldout-00": true
+          },
+          "artifact_hash": "79374ca911d29848a8494684fb3fbb69ee4b58ea0fd8d0501d2c2e1154938ff9",
+          "skill_hash": "a58a7cc93213602bfdb392c05994823a2e46135e99318a508f3ef300d8e1b2e7"
+        },
+        "search": {
+          "successes": 4,
+          "episodes": 4,
+          "scores": {
+            "core-pilot-heldout-02": true,
+            "core-pilot-heldout-03": true,
+            "core-pilot-heldout-00": true,
+            "core-pilot-heldout-01": true
+          },
+          "artifact_hash": "5626e78e155303172abd35fe09aa7e23e88c3aa16ca57350203bda4490034519",
+          "skill_hash": "a58a7cc93213602bfdb392c05994823a2e46135e99318a508f3ef300d8e1b2e7"
+        },
+        "feedback": {
+          "successes": 4,
+          "episodes": 4,
+          "scores": {
+            "core-pilot-heldout-03": true,
+            "core-pilot-heldout-00": true,
+            "core-pilot-heldout-01": true,
+            "core-pilot-heldout-02": true
+          },
+          "artifact_hash": "5de3e1106a62c94d974f50eb32c98caa093ea76e2847905fe5e6ef807c172714",
+          "skill_hash": "a3a64413f79b708ca1881ee3d15767107c943a42442efd8382c0632583c59b6f"
+        }
+      },
+      "feedback_vs_initial": {
+        "initial_successes": 4,
+        "final_successes": 4,
+        "episodes_per_arm": 4,
+        "initial_rate": 1.0,
+        "final_rate": 1.0,
+        "gain": 0.0,
+        "statistical_scope": "One frozen learning artifact; paired conditions are not independent learning runs."
+      },
+      "search_vs_initial": {
+        "initial_successes": 4,
+        "final_successes": 4,
+        "episodes_per_arm": 4,
+        "initial_rate": 1.0,
+        "final_rate": 1.0,
+        "gain": 0.0,
+        "statistical_scope": "One frozen learning artifact; paired conditions are not independent learning runs."
+      },
+      "artifact_contribution": {
+        "initial_successes": 4,
+        "final_successes": 4,
+        "episodes_per_arm": 4,
+        "initial_rate": 1.0,
+        "final_rate": 1.0,
+        "gain": 0.0,
+        "statistical_scope": "One frozen learning artifact; paired conditions are not independent learning runs."
+      },
+      "scope": "P interface pilot; one learning run/method and four paired conditions; no program evolution, cross-task or stable efficacy claim."
+    },
+    "peb-core-place-dev-20261027-001": {
+      "status": "CANCELLED_BEFORE_LAUNCH",
+      "episodes": 0
+    },
+    "peb-core-place-dev-20261027-002": {
+      "status": "CANCELLED_BEFORE_LAUNCH",
+      "episodes": 0
+    },
+    "peb-core-place-dev-20261027-003": {
+      "audit": "PASS",
+      "episodes": 8,
+      "successes": 0
+    },
+    "peb-core-place-dev-correction-20261027-001": {
+      "audit": "PASS",
+      "episodes": 4,
+      "successes": 0
+    }
+  },
+  "scope": "Independent extraction and CPU recomputation; no new model, training or physics."
+}
