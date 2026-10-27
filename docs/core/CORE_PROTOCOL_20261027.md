@@ -37,8 +37,10 @@ use the installed account and configured model in fresh ephemeral sessions with
 shell/search/MCP disabled. This is an experimental participant, not implementation
 work delegation. Record CLI/model versions, complete sanitized request/response,
 usage and wall-clock. Maximum 12 model calls per task learning run, 120 seconds per
-call, cumulative 100,000 reported input and 24,000 output tokens; timeout/invalid
+call, cumulative 250,000 reported input and 24,000 output tokens; timeout/invalid
 submission consumes its call. Budget overrun invalidates the run, no free retry.
+Transport preflight measured 13,507 input tokens of CLI overhead before any learning;
+the input cap was fixed at 250,000 before B2 to include that overhead.
 Only trusted participants; no claim of a hostile-code sandbox. A transport without
 reported tokens is explicitly incomplete accounting and cannot be accepted as the
 standard benchmark run. No credential contents are captured or redistributed.

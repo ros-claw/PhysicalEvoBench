@@ -1,0 +1,93 @@
+import copy
+import json
+
+import pytest
+
+from physicalevobench.core.artifact import freeze, load
+from physicalevobench.core.audit import assert_public
+from physicalevobench.core.metrics import compare, place_metrics
+from physicalevobench.core.program import Program, ProgramFSM, initial_program
+from physicalevobench.v02.reference_artifact import ReferenceSkill
+
+
+def test_private_fields_are_rejected_at_every_nested_level():
+    assert_public({'history':[{'public_state_samples':[{'object_position':[0,0,0]}]}]})
+    for key in ('seed','object_mass_kg','heldout','evaluator_config'):
+        with pytest.raises(ValueError,match='Private'):
+            assert_public({'history':[{'feedback':{key:1}}]})
+
+
+def test_program_rejects_undefined_edges_nonfinite_code_and_unbounded_retries():
+    original=initial_program().to_dict()
+    for key,value in [('target','eval(os.environ)'),('timeout_s',float('nan')),('next','missing')]:
+        bad=copy.deepcopy(original)
+        bad['nodes'][0][key]=value
+        with pytest.raises(ValueError):
+            Program.from_dict(bad)
+    bad=copy.deepcopy(original)
+    bad['nodes'][0]['seed']=42
+    with pytest.raises(ValueError):
+        Program.from_dict(bad)
+    with pytest.raises(ValueError):
+        Program.from_dict({**original,'max_retries':3})
+    assert Program.from_dict(original).sha256==initial_program().sha256
+
+
+def test_program_pose_guard_cannot_be_passed_by_waiting():
+    obs={'ee_position':[0,0,1],'object_position':[.5,0,.02],
+         'goal_position':[.5,0,.3],'object_velocity':[0,0,0],
+         'finger_position':[.04,.04],'cube_contact_force':[0,0],'orientation_error':0.}
+    fsm=ProgramFSM(initial_program())
+    for _ in range(500):
+        result=fsm.update(obs,.02)
+    assert result['program_node']=='approach' and result['gripper']=='open'
+    for _ in range(4):
+        result=fsm.update({**obs,'ee_position':[.5,0,.12]},.02)
+    assert result['program_node']=='descend'
+
+
+def place_frames(count=26,**changes):
+    initial={'object_position':[[.5,0,.05]]}
+    result=[{'control_step':0,'object_position':[[.5,0,.12]],'object_velocity':[[0]*6],
+             'ee_position_world':[[.5,0,.12]],'finger_position':[.02,.02]},
+            {'control_step':1,'object_position':[[.62,.12,.12]],'object_velocity':[[0]*6],
+             'ee_position_world':[[.62,.12,.12]],'finger_position':[.02,.02]}]
+    for i in range(count):
+        result.append({'control_step':i+2,'object_position':[[.62,.12,.05]],
+                       'object_velocity':[[0]*6],'ee_position_world':[[.62,.12,.15]],
+                       'finger_position':[.04,.04],**changes})
+    return initial,result
+
+
+def test_place_requires_physical_release_transport_and_full_stable_span():
+    initial,frames=place_frames()
+    assert place_metrics(initial,frames)['success']
+    assert not place_metrics(*place_frames(count=25))['success']
+    assert not place_metrics(*place_frames(finger_position=[.02,.02]))['success']
+    assert not place_metrics(*place_frames(ee_position_world=[[.62,.12,.06]]))['success']
+    assert not place_metrics(initial,frames[2:])['success']  # no prior lift
+    assert not place_metrics(*place_frames(object_velocity=[[.2,0,0,0,0,0]]))['success']
+
+
+def test_artifact_covers_memory_executor_and_program_not_only_two_parameters(tmp_path):
+    skill=ReferenceSkill('a'*64)
+    p={'schema':'core-artifact-1','track':'P','participant':'model/code-1','interface':'v1',
+       'executor':'source-1','task':'T0','scoring':'s1','initial_reference':'a'*64,
+       'skill':skill.to_dict(),'memory':'learned','budget_used':8,'learning_run_id':'run-0'}
+    a=freeze(p,tmp_path/'a.json')
+    b=freeze({**p,'memory':''},tmp_path/'b.json')
+    assert a['effective_artifact_hash']!=b['effective_artifact_hash']
+    c=freeze({**p,'executor':'source-2'},tmp_path/'c.json')
+    assert a['effective_artifact_hash']!=c['effective_artifact_hash']
+    assert load(tmp_path/'a.json')==a
+    a['payload']['skill']['minimum_close_s']=.7
+    (tmp_path/'a.json').write_text(json.dumps(a))
+    with pytest.raises(ValueError,match='identity'):
+        load(tmp_path/'a.json')
+
+
+def test_signed_paired_gains_do_not_require_promotion_or_positive_effect():
+    result=compare({'a':True,'b':True},{'a':False,'b':True})
+    assert result['gain']==-.5
+    with pytest.raises(ValueError,match='Paired'):
+        compare({'a':True},{'b':True})

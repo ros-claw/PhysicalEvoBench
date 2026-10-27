@@ -1,0 +1,37 @@
+{
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "tool": {
+      "type": "string",
+      "enum": [
+        "run_trial",
+        "freeze"
+      ]
+    },
+    "approach_clearance_m": {
+      "type": "number",
+      "minimum": 0.08,
+      "maximum": 0.12
+    },
+    "minimum_close_s": {
+      "type": "number",
+      "minimum": 0.2,
+      "maximum": 0.7
+    },
+    "training_condition_handle": {
+      "type": "string"
+    },
+    "memory": {
+      "type": "string",
+      "maxLength": 4000
+    }
+  },
+  "required": [
+    "tool",
+    "approach_clearance_m",
+    "minimum_close_s",
+    "training_condition_handle",
+    "memory"
+  ]
+}
