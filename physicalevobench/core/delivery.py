@@ -175,6 +175,10 @@ def verify(evidence,out):
                               not j['force_open'] and j['condition']['object_mass_kg']==m)>=2 for m in (.1,.4)))
                 if recorded['independent_gate_passed']!=gate:
                     raise ValueError('Independent confirmation decision changed')
+            if (study/'release_diagnosis.json').exists():
+                from physicalevobench.core.details import release_details
+                if json.loads((study/'release_diagnosis.json').read_text())!=release_details(study,write=False):
+                    raise ValueError('Release failure observations differ from actual physical trace')
             results[name]={'audit':'PASS','episodes':len(data),'successes':sum(r['success'] for r in data)}
         else:
             raise ValueError('Unknown completed Core study')
