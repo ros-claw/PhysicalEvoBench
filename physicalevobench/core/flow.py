@@ -101,6 +101,54 @@ def summarize(out):
         if child.is_dir() and (child/'server_receipt.json').exists():
             workers[child.name]=audit_session(child)
     scores={name:{r['condition_id']:r['success'] for r in data} for name,data in workers.items()}
+    base=load_reference(out/'baseline_reference.json')
+    final_freeze=json.loads((out/'all_T1_snapshots_frozen.json').read_text())
+    for name,data in workers.items():
+        if name.startswith('learn-'):
+            allowed=reg['T1_train']
+            if len(data)>8:
+                raise ValueError('T1 training budget exceeded')
+        else:
+            allowed=reg['T0_retention'] if name.startswith('retention-') else reg['T1_heldout']
+            if {r['condition_id'] for r in data}!={c['condition_id'] for c in allowed}:
+                raise ValueError('Missing paired task-flow conditions')
+            method=name.split('-',1)[1]
+            value=load(out/f'{method}-{"initial" if name.startswith("transfer-") else "final"}.json')
+            library=SkillLibrary.from_dict(value['payload']['skill'])
+            if name.startswith(('final-','retention-')):
+                if json.loads((out/name/'launch.json').read_text())['started_at']<=final_freeze['at']:
+                    raise ValueError('Final test started before all T1 snapshots froze')
+                if final_freeze['hashes'][method]!=value['effective_artifact_hash']:
+                    raise ValueError('Final T1 artifact changed after freeze')
+            for i,row in enumerate(data):
+                job=json.loads((out/name/'requests'/f'{i:03d}.json').read_text())
+                if (row['core_identity']['effective_artifact_hash']!=value['effective_artifact_hash'] or
+                        job['reference_config']!=library.lift.configuration(base) or
+                        (not name.startswith('retention-') and job['program']!=library.place.to_dict())):
+                    raise ValueError('Effective test program differs from the frozen library')
+        for i,row in enumerate(data):
+            job=json.loads((out/name/'requests'/f'{i:03d}.json').read_text())
+            if job['condition'] not in allowed:
+                raise ValueError('Unregistered task-flow condition')
+    for method in ('frozen','feedback','search'):
+        prior=load(out/f'provenance-T0-{method}.json')
+        initial=load(out/f'{method}-initial.json')
+        if SkillLibrary.from_dict(initial['payload']['skill']).lift.to_dict()!=prior['payload']['skill']:
+            raise ValueError('Initial library did not inherit exact T0 experience')
+    for request in (out/'S_model_calls').glob('call-*/request.json'):
+        assert_public(json.loads(request.read_text()))
+    usages=[json.loads(p.read_text()) for p in sorted((out/'S_model_calls').glob('call-*/usage.json'))]
+    model_cost={'calls':len(usages),'input_tokens':sum(u['input_tokens'] for u in usages),
+                'output_tokens':sum(u['output_tokens'] for u in usages)}
+    if model_cost!=json.loads((out/'S_model_calls/budget.json').read_text()) or any(
+            model_cost[k]>reg['computational_budget'][k] for k in model_cost):
+        raise ValueError('S actual-model computation accounting mismatch')
+    outputs=[json.loads(p.read_text()) for p in sorted((out/'S_model_calls').glob('call-*/response.json'))]
+    retained=load(out/'feedback-final.json')
+    if (outputs[-1]['tool']!='freeze' or outputs[-1]['library']!=retained['payload']['skill'] or
+            outputs[-1]['memory']!=retained['payload']['memory'] or
+            sum(o['tool']=='run_trial' for o in outputs)!=len(workers['learn-feedback'])):
+        raise ValueError('S retained experience did not originate from actual model tools')
     pilot=reg['t0_pilot_results']
     gains={}
     for method in ('feedback','search'):
@@ -114,7 +162,7 @@ def summarize(out):
     result={'schema':'core-flow-results-1','audit':'PASS','physical_episodes':total,
             'scores':{name:{'successes':sum(values.values()),'episodes':len(values),'scores':values}
                       for name,values in scores.items()},'changes':gains,
-            'feedback_T1_learning_runs':1,'search_T1_learning_runs':1,
+            'feedback_T1_learning_runs':1,'search_T1_learning_runs':1,'model_cost':model_cost,
             'control_steps':sum(r['steps'] for data in workers.values() for r in data),
             'physics_samples':sum(r['diagnostic']['physics_samples'] for data in workers.values() for r in data),
             'scope':'One sequential learning trajectory/method. P→T1 transfer is parameter reuse; '
@@ -149,11 +197,13 @@ def run(root,out,pilot,confirmation,gpu):
          'computational_budget':{'calls':12,'input_tokens':400000,'output_tokens':36000},
          'model':json.loads((pilot/'registration.json').read_text())['model'],
          'protocol':'docs/core/CORE_PROTOCOL_20261027.md'}
+    save_json(out/'baseline_reference.json',json.loads((pilot/'baseline_reference.json').read_text()))
     save_json(out/'registration.json',reg)
     save_json(out/'status.json',{'status':'RUNNING','at':now()})
     initial={}
     for arm in ('frozen','feedback','search'):
         original=load(pilot/f'{arm}.json')
+        save_json(out/f'provenance-T0-{arm}.json',original)
         library=from_reference_skill(ReferenceSkill.from_dict(original['payload']['skill']))
         initial[arm]=freeze(artifact(base,library,original['payload']['participant'],
                                     'core-flow-'+arm+'-0',0,original['payload']['memory'],source),out/f'{arm}-initial.json')
