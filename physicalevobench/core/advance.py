@@ -13,7 +13,11 @@ from physicalevobench.evaluation.confirmation import now
 
 def wait_complete(directory):
     while True:
-        status=json.loads((directory/'status.json').read_text())
+        try:
+            status=json.loads((directory/'status.json').read_text())
+        except (FileNotFoundError,json.JSONDecodeError):
+            time.sleep(1)
+            continue
         if status['status'] not in ('QUEUED','RUNNING'):
             return status
         time.sleep(5)
