@@ -111,8 +111,8 @@ def test_task_library_reuses_exact_t0_and_exposes_replaceable_place_graph():
 
 def test_cyclic_program_exhaustion_latches_open_instead_of_resetting_budget():
     from physicalevobench.core.program import node
-    program=Program((node('a','object_above','close','always','b',mode='close'),
-                     node('b','object_above','close','always','a',mode='close')),start='a')
+    program=Program((node('a','object_above','close','always','b',mode='close',on_timeout='b'),
+                     node('b','object_above','close','always','a',mode='close',on_timeout='a')),start='a')
     fsm=ProgramFSM(program)
     obs={'ee_position':[.5,0,.1],'object_position':[.5,0,.02],'goal_position':[.5,0,.3],
          'object_velocity':[0,0,0],'finger_position':[.02,.02],
