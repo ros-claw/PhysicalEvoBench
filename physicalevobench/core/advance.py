@@ -31,6 +31,7 @@ def main():
     p.add_argument('--flow-output',required=True)
     p.add_argument('--gpu',type=int,default=2)
     p.add_argument('--receipt',required=True)
+    p.add_argument('--flow-workspace',help='Run the budgeted task flow from a separate documented checkout')
     a=p.parse_args()
     pilot,development=Path(a.pilot),Path(a.place_development)
     confirmation,flow=Path(a.confirmation_output),Path(a.flow_output)
@@ -58,8 +59,9 @@ def main():
         raise ValueError('Refuse implicit task-flow retry')
     command=[sys.executable,'-m','physicalevobench.core.flow','--pilot',str(pilot),
              '--confirmation',str(confirmation),'--output',str(flow),'--gpu',str(a.gpu)]
+    workspace=Path(a.flow_workspace).absolute() if a.flow_workspace else Path.cwd()
     with (flow.parent/(flow.name+'.launcher.log')).open('w') as log:
-        result=subprocess.run(command,stdout=log,stderr=subprocess.STDOUT)
+        result=subprocess.run(command,cwd=workspace,stdout=log,stderr=subprocess.STDOUT)
     save_json(a.receipt,{'status':'COMPLETED' if result.returncode==0 else 'TASK_FLOW_FAILED',
                         'at':now(),'flow_returncode':result.returncode})
 
