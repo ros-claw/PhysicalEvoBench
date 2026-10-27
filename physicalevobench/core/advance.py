@@ -34,6 +34,9 @@ def main():
     a=p.parse_args()
     pilot,development=Path(a.pilot),Path(a.place_development)
     confirmation,flow=Path(a.confirmation_output),Path(a.flow_output)
+    if wait_complete(pilot)['status']!='COMPLETED':
+        save_json(a.receipt,{'status':'STOPPED_AT_AGENT_PROTOCOL_GATE','at':now()})
+        return
     status=wait_complete(development)
     if status['status']!='COMPLETED' or not json.loads((development/'place_results.json').read_text())['development_qualified']:
         save_json(a.receipt,{'status':'STOPPED_AT_DEVELOPMENT_GATE','at':now(),'no_confirmation_or_transfer_launched':True})
