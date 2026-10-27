@@ -27,8 +27,9 @@ class SkillLibrary:
         return digest(self.to_dict())
 
 
-def from_reference_skill(skill):
-    value=initial_program(True).to_dict()
+def from_reference_skill(skill,place_program=None):
+    value=(Program.from_dict(place_program).to_dict() if place_program is not None
+           else initial_program(True).to_dict())
     for n in value['nodes']:
         if n['id']=='approach':
             n['offset_m']=skill.approach_clearance_m

@@ -186,6 +186,10 @@ def run(root,out,pilot,confirmation,gpu):
     gate=json.loads((confirmation/'place_results.json').read_text())
     if gate['independent_gate_passed'] is not True:
         raise ValueError('T1 independent reference gate failed; no transfer/learning launches')
+    reference=json.loads((confirmation/'frozen_place_reference.json').read_text())
+    if digest(reference['payload'])!=reference['sha256']:
+        raise ValueError('Confirmed T1 reference changed')
+    place_template=reference['payload']['program']
     groups=fresh_conditions(root,out.parent)
     # T1 heldout remains fresh; retention intentionally uses the original paired
     # T0 heldout assignments, which were never available to either participant.
@@ -195,6 +199,7 @@ def run(root,out,pilot,confirmation,gpu):
          'physical_budget':44,'T1_train':groups['train'],'T1_heldout':groups['heldout'],
          'T0_retention':retention,'t0_pilot_results':pilot_result,'pilot_path':str(pilot),
          'place_confirmation_sha256':sha256(confirmation/'place_results.json'),
+         'confirmed_place_reference_sha256':reference['sha256'],'place_template':place_template,
          'computational_budget':{'calls':12,'input_tokens':400000,'output_tokens':36000},
          'model':json.loads((pilot/'registration.json').read_text())['model'],
          'protocol':'docs/core/CORE_PROTOCOL_20261027.md'}
@@ -205,7 +210,7 @@ def run(root,out,pilot,confirmation,gpu):
     for arm in ('frozen','feedback','search'):
         original=load(pilot/f'{arm}.json')
         save_json(out/f'provenance-T0-{arm}.json',original)
-        library=from_reference_skill(ReferenceSkill.from_dict(original['payload']['skill']))
+        library=from_reference_skill(ReferenceSkill.from_dict(original['payload']['skill']),place_template)
         initial[arm]=freeze(artifact(base,library,original['payload']['participant'],
                                     original['payload']['learning_run_id'],original['payload']['budget_used'],original['payload']['memory'],source),out/f'{arm}-initial.json')
     # Zero-learning transfer is scored before T1 learning but never returned to
