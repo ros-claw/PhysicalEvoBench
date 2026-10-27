@@ -107,3 +107,20 @@ def test_task_library_reuses_exact_t0_and_exposes_replaceable_place_graph():
     assert SkillLibrary.from_dict(changed).sha256!=restored.sha256
     with pytest.raises(ValueError):
         SkillLibrary.from_dict({**changed,'test_results':{}})
+
+
+def test_cyclic_program_exhaustion_latches_open_instead_of_resetting_budget():
+    from physicalevobench.core.program import node
+    program=Program((node('a','object_above','close','always','b',mode='close'),
+                     node('b','object_above','close','always','a',mode='close')),start='a')
+    fsm=ProgramFSM(program)
+    obs={'ee_position':[.5,0,.1],'object_position':[.5,0,.02],'goal_position':[.5,0,.3],
+         'object_velocity':[0,0,0],'finger_position':[.02,.02],
+         'cube_contact_force':[10,10],'orientation_error':0.}
+    for _ in range(500):
+        result=fsm.update(obs,.02)
+    assert result['phase']=='failed' and result['gripper']=='open'
+    assert fsm.transitions==65
+    for _ in range(20):
+        assert fsm.update(obs,.02)['phase']=='failed'
+    assert fsm.transitions==65

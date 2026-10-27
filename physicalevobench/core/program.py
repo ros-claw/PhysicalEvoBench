@@ -93,6 +93,7 @@ class ProgramFSM:
         self.anchor=self.offset=self.initial=self.probe_object=None
         self.retries=0
         self.transitions=0
+        self.exhausted=False
 
     def target(self,n,obs):
         obj=obs['object_position']
@@ -121,6 +122,9 @@ class ProgramFSM:
         for key in ('ee_position','object_position','goal_position','object_velocity','finger_position','cube_contact_force'):
             if not all(math.isfinite(x) for x in obs[key]):
                 raise ValueError('Nonfinite public observation')
+        if self.exhausted:
+            return {'phase':'failed','program_node':self.current,'gripper':'open',
+                    'target_position':list(obs['ee_position']),'transition_reason':'graph_budget_exhausted'}
         n=self.nodes[self.current]
         target=self.target(n,obs)
         relative=[a-b for a,b in zip(obs['ee_position'],obs['object_position'],strict=True)]
@@ -148,10 +152,9 @@ class ProgramFSM:
             if next_id=='recover':
                 self.retries+=1
             if self.retries>self.program.max_retries or self.transitions>64:
-                next_id='failed' if 'failed' in self.nodes else self.current
-                if next_id==self.current:
-                    return {'phase':'failed','program_node':self.current,'gripper':'open',
-                            'target_position':list(obs['ee_position']),'transition_reason':'graph_budget_exhausted'}
+                self.exhausted=True
+                return {'phase':'failed','program_node':self.current,'gripper':'open',
+                        'target_position':list(obs['ee_position']),'transition_reason':'graph_budget_exhausted'}
             next_n=self.nodes[next_id]
             if next_n['mode'] in ('close','recover'):
                 self.anchor=list(obs['ee_position'])
@@ -166,5 +169,5 @@ class ProgramFSM:
         else:
             self.age+=dt
         return {'phase':n['mode'],'program_node':self.current,'target_position':self.target(n,obs),
-                'gripper':n['gripper'],'transition_reason':reason if next_id!=n['id'] else reason,
+                'gripper':n['gripper'],'transition_reason':reason,
                 'phase_age_s':self.age,'recoveries':self.retries}

@@ -2,6 +2,7 @@
 
 import argparse
 import json
+import os
 import random
 import shutil
 from pathlib import Path
@@ -42,7 +43,8 @@ def register(root, out, reference, gpu):
         for name,params in [(f'grid-{i:02d}',(clearance,close))]+(
                 [(f'identity-{i//3}',(.10,.20))] if i%3==2 else []):
             skill=ReferenceSkill(digest(base),*params)
-            checkpoint='/home/dell/models/physicalevobench/franka_lift/model_1999.pt'
+            checkpoint=str(Path(os.environ.get('PHYSICALEVOBENCH_CHECKPOINT',
+                               '~/models/physicalevobench/franka_lift/model_1999.pt')).expanduser().absolute())
             order=list(conditions)
             rng.shuffle(order)
             plans.append({'name':name,'checkpoint_path':checkpoint,

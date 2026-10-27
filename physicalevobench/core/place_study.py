@@ -22,6 +22,17 @@ def run(root,out,reference,gpu,after,confirmation=None):
         raise ValueError('Commit T1 implementation before reservation')
     base=load_reference(reference)
     commit=command(['git','rev-parse','HEAD'],cwd=root)['stdout']
+    requested=12 if confirmation else 8
+    previous=[]
+    for path in out.parent.glob('peb-*/registration.json'):
+        value=json.loads(path.read_text())
+        if value.get('schema')=='core-place-study-1':
+            status=json.loads((path.parent/'status.json').read_text())
+            if status['status']!='CANCELLED_BEFORE_LAUNCH':
+                previous.append(value)
+    phase='confirmation' if confirmation else 'development'
+    if sum(v['physical_budget'] for v in previous if v['phase']==phase)+requested>12:
+        raise ValueError('Single bounded T1 phase budget already reserved; no seed retries')
     groups=fresh_conditions(root,out.parent)
     rng=random.Random(2026102706 if confirmation else 2026102705)
     excluded={c['seed'] for cs in groups.values() for c in cs}

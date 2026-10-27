@@ -100,3 +100,37 @@ center z0.055m settles to z≈0.021m; reset height is not tabletop support heigh
 Before first T1 physics, define `core-place-h20-v2-dev` with target center z0.021m
 and unchanged vertical tolerance0.025m. Preserve the cancelled reservation and
 use a new registration. This corrects physical scoring, not an observed T1 failure.
+
+## Task-flow pilot details frozen before S learning
+
+After T1 confirmation, use `core-skill-library-1`: exact inherited T0 ReferenceSkill
+plus replaceable T1 graph. Zero-B-learning transfer compares normal initial, T0
+search and T0 feedback parameters composed with the same place template; label it
+P→T1 parameter reuse, not T0 program learning. The S updater can edit the place
+graph and inherited T0 parameters; retention dispatches the final library's exact
+T0 entry through the unchanged reference executor. This avoids changing the T0
+executor between pre/post-T1 tests.
+
+There is one sequential trajectory per method, not three independent pilots.
+T1 score-only search samples the initial graph plus seven preregistered template
+variants: clearance[.08,.12], close minimum[.2,.7], release minimum[.2,.9], lower
+offset[.002,.015], lower tolerance[.008,.025], uniform draws seed2026102707.
+It has the same permitted library schema and eight trials as feedback; its fixed
+proposal distribution is explicitly narrower than the full combinatorial program
+space, so this pilot cannot isolate feedback quality from proposal quality.
+No trajectory-level diagnostics enter search selection (boolean task scores only).
+
+The S model has max12 calls,400,000 cumulative reported input tokens,36,000 output,
+120s per call, fixed before S learning. Larger JSON programs account for the larger
+ceiling relative to the P pilot. Both S methods have the same allowed ceilings;
+actual costs, including zero-model search calls, are separately reported. Sparse
+snapshots at0 and8; no invented16/32 measurements. Four paired fresh T1 conditions
+are never exposed to either updater. Pre-T1 transfer results are evaluator-only,
+not fed back into T1 learning or used to select conditions/configurations.
+
+Maximum aggregate control cost is104,000 controls /416,000 exposed physics samples
+(2,080 simulated seconds): B1 24,000; T0 pilot16,000; T1 phases60,000 plus
+T0 retention4,000. Early termination spends fewer controls but still an episode.
+Each phase reservation is exclusive within the study parent; cancelled-before-launch
+T1 consumes zero physical episodes but remains in the ledger. No outcome-based
+retry of the initial pilot, confirmation or task-flow is accepted.

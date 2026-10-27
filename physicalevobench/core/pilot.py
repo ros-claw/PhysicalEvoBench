@@ -2,6 +2,7 @@
 
 import argparse
 import json
+import os
 import random
 import shutil
 import subprocess
@@ -59,7 +60,8 @@ def fresh_conditions(root,parent):
 
 
 def worker_config(base,budget):
-    checkpoint='/home/dell/models/physicalevobench/franka_lift/model_1999.pt'
+    checkpoint=str(Path(os.environ.get('PHYSICALEVOBENCH_CHECKPOINT',
+                               '~/models/physicalevobench/franka_lift/model_1999.pt')).expanduser().absolute())
     return {'checkpoint_path':checkpoint,'checkpoint_sha256':base['checkpoint_sha256'],
             'policy_config_sha256':sha256(Path(checkpoint).parent/'params/agent.yaml'),
             'mode':'FixedHorizonDiagnostic','execution_layer':'TargetBounded',
@@ -92,20 +94,25 @@ def trial_job(base,skill,condition,identity,index):
             'reference_config':skill.configuration(base),'identity':identity}
 
 
-def run(root,out,reference,gpu,model,b1,after_b1=False):
+def run(root,out,reference,gpu,model,b1,after_b1=False,participant_command=None):
     if command(['git','status','--porcelain'],cwd=root)['stdout']:
         raise ValueError('Commit protocol and implementation before pilot reservation')
     if not b1.exists():
         raise ValueError('B1 registered diagnosis is required')
     if read(b1/'status.json')['status']!='COMPLETED' and not after_b1:
         raise ValueError('Finish B1 before learning pilot')
+    for previous in out.parent.glob('peb-*/registration.json'):
+        if read(previous).get('schema')=='core-pilot-1':
+            raise ValueError('The single initial Agent pilot was already reserved; no outcome-based retry')
     base=load_reference(reference)
     source_commit=command(['git','rev-parse','HEAD'],cwd=root)['stdout']
     make_payload=partial(payload,executor_commit=source_commit)
     groups=fresh_conditions(root,out.parent)
     out.mkdir(parents=True,exist_ok=False)
     shutil.copyfile(reference,out/'baseline_reference.json')
-    cli_version=subprocess.check_output(['codex','--version'],text=True).strip()
+    transport=participant_command or ['codex']
+    cli_version=(subprocess.check_output(['codex','--version'],text=True).strip()
+                 if transport==['codex'] else 'generic-stdin-'+digest({'command':transport,'model':model}))
     order=['frozen','search','feedback','ablation']
     random.Random(2026102703).shuffle(order)
     reg={'schema':'core-pilot-1','registered_at':now(),'source_commit':source_commit,
@@ -146,7 +153,7 @@ def run(root,out,reference,gpu,model,b1,after_b1=False):
         memory=''
         model_process=None
         if method=='feedback':
-            model_process=ParticipantProcess(['codex'],model,out/'model_calls')
+            model_process=ParticipantProcess(transport,model,out/'model_calls')
         try:
             session.ready()
             for call in range(12 if method=='feedback' else 8):
@@ -239,11 +246,12 @@ def main():
     p.add_argument('--gpu',type=int,default=2)
     p.add_argument('--model',default='gpt-6.1-terra')
     p.add_argument('--after-b1',action='store_true')
+    p.add_argument('--participant-command',type=json.loads,help='JSON argv array; default optional Codex CLI')
     a=p.parse_args()
     b1=Path(a.b1)
     out=Path(a.output).absolute()
     try:
-        run(Path.cwd(),out,Path(a.reference),a.gpu,a.model,b1,a.after_b1)
+        run(Path.cwd(),out,Path(a.reference),a.gpu,a.model,b1,a.after_b1,a.participant_command)
     except Exception as error:
         if out.exists():
             save_json(out/'status.json',{'status':'FAILED','error':str(error),'at':now()})
