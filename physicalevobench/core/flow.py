@@ -11,7 +11,7 @@ from physicalevobench.core.audit import assert_public, audit_session
 from physicalevobench.core.library import SkillLibrary, call_schema, from_reference_skill
 from physicalevobench.core.metrics import compare
 from physicalevobench.core.model import ParticipantProcess
-from physicalevobench.core.pilot import fresh_conditions, public_feedback, worker_config
+from physicalevobench.core.pilot import compact_history, fresh_conditions, public_feedback, worker_config
 from physicalevobench.core.runtime import NativeSession
 from physicalevobench.doctor import command, save_json, sha256
 from physicalevobench.evaluation.confirmation import now
@@ -261,7 +261,7 @@ def run(root,out,pilot,confirmation,gpu):
                     request={'instructions':S_INSTRUCTIONS,'initial_library':initial[method]['payload']['skill'],
                              'inherited_memory':initial[method]['payload']['memory'],
                              'remaining_physical_episodes':8-session.used,'allowed_training_handles':list(handles),
-                             'history':history}
+                             'history':compact_history(history)}
                     assert_public(request)
                     answer=model.call(request)
                     if set(answer)!={'tool','library','training_condition_handle','memory'}:

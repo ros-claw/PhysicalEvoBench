@@ -81,12 +81,25 @@ def public_feedback(directory,row):
     diagnostic=row['diagnostic']
     trace=records(Path(directory)/row['trace_artifact'])
     samples=[{'step':s['step'],**s['policy_diagnostics']['public'],
-              'phase':s['policy_diagnostics']['decision']['phase']} for s in trace[::25]]
+              'phase':s['policy_diagnostics']['decision']['phase']} for s in trace[::50]]
     return {'effective_success':row['success'],'steps':row['steps'],'cost_episodes':1,
             'failure_reason':row['failure_type'],'termination_reason':row['termination_reason'],
             'holding_span_s':diagnostic['holding']['maximum_holding_span_s'],
             'registered_position_violation':diagnostic['first_violation'] is not None,
             'public_state_samples':samples,'hard_event':diagnostic['hard_boundary_terminated']}
+
+
+def compact_history(history):
+    """All trial outcomes, but full sampled trajectory only for two recent trials.
+
+    Lossless raw evidence and complete tool responses remain outside the model
+    request. This is a public, fixed context policy, not hidden feedback selection.
+    """
+    result=json.loads(json.dumps(history))
+    for item in result[:-2]:
+        feedback=item.get('feedback',{})
+        feedback.pop('public_state_samples',None)
+    return result
 
 
 def trial_job(base,skill,condition,identity,index):
@@ -102,7 +115,8 @@ def run(root,out,reference,gpu,model,b1,after_b1=False,participant_command=None)
     if read(b1/'status.json')['status']!='COMPLETED' and not after_b1:
         raise ValueError('Finish B1 before learning pilot')
     for previous in out.parent.glob('peb-*/registration.json'):
-        if read(previous).get('schema')=='core-pilot-1':
+        if (read(previous).get('schema')=='core-pilot-1' and
+                read(previous.parent/'status.json')['status']!='CANCELLED_BEFORE_LAUNCH'):
             raise ValueError('The single initial Agent pilot was already reserved; no outcome-based retry')
     base=load_reference(reference)
     source_commit=command(['git','rev-parse','HEAD'],cwd=root)['stdout']
@@ -160,7 +174,7 @@ def run(root,out,reference,gpu,model,b1,after_b1=False,participant_command=None)
                 if method=='feedback':
                     request={'instructions':INSTRUCTIONS,'initial_skill':initial.to_dict(),
                              'allowed_training_handles':list(handles),'remaining_physical_episodes':8-session.used,
-                             'maximum_model_calls_remaining':12-call,'history':history}
+                             'maximum_model_calls_remaining':12-call,'history':compact_history(history)}
                     answer=model_process.call(request)
                     save_json(out/f'feedback-tool-{call:02d}.json',answer)
                     if set(answer)!= {'tool','approach_clearance_m','minimum_close_s','training_condition_handle','memory'}:

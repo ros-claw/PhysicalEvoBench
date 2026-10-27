@@ -138,3 +138,13 @@ T0 retention4,000. Early termination spends fewer controls but still an episode.
 Each phase reservation is exclusive within the study parent; cancelled-before-launch
 T1 consumes zero physical episodes but remains in the ledger. No outcome-based
 retry of the initial pilot, confirmation or task-flow is accepted.
+
+## Pre-learning serialized context bound
+
+Before any actual Agent learning/T1 execution, cancel queued pilot001 and its
+dependent place-dev002 (zero native/model-learning cost). Their registrations and
+preflight evidence remain. Re-register pilot002/place-dev003. Full lossless raw
+trajectories remain archived; each model request contains every past trial outcome
+but sampled state trajectories (every50 controls) only for the two most recent
+trials. This fixed public context rule prevents avoidable exhaustion of the already
+registered token ceilings. No learning result or heldout score existed when changed.
