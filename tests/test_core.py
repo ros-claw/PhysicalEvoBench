@@ -186,3 +186,15 @@ def test_place_feedback_uses_place_result_instead_of_auxiliary_lift_flags(tmp_pa
     row['success']=False
     row['failure_type']=None
     assert public_feedback(tmp_path,row)['failure_reason']=='place_task_not_completed'
+
+
+def test_t0_ever_held_terminal_and_later_departure_are_distinct_outcomes():
+    from physicalevobench.core.metrics import lift_followup
+    frames=[{'control_step':i,'object_position':[[.5,0,.3]],'goal_position_world':[[.5,0,.3]],
+             'object_velocity':[[0]*6]} for i in range(16)]
+    frames.append({'control_step':16,'object_position':[[.6,0,.3]],'goal_position_world':[[.5,0,.3]],
+                   'object_velocity':[[0]*6]})
+    result=lift_followup(frames)
+    assert result['instant_arrival'] and result['effective_hold']
+    assert result['left_goal_after_first_hold'] and not result['terminal_eligible']
+    assert result['first_effective_hold_time_s']==.32

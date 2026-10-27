@@ -46,3 +46,31 @@ def compare(initial,final):
     return {'initial_successes':a,'final_successes':b,'episodes_per_arm':n,
             'initial_rate':a/n,'final_rate':b/n,'gain':(b-a)/n,
             'statistical_scope':'One frozen learning artifact; paired conditions are not independent learning runs.'}
+
+
+def lift_followup(frames,control_dt=.02):
+    """Additive T0 outcomes; never change the historical effective-hold score."""
+    controls={f['control_step']:f for f in frames}
+    if not controls or list(controls)!=list(range(len(controls))):
+        raise ValueError('Ordered complete physical controls required')
+    span=0
+    first=None
+    left=False
+    instant=False
+    terminal=False
+    distance=speed=None
+    for i,f in controls.items():
+        distance=math.dist(f['object_position'][0],f['goal_position_world'][0])
+        speed=math.sqrt(sum(v*v for v in f['object_velocity'][0][:3]))
+        arrived=distance<.05
+        instant|=arrived
+        terminal=arrived and speed<=.2
+        span=span+1 if terminal else 0
+        if first is None and (span-1)*control_dt>=.30-1e-12:
+            first=(i+1)*control_dt
+        if first is not None and not arrived:
+            left=True
+    return {'schema':'core-T0-additive-followup-1','instant_arrival':instant,
+            'effective_hold':first is not None,'first_effective_hold_time_s':first,
+            'terminal_eligible':terminal,'left_goal_after_first_hold':left,
+            'terminal_distance_m':distance,'terminal_speed_m_s':speed}

@@ -91,7 +91,9 @@ def audit_session(worker):
             fsm=ReferenceFSM(config)
         integral=BoundedJointIntegral(config.joint_integral_gain_s,config.joint_integral_limit_rad)
         initial=read(episode/'initial_capture.json')
-        for s,c in zip(trace,controls,strict=True):
+        for step,(s,c) in enumerate(zip(trace,controls,strict=True)):
+            if s['step']!=step:
+                raise ValueError('Trace control ordering changed')
             d=s['policy_diagnostics']
             public=d['public']
             assert_public(public)
@@ -103,6 +105,15 @@ def audit_session(worker):
                 raise ValueError('Fixed integral feedback changed')
             if public['object_position']!=s['object_position'][0] or public['ee_position']!=s['ee_position'][0][0]:
                 raise ValueError('Program observations differ from physical state')
+            if public['object_velocity']!=s['object_velocity'][0][:3] or public['goal_position']!=s['goal_position_world'][0]:
+                raise ValueError('Program velocity/goal observation differs from physical trace')
+            fingers=[i for i,n in enumerate(meta['joint_names']) if 'finger' in n]
+            if public['finger_position']!=[s['joint_position'][0][i] for i in fingers]:
+                raise ValueError('Program finger aperture differs from measured joints')
+            q=public['ee_quaternion_xyzw']
+            angle=2*math.acos(min(1.,abs(q[0])/math.sqrt(sum(v*v for v in q))))
+            if not math.isclose(angle,public['orientation_error'],abs_tol=1e-3):
+                raise ValueError('Program orientation predicate differs from measured quaternion')
             previous=initial if s['step']==0 else frames[s['step']*meta['decimation']-1]
             if any(not math.isclose(force_norm(previous['contacts'][side]['cube_force_matrix_w']['value']),
                                     public['cube_contact_force'][j],rel_tol=1e-6,abs_tol=1e-4)

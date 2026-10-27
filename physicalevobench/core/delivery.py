@@ -139,6 +139,17 @@ def verify(evidence,out):
             results[name]=audit_pilot(study)
             if results[name]!=recorded:
                 raise ValueError('Stored Agent comparison differs from independent recomputation')
+            if (study/'lift_followup.json').exists():
+                from physicalevobench.core.metrics import lift_followup
+                from physicalevobench.v02.audit import records
+                extra={}
+                for arm in reg['evaluation_order']:
+                    worker=study/('test-'+arm)
+                    data=[json.loads(line) for line in (worker/'episodes.jsonl').read_text().splitlines()]
+                    extra[arm]=[{'condition_id':r['condition_id'],**lift_followup(
+                        records(worker/'episodes'/r['episode_id']/'physics.jsonl.gz'))} for r in data]
+                if json.loads((study/'lift_followup.json').read_text())!={'schema':'core-T0-followup-report-1','arms':extra}:
+                    raise ValueError('Additive T0 terminal/departure conclusions changed')
         elif reg['schema']=='core-flow-1':
             recorded=json.loads((study/'flow_results.json').read_text())
             results[name]=summarize_flow(study)

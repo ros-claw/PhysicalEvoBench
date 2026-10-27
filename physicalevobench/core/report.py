@@ -5,6 +5,8 @@ import json
 from datetime import datetime
 from pathlib import Path
 
+from physicalevobench.v02.audit import records
+from physicalevobench.core.metrics import lift_followup
 from physicalevobench.doctor import save_json
 
 
@@ -94,6 +96,22 @@ def generate(root,parent,output):
              f'相对经验删除对照：**{100*p["artifact_contribution"]["gain"]:+.1f} 个百分点**。',
              '', '这是 **1 条反馈学习轨迹、1 条搜索轨迹、4 个配对留出条件**；没有跨学习运行的置信保证。'
              '初始与经验删除控制器相同，其重放差异不能归为学习。']
+        followup={}
+        followup_table=['| T0 方法 | 瞬时到达 | 有效持稳 | 终态合格 | 首次合格后离开目标 |',
+                        '| --- | --- | --- | --- | --- |']
+        for arm in ('frozen','search','feedback','ablation'):
+            worker=pilot.parent/('test-'+arm)
+            entries=[]
+            for row in rows(worker/'episodes.jsonl'):
+                values=lift_followup(records(worker/'episodes'/row['episode_id']/'physics.jsonl.gz'))
+                if values['effective_hold']!=row['success']:
+                    raise ValueError('T0 additive followup changed the registered primary outcome')
+                entries.append({'condition_id':row['condition_id'],**values})
+            followup[arm]=entries
+            counts=[sum(e[k] for e in entries) for k in ('instant_arrival','effective_hold','terminal_eligible','left_goal_after_first_hold')]
+            followup_table.append('| '+arm+' | '+' | '.join(f'{n}/4' for n in counts)+' |')
+        save_json(pilot.parent/'lift_followup.json',{'schema':'core-T0-followup-report-1','arms':followup})
+        pt+=['','\n'.join(followup_table),'','有效持稳表示曾连续合格0.30秒，不保证此后始终留在目标内；以上为追加观测，没有更改主成绩。']
         ptext='\n'.join(pt)
     ttext=[]
     for title,name in STUDIES[2:]:
