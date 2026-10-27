@@ -7,6 +7,7 @@ import random
 import shutil
 import subprocess
 import time
+import uuid
 from functools import partial
 from pathlib import Path
 
@@ -155,7 +156,8 @@ def run(root,out,reference,gpu,model,b1,after_b1=False,participant_command=None,
         shutil.copyfile(reference,out/'baseline_reference.json')
         order=['frozen','search','feedback','ablation']
         random.Random(2026102703).shuffle(order)
-        reg={'schema':'core-pilot-1','registered_at':now(),'source_commit':source_commit,
+        reg={'schema':'core-pilot-1','study_id':'core-pilot-'+uuid.uuid4().hex[:12],
+             'registered_at':now(),'source_commit':source_commit,
              'reference_source_commit':base['source_commit'],'baseline_reference_sha256':sha256(reference),
              'conditions':groups,'physical_budget':32,'training_per_method':8,'heldout_per_arm':4,
              'model':model,'participant_transport':cli_version,'gpu':gpu,'evaluation_order':order,
@@ -179,12 +181,13 @@ def run(root,out,reference,gpu,model,b1,after_b1=False,participant_command=None,
         if any(not (p.parent/'process.json').exists() for p in after_native.rglob('launch.json')):
             raise ValueError('Preceding native worker has not exited; refusing concurrent physics')
     save_json(out/'status.json',{'status':'RUNNING','at':now()})
+    study_id=reg.get('study_id','core-pilot')
     initial=ReferenceSkill(digest(base))
     artifacts={}
     artifacts['frozen']=freeze(make_payload(base,initial,'frozen-reference-v2','not_applicable',0),out/'frozen.json')
-    feedback_run='core-pilot-feedback-0'
+    feedback_run=study_id+'-feedback-0'
     freeze(make_payload(base,initial,f'{model}/{cli_version}',feedback_run,0),out/'feedback-budget0.json')
-    freeze(make_payload(base,initial,'seeded-uniform-score-search-1','core-pilot-search-0',0),out/'search-budget0.json')
+    freeze(make_payload(base,initial,'seeded-uniform-score-search-1',study_id+'-search-0',0),out/'search-budget0.json')
     handles={f'train-{i}':c for i,c in enumerate(groups['train'])}
     # Predeclared candidate distribution: normal initial then seven independent
     # uniform candidates. Search consumes only a boolean score, not diagnostics.
@@ -225,7 +228,7 @@ def run(root,out,reference,gpu,model,b1,after_b1=False,participant_command=None,
                 else:
                     skill=candidates[call]
                     condition=groups['train'][call%4]
-                identity={'learning_run_id':feedback_run if method=='feedback' else 'core-pilot-search-0',
+                identity={'study_id':study_id,'learning_run_id':feedback_run if method=='feedback' else study_id+'-search-0',
                           'budget_used':session.used,'checkpoint_index':0,'effective_artifact_hash':skill.sha256,
                           'task_id':base['task_version'],'split_id':'train','condition_id':condition['condition_id'],
                           'physical_replay_id':f'{method}-{session.used}','execution_profile':'TargetBounded-reference-v2-1'}
@@ -253,7 +256,7 @@ def run(root,out,reference,gpu,model,b1,after_b1=False,participant_command=None,
         save_json(out/f'{method}-training-history.json',history)
         participant=f'{model}/{cli_version}' if method=='feedback' else 'seeded-uniform-score-search-1'
         artifact=freeze(make_payload(base,best,participant,
-                                feedback_run if method=='feedback' else 'core-pilot-search-0',
+                                feedback_run if method=='feedback' else study_id+'-search-0',
                                 session.used,memory),out/f'{method}.json')
         artifacts[method]=artifact
         # Freeze ablation before all heldout data: same participant/executor and
@@ -271,7 +274,7 @@ def run(root,out,reference,gpu,model,b1,after_b1=False,participant_command=None,
             session.ready()
             conditions=groups['heldout'][arm_index:]+groups['heldout'][:arm_index]
             for i,c in enumerate(conditions):
-                identity={'learning_run_id':artifact['payload']['learning_run_id'],
+                identity={'study_id':study_id,'learning_run_id':artifact['payload']['learning_run_id'],
                           'budget_used':artifact['payload']['budget_used'],'checkpoint_index':1,
                           'effective_artifact_hash':artifact['effective_artifact_hash'],'task_id':base['task_version'],
                           'split_id':'heldout','condition_id':c['condition_id'],'physical_replay_id':f'{arm}-{i}',
