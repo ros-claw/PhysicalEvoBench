@@ -130,13 +130,40 @@ def verify(evidence,out):
             # Failure evidence stays published, but never becomes a passed study.
             results[name]={'status':status['status'],'scope':'Incomplete attempts retained; no completed study claim'}
         elif reg['schema']=='v02-diagnostics-1':
+            recorded=json.loads((study/'parameter_space_results.json').read_text())
             results[name]=summarize(study)
+            if results[name]!=recorded:
+                raise ValueError('Stored B1 analysis differs from independent recomputation')
         elif reg['schema']=='core-pilot-1':
+            recorded=json.loads((study/'pilot_results.json').read_text())
             results[name]=audit_pilot(study)
+            if results[name]!=recorded:
+                raise ValueError('Stored Agent comparison differs from independent recomputation')
         elif reg['schema']=='core-flow-1':
+            recorded=json.loads((study/'flow_results.json').read_text())
             results[name]=summarize_flow(study)
+            if results[name]!=recorded:
+                raise ValueError('Stored task-flow conclusions differ from independent recomputation')
         elif reg['schema']=='core-place-study-1':
             data=audit_session(study/'native')
+            recorded=json.loads((study/'place_results.json').read_text())
+            positive=[r for r,j in zip(data,reg['jobs'],strict=True) if not j['force_open']]
+            negative=[r for r,j in zip(data,reg['jobs'],strict=True) if j['force_open']]
+            for key,group in [('positive',positive),('negative',negative)]:
+                if recorded[key]!={'successes':sum(r['success'] for r in group),'episodes':len(group)}:
+                    raise ValueError('Stored task calibration counts differ from raw state scoring')
+            if reg['phase']=='development':
+                gate=sum(r['success'] for r in positive)>=3 and not any(
+                    r['success'] for r in negative) and not any(r['diagnostic']['hard_boundary_terminated'] for r in data)
+                if recorded['development_qualified']!=gate:
+                    raise ValueError('Development qualification changed')
+            else:
+                gate=(not any(r['success'] for r in negative) and
+                      not any(r['diagnostic']['hard_boundary_terminated'] for r in data) and
+                      all(sum(r['success'] for r,j in zip(data,reg['jobs'],strict=True) if
+                              not j['force_open'] and j['condition']['object_mass_kg']==m)>=2 for m in (.1,.4)))
+                if recorded['independent_gate_passed']!=gate:
+                    raise ValueError('Independent confirmation decision changed')
             results[name]={'audit':'PASS','episodes':len(data),'successes':sum(r['success'] for r in data)}
         else:
             raise ValueError('Unknown completed Core study')

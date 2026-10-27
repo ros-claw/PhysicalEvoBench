@@ -82,7 +82,8 @@ def public_feedback(directory,row):
     diagnostic=row['diagnostic']
     trace=records(Path(directory)/row['trace_artifact'])
     samples=[{'step':s['step'],**s['policy_diagnostics']['public'],
-              'phase':s['policy_diagnostics']['decision']['phase']} for s in trace[::50]]
+              'phase':s['policy_diagnostics']['decision']['phase'],
+              'program_node':s['policy_diagnostics']['decision'].get('program_node')} for s in trace[::50]]
     return {'effective_success':row['success'],'steps':row['steps'],'cost_episodes':1,
             'failure_reason':(None if row['success'] else ('place_task_not_completed' if row.get('place') else row['failure_type'])),
             'termination_reason':row['termination_reason'],
