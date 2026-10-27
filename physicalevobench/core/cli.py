@@ -2,6 +2,8 @@
 
 import argparse
 import json
+import subprocess
+import sys
 from pathlib import Path
 
 from physicalevobench.core.program import Program, initial_program
@@ -11,9 +13,22 @@ def main():
     p=argparse.ArgumentParser(prog='physicalevobench-core')
     sub=p.add_subparsers(dest='command',required=True)
     sub.add_parser('smoke',help='CPU schema/guard smoke only; zero physical episodes')
+    run=sub.add_parser('run',help='Run a bounded real-model P pilot using a prior calibration receipt')
+    run.add_argument('--output',required=True)
+    run.add_argument('--reference',default='configs/core/frozen_reference.json')
+    run.add_argument('--calibration',default='configs/core/calibration-b1')
+    run.add_argument('--gpu',type=int,default=2)
+    run.add_argument('--model',default='gpt-6.1-terra')
+    run.add_argument('--participant-command',help='JSON argv for a generic stdin provider')
     audit=sub.add_parser('audit',help='Recompute an existing evidence directory without physics')
     audit.add_argument('--run-dir',required=True)
     a=p.parse_args()
+    if a.command=='run':
+        argv=[sys.executable,'-m','physicalevobench.core.pilot','--output',a.output,
+              '--reference',a.reference,'--b1',a.calibration,'--gpu',str(a.gpu),'--model',a.model]
+        if a.participant_command:
+            argv+=['--participant-command',a.participant_command]
+        raise SystemExit(subprocess.run(argv,check=False).returncode)
     if a.command=='smoke':
         for place in (False,True):
             program=initial_program(place)

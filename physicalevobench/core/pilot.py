@@ -41,8 +41,9 @@ schema-specified JSON tool call. The training_condition_handle is ignored for fr
 '''
 
 
-def fresh_conditions(root,parent):
+def fresh_conditions(root,parent,extra_excluded=()):
     excluded=published_seeds(root)
+    excluded.update(extra_excluded)
     for path in parent.glob('peb-*/registration.json'):
         excluded.update(registered_seed_values(read(path)))
     rng=random.Random(2026102702)
@@ -143,7 +144,7 @@ def run(root,out,reference,gpu,model,b1,after_b1=False,participant_command=None,
         make_payload=partial(payload,executor_commit=source_commit)
         groups,order=reg['conditions'],reg['evaluation_order']
     else:
-        groups=fresh_conditions(root,out.parent)
+        groups=fresh_conditions(root,out.parent,registered_seed_values(read(b1/'registration.json')))
         out.mkdir(parents=True,exist_ok=False)
         shutil.copyfile(reference,out/'baseline_reference.json')
         order=['frozen','search','feedback','ablation']

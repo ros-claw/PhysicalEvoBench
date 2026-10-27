@@ -1,0 +1,977 @@
+{
+  "schema": "v02-diagnostics-1",
+  "phase": "core-parameter-space-1",
+  "source_commit": "c8017dd38996ca5a195ade1d9137c77899be2c56",
+  "runtime_source": "/code/rosclaw/physicalEvoBench/.cache/study-source/c8017dd38996ca5a195ade1d9137c77899be2c56",
+  "source_sha256": {
+    "physicalevobench/__init__.py": "6f37466fd9f083ad8f349b8eb602d0b4a44335b1e181a949cfb5f02ab1d140b2",
+    "physicalevobench/adapters/__init__.py": "6e7ed8f66983babde3dcd30bb060d0bdfc483c513c0a69feb6bb31b534057eff",
+    "physicalevobench/adapters/arena_worker.py": "8f3e7ad140f702eb1d3323195f0f76a12d4f0978a90e195306a4883578f29961",
+    "physicalevobench/adapters/lift_pilot.py": "78f4549f89d320c98c1ebdae0c2d330d2954a604472d2ce128147ea042ee4fef",
+    "physicalevobench/adapters/lift_worker.py": "0a83bb204d3fc9db859589b3e80a65346703f6cbb0fc7c9309477c7f655a4eb5",
+    "physicalevobench/agents/__init__.py": "1276913ca228b8292fa275d9a7770a397de489b8ec4bd8509b3311f9768d8c59",
+    "physicalevobench/agents/feedback_search.py": "d715fb1d1c2422193d879c4eaa38c2bee9d71e999234b55160fed1f80f7ea6ea",
+    "physicalevobench/agents/guarded_search_worker.py": "d4104903d61a1eea361e684e458ee55516b0825750cf9ef98eb78400b2e4188c",
+    "physicalevobench/agents/search_worker.py": "d8cd789e10a79658799472175b0f75426d2e3fbd37cc251b7f47635429602d4e",
+    "physicalevobench/agents/worker.py": "5fe3c62b8f17e96103284dcb40a3e8089500bea50ecdd2426d347499d648fdad",
+    "physicalevobench/calibration/__init__.py": "802f45e3f57cefb8f0fde6c853479c34e396f9a5cd27bf6bb3a67d3b599c499e",
+    "physicalevobench/calibration/audit.py": "8e11fc0a155b44792dae8f230d56144b6dd30224ed826cf30e9d2326adc89c24",
+    "physicalevobench/calibration/collect.py": "819742340dc938276e821ee72ae2869aecda6c29c8be9c0943a5e472b20205e8",
+    "physicalevobench/calibration/expert_v1_snapshot.py": "c2aa1bb18913e68d7812af3c36d9ea93fce521feed31d76eebf0b15efe1febe9",
+    "physicalevobench/calibration/expert_v2_snapshot.py": "47f9455183ca0535107f3b2e96ff567e8156f9c06f9145b53c5d7a5ba9d2081d",
+    "physicalevobench/calibration/isolated_audit.py": "97319771b21e83689ed709c95524ed30f604b72d7439a1aae3400e9be41835ab",
+    "physicalevobench/calibration/learner.py": "2d2ed2036da24775ef913faeeab78ea301e151e57bd92ef4f8308a25a8e3b4a7",
+    "physicalevobench/calibration/policies.py": "88e301b3460c01330985a4f56da8bc85c7d2a8b4ab89c464ceef645bcbad527b",
+    "physicalevobench/calibration/power.py": "b059e0b931577912eac9fd2ebdce097d4f91ce51ec27b9fbbef9bf711ed8f337",
+    "physicalevobench/calibration/public_schema.py": "84e56ca589a68a1aeff6c4b210ef08943a7a893ec51c53ab778793ca79a6a0f6",
+    "physicalevobench/calibration/replay_audit.py": "70aab7dd49ebb38c0ff585c5cf0d601cd85f4bc544181e245ebcdd12ec08c1c0",
+    "physicalevobench/calibration/safety.py": "307cd4fb241f76196d1bf27bcdae1c6519a2ff38ebaae25f6731fba442d8b048",
+    "physicalevobench/calibration/source_snapshot.py": "33a0ca44c8664a708ad51d8cc7757b91c796c39c994af308f30f8ea341e2e731",
+    "physicalevobench/calibration/statistics.py": "6267f1bcb197424d65b5ea4e11327a9ce3c34fe23385b8947079089e81d8032d",
+    "physicalevobench/calibration/train.py": "070487d4154649d815bc26052ef061025d905fdfbed6186b9b676dc85c8cf7a2",
+    "physicalevobench/calibration/training_audit.py": "ea8e3705ce2a1ea06ed7d41b6f501da45c76a01d2c74e6e0cadd2b730bb0b731",
+    "physicalevobench/cli.py": "248c6b41911422bd9a84053fde5c46f40877aa35b8b2cdaaab5d7e332b33c76a",
+    "physicalevobench/doctor.py": "942a8c1f8dcb7b49db77459d256b7636de80a274dc471fa961c8dc81c222c5f1",
+    "physicalevobench/evaluation/__init__.py": "d1940240be8a1af647cf5dad42632169ecb12f1ad976c87fe9afcf1679e3cf77",
+    "physicalevobench/evaluation/audit.py": "f4d9d3c7a71644ef34bdbce6ba4e5f4c109f14406cbdf2433c2ab04c7a76af2b",
+    "physicalevobench/evaluation/confirmation.py": "0ee032ecf7ab6ff3d2d7ba520fe97c4f2392f517095f0b223b3bcbb8ad076f36",
+    "physicalevobench/evaluation/confirmation_audit.py": "6c7b32f9ca00a29ee94228ad3eabeecfcb94f31e848efd263926970a3070c962",
+    "physicalevobench/evaluation/confirmation_stats.py": "70c1dba57ceadfa29ec4480422474c4c220775f858c20154f17a6cb7c09a3ba2",
+    "physicalevobench/evaluation/experiment.py": "ca276f3c00cdcea5e4853fe60d6b79bf115b830d5523d638109455134aeedd68",
+    "physicalevobench/evaluation/metrics.py": "39b3f2400449dfe48536d19fe42cb4f5b902fef6c986c30ae10d96ac602c774f",
+    "physicalevobench/evaluation/protocol.py": "d8383bdf74085b7748e7b51401b0981b31a3f1ca1588386e44698be46edce721",
+    "physicalevobench/evaluation/seed_registry.py": "d18e58a8cf25656a54fa3f01b0b18f94ebcf23d55b06671af798894ad7092679",
+    "physicalevobench/evaluation/temporal_audit.py": "aaa9c7991bac48d996e49b1b9624562e052485daa83a93680a9c56ef2465c44a",
+    "physicalevobench/evaluation/temporal_exploration.py": "8c70dd311293ee30897d1628c1f18ecbdbdc81808a542b619f17bdfd9afabe8f",
+    "physicalevobench/evaluation/temporal_gate.py": "d981a0ce0c324da741ef7707e87fa3c6c95e2db2ce696afa6e54c502fbee5d45",
+    "physicalevobench/protocols/__init__.py": "0bf9ae3b41e0f8c87d818814f7a32c3cccc1a84c3bd25bf3fb4c4751d71937fb",
+    "physicalevobench/protocols/agent.py": "0bd15b540fbe96a256c9de874a31b41c2e098b6cdfdc35718edaa626a93c090f",
+    "physicalevobench/protocols/feedback.py": "ad9bd6a6ebe10d9c145682ecd4fad739229858e02e5762bf34910a7593108be3",
+    "physicalevobench/protocols/guarded_skill.py": "f7f0fea0f1f5f6832f39a9cdef286ee40efcff0a7199eeaaf802e18137287475",
+    "physicalevobench/protocols/skill.py": "baaf80cbaa0cf6512350690471157017110a75671223964417bdb1d12540091b",
+    "physicalevobench/protocols/temporal_skill.py": "37d83bc975a39e936834026891be48e11a6908d22be07e62fac5d170042543dd",
+    "physicalevobench/reporting/__init__.py": "b0cdcdcb9fbd78f6bee86718b78e66a5ded9dac86b9d2998d4f0b784fa406cdd",
+    "physicalevobench/reporting/generate.py": "a1b90640d8f7d3e7fda6916f651863c8a73ae8c39158811c209e3f1f21c027bc",
+    "physicalevobench/stability/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "physicalevobench/stability/audit.py": "5efe79724b21b93bfe919f78538afad05dd1d329309c0b64399d22f7ff9bef5e",
+    "physicalevobench/stability/collect.py": "b79b7dd691bf5a08a21c81da1344e9b70ae44fdc36d811b0da564d372f6eba7a",
+    "physicalevobench/stability/metrics.py": "e5171f974c9e3977716cdc4b9cd8114818e50b0e19150509edb525c99a5c1963",
+    "physicalevobench/stability/raw_probe.py": "274aa048cb3b822cb0415fdc84147f075c88cc8efbc4db4e2ad07d5743004180",
+    "physicalevobench/stability/study.py": "73a16e1bcab054106a4cc3ff0d656a34334a8ea2f34273c0bfd59cdd78ba07e9",
+    "physicalevobench/v02/__init__.py": "1ea75d35dd1a1a6dd57c73b7b814d2752a6a3807dd160cb2f5fd71df586953e1",
+    "physicalevobench/v02/agent.py": "0667efaa603ccb2ec288a41f717a70a5234d20a45825764c1c2df161eaf23531",
+    "physicalevobench/v02/audit.py": "ce45ee81a323c668cf5312a5426ad74683aca3425db0ee61ba6d935e517e2477",
+    "physicalevobench/v02/collect.py": "c2cbb0fe31cb303c735cc1ec2a775eafab229a63b2e26147defd981147692c29",
+    "physicalevobench/v02/execution.py": "965d65ce6d3c6587815134ed91e806724d822d4158d30fd36cec45cb539a9824",
+    "physicalevobench/v02/gate.py": "cb7473622328d53c5c2250e8e7692663906eb8e4ed85f9d7f2070946fbec4aad",
+    "physicalevobench/v02/metrics.py": "b88375cee64400157bd6cd04b0685a94c1d9c9ef42dac33dbc5dfd3b65757f8c",
+    "physicalevobench/v02/native.py": "1207793259ba4b0f32c07429aacbf89f3df444d4fb81875899c36d2d69f11626",
+    "physicalevobench/v02/reference.py": "56125505d8331a8a4dff5f9e7ef9f49d6de2b36bf7cec9e6751e8b1b3b775a3e",
+    "physicalevobench/v02/reference_artifact.py": "36d12dea1434433d779c3221ff48020b035a0866a859f15696cff9ba6fdf0ccc",
+    "physicalevobench/v02/reference_native.py": "689720e62ca1198722ee658630c44084991eb0325fefe42c354caaeec6683dc8"
+  },
+  "launcher_commit": "ff70bad07e57880d245f8b8aa85c74b7aa84589b",
+  "registered_at": "2026-10-27T08:54:03.918503+00:00",
+  "physical_budget": 48,
+  "gpu": 2,
+  "plans": [
+    {
+      "name": "grid-00",
+      "checkpoint_path": "/home/dell/models/physicalevobench/franka_lift/model_1999.pt",
+      "checkpoint_sha256": "babbbfd363f894443ffe494f26c5b6e0485fb35d4f5480c088295c23fc2a13aa",
+      "policy_config_sha256": "ae5ccee81f45fda922d45cc5e72cc1a1734e8661054d244f137591b779ea59f6",
+      "mode": "FixedHorizonDiagnostic",
+      "execution_layer": "TargetBounded",
+      "reference_controller": "StateBasedReference",
+      "reference_config": {
+        "approach_clearance_m": 0.12,
+        "approach_tolerance_m": 0.025,
+        "close_timeout_s": 1.2,
+        "contact_force_n": 0.5,
+        "descend_tolerance_m": 0.015,
+        "dwell_s": 0.06,
+        "grasp_offset_m": 0.005,
+        "joint_integral_gain_s": 1.0,
+        "joint_integral_limit_rad": 0.12,
+        "maximum_recoveries": 1,
+        "minimum_close_s": 0.45,
+        "object_follow_m": 0.02,
+        "orientation_tolerance_rad": 0.15,
+        "probe_lift_m": 0.05,
+        "relative_drift_m": 0.025
+      },
+      "reference_skill": {
+        "schema": "reference-skill-1",
+        "base_reference_sha256": "3afd2f34102079831e4cddba8ed8a8eb8a99809754ed7adf52695a5dda09f282",
+        "approach_clearance_m": 0.12,
+        "minimum_close_s": 0.45
+      },
+      "source_commit": "c8017dd38996ca5a195ade1d9137c77899be2c56",
+      "task_version": "state-reference-h10-v1",
+      "horizon_s": 10.0,
+      "physical_budget": 4,
+      "jobs": [
+        {
+          "episode_id": "grid-00-core-b1-dev-03",
+          "condition": {
+            "condition_id": "core-b1-dev-03",
+            "seed": 1411156790,
+            "split": "development",
+            "object_mass_kg": 0.4
+          }
+        },
+        {
+          "episode_id": "grid-00-core-b1-dev-02",
+          "condition": {
+            "condition_id": "core-b1-dev-02",
+            "seed": 1048308863,
+            "split": "development",
+            "object_mass_kg": 0.4
+          }
+        },
+        {
+          "episode_id": "grid-00-core-b1-dev-00",
+          "condition": {
+            "condition_id": "core-b1-dev-00",
+            "seed": 215056333,
+            "split": "development",
+            "object_mass_kg": 0.1
+          }
+        },
+        {
+          "episode_id": "grid-00-core-b1-dev-01",
+          "condition": {
+            "condition_id": "core-b1-dev-01",
+            "seed": 1490161365,
+            "split": "development",
+            "object_mass_kg": 0.1
+          }
+        }
+      ]
+    },
+    {
+      "name": "grid-01",
+      "checkpoint_path": "/home/dell/models/physicalevobench/franka_lift/model_1999.pt",
+      "checkpoint_sha256": "babbbfd363f894443ffe494f26c5b6e0485fb35d4f5480c088295c23fc2a13aa",
+      "policy_config_sha256": "ae5ccee81f45fda922d45cc5e72cc1a1734e8661054d244f137591b779ea59f6",
+      "mode": "FixedHorizonDiagnostic",
+      "execution_layer": "TargetBounded",
+      "reference_controller": "StateBasedReference",
+      "reference_config": {
+        "approach_clearance_m": 0.1,
+        "approach_tolerance_m": 0.025,
+        "close_timeout_s": 1.2,
+        "contact_force_n": 0.5,
+        "descend_tolerance_m": 0.015,
+        "dwell_s": 0.06,
+        "grasp_offset_m": 0.005,
+        "joint_integral_gain_s": 1.0,
+        "joint_integral_limit_rad": 0.12,
+        "maximum_recoveries": 1,
+        "minimum_close_s": 0.2,
+        "object_follow_m": 0.02,
+        "orientation_tolerance_rad": 0.15,
+        "probe_lift_m": 0.05,
+        "relative_drift_m": 0.025
+      },
+      "reference_skill": {
+        "schema": "reference-skill-1",
+        "base_reference_sha256": "3afd2f34102079831e4cddba8ed8a8eb8a99809754ed7adf52695a5dda09f282",
+        "approach_clearance_m": 0.1,
+        "minimum_close_s": 0.2
+      },
+      "source_commit": "c8017dd38996ca5a195ade1d9137c77899be2c56",
+      "task_version": "state-reference-h10-v1",
+      "horizon_s": 10.0,
+      "physical_budget": 4,
+      "jobs": [
+        {
+          "episode_id": "grid-01-core-b1-dev-01",
+          "condition": {
+            "condition_id": "core-b1-dev-01",
+            "seed": 1490161365,
+            "split": "development",
+            "object_mass_kg": 0.1
+          }
+        },
+        {
+          "episode_id": "grid-01-core-b1-dev-03",
+          "condition": {
+            "condition_id": "core-b1-dev-03",
+            "seed": 1411156790,
+            "split": "development",
+            "object_mass_kg": 0.4
+          }
+        },
+        {
+          "episode_id": "grid-01-core-b1-dev-02",
+          "condition": {
+            "condition_id": "core-b1-dev-02",
+            "seed": 1048308863,
+            "split": "development",
+            "object_mass_kg": 0.4
+          }
+        },
+        {
+          "episode_id": "grid-01-core-b1-dev-00",
+          "condition": {
+            "condition_id": "core-b1-dev-00",
+            "seed": 215056333,
+            "split": "development",
+            "object_mass_kg": 0.1
+          }
+        }
+      ]
+    },
+    {
+      "name": "grid-02",
+      "checkpoint_path": "/home/dell/models/physicalevobench/franka_lift/model_1999.pt",
+      "checkpoint_sha256": "babbbfd363f894443ffe494f26c5b6e0485fb35d4f5480c088295c23fc2a13aa",
+      "policy_config_sha256": "ae5ccee81f45fda922d45cc5e72cc1a1734e8661054d244f137591b779ea59f6",
+      "mode": "FixedHorizonDiagnostic",
+      "execution_layer": "TargetBounded",
+      "reference_controller": "StateBasedReference",
+      "reference_config": {
+        "approach_clearance_m": 0.1,
+        "approach_tolerance_m": 0.025,
+        "close_timeout_s": 1.2,
+        "contact_force_n": 0.5,
+        "descend_tolerance_m": 0.015,
+        "dwell_s": 0.06,
+        "grasp_offset_m": 0.005,
+        "joint_integral_gain_s": 1.0,
+        "joint_integral_limit_rad": 0.12,
+        "maximum_recoveries": 1,
+        "minimum_close_s": 0.7,
+        "object_follow_m": 0.02,
+        "orientation_tolerance_rad": 0.15,
+        "probe_lift_m": 0.05,
+        "relative_drift_m": 0.025
+      },
+      "reference_skill": {
+        "schema": "reference-skill-1",
+        "base_reference_sha256": "3afd2f34102079831e4cddba8ed8a8eb8a99809754ed7adf52695a5dda09f282",
+        "approach_clearance_m": 0.1,
+        "minimum_close_s": 0.7
+      },
+      "source_commit": "c8017dd38996ca5a195ade1d9137c77899be2c56",
+      "task_version": "state-reference-h10-v1",
+      "horizon_s": 10.0,
+      "physical_budget": 4,
+      "jobs": [
+        {
+          "episode_id": "grid-02-core-b1-dev-02",
+          "condition": {
+            "condition_id": "core-b1-dev-02",
+            "seed": 1048308863,
+            "split": "development",
+            "object_mass_kg": 0.4
+          }
+        },
+        {
+          "episode_id": "grid-02-core-b1-dev-03",
+          "condition": {
+            "condition_id": "core-b1-dev-03",
+            "seed": 1411156790,
+            "split": "development",
+            "object_mass_kg": 0.4
+          }
+        },
+        {
+          "episode_id": "grid-02-core-b1-dev-01",
+          "condition": {
+            "condition_id": "core-b1-dev-01",
+            "seed": 1490161365,
+            "split": "development",
+            "object_mass_kg": 0.1
+          }
+        },
+        {
+          "episode_id": "grid-02-core-b1-dev-00",
+          "condition": {
+            "condition_id": "core-b1-dev-00",
+            "seed": 215056333,
+            "split": "development",
+            "object_mass_kg": 0.1
+          }
+        }
+      ]
+    },
+    {
+      "name": "identity-0",
+      "checkpoint_path": "/home/dell/models/physicalevobench/franka_lift/model_1999.pt",
+      "checkpoint_sha256": "babbbfd363f894443ffe494f26c5b6e0485fb35d4f5480c088295c23fc2a13aa",
+      "policy_config_sha256": "ae5ccee81f45fda922d45cc5e72cc1a1734e8661054d244f137591b779ea59f6",
+      "mode": "FixedHorizonDiagnostic",
+      "execution_layer": "TargetBounded",
+      "reference_controller": "StateBasedReference",
+      "reference_config": {
+        "approach_clearance_m": 0.1,
+        "approach_tolerance_m": 0.025,
+        "close_timeout_s": 1.2,
+        "contact_force_n": 0.5,
+        "descend_tolerance_m": 0.015,
+        "dwell_s": 0.06,
+        "grasp_offset_m": 0.005,
+        "joint_integral_gain_s": 1.0,
+        "joint_integral_limit_rad": 0.12,
+        "maximum_recoveries": 1,
+        "minimum_close_s": 0.2,
+        "object_follow_m": 0.02,
+        "orientation_tolerance_rad": 0.15,
+        "probe_lift_m": 0.05,
+        "relative_drift_m": 0.025
+      },
+      "reference_skill": {
+        "schema": "reference-skill-1",
+        "base_reference_sha256": "3afd2f34102079831e4cddba8ed8a8eb8a99809754ed7adf52695a5dda09f282",
+        "approach_clearance_m": 0.1,
+        "minimum_close_s": 0.2
+      },
+      "source_commit": "c8017dd38996ca5a195ade1d9137c77899be2c56",
+      "task_version": "state-reference-h10-v1",
+      "horizon_s": 10.0,
+      "physical_budget": 4,
+      "jobs": [
+        {
+          "episode_id": "identity-0-core-b1-dev-03",
+          "condition": {
+            "condition_id": "core-b1-dev-03",
+            "seed": 1411156790,
+            "split": "development",
+            "object_mass_kg": 0.4
+          }
+        },
+        {
+          "episode_id": "identity-0-core-b1-dev-02",
+          "condition": {
+            "condition_id": "core-b1-dev-02",
+            "seed": 1048308863,
+            "split": "development",
+            "object_mass_kg": 0.4
+          }
+        },
+        {
+          "episode_id": "identity-0-core-b1-dev-01",
+          "condition": {
+            "condition_id": "core-b1-dev-01",
+            "seed": 1490161365,
+            "split": "development",
+            "object_mass_kg": 0.1
+          }
+        },
+        {
+          "episode_id": "identity-0-core-b1-dev-00",
+          "condition": {
+            "condition_id": "core-b1-dev-00",
+            "seed": 215056333,
+            "split": "development",
+            "object_mass_kg": 0.1
+          }
+        }
+      ]
+    },
+    {
+      "name": "grid-03",
+      "checkpoint_path": "/home/dell/models/physicalevobench/franka_lift/model_1999.pt",
+      "checkpoint_sha256": "babbbfd363f894443ffe494f26c5b6e0485fb35d4f5480c088295c23fc2a13aa",
+      "policy_config_sha256": "ae5ccee81f45fda922d45cc5e72cc1a1734e8661054d244f137591b779ea59f6",
+      "mode": "FixedHorizonDiagnostic",
+      "execution_layer": "TargetBounded",
+      "reference_controller": "StateBasedReference",
+      "reference_config": {
+        "approach_clearance_m": 0.08,
+        "approach_tolerance_m": 0.025,
+        "close_timeout_s": 1.2,
+        "contact_force_n": 0.5,
+        "descend_tolerance_m": 0.015,
+        "dwell_s": 0.06,
+        "grasp_offset_m": 0.005,
+        "joint_integral_gain_s": 1.0,
+        "joint_integral_limit_rad": 0.12,
+        "maximum_recoveries": 1,
+        "minimum_close_s": 0.2,
+        "object_follow_m": 0.02,
+        "orientation_tolerance_rad": 0.15,
+        "probe_lift_m": 0.05,
+        "relative_drift_m": 0.025
+      },
+      "reference_skill": {
+        "schema": "reference-skill-1",
+        "base_reference_sha256": "3afd2f34102079831e4cddba8ed8a8eb8a99809754ed7adf52695a5dda09f282",
+        "approach_clearance_m": 0.08,
+        "minimum_close_s": 0.2
+      },
+      "source_commit": "c8017dd38996ca5a195ade1d9137c77899be2c56",
+      "task_version": "state-reference-h10-v1",
+      "horizon_s": 10.0,
+      "physical_budget": 4,
+      "jobs": [
+        {
+          "episode_id": "grid-03-core-b1-dev-03",
+          "condition": {
+            "condition_id": "core-b1-dev-03",
+            "seed": 1411156790,
+            "split": "development",
+            "object_mass_kg": 0.4
+          }
+        },
+        {
+          "episode_id": "grid-03-core-b1-dev-02",
+          "condition": {
+            "condition_id": "core-b1-dev-02",
+            "seed": 1048308863,
+            "split": "development",
+            "object_mass_kg": 0.4
+          }
+        },
+        {
+          "episode_id": "grid-03-core-b1-dev-00",
+          "condition": {
+            "condition_id": "core-b1-dev-00",
+            "seed": 215056333,
+            "split": "development",
+            "object_mass_kg": 0.1
+          }
+        },
+        {
+          "episode_id": "grid-03-core-b1-dev-01",
+          "condition": {
+            "condition_id": "core-b1-dev-01",
+            "seed": 1490161365,
+            "split": "development",
+            "object_mass_kg": 0.1
+          }
+        }
+      ]
+    },
+    {
+      "name": "grid-04",
+      "checkpoint_path": "/home/dell/models/physicalevobench/franka_lift/model_1999.pt",
+      "checkpoint_sha256": "babbbfd363f894443ffe494f26c5b6e0485fb35d4f5480c088295c23fc2a13aa",
+      "policy_config_sha256": "ae5ccee81f45fda922d45cc5e72cc1a1734e8661054d244f137591b779ea59f6",
+      "mode": "FixedHorizonDiagnostic",
+      "execution_layer": "TargetBounded",
+      "reference_controller": "StateBasedReference",
+      "reference_config": {
+        "approach_clearance_m": 0.08,
+        "approach_tolerance_m": 0.025,
+        "close_timeout_s": 1.2,
+        "contact_force_n": 0.5,
+        "descend_tolerance_m": 0.015,
+        "dwell_s": 0.06,
+        "grasp_offset_m": 0.005,
+        "joint_integral_gain_s": 1.0,
+        "joint_integral_limit_rad": 0.12,
+        "maximum_recoveries": 1,
+        "minimum_close_s": 0.45,
+        "object_follow_m": 0.02,
+        "orientation_tolerance_rad": 0.15,
+        "probe_lift_m": 0.05,
+        "relative_drift_m": 0.025
+      },
+      "reference_skill": {
+        "schema": "reference-skill-1",
+        "base_reference_sha256": "3afd2f34102079831e4cddba8ed8a8eb8a99809754ed7adf52695a5dda09f282",
+        "approach_clearance_m": 0.08,
+        "minimum_close_s": 0.45
+      },
+      "source_commit": "c8017dd38996ca5a195ade1d9137c77899be2c56",
+      "task_version": "state-reference-h10-v1",
+      "horizon_s": 10.0,
+      "physical_budget": 4,
+      "jobs": [
+        {
+          "episode_id": "grid-04-core-b1-dev-03",
+          "condition": {
+            "condition_id": "core-b1-dev-03",
+            "seed": 1411156790,
+            "split": "development",
+            "object_mass_kg": 0.4
+          }
+        },
+        {
+          "episode_id": "grid-04-core-b1-dev-01",
+          "condition": {
+            "condition_id": "core-b1-dev-01",
+            "seed": 1490161365,
+            "split": "development",
+            "object_mass_kg": 0.1
+          }
+        },
+        {
+          "episode_id": "grid-04-core-b1-dev-00",
+          "condition": {
+            "condition_id": "core-b1-dev-00",
+            "seed": 215056333,
+            "split": "development",
+            "object_mass_kg": 0.1
+          }
+        },
+        {
+          "episode_id": "grid-04-core-b1-dev-02",
+          "condition": {
+            "condition_id": "core-b1-dev-02",
+            "seed": 1048308863,
+            "split": "development",
+            "object_mass_kg": 0.4
+          }
+        }
+      ]
+    },
+    {
+      "name": "grid-05",
+      "checkpoint_path": "/home/dell/models/physicalevobench/franka_lift/model_1999.pt",
+      "checkpoint_sha256": "babbbfd363f894443ffe494f26c5b6e0485fb35d4f5480c088295c23fc2a13aa",
+      "policy_config_sha256": "ae5ccee81f45fda922d45cc5e72cc1a1734e8661054d244f137591b779ea59f6",
+      "mode": "FixedHorizonDiagnostic",
+      "execution_layer": "TargetBounded",
+      "reference_controller": "StateBasedReference",
+      "reference_config": {
+        "approach_clearance_m": 0.12,
+        "approach_tolerance_m": 0.025,
+        "close_timeout_s": 1.2,
+        "contact_force_n": 0.5,
+        "descend_tolerance_m": 0.015,
+        "dwell_s": 0.06,
+        "grasp_offset_m": 0.005,
+        "joint_integral_gain_s": 1.0,
+        "joint_integral_limit_rad": 0.12,
+        "maximum_recoveries": 1,
+        "minimum_close_s": 0.7,
+        "object_follow_m": 0.02,
+        "orientation_tolerance_rad": 0.15,
+        "probe_lift_m": 0.05,
+        "relative_drift_m": 0.025
+      },
+      "reference_skill": {
+        "schema": "reference-skill-1",
+        "base_reference_sha256": "3afd2f34102079831e4cddba8ed8a8eb8a99809754ed7adf52695a5dda09f282",
+        "approach_clearance_m": 0.12,
+        "minimum_close_s": 0.7
+      },
+      "source_commit": "c8017dd38996ca5a195ade1d9137c77899be2c56",
+      "task_version": "state-reference-h10-v1",
+      "horizon_s": 10.0,
+      "physical_budget": 4,
+      "jobs": [
+        {
+          "episode_id": "grid-05-core-b1-dev-01",
+          "condition": {
+            "condition_id": "core-b1-dev-01",
+            "seed": 1490161365,
+            "split": "development",
+            "object_mass_kg": 0.1
+          }
+        },
+        {
+          "episode_id": "grid-05-core-b1-dev-03",
+          "condition": {
+            "condition_id": "core-b1-dev-03",
+            "seed": 1411156790,
+            "split": "development",
+            "object_mass_kg": 0.4
+          }
+        },
+        {
+          "episode_id": "grid-05-core-b1-dev-02",
+          "condition": {
+            "condition_id": "core-b1-dev-02",
+            "seed": 1048308863,
+            "split": "development",
+            "object_mass_kg": 0.4
+          }
+        },
+        {
+          "episode_id": "grid-05-core-b1-dev-00",
+          "condition": {
+            "condition_id": "core-b1-dev-00",
+            "seed": 215056333,
+            "split": "development",
+            "object_mass_kg": 0.1
+          }
+        }
+      ]
+    },
+    {
+      "name": "identity-1",
+      "checkpoint_path": "/home/dell/models/physicalevobench/franka_lift/model_1999.pt",
+      "checkpoint_sha256": "babbbfd363f894443ffe494f26c5b6e0485fb35d4f5480c088295c23fc2a13aa",
+      "policy_config_sha256": "ae5ccee81f45fda922d45cc5e72cc1a1734e8661054d244f137591b779ea59f6",
+      "mode": "FixedHorizonDiagnostic",
+      "execution_layer": "TargetBounded",
+      "reference_controller": "StateBasedReference",
+      "reference_config": {
+        "approach_clearance_m": 0.1,
+        "approach_tolerance_m": 0.025,
+        "close_timeout_s": 1.2,
+        "contact_force_n": 0.5,
+        "descend_tolerance_m": 0.015,
+        "dwell_s": 0.06,
+        "grasp_offset_m": 0.005,
+        "joint_integral_gain_s": 1.0,
+        "joint_integral_limit_rad": 0.12,
+        "maximum_recoveries": 1,
+        "minimum_close_s": 0.2,
+        "object_follow_m": 0.02,
+        "orientation_tolerance_rad": 0.15,
+        "probe_lift_m": 0.05,
+        "relative_drift_m": 0.025
+      },
+      "reference_skill": {
+        "schema": "reference-skill-1",
+        "base_reference_sha256": "3afd2f34102079831e4cddba8ed8a8eb8a99809754ed7adf52695a5dda09f282",
+        "approach_clearance_m": 0.1,
+        "minimum_close_s": 0.2
+      },
+      "source_commit": "c8017dd38996ca5a195ade1d9137c77899be2c56",
+      "task_version": "state-reference-h10-v1",
+      "horizon_s": 10.0,
+      "physical_budget": 4,
+      "jobs": [
+        {
+          "episode_id": "identity-1-core-b1-dev-03",
+          "condition": {
+            "condition_id": "core-b1-dev-03",
+            "seed": 1411156790,
+            "split": "development",
+            "object_mass_kg": 0.4
+          }
+        },
+        {
+          "episode_id": "identity-1-core-b1-dev-01",
+          "condition": {
+            "condition_id": "core-b1-dev-01",
+            "seed": 1490161365,
+            "split": "development",
+            "object_mass_kg": 0.1
+          }
+        },
+        {
+          "episode_id": "identity-1-core-b1-dev-00",
+          "condition": {
+            "condition_id": "core-b1-dev-00",
+            "seed": 215056333,
+            "split": "development",
+            "object_mass_kg": 0.1
+          }
+        },
+        {
+          "episode_id": "identity-1-core-b1-dev-02",
+          "condition": {
+            "condition_id": "core-b1-dev-02",
+            "seed": 1048308863,
+            "split": "development",
+            "object_mass_kg": 0.4
+          }
+        }
+      ]
+    },
+    {
+      "name": "grid-06",
+      "checkpoint_path": "/home/dell/models/physicalevobench/franka_lift/model_1999.pt",
+      "checkpoint_sha256": "babbbfd363f894443ffe494f26c5b6e0485fb35d4f5480c088295c23fc2a13aa",
+      "policy_config_sha256": "ae5ccee81f45fda922d45cc5e72cc1a1734e8661054d244f137591b779ea59f6",
+      "mode": "FixedHorizonDiagnostic",
+      "execution_layer": "TargetBounded",
+      "reference_controller": "StateBasedReference",
+      "reference_config": {
+        "approach_clearance_m": 0.1,
+        "approach_tolerance_m": 0.025,
+        "close_timeout_s": 1.2,
+        "contact_force_n": 0.5,
+        "descend_tolerance_m": 0.015,
+        "dwell_s": 0.06,
+        "grasp_offset_m": 0.005,
+        "joint_integral_gain_s": 1.0,
+        "joint_integral_limit_rad": 0.12,
+        "maximum_recoveries": 1,
+        "minimum_close_s": 0.45,
+        "object_follow_m": 0.02,
+        "orientation_tolerance_rad": 0.15,
+        "probe_lift_m": 0.05,
+        "relative_drift_m": 0.025
+      },
+      "reference_skill": {
+        "schema": "reference-skill-1",
+        "base_reference_sha256": "3afd2f34102079831e4cddba8ed8a8eb8a99809754ed7adf52695a5dda09f282",
+        "approach_clearance_m": 0.1,
+        "minimum_close_s": 0.45
+      },
+      "source_commit": "c8017dd38996ca5a195ade1d9137c77899be2c56",
+      "task_version": "state-reference-h10-v1",
+      "horizon_s": 10.0,
+      "physical_budget": 4,
+      "jobs": [
+        {
+          "episode_id": "grid-06-core-b1-dev-02",
+          "condition": {
+            "condition_id": "core-b1-dev-02",
+            "seed": 1048308863,
+            "split": "development",
+            "object_mass_kg": 0.4
+          }
+        },
+        {
+          "episode_id": "grid-06-core-b1-dev-03",
+          "condition": {
+            "condition_id": "core-b1-dev-03",
+            "seed": 1411156790,
+            "split": "development",
+            "object_mass_kg": 0.4
+          }
+        },
+        {
+          "episode_id": "grid-06-core-b1-dev-00",
+          "condition": {
+            "condition_id": "core-b1-dev-00",
+            "seed": 215056333,
+            "split": "development",
+            "object_mass_kg": 0.1
+          }
+        },
+        {
+          "episode_id": "grid-06-core-b1-dev-01",
+          "condition": {
+            "condition_id": "core-b1-dev-01",
+            "seed": 1490161365,
+            "split": "development",
+            "object_mass_kg": 0.1
+          }
+        }
+      ]
+    },
+    {
+      "name": "grid-07",
+      "checkpoint_path": "/home/dell/models/physicalevobench/franka_lift/model_1999.pt",
+      "checkpoint_sha256": "babbbfd363f894443ffe494f26c5b6e0485fb35d4f5480c088295c23fc2a13aa",
+      "policy_config_sha256": "ae5ccee81f45fda922d45cc5e72cc1a1734e8661054d244f137591b779ea59f6",
+      "mode": "FixedHorizonDiagnostic",
+      "execution_layer": "TargetBounded",
+      "reference_controller": "StateBasedReference",
+      "reference_config": {
+        "approach_clearance_m": 0.08,
+        "approach_tolerance_m": 0.025,
+        "close_timeout_s": 1.2,
+        "contact_force_n": 0.5,
+        "descend_tolerance_m": 0.015,
+        "dwell_s": 0.06,
+        "grasp_offset_m": 0.005,
+        "joint_integral_gain_s": 1.0,
+        "joint_integral_limit_rad": 0.12,
+        "maximum_recoveries": 1,
+        "minimum_close_s": 0.7,
+        "object_follow_m": 0.02,
+        "orientation_tolerance_rad": 0.15,
+        "probe_lift_m": 0.05,
+        "relative_drift_m": 0.025
+      },
+      "reference_skill": {
+        "schema": "reference-skill-1",
+        "base_reference_sha256": "3afd2f34102079831e4cddba8ed8a8eb8a99809754ed7adf52695a5dda09f282",
+        "approach_clearance_m": 0.08,
+        "minimum_close_s": 0.7
+      },
+      "source_commit": "c8017dd38996ca5a195ade1d9137c77899be2c56",
+      "task_version": "state-reference-h10-v1",
+      "horizon_s": 10.0,
+      "physical_budget": 4,
+      "jobs": [
+        {
+          "episode_id": "grid-07-core-b1-dev-02",
+          "condition": {
+            "condition_id": "core-b1-dev-02",
+            "seed": 1048308863,
+            "split": "development",
+            "object_mass_kg": 0.4
+          }
+        },
+        {
+          "episode_id": "grid-07-core-b1-dev-03",
+          "condition": {
+            "condition_id": "core-b1-dev-03",
+            "seed": 1411156790,
+            "split": "development",
+            "object_mass_kg": 0.4
+          }
+        },
+        {
+          "episode_id": "grid-07-core-b1-dev-00",
+          "condition": {
+            "condition_id": "core-b1-dev-00",
+            "seed": 215056333,
+            "split": "development",
+            "object_mass_kg": 0.1
+          }
+        },
+        {
+          "episode_id": "grid-07-core-b1-dev-01",
+          "condition": {
+            "condition_id": "core-b1-dev-01",
+            "seed": 1490161365,
+            "split": "development",
+            "object_mass_kg": 0.1
+          }
+        }
+      ]
+    },
+    {
+      "name": "grid-08",
+      "checkpoint_path": "/home/dell/models/physicalevobench/franka_lift/model_1999.pt",
+      "checkpoint_sha256": "babbbfd363f894443ffe494f26c5b6e0485fb35d4f5480c088295c23fc2a13aa",
+      "policy_config_sha256": "ae5ccee81f45fda922d45cc5e72cc1a1734e8661054d244f137591b779ea59f6",
+      "mode": "FixedHorizonDiagnostic",
+      "execution_layer": "TargetBounded",
+      "reference_controller": "StateBasedReference",
+      "reference_config": {
+        "approach_clearance_m": 0.12,
+        "approach_tolerance_m": 0.025,
+        "close_timeout_s": 1.2,
+        "contact_force_n": 0.5,
+        "descend_tolerance_m": 0.015,
+        "dwell_s": 0.06,
+        "grasp_offset_m": 0.005,
+        "joint_integral_gain_s": 1.0,
+        "joint_integral_limit_rad": 0.12,
+        "maximum_recoveries": 1,
+        "minimum_close_s": 0.2,
+        "object_follow_m": 0.02,
+        "orientation_tolerance_rad": 0.15,
+        "probe_lift_m": 0.05,
+        "relative_drift_m": 0.025
+      },
+      "reference_skill": {
+        "schema": "reference-skill-1",
+        "base_reference_sha256": "3afd2f34102079831e4cddba8ed8a8eb8a99809754ed7adf52695a5dda09f282",
+        "approach_clearance_m": 0.12,
+        "minimum_close_s": 0.2
+      },
+      "source_commit": "c8017dd38996ca5a195ade1d9137c77899be2c56",
+      "task_version": "state-reference-h10-v1",
+      "horizon_s": 10.0,
+      "physical_budget": 4,
+      "jobs": [
+        {
+          "episode_id": "grid-08-core-b1-dev-01",
+          "condition": {
+            "condition_id": "core-b1-dev-01",
+            "seed": 1490161365,
+            "split": "development",
+            "object_mass_kg": 0.1
+          }
+        },
+        {
+          "episode_id": "grid-08-core-b1-dev-00",
+          "condition": {
+            "condition_id": "core-b1-dev-00",
+            "seed": 215056333,
+            "split": "development",
+            "object_mass_kg": 0.1
+          }
+        },
+        {
+          "episode_id": "grid-08-core-b1-dev-03",
+          "condition": {
+            "condition_id": "core-b1-dev-03",
+            "seed": 1411156790,
+            "split": "development",
+            "object_mass_kg": 0.4
+          }
+        },
+        {
+          "episode_id": "grid-08-core-b1-dev-02",
+          "condition": {
+            "condition_id": "core-b1-dev-02",
+            "seed": 1048308863,
+            "split": "development",
+            "object_mass_kg": 0.4
+          }
+        }
+      ]
+    },
+    {
+      "name": "identity-2",
+      "checkpoint_path": "/home/dell/models/physicalevobench/franka_lift/model_1999.pt",
+      "checkpoint_sha256": "babbbfd363f894443ffe494f26c5b6e0485fb35d4f5480c088295c23fc2a13aa",
+      "policy_config_sha256": "ae5ccee81f45fda922d45cc5e72cc1a1734e8661054d244f137591b779ea59f6",
+      "mode": "FixedHorizonDiagnostic",
+      "execution_layer": "TargetBounded",
+      "reference_controller": "StateBasedReference",
+      "reference_config": {
+        "approach_clearance_m": 0.1,
+        "approach_tolerance_m": 0.025,
+        "close_timeout_s": 1.2,
+        "contact_force_n": 0.5,
+        "descend_tolerance_m": 0.015,
+        "dwell_s": 0.06,
+        "grasp_offset_m": 0.005,
+        "joint_integral_gain_s": 1.0,
+        "joint_integral_limit_rad": 0.12,
+        "maximum_recoveries": 1,
+        "minimum_close_s": 0.2,
+        "object_follow_m": 0.02,
+        "orientation_tolerance_rad": 0.15,
+        "probe_lift_m": 0.05,
+        "relative_drift_m": 0.025
+      },
+      "reference_skill": {
+        "schema": "reference-skill-1",
+        "base_reference_sha256": "3afd2f34102079831e4cddba8ed8a8eb8a99809754ed7adf52695a5dda09f282",
+        "approach_clearance_m": 0.1,
+        "minimum_close_s": 0.2
+      },
+      "source_commit": "c8017dd38996ca5a195ade1d9137c77899be2c56",
+      "task_version": "state-reference-h10-v1",
+      "horizon_s": 10.0,
+      "physical_budget": 4,
+      "jobs": [
+        {
+          "episode_id": "identity-2-core-b1-dev-03",
+          "condition": {
+            "condition_id": "core-b1-dev-03",
+            "seed": 1411156790,
+            "split": "development",
+            "object_mass_kg": 0.4
+          }
+        },
+        {
+          "episode_id": "identity-2-core-b1-dev-02",
+          "condition": {
+            "condition_id": "core-b1-dev-02",
+            "seed": 1048308863,
+            "split": "development",
+            "object_mass_kg": 0.4
+          }
+        },
+        {
+          "episode_id": "identity-2-core-b1-dev-01",
+          "condition": {
+            "condition_id": "core-b1-dev-01",
+            "seed": 1490161365,
+            "split": "development",
+            "object_mass_kg": 0.1
+          }
+        },
+        {
+          "episode_id": "identity-2-core-b1-dev-00",
+          "condition": {
+            "condition_id": "core-b1-dev-00",
+            "seed": 215056333,
+            "split": "development",
+            "object_mass_kg": 0.1
+          }
+        }
+      ]
+    }
+  ],
+  "hard_boundary": {
+    "finger_depth_m": 0.01,
+    "arm_depth_rad": 0.1
+  },
+  "target_rate_caps": {
+    "arm_rad_s": 1.0,
+    "finger_m_s": 0.04
+  },
+  "protocol": "docs/core/CORE_PROTOCOL_20261027.md",
+  "baseline_reference_file_sha256": "ed5c926ad78fe3fd97de4319d6fa2774ef39783218beb2a522e7421833eab714"
+}

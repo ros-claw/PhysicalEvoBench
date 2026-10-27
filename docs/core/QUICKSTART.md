@@ -35,12 +35,19 @@ agent.yaml must be beside it. Expected SHA256 is in configs/core/frozen_referenc
 Never move licensed weights into the source/evidence bundle. Defaults resolve from
 **your** home directory, not a developer-specific username.
 
-B1 is a single preregistered development diagnosis, not repeated standard scoring:
+Standard P interface pilot reuses the lightweight prior calibration receipt; it
+has a32-episode maximum (actual early freezes cost fewer). It does not require
+repeating the48 development episodes or downloading their raw history first:
 
 ```bash
-uv run python -m physicalevobench.core.parameter_space --reference configs/core/frozen_reference.json --output /path/to/study-parent/peb-core-b1-new --gpu 2
-uv run python -m physicalevobench.core.pilot --reference configs/core/frozen_reference.json --b1 /path/to/study-parent/peb-core-b1-new --output /path/to/study-parent/peb-core-pilot-new --gpu 2
+uv run physicalevobench-core run --output /path/to/new-study-parent/peb-core-pilot-new --gpu 2
 ```
+
+This accepts a declared prior calibration receipt, not a fresh independent physics
+validation. Full raw audit remains optional and separate. For an explicit B1
+reproduction, run `python -m physicalevobench.core.parameter_space` with --reference,
+--output and --gpu, then pass that completed directory as --calibration. B1 is a
+single bounded development diagnosis, not a per-submission search stage.
 
 Use a clean committed checkout; all launch sources are content addressed. GPU2 is
 only a default; choose a GPU with room without stopping other users' processes.
@@ -52,7 +59,7 @@ model call during test episodes. The heldout manifest is public evidence after t
 run and must not be reused to tune a submission.
 
 Generic providers can pass `--participant-command '["/absolute/path/to/participant"]'`
-to the same pilot launcher, or use `ParticipantProcess(command=[...], model=..., ...)`:
+to `physicalevobench-core run` or the module launcher, or use `ParticipantProcess(command=[...], model=..., ...)`:
 read one request JSON from stdin; output one JSON line with exactly `response` and
 `usage` (`input_tokens`,`output_tokens`). Response follows
 configs/core/participant_call_schema.json. Usage must be actual provider accounting.
