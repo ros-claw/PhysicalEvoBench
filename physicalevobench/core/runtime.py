@@ -43,7 +43,12 @@ class NativeSession:
             if time.monotonic()>deadline:
                 raise TimeoutError('Native response deadline exceeded')
             time.sleep(.25)
-        return json.loads(path.read_text())
+        while time.monotonic()<=deadline:
+            try:
+                return json.loads(path.read_text())
+            except json.JSONDecodeError:
+                time.sleep(.05)
+        raise TimeoutError('Native JSON response did not finish writing')
 
     def ready(self):
         return self._wait(self.out/'ready.json')

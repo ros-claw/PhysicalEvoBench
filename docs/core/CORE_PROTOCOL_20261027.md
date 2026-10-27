@@ -154,3 +154,14 @@ learning budget from T0 through T1. T1 is a subsequent learning phase of the sam
 trajectory, not an additional independent learning replicate. Frozen remains
 not_applicable. Artifacts and row IDs report actual consumed budget, including
 early model freezes; method ceilings do not imply every method spends all eight.
+
+## Infrastructure handoff recovery (zero T0 learning attempts)
+
+B1 published its completed-physics status before its derived audit result was ready.
+Pilot002 exited on the missing derived file before any native launch, initial skill
+freeze or learning-model call. Preserve the original registration, source and exact
+conditions; use explicit prelaunch recovery with an append-only receipt, not a new
+learning seed/budget. T1 dev003 had already started after that terminal status; let
+it finish and queue recovered T0 learning after its native worker exits. No T1
+feedback is given to the T0 participant. Further confirmation/flow waits for the
+actual Agent pilot. Dependent launches now require the derived result to exist.

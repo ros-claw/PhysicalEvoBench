@@ -107,7 +107,7 @@ def trial_job(base,skill,condition,identity,index):
             'reference_config':skill.configuration(base),'identity':identity}
 
 
-def run(root,out,reference,gpu,model,b1,after_b1=False,participant_command=None):
+def run(root,out,reference,gpu,model,b1,after_b1=False,participant_command=None,resume_prelaunch=False,after_native=None):
     if command(['git','status','--porcelain'],cwd=root)['stdout']:
         raise ValueError('Commit protocol and implementation before pilot reservation')
     if not b1.exists():
@@ -115,37 +115,62 @@ def run(root,out,reference,gpu,model,b1,after_b1=False,participant_command=None)
     if read(b1/'status.json')['status']!='COMPLETED' and not after_b1:
         raise ValueError('Finish B1 before learning pilot')
     for previous in out.parent.glob('peb-*/registration.json'):
+        if resume_prelaunch and previous.parent==out:
+            continue
         if (read(previous).get('schema')=='core-pilot-1' and
                 read(previous.parent/'status.json')['status']!='CANCELLED_BEFORE_LAUNCH'):
             raise ValueError('The single initial Agent pilot was already reserved; no outcome-based retry')
     base=load_reference(reference)
     source_commit=command(['git','rev-parse','HEAD'],cwd=root)['stdout']
     make_payload=partial(payload,executor_commit=source_commit)
-    groups=fresh_conditions(root,out.parent)
-    out.mkdir(parents=True,exist_ok=False)
-    shutil.copyfile(reference,out/'baseline_reference.json')
     transport=participant_command or ['codex']
     cli_version=(subprocess.check_output(['codex','--version'],text=True).strip()
                  if transport==['codex'] else 'generic-stdin-'+digest({'command':transport,'model':model}))
-    order=['frozen','search','feedback','ablation']
-    random.Random(2026102703).shuffle(order)
-    reg={'schema':'core-pilot-1','registered_at':now(),'source_commit':source_commit,
-         'reference_source_commit':base['source_commit'],'baseline_reference_sha256':sha256(reference),
-         'conditions':groups,'physical_budget':32,'training_per_method':8,'heldout_per_arm':4,
-         'model':model,'participant_transport':cli_version,'gpu':gpu,'evaluation_order':order,
-         'b1_registration_sha256':sha256(b1/'registration.json'),
-         'protocol':'docs/core/CORE_PROTOCOL_20261027.md','track':'P',
-         'purpose':'actual model/interface pilot; P efficacy unconfirmed, not S program evolution',
-         'computational_budget':{'calls':12,'input_tokens':250000,'output_tokens':24000,'timeout_per_call_s':120},
-         'methods':['frozen','score_only_search','feedback_persistent','artifact_deletion'],
-         'online_model_calls_per_test_episode':0}
-    save_json(out/'registration.json',reg)
+    if resume_prelaunch:
+        reg=read(out/'registration.json')
+        prior_status=read(out/'status.json')
+        if (prior_status['status']!='FAILED' or list(out.rglob('launch.json')) or
+                (out/'model_calls').exists() or (out/'frozen.json').exists()):
+            raise ValueError('Only a failed prelaunch with zero model/physics work can resume')
+        if (reg['baseline_reference_sha256']!=sha256(reference) or reg['model']!=model or
+                reg['gpu']!=gpu or reg['participant_transport']!=cli_version):
+            raise ValueError('Prelaunch recovery must preserve registered inputs')
+        save_json(out/'prelaunch_recovery.json',{'at':now(),'original_registration_sha256':sha256(out/'registration.json'),
+                  'previous_status':prior_status,'recovery_launcher_commit':source_commit,
+                  'physical_attempts_before_recovery':0,'model_learning_calls_before_recovery':0,
+                  'reason':'Prerequisite published COMPLETED before its derived result file; recover same untouched reservation/conditions.'})
+        source_commit=reg['source_commit']
+        make_payload=partial(payload,executor_commit=source_commit)
+        groups,order=reg['conditions'],reg['evaluation_order']
+    else:
+        groups=fresh_conditions(root,out.parent)
+        out.mkdir(parents=True,exist_ok=False)
+        shutil.copyfile(reference,out/'baseline_reference.json')
+        order=['frozen','search','feedback','ablation']
+        random.Random(2026102703).shuffle(order)
+        reg={'schema':'core-pilot-1','registered_at':now(),'source_commit':source_commit,
+             'reference_source_commit':base['source_commit'],'baseline_reference_sha256':sha256(reference),
+             'conditions':groups,'physical_budget':32,'training_per_method':8,'heldout_per_arm':4,
+             'model':model,'participant_transport':cli_version,'gpu':gpu,'evaluation_order':order,
+             'b1_registration_sha256':sha256(b1/'registration.json'),
+             'protocol':'docs/core/CORE_PROTOCOL_20261027.md','track':'P',
+             'purpose':'actual model/interface pilot; P efficacy unconfirmed, not S program evolution',
+             'computational_budget':{'calls':12,'input_tokens':250000,'output_tokens':24000,'timeout_per_call_s':120},
+             'methods':['frozen','score_only_search','feedback_persistent','artifact_deletion'],
+             'online_model_calls_per_test_episode':0}
+        save_json(out/'registration.json',reg)
     save_json(out/'status.json',{'status':'QUEUED','at':now()})
-    while read(b1/'status.json')['status']=='RUNNING':
+    while (read(b1/'status.json')['status']=='RUNNING' or
+           (read(b1/'status.json')['status']=='COMPLETED' and not (b1/'parameter_space_results.json').exists())):
         time.sleep(5)
     if read(b1/'status.json')['status']!='COMPLETED':
         raise ValueError('B1 prerequisite failed; no model or native learning launch')
     save_json(out/'b1_gate.json',{'at':now(),'result_sha256':sha256(b1/'parameter_space_results.json')})
+    if after_native:
+        while read(after_native/'status.json')['status'] in ('RUNNING','QUEUED'):
+            time.sleep(5)
+        if any(not (p.parent/'process.json').exists() for p in after_native.rglob('launch.json')):
+            raise ValueError('Preceding native worker has not exited; refusing concurrent physics')
     save_json(out/'status.json',{'status':'RUNNING','at':now()})
     initial=ReferenceSkill(digest(base))
     artifacts={}
@@ -260,12 +285,14 @@ def main():
     p.add_argument('--gpu',type=int,default=2)
     p.add_argument('--model',default='gpt-6.1-terra')
     p.add_argument('--after-b1',action='store_true')
+    p.add_argument('--resume-prelaunch',action='store_true',help='Recover identical reservation only before any model/physics work')
+    p.add_argument('--after-native',help='Serialize after an already running native study')
     p.add_argument('--participant-command',type=json.loads,help='JSON argv array; default optional Codex CLI')
     a=p.parse_args()
     b1=Path(a.b1)
     out=Path(a.output).absolute()
     try:
-        run(Path.cwd(),out,Path(a.reference),a.gpu,a.model,b1,a.after_b1,a.participant_command)
+        run(Path.cwd(),out,Path(a.reference),a.gpu,a.model,b1,a.after_b1,a.participant_command,a.resume_prelaunch,Path(a.after_native) if a.after_native else None)
     except Exception as error:
         if out.exists():
             save_json(out/'status.json',{'status':'FAILED','error':str(error),'at':now()})
