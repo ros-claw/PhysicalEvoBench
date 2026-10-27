@@ -1,0 +1,27 @@
+{
+  "payload": {
+    "checkpoint_sha256": "babbbfd363f894443ffe494f26c5b6e0485fb35d4f5480c088295c23fc2a13aa",
+    "horizon_s": 10.0,
+    "reference_config": {
+      "approach_clearance_m": 0.1,
+      "approach_tolerance_m": 0.025,
+      "close_timeout_s": 1.2,
+      "contact_force_n": 0.5,
+      "descend_tolerance_m": 0.015,
+      "dwell_s": 0.06,
+      "grasp_offset_m": 0.005,
+      "joint_integral_gain_s": 1.0,
+      "joint_integral_limit_rad": 0.12,
+      "maximum_recoveries": 1,
+      "minimum_close_s": 0.2,
+      "object_follow_m": 0.02,
+      "orientation_tolerance_rad": 0.15,
+      "probe_lift_m": 0.05,
+      "relative_drift_m": 0.025
+    },
+    "schema": "state-reference-artifact-1",
+    "source_commit": "c8017dd38996ca5a195ade1d9137c77899be2c56",
+    "task_version": "state-reference-h10-v1"
+  },
+  "sha256": "3afd2f34102079831e4cddba8ed8a8eb8a99809754ed7adf52695a5dda09f282"
+}

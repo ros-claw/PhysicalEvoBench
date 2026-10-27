@@ -1,0 +1,297 @@
+{
+  "schema": "core-parameter-space-results-1",
+  "audit": {
+    "status": "PASS",
+    "phase": "core-parameter-space-1",
+    "episodes": 48,
+    "scope": "registration, reservations, model IDs, mass, upstream completions, actions, substeps and terminal recomputed; no efficacy claim"
+  },
+  "workers": [
+    {
+      "worker": "grid-00",
+      "skill": {
+        "schema": "reference-skill-1",
+        "base_reference_sha256": "3afd2f34102079831e4cddba8ed8a8eb8a99809754ed7adf52695a5dda09f282",
+        "approach_clearance_m": 0.12,
+        "minimum_close_s": 0.45
+      },
+      "successes": 3,
+      "episodes": 4,
+      "by_condition": {
+        "core-b1-dev-03": false,
+        "core-b1-dev-02": true,
+        "core-b1-dev-00": true,
+        "core-b1-dev-01": true
+      },
+      "holding_spans_s": [
+        0.0,
+        3.3200000000000003,
+        4.0,
+        3.72
+      ]
+    },
+    {
+      "worker": "grid-01",
+      "skill": {
+        "schema": "reference-skill-1",
+        "base_reference_sha256": "3afd2f34102079831e4cddba8ed8a8eb8a99809754ed7adf52695a5dda09f282",
+        "approach_clearance_m": 0.1,
+        "minimum_close_s": 0.2
+      },
+      "successes": 4,
+      "episodes": 4,
+      "by_condition": {
+        "core-b1-dev-01": true,
+        "core-b1-dev-03": true,
+        "core-b1-dev-02": true,
+        "core-b1-dev-00": true
+      },
+      "holding_spans_s": [
+        3.8000000000000003,
+        3.7,
+        3.24,
+        3.98
+      ]
+    },
+    {
+      "worker": "grid-02",
+      "skill": {
+        "schema": "reference-skill-1",
+        "base_reference_sha256": "3afd2f34102079831e4cddba8ed8a8eb8a99809754ed7adf52695a5dda09f282",
+        "approach_clearance_m": 0.1,
+        "minimum_close_s": 0.7
+      },
+      "successes": 4,
+      "episodes": 4,
+      "by_condition": {
+        "core-b1-dev-02": true,
+        "core-b1-dev-03": true,
+        "core-b1-dev-01": true,
+        "core-b1-dev-00": true
+      },
+      "holding_spans_s": [
+        3.08,
+        3.5,
+        3.48,
+        3.74
+      ]
+    },
+    {
+      "worker": "identity-0",
+      "skill": {
+        "schema": "reference-skill-1",
+        "base_reference_sha256": "3afd2f34102079831e4cddba8ed8a8eb8a99809754ed7adf52695a5dda09f282",
+        "approach_clearance_m": 0.1,
+        "minimum_close_s": 0.2
+      },
+      "successes": 4,
+      "episodes": 4,
+      "by_condition": {
+        "core-b1-dev-03": true,
+        "core-b1-dev-02": true,
+        "core-b1-dev-01": true,
+        "core-b1-dev-00": true
+      },
+      "holding_spans_s": [
+        3.7,
+        3.24,
+        3.74,
+        3.98
+      ]
+    },
+    {
+      "worker": "grid-03",
+      "skill": {
+        "schema": "reference-skill-1",
+        "base_reference_sha256": "3afd2f34102079831e4cddba8ed8a8eb8a99809754ed7adf52695a5dda09f282",
+        "approach_clearance_m": 0.08,
+        "minimum_close_s": 0.2
+      },
+      "successes": 4,
+      "episodes": 4,
+      "by_condition": {
+        "core-b1-dev-03": true,
+        "core-b1-dev-02": true,
+        "core-b1-dev-00": true,
+        "core-b1-dev-01": true
+      },
+      "holding_spans_s": [
+        3.54,
+        3.16,
+        3.96,
+        3.74
+      ]
+    },
+    {
+      "worker": "grid-04",
+      "skill": {
+        "schema": "reference-skill-1",
+        "base_reference_sha256": "3afd2f34102079831e4cddba8ed8a8eb8a99809754ed7adf52695a5dda09f282",
+        "approach_clearance_m": 0.08,
+        "minimum_close_s": 0.45
+      },
+      "successes": 4,
+      "episodes": 4,
+      "by_condition": {
+        "core-b1-dev-03": true,
+        "core-b1-dev-01": true,
+        "core-b1-dev-00": true,
+        "core-b1-dev-02": true
+      },
+      "holding_spans_s": [
+        3.2600000000000002,
+        3.68,
+        3.86,
+        3.22
+      ]
+    },
+    {
+      "worker": "grid-05",
+      "skill": {
+        "schema": "reference-skill-1",
+        "base_reference_sha256": "3afd2f34102079831e4cddba8ed8a8eb8a99809754ed7adf52695a5dda09f282",
+        "approach_clearance_m": 0.12,
+        "minimum_close_s": 0.7
+      },
+      "successes": 4,
+      "episodes": 4,
+      "by_condition": {
+        "core-b1-dev-01": true,
+        "core-b1-dev-03": true,
+        "core-b1-dev-02": true,
+        "core-b1-dev-00": true
+      },
+      "holding_spans_s": [
+        3.54,
+        3.56,
+        3.1,
+        3.8000000000000003
+      ]
+    },
+    {
+      "worker": "identity-1",
+      "skill": {
+        "schema": "reference-skill-1",
+        "base_reference_sha256": "3afd2f34102079831e4cddba8ed8a8eb8a99809754ed7adf52695a5dda09f282",
+        "approach_clearance_m": 0.1,
+        "minimum_close_s": 0.2
+      },
+      "successes": 4,
+      "episodes": 4,
+      "by_condition": {
+        "core-b1-dev-03": true,
+        "core-b1-dev-01": true,
+        "core-b1-dev-00": true,
+        "core-b1-dev-02": true
+      },
+      "holding_spans_s": [
+        3.4,
+        3.74,
+        3.98,
+        3.2600000000000002
+      ]
+    },
+    {
+      "worker": "grid-06",
+      "skill": {
+        "schema": "reference-skill-1",
+        "base_reference_sha256": "3afd2f34102079831e4cddba8ed8a8eb8a99809754ed7adf52695a5dda09f282",
+        "approach_clearance_m": 0.1,
+        "minimum_close_s": 0.45
+      },
+      "successes": 4,
+      "episodes": 4,
+      "by_condition": {
+        "core-b1-dev-02": true,
+        "core-b1-dev-03": true,
+        "core-b1-dev-00": true,
+        "core-b1-dev-01": true
+      },
+      "holding_spans_s": [
+        3.2800000000000002,
+        3.74,
+        3.94,
+        3.66
+      ]
+    },
+    {
+      "worker": "grid-07",
+      "skill": {
+        "schema": "reference-skill-1",
+        "base_reference_sha256": "3afd2f34102079831e4cddba8ed8a8eb8a99809754ed7adf52695a5dda09f282",
+        "approach_clearance_m": 0.08,
+        "minimum_close_s": 0.7
+      },
+      "successes": 4,
+      "episodes": 4,
+      "by_condition": {
+        "core-b1-dev-02": true,
+        "core-b1-dev-03": true,
+        "core-b1-dev-00": true,
+        "core-b1-dev-01": true
+      },
+      "holding_spans_s": [
+        3.02,
+        3.46,
+        3.68,
+        3.44
+      ]
+    },
+    {
+      "worker": "grid-08",
+      "skill": {
+        "schema": "reference-skill-1",
+        "base_reference_sha256": "3afd2f34102079831e4cddba8ed8a8eb8a99809754ed7adf52695a5dda09f282",
+        "approach_clearance_m": 0.12,
+        "minimum_close_s": 0.2
+      },
+      "successes": 4,
+      "episodes": 4,
+      "by_condition": {
+        "core-b1-dev-01": true,
+        "core-b1-dev-00": true,
+        "core-b1-dev-03": true,
+        "core-b1-dev-02": true
+      },
+      "holding_spans_s": [
+        3.86,
+        4.0200000000000005,
+        3.74,
+        3.34
+      ]
+    },
+    {
+      "worker": "identity-2",
+      "skill": {
+        "schema": "reference-skill-1",
+        "base_reference_sha256": "3afd2f34102079831e4cddba8ed8a8eb8a99809754ed7adf52695a5dda09f282",
+        "approach_clearance_m": 0.1,
+        "minimum_close_s": 0.2
+      },
+      "successes": 3,
+      "episodes": 4,
+      "by_condition": {
+        "core-b1-dev-03": false,
+        "core-b1-dev-02": true,
+        "core-b1-dev-01": true,
+        "core-b1-dev-00": true
+      },
+      "holding_spans_s": [
+        0.0,
+        3.24,
+        3.74,
+        3.98
+      ]
+    }
+  ],
+  "grid_success_range": [
+    3,
+    4
+  ],
+  "identity_success_range": [
+    3,
+    4
+  ],
+  "routing": "P_SMOKE_ONLY_UNCONFIRMED",
+  "scope": "48 physical episodes, four independent development conditions, zero learning runs. No efficacy inference from timing or post-hoc parameter selection. P remains interface smoke unless an independent study is registered; continue to S/T1."
+}

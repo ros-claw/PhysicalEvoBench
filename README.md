@@ -7,6 +7,30 @@ its frozen version helps on independent conditions. The initial v0.1 track uses 
 Isaac Lab-Arena/PhysX, object mass perturbations, frozen official RSL-RL weights and bounded arm gain.
 Later experiments add actual PPO weight updates. The tasks use privileged state observations.
 
+## Core benchmark development (2026-10-27)
+
+The new [Benchmark Card](BENCHMARK_CARD.md) separates parameter adaptation from bounded
+skill-program learning, with matched budgets, actual-model tools, frozen artifacts,
+independent test instances and artifact deletion. T0 keeps the calibrated ten-second
+score; T1 Pick–Transport–Place has its own feasibility and independent reference gate.
+The real P Agent pilot and offline audit completed: Frozen/Search/Feedback/ablation
+are each4/4 on four paired conditions, with zero observed gain. T1 reference
+development failed (initial0/4, sole correction0/4); its12-episode cap is exhausted.
+No independent T1 confirmation, S model learning, transfer or retention was launched.
+**Formal two-task Core is not accepted or released.** Total new cost:88 physical
+episodes;13 new Core CPU tests plus98 legacy tests. This is a development interface
+Alpha and negative feasibility result, not evidence of stable learning.
+
+[本轮完整实施报告](docs/implementation/CORE_BENCHMARK_实施报告_20261027.md) ·
+[Lightweight participant quickstart](docs/core/QUICKSTART.md) ·
+[Registered stage budgets](docs/core/CORE_PROTOCOL_20261027.md) ·
+[Program schema](docs/core/S_PROGRAM_SCHEMA.md).
+
+```bash
+uv run physicalevobench-core smoke                         # CPU only, zero physics
+uv run physicalevobench-core audit --run-dir /path/to/run # offline evidence recomputation
+```
+
 ## State-based reference calibration (later on 2026-10-26)
 
 **A separately versioned ten-second reference task passed finite independent calibration.**

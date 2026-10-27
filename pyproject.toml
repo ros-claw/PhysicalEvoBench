@@ -16,6 +16,7 @@ models = ["huggingface-hub==0.35.3"]
 
 [project.scripts]
 physicalevobench = "physicalevobench.cli:main"
+physicalevobench-core = "physicalevobench.core.cli:main"
 
 [tool.ruff]
 line-length = 100
