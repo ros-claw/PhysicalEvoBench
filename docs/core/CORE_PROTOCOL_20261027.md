@@ -148,3 +148,9 @@ trajectories remain archived; each model request contains every past trial outco
 but sampled state trajectories (every50 controls) only for the two most recent
 trials. This fixed public context rule prevents avoidable exhaustion of the already
 registered token ceilings. No learning result or heldout score existed when changed.
+
+The two-task flow preserves each original learning_run_id and cumulative physical
+learning budget from T0 through T1. T1 is a subsequent learning phase of the same
+trajectory, not an additional independent learning replicate. Frozen remains
+not_applicable. Artifacts and row IDs report actual consumed budget, including
+early model freezes; method ceilings do not imply every method spends all eight.

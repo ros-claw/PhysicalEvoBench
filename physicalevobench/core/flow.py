@@ -162,7 +162,8 @@ def summarize(out):
     result={'schema':'core-flow-results-1','audit':'PASS','physical_episodes':total,
             'scores':{name:{'successes':sum(values.values()),'episodes':len(values),'scores':values}
                       for name,values in scores.items()},'changes':gains,
-            'feedback_T1_learning_runs':1,'search_T1_learning_runs':1,'model_cost':model_cost,
+            'feedback_T1_learning_phases':1,'search_T1_learning_phases':1,
+            'independent_sequential_trajectories_per_method':1,'model_cost':model_cost,
             'control_steps':sum(r['steps'] for data in workers.values() for r in data),
             'physics_samples':sum(r['diagnostic']['physics_samples'] for data in workers.values() for r in data),
             'scope':'One sequential learning trajectory/method. P→T1 transfer is parameter reuse; '
@@ -206,7 +207,7 @@ def run(root,out,pilot,confirmation,gpu):
         save_json(out/f'provenance-T0-{arm}.json',original)
         library=from_reference_skill(ReferenceSkill.from_dict(original['payload']['skill']))
         initial[arm]=freeze(artifact(base,library,original['payload']['participant'],
-                                    'core-flow-'+arm+'-0',0,original['payload']['memory'],source),out/f'{arm}-initial.json')
+                                    original['payload']['learning_run_id'],original['payload']['budget_used'],original['payload']['memory'],source),out/f'{arm}-initial.json')
     # Zero-learning transfer is scored before T1 learning but never returned to
     # either updater. Methods get only predeclared T1 training feedback below.
     for arm in ('search','frozen','feedback'):
@@ -278,7 +279,7 @@ def run(root,out,pilot,confirmation,gpu):
                     candidate=SkillLibrary.from_dict(candidates[call])
                     c=groups['train'][call%4]
                 value={'payload':artifact(base,candidate,reg['model'] if model else 'score-only-template-search-1',
-                                          'core-flow-'+method+'-0',session.used,memory,source)}
+                                          initial[method]['payload']['learning_run_id'],initial[method]['payload']['budget_used']+session.used,memory,source)}
                 value['effective_artifact_hash']=digest(value['payload'])
                 job=job_for(base,candidate,'place',c,identity_for(value,'place',c,'train',session.used),session.used)
                 job['candidate_artifact']=value['payload']
@@ -302,7 +303,7 @@ def run(root,out,pilot,confirmation,gpu):
             session.close()
         save_json(out/f'{method}-history.json',history)
         final[method]=freeze(artifact(base,best,reg['model'] if model else 'score-only-template-search-1',
-                                      'core-flow-'+method+'-0',session.used,memory,source),out/f'{method}-final.json')
+                                      initial[method]['payload']['learning_run_id'],initial[method]['payload']['budget_used']+session.used,memory,source),out/f'{method}-final.json')
     save_json(out/'all_T1_snapshots_frozen.json',{'at':now(),'hashes':{m:v['effective_artifact_hash'] for m,v in final.items()}})
     for method in ('feedback','search'):
         value=load(out/f'{method}-final.json')
