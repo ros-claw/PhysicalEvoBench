@@ -53,7 +53,7 @@ def place_frames(count=26,**changes):
             {'control_step':1,'object_position':[[.62,.12,.12]],'object_velocity':[[0]*6],
              'ee_position_world':[[.62,.12,.12]],'finger_position':[.02,.02]}]
     for i in range(count):
-        result.append({'control_step':i+2,'object_position':[[.62,.12,.05]],
+        result.append({'control_step':i+2,'object_position':[[.62,.12,.021]],
                        'object_velocity':[[0]*6],'ee_position_world':[[.62,.12,.15]],
                        'finger_position':[.04,.04],**changes})
     return initial,result
@@ -64,7 +64,7 @@ def test_place_requires_physical_release_transport_and_full_stable_span():
     assert place_metrics(initial,frames)['success']
     assert not place_metrics(*place_frames(count=25))['success']
     assert not place_metrics(*place_frames(finger_position=[.02,.02]))['success']
-    assert not place_metrics(*place_frames(ee_position_world=[[.62,.12,.06]]))['success']
+    assert not place_metrics(*place_frames(ee_position_world=[[.62,.12,.03]]))['success']
     assert not place_metrics(initial,frames[2:])['success']  # no prior lift
     assert not place_metrics(*place_frames(object_velocity=[[.2,0,0,0,0,0]]))['success']
 
@@ -91,3 +91,19 @@ def test_signed_paired_gains_do_not_require_promotion_or_positive_effect():
     assert result['gain']==-.5
     with pytest.raises(ValueError,match='Paired'):
         compare({'a':True},{'b':True})
+
+
+def test_task_library_reuses_exact_t0_and_exposes_replaceable_place_graph():
+    from physicalevobench.core.library import SkillLibrary, from_reference_skill
+    initial=ReferenceSkill('a'*64,.12,.7)
+    library=from_reference_skill(initial)
+    restored=SkillLibrary.from_dict(library.to_dict())
+    assert restored.lift==initial
+    nodes={n['id']:n for n in restored.place.nodes}
+    assert nodes['approach']['offset_m']==.12
+    assert nodes['close']['minimum_s']==.7
+    changed=library.to_dict()
+    changed['tasks']['place']['nodes'][0]['next']='close'
+    assert SkillLibrary.from_dict(changed).sha256!=restored.sha256
+    with pytest.raises(ValueError):
+        SkillLibrary.from_dict({**changed,'test_results':{}})

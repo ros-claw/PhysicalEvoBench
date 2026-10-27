@@ -59,7 +59,7 @@ T1 development cap12: first four positive/forced-open pairs (8 episodes), then a
 four positive checks for a single documented feasibility correction. Initial candidate
 horizon20 s; target center at initial cube XY+(0.12,0.12)m on the same tabletop;
 release with both fingers ≥0.035m, cube within 0.05m horizontally and 0.025m vertically
-of its initial tabletop height, cube linear speed≤0.10m/s, continuous span≥0.50s;
+of the public supported center height0.021m, cube linear speed≤0.10m/s, continuous span≥0.50s;
 EE/cube distance≥0.06m prevents a closed grasp masquerading as release. Object must
 have first lifted≥0.05m and transported≥0.08m. Goals/geometry exposed to all methods.
 These are new development definitions, not a modification of T0. Freeze after feasible
@@ -91,3 +91,12 @@ B5 deliver source-only lightweight entry point plus example evidence; historical
 PPO streams optional. Independently check fresh-directory CPU installation, offline
 raw-data audit and actual fresh-directory physical reproduction as distinct claims.
 Feature PR only; no acceptance merge/release without task and protocol gates.
+
+## Pre-launch T1 definition correction
+
+The first queued T1 reservation (`peb-core-place-dev-20261027-001`) was cancelled
+before any native launch (zero physical cost). B1 raw observations show reset
+center z0.055m settles to z≈0.021m; reset height is not tabletop support height.
+Before first T1 physics, define `core-place-h20-v2-dev` with target center z0.021m
+and unchanged vertical tolerance0.025m. Preserve the cancelled reservation and
+use a new registration. This corrects physical scoring, not an observed T1 failure.

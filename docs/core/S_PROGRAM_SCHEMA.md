@@ -22,3 +22,16 @@ Initial S graphs are transparent executable starting programs, not a claimed
 independently calibrated S baseline. P retains the exact existing v2 state machine.
 S task scores must be checked physically; CPU guard tests do not prove reachability.
 Participant identity and the whole program/memory enter the frozen artifact hash.
+
+## Persistent task library v1
+
+`core-skill-library-1` has exactly `schema,tasks`; tasks has exactly `lift,place`.
+`lift` is the exact allowed ReferenceSkill (T0 executor preserved); `place` is a
+replaceable bounded graph. Public task description selects a task entry, never
+private split identity. T1 learning may edit the library in the same bounded space
+for both search and feedback, including inherited T0 parameters. This supports
+actual retention measurement without changing the pre-T1 T0 executor.
+The common place starting graph is composed with each method's inherited T0
+parameters. All methods started from the same T0 reference; differences at the
+T1 boundary are the experience being tested. P→T1 transfer is explicitly narrow
+parameter reuse, not prior T0 program learning. T1 learning can change program flow.

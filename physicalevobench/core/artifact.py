@@ -24,7 +24,13 @@ def validate(payload):
             raise ValueError('Skill has different initial reference')
     else:
         from physicalevobench.core.program import Program
-        Program.from_dict(payload['skill'])
+        if payload['skill'].get('schema')=='core-skill-library-1':
+            from physicalevobench.core.library import SkillLibrary
+            library=SkillLibrary.from_dict(payload['skill'])
+            if library.lift.base_reference_sha256!=payload['initial_reference']:
+                raise ValueError('Inherited T0 reference differs')
+        else:
+            Program.from_dict(payload['skill'])
     return payload
 
 

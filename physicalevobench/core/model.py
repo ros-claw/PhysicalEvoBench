@@ -24,7 +24,8 @@ CALL_SCHEMA={
 
 
 class ParticipantProcess:
-    def __init__(self,command,model,log_dir,max_calls=12,input_limit=250000,output_limit=24000):
+    def __init__(self,command,model,log_dir,max_calls=12,input_limit=250000,output_limit=24000,schema=None):
+        self.schema=schema or CALL_SCHEMA
         self.command,self.model,self.log_dir=command,model,Path(log_dir)
         self.log_dir.mkdir(parents=True,exist_ok=False)
         self.calls,self.input_tokens,self.output_tokens=0,0,0
@@ -42,7 +43,7 @@ class ParticipantProcess:
         with tempfile.TemporaryDirectory(prefix='peb-participant-') as temporary:
             tmp=Path(temporary)
             if self.command==['codex']:
-                save_json(tmp/'schema.json',CALL_SCHEMA)
+                save_json(tmp/'schema.json',self.schema)
                 argv=['codex','exec','--ignore-user-config','--ignore-rules','--ephemeral',
                       '--skip-git-repo-check','-s','read-only','-C',temporary,
                       '-c','features.shell_tool=false','-c','features.multi_agent=false',

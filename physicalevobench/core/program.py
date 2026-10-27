@@ -113,7 +113,7 @@ class ProgramFSM:
             return [self.initial[0]+self.offset[0],self.initial[1]+self.offset[1],self.initial[2]+dz+self.offset[2]]
         # Public task geometry, defined from initial object position and held fixed.
         return [self.initial[0]+.12+self.offset[0],self.initial[1]+.12+self.offset[1],
-                self.initial[2]+dz+self.offset[2]]
+                .021+dz+self.offset[2]]
 
     def update(self,obs,dt):
         if not math.isfinite(dt) or dt<=0:

@@ -42,7 +42,7 @@ def run(root,out,reference,gpu,after,confirmation=None):
                            'seed':seed,'object_mass_kg':.1 if i<(3 if confirmation else 2) else .4})
     program=initial_program(True)
     cfg=worker_config(base,12 if confirmation else 8)
-    cfg.update(core_task='place',task_version='core-place-h20-v1-dev',horizon_s=20.)
+    cfg.update(core_task='place',task_version='core-place-h20-v2-dev',horizon_s=20.)
     if confirmation:
         prior=json.loads((confirmation/'place_results.json').read_text())
         if not prior['development_qualified']:
@@ -108,7 +108,7 @@ def run(root,out,reference,gpu,after,confirmation=None):
     save_json(out/'place_results.json',result)
     if not confirmation and qualified:
         frozen={'source_commit':commit,'program':program.to_dict(),'configuration':cfg,
-                'scoring':'core-place-score-1','task':'core-place-h20-v1-dev'}
+                'scoring':'core-place-score-1','task':'core-place-h20-v2-dev'}
         save_json(out/'frozen_place_reference.json',{'payload':frozen,'sha256':digest(frozen)})
     save_json(out/'status.json',{'status':'COMPLETED','at':now(),'episodes':len(data)})
     print(json.dumps(result,indent=2))
