@@ -9,6 +9,8 @@ horizontal0.05m /vertical0.025m of target, speed≤0.10m/s, both finger position
 a controller return value cannot decide success. Score per control and record
 terminal state before reset. Forced-open reference is the degenerate control.
 
-This card is not calibrated evidence. Freeze a final ID/config only after bounded
+Observed development: initial positive0/4 and open0/4; sole corrected positive0/4.
+The12-episode cap is exhausted; no independent confirmation or transfer ran.
+This card is **not** a calibrated task or accepted Core benchmark. Freeze a final ID/config only after bounded
 development; independent confirmation must precede any claim about transfer.
 See the registered bounds and stopping rules in CORE_PROTOCOL_20261027.md.

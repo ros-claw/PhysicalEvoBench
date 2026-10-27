@@ -27,7 +27,7 @@ def rows(path):
     return [json.loads(line) for line in path.read_text().splitlines()]
 
 
-def generate(root,parent,output):
+def generate(root,parent,output,final=False):
     table=[]
     total=steps=samples=processes=0
     conditions=set()
@@ -39,7 +39,7 @@ def generate(root,parent,output):
     for title,name in STUDIES:
         study=parent/name
         if not study.exists():
-            table.append(f'| {title} | 尚未启动 | 0 | — |')
+            table.append(f'| {title} | '+('NOT_RUN_GATE_FAILED' if final else '尚未启动')+' | 0 | — |')
             continue
         status=read(study/'status.json')
         reg=read(study/'registration.json')
@@ -130,10 +130,15 @@ def generate(root,parent,output):
                       f'{100*c["T1_learning_gain"]["gain"]:+.1f} pp | {100*c["T0_retention_change"]["gain"]:+.1f} pp |')
         ttext+=['','\n'.join(ft),'','T0→T1 是参数经验复用；T1 阶段才开放程序更新。两阶段继承同一学习轨迹，不能计作两次独立学习。']
     else:
-        ttext+=['','两任务迁移/保持尚无完成结果；没有通过独立参考门槛时禁止补写成绩。']
+        ttext+=['','T1 开发预算12已用尽，两种方案分别0/4；独立确认、真实 S Agent 学习、跨任务迁移与保持均为 `NOT_RUN_GATE_FAILED`，没有成绩。']
+    status_summary=('**本轮按登记的停止条件结题：真实 Agent 单任务闭环通过；P 学习空间未确认，T1 参考失败。正式两任务 Core 未验收、未发行。**'
+                    if final else '此文件记录执行进度；未完成阶段明确标注，不能提前宣布验收通过。')
+    model_table='\n'.join(['| 参与者计算 | 调用 | 输入 tokens | 输出 tokens |','| --- | --- | --- | --- |']+
+                          [f'| {c["stage"]} | {c["calls"]} | {c["input_tokens"]:,} | {c["output_tokens"]:,} |' for c in costs]+
+                          ['| 单独连通预检（非学习） | 1 | 13,507 | 15 |'])
     text=f'''# PhysicalEvoBench Core 实施报告（2026-10-27）
 
-> 此文件由实际登记与结果生成。未完成阶段明确标注，最终结论以独立审计和门槛为准。
+{status_summary}
 
 本轮将目标转为方法中立的 Benchmark Alpha：真实模型提出候选、按预算执行物理试验、冻结产物、
 由新实例独立测试，并与 Frozen、同预算上限搜索及经验删除对照比较。
@@ -169,7 +174,7 @@ Agent 可以提前冻结，因此“相同上限”不等于相同实际开销�
 | --- | --- | --- | --- |
 {chr(10).join(table)}
 
-P 与后续 T1 是同一条顺序学习轨迹的不同阶段；每方法最多1条，没有把重放数量当成学习重复。
+本轮每方法只有1条 P 学习轨迹。原计划 T1 继续继承该轨迹，但没有启动，不能计入学习样本。
 完整产物身份覆盖参与者/模型、执行源码、技能、记忆、接口、任务、评分和实际学习预算；
 另外报告可执行技能哈希，避免仅凭全文哈希不同宣称能力变化。
 
@@ -190,11 +195,16 @@ T1 初版正对照0/4的失败保留。唯一四回合修正只改变新任务�
 预算曲线只有初始与实际冻结点，不能当成已测得完整0/16/32曲线。统计为有限 pilot 的描述结果，
 不支持 Agent 优于搜索、跨独立学习稳定提高或通用递归进化。
 
-本轮当前实际记录 **{total} 回合、{len(conditions)} 个不同物理条件、{steps:,} 控制步、{samples:,} 物理样本**。
-原生进程{processes}个，累计进程墙钟{native_wall/60:.2f}分钟（含加载，共享 GPU2，并非独占 GPU 计算量）。
+本轮实际记录 **{total} 回合、{len(conditions)} 个不同物理条件、{steps:,} 控制步、{samples:,} 物理样本**。
+原生进程{processes}个，累计进程墙钟{native_wall/60:.2f}分钟（含加载与等待，共享 GPU2，并非独占 GPU 计算量）。
 登记坐标越界{violations}回合，严重边界事件{hard}回合；逐关节峰值/持续时间保存在成本账本及原始诊断。
 接触只测法向分量，切向力和真实 solver 关节驱动力 `not_measured`；坐标未越界不等于完整安全。
 B1 的早期掉落仍按任务失败计分，未证明其唯一原因，也未免费更换 seed 重跑。
+
+{model_table}
+
+共12个实际方法学习回合：Feedback4、Search8；没有 PPO 转移、权重更新或 S 模型学习。
+实际冻结预算点为 Feedback0/4、Search0/8，不伪造预算8或16/32的未测快照。
 
 ## 6. 外部接入与三种复现声明
 
@@ -203,7 +213,7 @@ B1 的早期掉落仍按任务失败计分，未证明其唯一原因，也未�
 标准入口可复用轻量 B1 凭据，不要求先重跑校准或下载旧 PPO 数据。通用 provider 只实现 JSON 协议。
 
 - 源码薄包约600 KiB的新目录/新虚拟环境已完成安装和初始10项 Core 测试；随后独立稀疏 checkout通过11项。
-- 新目录复用已锁定的 Arena 原生运行时与资产缓存，未重新安装整个仿真栈；是否实际执行任务流以该阶段原生记录为准。
+- 新稀疏目录准备了锁定的 Arena 工作树并复用原生运行时/资产缓存；因为 T1 门槛失败，**没有启动该目录的物理任务流，也没有完成新目录物理复跑**。
 - 原始证据解包后的 CPU 重算是离线审计，不是新物理执行或新独立学习。最终审计收据单列交付。
 
 NVIDIA 权重留在仓库外并保留独立许可，不随 Apache-2.0 项目代码或证据包分发。
@@ -212,7 +222,9 @@ NVIDIA 权重留在仓库外并保留独立许可，不随 Apache-2.0 项目代�
 
 已实现契约、预算登记、实际模型工具、冻结恢复、同接口基线、经验删除、受限程序及新任务评分。
 各阶段是否已经取得物理证据，以本报告表格和独立审计为准。两任务门槛未过时不能宣布 Core 完成。
-算法正收益、优于搜索、稳定迁移和能力保持必须由独立实验决定；本轮不承诺正结果。
+正式 Core 仍缺 T1 有效正参考、真实 S 学习比较、迁移/保持证据及新目录物理复跑。
+P 的学习空间不足，不能仅凭四组满分把它宣布为已验证学习能力的正式基准。
+算法正收益、优于搜索、稳定迁移和能力保持均未证实。
 没有每轮必须接纳、每种子必须提高或某产品必须领先的验收规则。
 
 零物理成本的取消登记、模型上下文限长修正及 B1 汇总文件就绪竞态均留有记录；
@@ -228,8 +240,9 @@ def main():
     p=argparse.ArgumentParser()
     p.add_argument('--parent',default='/home/dell')
     p.add_argument('--output',default='docs/implementation/CORE_BENCHMARK_实施报告_20261027.md')
+    p.add_argument('--final',action='store_true')
     a=p.parse_args()
-    print(json.dumps(generate(Path.cwd(),Path(a.parent),Path(a.output)),indent=2))
+    print(json.dumps(generate(Path.cwd(),Path(a.parent),Path(a.output),a.final),indent=2))
 
 
 if __name__=='__main__':

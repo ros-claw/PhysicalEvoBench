@@ -1,5 +1,11 @@
 # PhysicalEvoBench Core — development Alpha contract
 
+**Observed pilot status (2026-10-27).** Four P heldout arms each4/4; learning and
+artifact-deletion gains0. P remains smoke/unconfirmed. T1 initial reference0/4 and
+sole correction0/4; its12-episode development cap is exhausted. Independent T1
+confirmation, S model learning, transfer and retention were not launched.
+**Formal two-task Core is not accepted or released.**
+
 **Question.** Within fixed physical and computational budgets, can an Agent turn its own
 interaction feedback into persistent executable experience that improves performance on
 conditions or tasks excluded from updating, while retaining prior capability?

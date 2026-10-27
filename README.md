@@ -13,8 +13,15 @@ The new [Benchmark Card](BENCHMARK_CARD.md) separates parameter adaptation from 
 skill-program learning, with matched budgets, actual-model tools, frozen artifacts,
 independent test instances and artifact deletion. T0 keeps the calibrated ten-second
 score; T1 Pick–Transport–Place has its own feasibility and independent reference gate.
-This is a development Alpha contract, not a claim of stable learning or a new release.
+The real P Agent pilot and offline audit completed: Frozen/Search/Feedback/ablation
+are each4/4 on four paired conditions, with zero observed gain. T1 reference
+development failed (initial0/4, sole correction0/4); its12-episode cap is exhausted.
+No independent T1 confirmation, S model learning, transfer or retention was launched.
+**Formal two-task Core is not accepted or released.** Total new cost:88 physical
+episodes;13 new Core CPU tests plus98 legacy tests. This is a development interface
+Alpha and negative feasibility result, not evidence of stable learning.
 
+[本轮完整实施报告](docs/implementation/CORE_BENCHMARK_实施报告_20261027.md) ·
 [Lightweight participant quickstart](docs/core/QUICKSTART.md) ·
 [Registered stage budgets](docs/core/CORE_PROTOCOL_20261027.md) ·
 [Program schema](docs/core/S_PROGRAM_SCHEMA.md).
