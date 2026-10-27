@@ -12,7 +12,7 @@ Git's partial clone/sparse checkout (Git server must support filtering):
 ```bash
 git clone --filter=blob:none --sparse --branch feature/core-benchmark-alpha https://github.com/ros-claw/PhysicalEvoBench.git
 cd PhysicalEvoBench
-git sparse-checkout set physicalevobench tests configs/core docs/core scripts
+git sparse-checkout set --cone physicalevobench tests configs/core docs/core scripts
 uv sync --extra dev
 uv run physicalevobench-core smoke
 uv run pytest -q tests/test_core.py
