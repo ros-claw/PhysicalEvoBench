@@ -21,7 +21,7 @@ def main():
                 raise ValueError('Graph serialization changed')
         print(json.dumps({'status':'PASS','scope':'CPU contracts only','physical_episodes':0,
                           'tasks':['state-reference-h10-v1','core-place-h20-v2-dev'],
-                          'S_graph_reference_calibrated':False}))
+                          'physical_reference_validation':'not_run_by_this_CPU_command'}))
         return
     out=Path(a.run_dir)
     reg=json.loads((out/'registration.json').read_text())
