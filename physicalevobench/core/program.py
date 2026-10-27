@@ -149,7 +149,7 @@ class ProgramFSM:
         if next_id!=self.current:
             self.transitions+=1
             # Global transition cap closes arbitrary cyclic-graph loopholes.
-            if next_id=='recover':
+            if self.nodes[next_id]['mode']=='recover':
                 self.retries+=1
             if self.retries>self.program.max_retries or self.transitions>64:
                 self.exhausted=True

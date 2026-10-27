@@ -115,6 +115,10 @@ There is one sequential trajectory per method, not three independent pilots.
 T1 score-only search samples the initial graph plus seven preregistered template
 variants: clearance[.08,.12], close minimum[.2,.7], release minimum[.2,.9], lower
 offset[.002,.015], lower tolerance[.008,.025], uniform draws seed2026102707.
+The seven variants additionally use preregistered structural templates: variants0/3
+skip probe;1/4 release from transport height;2/5 use a0.9s elapsed lower guard;3/6
+allow two recoveries and1.6s close timeout. These alter branches/guards, not just
+parameters. All remain subject to the same physical constraints and scoring.
 It has the same permitted library schema and eight trials as feedback; its fixed
 proposal distribution is explicitly narrower than the full combinatorial program
 space, so this pilot cannot isolate feedback quality from proposal quality.

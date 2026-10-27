@@ -221,7 +221,7 @@ def run(root,out,pilot,confirmation,gpu):
         handles={f'train-{i}':c for i,c in enumerate(groups['train'])}
         rng=random.Random(2026102707)
         candidates=[library.to_dict()]
-        for _ in range(7):
+        for variant in range(7):
             candidate=copy.deepcopy(library.to_dict())
             for n in candidate['tasks']['place']['nodes']:
                 if n['id']=='approach':
@@ -233,6 +233,20 @@ def run(root,out,pilot,confirmation,gpu):
                 if n['id']=='lower':
                     n['offset_m']=rng.uniform(.002,.015)
                     n['tolerance']=rng.uniform(.008,.025)
+            nodes={n['id']:n for n in candidate['tasks']['place']['nodes']}
+            # Public, task-reasonable program templates include structural and
+            # guard changes, not only continuous parameters. No feedback or
+            # heldout score is used to generate this proposal set.
+            if variant in (0,3):
+                nodes['close']['next']='lift'  # omit object-follow probe
+            if variant in (1,4):
+                nodes['transport']['next']='release'  # release from transport height
+            if variant in (2,5):
+                nodes['lower']['guard']='elapsed'
+                nodes['lower']['minimum_s']=.9  # bounded timed descent
+            if variant in (3,6):
+                candidate['tasks']['place']['max_retries']=2
+                nodes['close']['timeout_s']=1.6
             candidates.append(candidate)
         save_json(out/f'{method}-search_distribution.json',candidates)
         model=None
