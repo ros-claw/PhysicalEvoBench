@@ -1,9 +1,10 @@
 # Participant protocol v1
 
 Generic participants receive one JSON request on stdin and return one JSON tool
-call on stdout. They need no ROSClaw import. Supported tools are `propose` (validated
-artifact), `run_trial` (candidate content hash and opaque training handle) and
-`freeze` (known hash and bounded persistent memory). Evaluator allocates paths;
+call on stdout. They need no ROSClaw import. The initial wire format has two calls: `run_trial` (a validated proposal plus an
+opaque training handle) and `freeze` (a validated retained artifact plus bounded
+persistent memory). Proposal registration is part of each call; no unbudgeted
+validation or separate physical tool exists. Evaluator allocates paths;
 participant cannot choose a filesystem destination. No heldout tool exists.
 
 Each training request includes common initial ability, editable schema, remaining

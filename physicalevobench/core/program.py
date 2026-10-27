@@ -161,7 +161,7 @@ class ProgramFSM:
             if next_n['mode']=='probe':
                 self.probe_object=list(obs['object_position'])
                 self.offset=relative
-            if n['mode']=='probe' and next_n['mode']=='lift':
+            if n['mode'] in ('close','probe') and next_n['mode']=='lift':
                 self.offset=relative
             self.current=next_id
             self.age=self.dwell=0.

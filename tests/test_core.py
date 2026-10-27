@@ -149,3 +149,21 @@ def test_evidence_extraction_rejects_absolute_paths_and_links():
         with tarfile.open(fileobj=buf,mode='r') as archive:
             with pytest.raises(ValueError,match='safe'):
                 list(safe_members(archive))
+
+
+def test_program_skip_probe_keeps_current_grasp_frame_instead_of_initial_ee_offset():
+    value=initial_program(True).to_dict()
+    for n in value['nodes']:
+        if n['id']=='close':
+            n['next']='lift'
+    fsm=ProgramFSM(Program.from_dict(value))
+    obs={'ee_position':[.5,0,.12],'object_position':[.5,0,.02],
+         'goal_position':[.5,0,.3],'object_velocity':[0,0,0],
+         'finger_position':[.02,.02],'cube_contact_force':[10,10],'orientation_error':0.}
+    for _ in range(3):
+        fsm.update(obs,.02)
+    obs={**obs,'ee_position':[.5,0,.025]}
+    for _ in range(3+14):
+        decision=fsm.update(obs,.02)
+    assert decision['program_node']=='lift'
+    assert fsm.offset==pytest.approx([0,0,.005])

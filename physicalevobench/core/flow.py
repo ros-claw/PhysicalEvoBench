@@ -37,7 +37,7 @@ Targets: object_above/object_grasp use current object+offset_m vertically; ancho
 EE when entering close/recover; probe/retreat_anchor add offset_m to anchor; goal_offset
 is T0 goal plus measured grasp relative offset; lift_initial is initial cube XY and Z+
 offset_m plus grasp offset; place_above/place_lower/place_retreat use public place target
-plus vertical offset_m and grasp offset. Close→probe captures object-follow reference.
+plus vertical offset_m and grasp offset. Leaving close/probe into lift captures the current grasp offset; close→probe also captures object-follow reference.
 Modes approach/descend/close/probe/lift/hold/release/recover/failed select executor state;
 integral is active only lift/hold. All other graph choices are participant-controlled.
 Program bounds:1..16 nodes, defined edges, max_retries0..2, at most64 node transitions,
