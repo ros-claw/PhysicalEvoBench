@@ -122,3 +122,20 @@ def test_state_executor_has_no_checkpoint_or_model_weight_identity():
     skill=StateExecutionSkill(cfg['state_execution_sha256'])
     assert 'base_checkpoint_sha256' not in skill.to_dict()
     assert 'model_1999' not in json.dumps(cfg)
+
+
+def test_block_statistics_keep_missingness_and_identity_discordance():
+    from physicalevobench.core.replication_metrics import ARMS,comparison,summarize
+
+    cs=[{'condition_id':str(i),'public_goal':[.6,.12,.021],'object_mass_kg':.1} for i in range(4)]
+    scores={a:{str(i):i%2==0 for i in range(4)} for a in ARMS}
+    scores['deletion']={str(i):i%2==1 for i in range(4)}
+    block={'block':0,'conditions':cs,'scores':scores}
+    result=summarize([block])
+    assert result['identity_replays'][0]['discordant_pairs']==4
+    assert result['comparisons']['designer']['hierarchical_95_interval'] is None
+    second={'block':1,'conditions':cs,'scores':{a:dict(v) for a,v in scores.items()}}
+    assert comparison([block,second],'designer',draws=100)['hierarchical_95_interval']==[0.,0.]
+    second['scores']['feedback']['0']=None
+    assert comparison([block,second],'designer',draws=100)['hierarchical_95_interval'] is None
+    assert summarize([second])['arms']['feedback']['missing']==1

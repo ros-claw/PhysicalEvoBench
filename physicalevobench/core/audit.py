@@ -63,6 +63,11 @@ def audit_session(worker):
         if job.get('candidate_artifact'):
             if digest(job['candidate_artifact'])!=job['identity']['effective_artifact_hash']:
                 raise ValueError('Effective training artifact identity changed')
+        if cfg.get('initialization_profile')=='support-probe-restore-1':
+            from physicalevobench.core.readiness_audit import audit_readiness
+            audit_readiness(episode,job['condition'],row)
+            if row['execution_status']=='INIT_INVALID':
+                continue
         if read(episode/'initial_state.json')['condition']!=job['condition']:
             raise ValueError('Executed condition differs from reservation')
         if abs(read(episode/'initial_state.json')['mass_readback_kg'][0][0]-job['condition']['object_mass_kg'])>1e-5:
@@ -100,6 +105,8 @@ def audit_session(worker):
             decision=fsm.update(public,meta['control_dt'])
             if decision!=d['decision']:
                 raise ValueError('Actual skill command differs from public-state program')
+            if 'evaluator_guard' in d and d['evaluator_guard']!=fsm.last_guard_evaluation:
+                raise ValueError('Recorded public-guard branch differs from executable decision')
             if cfg.get('control_profile')=='contact-integral-v1':
                 active=min(public['cube_contact_force'])>=.5 and sum(public['finger_position'])/2<.035
                 if active:

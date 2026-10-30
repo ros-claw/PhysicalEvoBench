@@ -54,6 +54,12 @@ def audit_bindings(out, reg, frozen):
         initials = {}
         common_public=None
         for name in ('frozen', 'designer', 'search', 'feedback', 'deletion'):
+            method_failure=directory/name/'method_failure.json'
+            if method_failure.exists():
+                failure=read(method_failure)
+                if failure['status']!=frozen['artifacts'][i][name] or (directory/f'test-{name}').exists():
+                    raise ValueError('Incomplete method misrepresented after freeze')
+                continue
             if name in ('designer', 'feedback'):
                 calls = sorted((directory/name/'model_calls').glob('call-*'))
                 usages = [read(c/'usage.json') for c in calls if (c/'usage.json').exists()]
@@ -150,7 +156,7 @@ def audit_bindings(out, reg, frozen):
                 path = directory/f'{name}.json'
                 art = load(path)
             if (art['effective_artifact_hash'] != frozen['artifacts'][i][name] or
-                    art['payload']['executor'] != 'contact-integral-v1/'+reg['source_commit']):
+                    art['payload']['executor'] != reg.get('executor_prefix','contact-integral-v1/')+reg['source_commit']):
                 raise ValueError('Frozen artifact or executor changed')
             native = directory/f'test-{name}'
             if read(native/'source_identity.json')['commit'] != reg['source_commit']:
@@ -158,13 +164,19 @@ def audit_bindings(out, reg, frozen):
             requests = sorted((native/'requests').glob('*.json'))
             if len(requests) != len(group['query']):
                 raise ValueError('Missing assigned query condition')
-            for jobfile, c in zip(requests, group['query'], strict=True):
+            order=reg.get('query_order_by_arm',[{}]*len(reg['conditions']))[i].get(name,list(range(len(group['query']))))
+            for jobfile, j in zip(requests,order,strict=True):
+                c=group['query'][j]
                 job = read(jobfile)
                 if (job['condition'] != {k: v for k, v in c.items() if k != 'public_goal'} or
                         job['public_goal'] != c['public_goal'] or job['program'] != art['payload']['skill'] or
                         job['reference_config'] != reg['reference']['reference_config'] or
                         job['identity']['effective_artifact_hash'] != art['effective_artifact_hash']):
                     raise ValueError('Test program/condition differs from frozen assignment')
+                outcome=read(native/'episodes'/job['episode_id']/'episode.json')
+                if outcome['execution_status']=='INIT_INVALID':
+                    checks+=1
+                    continue
                 initial = initial_for_pair(native/'episodes'/job['episode_id'])
                 key = c['condition_id']
                 if key in initials:

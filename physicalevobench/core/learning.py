@@ -103,7 +103,7 @@ def event_feedback(directory, row):
             'events_and_periodic_samples': samples}
 
 
-def manifest(root, parent, instances, profile=None,stream=2026103004):
+def manifest(root, parent, instances, profile=None,stream=2026103004,query_repeats=1):
     from physicalevobench.core.problem import PROFILE
     profile=profile or PROFILE
     excluded = published_seeds(root)
@@ -118,13 +118,14 @@ def manifest(root, parent, instances, profile=None,stream=2026103004):
             group[split] = []
             for goal in goals:
                 for mass in (.1, .4):
-                    seed = rng.randrange(2**31)
-                    while seed in excluded:
+                    for _ in range(query_repeats if split=='query' else 1):
                         seed = rng.randrange(2**31)
-                    excluded.add(seed)
-                    group[split].append({'condition_id': f'instance-{run}-{split}-{len(group[split])}',
-                                         'seed': seed, 'split': split, 'object_mass_kg': mass,
-                                         'public_goal': goal})
+                        while seed in excluded:
+                            seed = rng.randrange(2**31)
+                        excluded.add(seed)
+                        group[split].append({'condition_id': f'instance-{run}-{split}-{len(group[split])}',
+                                             'seed': seed, 'split': split, 'object_mass_kg': mass,
+                                             'public_goal': goal})
         groups.append(group)
     return groups
 
@@ -314,6 +315,9 @@ def score_search(root,directory,source,cfg,base,group,run_id,gpu):
                 job=make_job(program,c,f'search-{i}-{j}','search')
                 job['reference_config']=base['reference_config']
                 row=session.trial(job)
+                if row.get('execution_status')=='INIT_INVALID':
+                    from physicalevobench.core.errors import InitializationInvalid
+                    raise InitializationInvalid('TemplateSearch received no valid execution; no score imputed')
                 # Algorithm observes only the task score, never the trace.
                 outcomes.append(bool(row['success']))
             scores.append(sum(outcomes))
