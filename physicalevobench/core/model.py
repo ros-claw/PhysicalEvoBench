@@ -11,6 +11,7 @@ import time
 from pathlib import Path
 
 from physicalevobench.doctor import save_json
+from physicalevobench.evaluation.confirmation import now
 
 
 CALL_SCHEMA={
@@ -40,6 +41,7 @@ class ParticipantProcess:
         directory.mkdir()
         save_json(directory/'request.json',request)
         started=time.monotonic()
+        started_at=now()
         with tempfile.TemporaryDirectory(prefix='peb-participant-') as temporary:
             tmp=Path(temporary)
             if self.command==['codex']:
@@ -51,15 +53,15 @@ class ParticipantProcess:
                       '--output-schema',str(tmp/'schema.json'),'-o',str(tmp/'answer.json'),'-']
             else:
                 argv=self.command
-            save_json(directory/'reservation.json',{'call':index,'model':self.model,'timeout_s':120})
+            save_json(directory/'reservation.json',{'call':index,'model':self.model,'timeout_s':120,'started_at':started_at})
             with (directory/'events.jsonl').open('w') as stdout,(directory/'stderr.log').open('w') as stderr:
                 try:
                     result=subprocess.run(argv,input=json.dumps(request),text=True,cwd=tmp,
                                           stdout=stdout,stderr=stderr,timeout=120)
                 except subprocess.TimeoutExpired:
-                    save_json(directory/'process.json',{'returncode':None,'timeout':True,'wall_s':time.monotonic()-started})
+                    save_json(directory/'process.json',{'returncode':None,'timeout':True,'wall_s':time.monotonic()-started,'started_at':started_at,'finished_at':now(),'usage':'unknown'})
                     raise
-            save_json(directory/'process.json',{'returncode':result.returncode,'wall_s':time.monotonic()-started})
+            save_json(directory/'process.json',{'returncode':result.returncode,'wall_s':time.monotonic()-started,'started_at':started_at,'finished_at':now()})
             events=[json.loads(line) for line in (directory/'events.jsonl').read_text().splitlines()]
             if result.returncode:
                 raise RuntimeError('Participant transport failed; see preserved process evidence')
@@ -77,6 +79,9 @@ class ParticipantProcess:
                 if len(events)!=1 or set(events[0])!={'response','usage'}:
                     raise ValueError('Generic participant must return response and actual usage')
                 answer,usage=events[0]['response'],[events[0]['usage']]
+            for key in ('input_tokens','output_tokens'):
+                if type(usage[0].get(key)) is not int or usage[0][key]<0:
+                    raise ValueError('Actual nonnegative integer provider usage required')
             self.input_tokens+=usage[0]['input_tokens']
             self.output_tokens+=usage[0]['output_tokens']
             save_json(directory/'response.json',answer)

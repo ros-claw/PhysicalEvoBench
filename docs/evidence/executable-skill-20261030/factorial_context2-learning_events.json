@@ -1,0 +1,579 @@
+{
+  "schema": "actual-learning-event-summary-1",
+  "methods": [
+    {
+      "learning_instance": "instance-0",
+      "method": "designer",
+      "events": [
+        {
+          "call": 0,
+          "tool": "freeze",
+          "practice_handle": "",
+          "program_hash": "68a177c9c64be12741e66d1c85990ae9e73af2e00cc77e0f39e888e62acca63d",
+          "semantic_node_changes": {},
+          "physical_outcomes_observed_before_proposal": [],
+          "participant_memory": "Frozen supplied starter without modification; no physical feedback was available.",
+          "usage": {
+            "input_tokens": 17365,
+            "cached_input_tokens": 0,
+            "cache_write_input_tokens": 0,
+            "output_tokens": 1068,
+            "reasoning_output_tokens": 0
+          }
+        }
+      ],
+      "frozen_artifact_hash": "52cf081baad3c3aa3b6a90b85c928d48af071894cfbe7023b6bfa830020835c3",
+      "physical_practice_used": 0
+    },
+    {
+      "learning_instance": "instance-0",
+      "method": "feedback",
+      "events": [
+        {
+          "call": 0,
+          "tool": "run_trial",
+          "practice_handle": "practice-0",
+          "program_hash": "c111791e94e625c06106cb510479340590f687a43556af839c22bdff5830d765",
+          "semantic_node_changes": {},
+          "physical_outcomes_observed_before_proposal": [],
+          "participant_memory": "Baseline starter trial.",
+          "usage": {
+            "input_tokens": 14832,
+            "cached_input_tokens": 0,
+            "cache_write_input_tokens": 0,
+            "output_tokens": 993,
+            "reasoning_output_tokens": 0
+          },
+          "actual_trial_outcome": {
+            "success": false,
+            "cost_episodes": 1,
+            "controls": 1000,
+            "hard_boundary": false,
+            "limited_control_steps": 238
+          }
+        },
+        {
+          "call": 1,
+          "tool": "run_trial",
+          "practice_handle": "practice-0",
+          "program_hash": "f66b114cbe5f7b003251a0a5f1eca432df8cc6d87f464307b4e9a70e00275e12",
+          "semantic_node_changes": {
+            "lower": {
+              "before": {
+                "id": "lower",
+                "target": {
+                  "frame": "goal",
+                  "offset_m": [
+                    0,
+                    0,
+                    0.008
+                  ],
+                  "grasp_offset": true
+                },
+                "gripper": "close",
+                "guard": "pose",
+                "next": "release",
+                "timeout": "failed",
+                "mode": "lift",
+                "offset_m": 0.008,
+                "minimum_s": 0,
+                "timeout_s": 20,
+                "tolerance": 0.015,
+                "dwell_s": 0.06
+              },
+              "after": {
+                "id": "lower",
+                "target": {
+                  "frame": "goal",
+                  "offset_m": [
+                    0,
+                    0,
+                    0.008
+                  ],
+                  "grasp_offset": true
+                },
+                "gripper": "close",
+                "guard": {
+                  "all": [
+                    {
+                      "observable": "goal_xy_error",
+                      "op": "le",
+                      "value": 0.02
+                    },
+                    {
+                      "observable": "goal_z_error",
+                      "op": "le",
+                      "value": 0.018
+                    },
+                    {
+                      "observable": "object_speed",
+                      "op": "le",
+                      "value": 0.06
+                    }
+                  ]
+                },
+                "next": "release",
+                "timeout": "failed",
+                "mode": "lift",
+                "offset_m": 0.008,
+                "minimum_s": 0,
+                "timeout_s": 20,
+                "tolerance": 0.015,
+                "dwell_s": 0.12
+              }
+            },
+            "release": {
+              "before": {
+                "id": "release",
+                "target": {
+                  "frame": "goal",
+                  "offset_m": [
+                    0,
+                    0,
+                    0.008
+                  ],
+                  "grasp_offset": true
+                },
+                "gripper": "open",
+                "guard": "elapsed",
+                "next": "retreat",
+                "timeout": "failed",
+                "mode": "release",
+                "offset_m": 0.008,
+                "minimum_s": 0.35,
+                "timeout_s": 20,
+                "tolerance": 0.025,
+                "dwell_s": 0.06
+              },
+              "after": {
+                "id": "release",
+                "target": {
+                  "frame": "goal",
+                  "offset_m": [
+                    0,
+                    0,
+                    0.008
+                  ],
+                  "grasp_offset": true
+                },
+                "gripper": "open",
+                "guard": {
+                  "observable": "finger_min",
+                  "op": "ge",
+                  "value": 0.035
+                },
+                "next": "retreat",
+                "timeout": "retreat",
+                "mode": "release",
+                "offset_m": 0.008,
+                "minimum_s": 0.35,
+                "timeout_s": 2,
+                "tolerance": 0.025,
+                "dwell_s": 0.06
+              }
+            },
+            "transport": {
+              "before": {
+                "id": "transport",
+                "target": {
+                  "frame": "goal",
+                  "offset_m": [
+                    0,
+                    0,
+                    0.12
+                  ],
+                  "grasp_offset": true
+                },
+                "gripper": "close",
+                "guard": "pose",
+                "next": "lower",
+                "timeout": "failed",
+                "mode": "lift",
+                "offset_m": 0.12,
+                "minimum_s": 0,
+                "timeout_s": 20,
+                "tolerance": 0.025,
+                "dwell_s": 0.06
+              },
+              "after": {
+                "id": "transport",
+                "target": {
+                  "frame": "goal",
+                  "offset_m": [
+                    0,
+                    0,
+                    0.12
+                  ],
+                  "grasp_offset": true
+                },
+                "gripper": "close",
+                "guard": {
+                  "all": [
+                    {
+                      "observable": "target_error",
+                      "op": "le",
+                      "value": 0.025
+                    },
+                    {
+                      "observable": "object_speed",
+                      "op": "le",
+                      "value": 0.1
+                    }
+                  ]
+                },
+                "next": "lower",
+                "timeout": "failed",
+                "mode": "lift",
+                "offset_m": 0.12,
+                "minimum_s": 0,
+                "timeout_s": 20,
+                "tolerance": 0.025,
+                "dwell_s": 0.1
+              }
+            }
+          },
+          "physical_outcomes_observed_before_proposal": [
+            false
+          ],
+          "participant_memory": "Starter trial released while the object was moving and fingers remained in contact. Test settling before release and waiting for actual finger opening.",
+          "usage": {
+            "input_tokens": 26236,
+            "cached_input_tokens": 0,
+            "cache_write_input_tokens": 0,
+            "output_tokens": 1189,
+            "reasoning_output_tokens": 70
+          },
+          "actual_trial_outcome": {
+            "success": true,
+            "cost_episodes": 1,
+            "controls": 1000,
+            "hard_boundary": false,
+            "limited_control_steps": 234
+          }
+        },
+        {
+          "call": 2,
+          "tool": "run_trial",
+          "practice_handle": "practice-2",
+          "program_hash": "f66b114cbe5f7b003251a0a5f1eca432df8cc6d87f464307b4e9a70e00275e12",
+          "semantic_node_changes": {},
+          "physical_outcomes_observed_before_proposal": [
+            false,
+            true
+          ],
+          "participant_memory": "Test the previously successful graph against a different public goal and physical instance.",
+          "usage": {
+            "input_tokens": 29111,
+            "cached_input_tokens": 0,
+            "cache_write_input_tokens": 0,
+            "output_tokens": 1128,
+            "reasoning_output_tokens": 20
+          },
+          "actual_trial_outcome": {
+            "success": true,
+            "cost_episodes": 1,
+            "controls": 1000,
+            "hard_boundary": false,
+            "limited_control_steps": 239
+          }
+        },
+        {
+          "call": 3,
+          "tool": "run_trial",
+          "practice_handle": "practice-0",
+          "program_hash": "f66b114cbe5f7b003251a0a5f1eca432df8cc6d87f464307b4e9a70e00275e12",
+          "semantic_node_changes": {},
+          "physical_outcomes_observed_before_proposal": [
+            false,
+            true,
+            true
+          ],
+          "participant_memory": "Test the current successful graph on another practice handle.",
+          "usage": {
+            "input_tokens": 29238,
+            "cached_input_tokens": 0,
+            "cache_write_input_tokens": 0,
+            "output_tokens": 1123,
+            "reasoning_output_tokens": 19
+          },
+          "actual_trial_outcome": {
+            "success": true,
+            "cost_episodes": 1,
+            "controls": 1000,
+            "hard_boundary": false,
+            "limited_control_steps": 234
+          }
+        },
+        {
+          "call": 4,
+          "tool": "run_trial",
+          "practice_handle": "practice-3",
+          "program_hash": "f66b114cbe5f7b003251a0a5f1eca432df8cc6d87f464307b4e9a70e00275e12",
+          "semantic_node_changes": {},
+          "physical_outcomes_observed_before_proposal": [
+            false,
+            true,
+            true,
+            true
+          ],
+          "participant_memory": "Test the existing successful graph on a practice handle with a different public goal.",
+          "usage": {
+            "input_tokens": 26761,
+            "cached_input_tokens": 0,
+            "cache_write_input_tokens": 0,
+            "output_tokens": 1130,
+            "reasoning_output_tokens": 21
+          },
+          "actual_trial_outcome": {
+            "success": false,
+            "cost_episodes": 1,
+            "controls": 1000,
+            "hard_boundary": false,
+            "limited_control_steps": 237
+          }
+        },
+        {
+          "call": 5,
+          "tool": "run_trial",
+          "practice_handle": "practice-3",
+          "program_hash": "3ef7e576906c66233376ebf1452dad070ec54e286b78ac2b49a2c80d74b8d95f",
+          "semantic_node_changes": {
+            "lower": {
+              "before": {
+                "id": "lower",
+                "target": {
+                  "frame": "goal",
+                  "offset_m": [
+                    0,
+                    0,
+                    0.008
+                  ],
+                  "grasp_offset": true
+                },
+                "gripper": "close",
+                "guard": {
+                  "all": [
+                    {
+                      "observable": "goal_xy_error",
+                      "op": "le",
+                      "value": 0.02
+                    },
+                    {
+                      "observable": "goal_z_error",
+                      "op": "le",
+                      "value": 0.018
+                    },
+                    {
+                      "observable": "object_speed",
+                      "op": "le",
+                      "value": 0.06
+                    }
+                  ]
+                },
+                "next": "release",
+                "timeout": "failed",
+                "mode": "lift",
+                "offset_m": 0.008,
+                "minimum_s": 0,
+                "timeout_s": 20,
+                "tolerance": 0.015,
+                "dwell_s": 0.12
+              },
+              "after": {
+                "id": "lower",
+                "target": {
+                  "frame": "goal",
+                  "offset_m": [
+                    0,
+                    0,
+                    0.008
+                  ],
+                  "grasp_offset": true
+                },
+                "gripper": "close",
+                "guard": {
+                  "all": [
+                    {
+                      "observable": "goal_xy_error",
+                      "op": "le",
+                      "value": 0.03
+                    },
+                    {
+                      "observable": "goal_z_error",
+                      "op": "le",
+                      "value": 0.018
+                    },
+                    {
+                      "observable": "object_speed",
+                      "op": "le",
+                      "value": 0.1
+                    }
+                  ]
+                },
+                "next": "release",
+                "timeout": "failed",
+                "mode": "lift",
+                "offset_m": 0.008,
+                "minimum_s": 0,
+                "timeout_s": 20,
+                "tolerance": 0.015,
+                "dwell_s": 0.06
+              }
+            },
+            "transport": {
+              "before": {
+                "id": "transport",
+                "target": {
+                  "frame": "goal",
+                  "offset_m": [
+                    0,
+                    0,
+                    0.12
+                  ],
+                  "grasp_offset": true
+                },
+                "gripper": "close",
+                "guard": {
+                  "all": [
+                    {
+                      "observable": "target_error",
+                      "op": "le",
+                      "value": 0.025
+                    },
+                    {
+                      "observable": "object_speed",
+                      "op": "le",
+                      "value": 0.1
+                    }
+                  ]
+                },
+                "next": "lower",
+                "timeout": "failed",
+                "mode": "lift",
+                "offset_m": 0.12,
+                "minimum_s": 0,
+                "timeout_s": 20,
+                "tolerance": 0.025,
+                "dwell_s": 0.1
+              },
+              "after": {
+                "id": "transport",
+                "target": {
+                  "frame": "goal",
+                  "offset_m": [
+                    0,
+                    0,
+                    0.12
+                  ],
+                  "grasp_offset": true
+                },
+                "gripper": "close",
+                "guard": {
+                  "all": [
+                    {
+                      "observable": "goal_xy_error",
+                      "op": "le",
+                      "value": 0.04
+                    },
+                    {
+                      "observable": "object_speed",
+                      "op": "le",
+                      "value": 0.2
+                    }
+                  ]
+                },
+                "next": "lower",
+                "timeout": "lower",
+                "mode": "lift",
+                "offset_m": 0.12,
+                "minimum_s": 0,
+                "timeout_s": 3,
+                "tolerance": 0.025,
+                "dwell_s": 0.06
+              }
+            }
+          },
+          "physical_outcomes_observed_before_proposal": [
+            false,
+            true,
+            true,
+            true,
+            false
+          ],
+          "participant_memory": "Trial shorter transport and placement guards to address prolonged oscillation observed in the prior episode.",
+          "usage": {
+            "input_tokens": 26485,
+            "cached_input_tokens": 9216,
+            "cache_write_input_tokens": 0,
+            "output_tokens": 1137,
+            "reasoning_output_tokens": 25
+          },
+          "actual_trial_outcome": {
+            "success": true,
+            "cost_episodes": 1,
+            "controls": 1000,
+            "hard_boundary": false,
+            "limited_control_steps": 239
+          }
+        },
+        {
+          "call": 6,
+          "tool": "run_trial",
+          "practice_handle": "practice-3",
+          "program_hash": "3ef7e576906c66233376ebf1452dad070ec54e286b78ac2b49a2c80d74b8d95f",
+          "semantic_node_changes": {},
+          "physical_outcomes_observed_before_proposal": [
+            false,
+            true,
+            true,
+            true,
+            false,
+            true
+          ],
+          "participant_memory": "Test current graph on a distinct practice handle; previous observed trial succeeded.",
+          "usage": {
+            "input_tokens": 29428,
+            "cached_input_tokens": 9216,
+            "cache_write_input_tokens": 0,
+            "output_tokens": 1107,
+            "reasoning_output_tokens": 0
+          },
+          "actual_trial_outcome": {
+            "success": true,
+            "cost_episodes": 1,
+            "controls": 1000,
+            "hard_boundary": false,
+            "limited_control_steps": 239
+          }
+        },
+        {
+          "call": 7,
+          "tool": "freeze",
+          "practice_handle": "practice-2",
+          "program_hash": "3ef7e576906c66233376ebf1452dad070ec54e286b78ac2b49a2c80d74b8d95f",
+          "semantic_node_changes": {},
+          "physical_outcomes_observed_before_proposal": [
+            false,
+            true,
+            true,
+            true,
+            false,
+            true,
+            true
+          ],
+          "participant_memory": "The selected graph succeeded in both recorded trials of its exact program hash. Its public-goal placement uses object position and speed guards before release, then waits for finger opening and retreats.",
+          "usage": {
+            "input_tokens": 29515,
+            "cached_input_tokens": 9216,
+            "cache_write_input_tokens": 0,
+            "output_tokens": 1149,
+            "reasoning_output_tokens": 19
+          }
+        }
+      ],
+      "frozen_artifact_hash": "e6802a30b9b2fb3ce05b62fd5bdbfc8eb2410c3c43ceb962e07c47d97c1c9d91",
+      "physical_practice_used": 7
+    }
+  ],
+  "scope": "Derived from actual provider requests/responses and returned physical feedback; participant memory is a hypothesis, not evaluator truth. No additional model or physical calls."
+}

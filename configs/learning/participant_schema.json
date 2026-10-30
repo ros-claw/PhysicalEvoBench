@@ -1,0 +1,30 @@
+{
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "tool": {
+      "type": "string",
+      "enum": [
+        "run_trial",
+        "revise",
+        "freeze"
+      ]
+    },
+    "program_json": {
+      "type": "string"
+    },
+    "practice_handle": {
+      "type": "string"
+    },
+    "memory": {
+      "type": "string",
+      "maxLength": 4000
+    }
+  },
+  "required": [
+    "tool",
+    "program_json",
+    "practice_handle",
+    "memory"
+  ]
+}

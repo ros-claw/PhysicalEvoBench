@@ -71,7 +71,7 @@ def audit_session(worker):
             raise ValueError('Physical outcome changed')
         frames=records(episode/'physics.jsonl.gz')
         if cfg.get('core_task')=='place':
-            score=place_metrics(read(episode/'initial_capture.json'),frames)
+            score=place_metrics(read(episode/'initial_capture.json'),frames,goal=job.get('public_goal'))
             if score!=row['place'] or score['success']!=row['success']:
                 raise ValueError('Object/release scoring mismatch')
         elif row['success']!=row['diagnostic']['holding']['stable_success']:
@@ -100,7 +100,17 @@ def audit_session(worker):
             decision=fsm.update(public,meta['control_dt'])
             if decision!=d['decision']:
                 raise ValueError('Actual skill command differs from public-state program')
-            bias=integral.update(d['joint_error_feedback_rad'],meta['control_dt'],decision['phase'] in ('lift','hold'))
+            if cfg.get('control_profile')=='contact-integral-v1':
+                active=min(public['cube_contact_force'])>=.5 and sum(public['finger_position'])/2<.035
+                if active:
+                    bias=integral.update(d['joint_error_feedback_rad'],meta['control_dt'],True)
+                else:
+                    integral.value=[v*math.exp(-meta['control_dt']/.2) for v in integral.value]
+                    bias=list(integral.value)
+            else:
+                bias=integral.update(d['joint_error_feedback_rad'],meta['control_dt'],decision['phase'] in ('lift','hold'))
+            if job.get('public_goal') and public.get('task_goal_position')!=job['public_goal']:
+                raise ValueError('Public task goal differs from reservation')
             if bias!=d['bounded_joint_integral_rad']:
                 raise ValueError('Fixed integral feedback changed')
             if public['object_position']!=s['object_position'][0] or public['ee_position']!=s['ee_position'][0][0]:

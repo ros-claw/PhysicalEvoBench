@@ -7,6 +7,7 @@ import tarfile
 from pathlib import Path, PurePosixPath
 
 from physicalevobench.doctor import save_json, sha256
+from physicalevobench.v02.reference_artifact import digest
 
 
 def safe_members(archive):
@@ -22,7 +23,8 @@ def package(root,out,studies):
 
     out.mkdir(parents=True,exist_ok=False)
     files=[]
-    commits=set()
+    packaging_commit=subprocess.check_output(['git','rev-parse','HEAD'],cwd=root,text=True).strip()
+    commits={packaging_commit}
     for study in studies:
         for f in sorted(study.rglob('*')):
             if not f.is_file() or f.is_symlink() or any(x in f.parts for x in ('recorder','__pycache__')):
@@ -33,7 +35,7 @@ def package(root,out,studies):
             files.append({'path':name,'sha256':sha256(f),'size':f.stat().st_size,'local':f})
             if f.name=='registration.json':
                 data=json.loads(f.read_text())
-                for key in ('source_commit','launcher_commit'):
+                for key in ('source_commit','launcher_commit','scheduler_source_commit','original_executor_source'):
                     if data.get(key):
                         commits.add(data[key])
             if f.name=='prelaunch_recovery.json':
@@ -66,7 +68,7 @@ def package(root,out,studies):
         data=subprocess.check_output(['git','archive','--format=tar.gz',commit,'physicalevobench'],cwd=root)
         dest.write_bytes(data)
         sources.append({'commit':commit,'file':dest.name,'sha256':sha256(dest)})
-    manifest={'schema':'core-evidence-delivery-1','studies':[s.name for s in studies],
+    manifest={'packaging_source_commit':packaging_commit,'schema':'core-evidence-delivery-1','studies':[s.name for s in studies],
               'files':[{k:v for k,v in f.items() if k!='local'} for f in files],
               'archives':archives,'sources':sources,
               'scope':'Raw physics and model/tool evidence; no licensed weights. Offline audit is not new physics.'}
@@ -118,8 +120,8 @@ def verify(evidence,out):
             identities.append(None)
         for path in identities:
             identity=json.loads(path.read_text()) if path else {'commit':reg['source_commit'],'files':reg['source_sha256']}
-            for file,digest in identity['files'].items():
-                if sources[identity['commit']].get(file)!=digest:
+            for file,expected_digest in identity['files'].items():
+                if sources[identity['commit']].get(file)!=expected_digest:
                     raise ValueError('Registered source differs from bundled immutable source')
                 source_checks+=1
         if status['status']=='CANCELLED_BEFORE_LAUNCH':
@@ -128,7 +130,70 @@ def verify(evidence,out):
             results[name]={'status':'CANCELLED_BEFORE_LAUNCH','episodes':0}
         elif status['status']!='COMPLETED':
             # Failure evidence stays published, but never becomes a passed study.
-            results[name]={'status':status['status'],'scope':'Incomplete attempts retained; no completed study claim'}
+            partial=sum(len(p.read_text().splitlines()) for p in study.rglob('episodes.jsonl'))
+            results[name]={'status':status['status'],'completed_episodes':partial,
+                           'scope':'Incomplete attempts retained; no completed study claim'}
+        elif reg['schema']=='esl-reference-replay-1':
+            from physicalevobench.core.reference_replay import summarize as replay_summary, audit_source_pairing
+            recorded=json.loads((study/'results.json').read_text())
+            results[name]=replay_summary(study)
+            if results[name]!=recorded:
+                raise ValueError('Reference replay counts differ from raw physical data')
+            roots={case['source_study']:out/case['source_study'] for case in reg['cases']}
+            results[name]['source_pairing']=audit_source_pairing(study,roots)
+        elif reg['schema']=='esl-problem-qualification-1':
+            from physicalevobench.core.problem import audit_receipt
+            results[name]=audit_receipt(study)
+        elif reg['schema']=='esl-frozen-extension-1':
+            from physicalevobench.core.extension import summarize as extension_summary
+            recorded=json.loads((study/'results.json').read_text())
+            results[name]=extension_summary(study)
+            if results[name]!=recorded:
+                raise ValueError('Exploratory extension result differs from independent raw audit')
+        elif reg['schema']=='esl-learning-1':
+            from physicalevobench.core.learning import summarize as summarize_learning
+            recorded=json.loads((study/'results.json').read_text())
+            results[name]=summarize_learning(study)
+            if results[name]!=recorded:
+                raise ValueError('Stored executable-skill results differ from recomputation')
+        elif reg['schema'] in ('esl-development-1','esl-qualification-1','core-standalone-smoke-1'):
+            data=audit_session(study/'native')
+            for i,row in enumerate(data):
+                original=reg['job'] if reg['schema']=='core-standalone-smoke-1' else reg['jobs'][i]
+                actual=json.loads((study/'native/requests'/f'{i:03d}.json').read_text())
+                if original!=actual:
+                    raise ValueError('Executed task differs from original registration')
+            scores={}
+            for r in data:
+                scores.setdefault(r['core_identity'].get('method','smoke'),[]).append(r['success'])
+            if reg['schema']=='esl-qualification-1':
+                q=json.loads((study/'qualification.json').read_text())
+                gap=sum(scores['strong'])-sum(scores['starter'])
+                noise=abs(sum(scores['strong'])-sum(scores['identity_strong']))
+                qualified=(all(scores['strong']) and all(scores['query_geometry_reference']) and
+                           not any(scores['force_open']) and gap>noise and
+                           not any(r['diagnostic']['hard_boundary_terminated'] for r in data))
+                if (q['scores']!=scores or q['status']!=('QUALIFIED' if qualified else 'DEV') or
+                        q['registration_sha256']!=digest(reg)):
+                    raise ValueError('Stored qualification differs from raw measured response')
+            elif reg['schema']=='esl-development-1':
+                recorded=json.loads((study/'result.json').read_text())
+                for method,booleans in scores.items():
+                    if (recorded['methods'][method]['successes']!=sum(booleans) or
+                            recorded['methods'][method]['episodes']!=len(booleans)):
+                        raise ValueError('Stored development response differs from raw outcomes')
+            else:
+                if (study/'imported_artifact.json').exists():
+                    from physicalevobench.core.artifact import load as load_imported
+                    imported=load_imported(study/'imported_artifact.json')
+                    if (reg['job']['program']!=imported['payload']['skill'] or
+                            reg['job']['identity']['effective_artifact_hash']!=imported['effective_artifact_hash']):
+                        raise ValueError('Imported smoke artifact differs from actual executed program')
+                recorded=json.loads((study/'result.json').read_text())
+                if recorded['task_success']!=data[0]['success'] or recorded['steps']!=data[0]['steps']:
+                    raise ValueError('Standalone result differs from raw physics')
+            results[name]={'audit':'PASS','episodes':len(data),'successes':sum(r['success'] for r in data),
+                           'scores':scores}
         elif reg['schema']=='v02-diagnostics-1':
             recorded=json.loads((study/'parameter_space_results.json').read_text())
             results[name]=summarize(study)
@@ -182,6 +247,10 @@ def verify(evidence,out):
             results[name]={'audit':'PASS','episodes':len(data),'successes':sum(r['success'] for r in data)}
         else:
             raise ValueError('Unknown completed Core study')
+        if (study/'command_response.json').exists():
+            from physicalevobench.core.response import response
+            if json.loads((study/'command_response.json').read_text())!=response(study,write=False):
+                raise ValueError('Command response differs from identical-observation recomputation')
     receipt={'schema':'core-delivery-audit-1','status':'PASS','raw_files':len(manifest['files']),
              'registered_source_checks':source_checks,'studies':results,
              'scope':'Independent extraction and CPU recomputation; no new model, training or physics.'}

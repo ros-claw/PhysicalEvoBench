@@ -21,11 +21,20 @@ def atomic_json(path,value):
 
 class NativeSession:
     def __init__(self,root,out,source_commit,cfg,gpu):
+        arena=Path(root)/'external/IsaacLab-Arena'
+        revision=command(['git','rev-parse','HEAD'],cwd=arena)
+        changed=command(['git','status','--porcelain','--untracked-files=no'],cwd=arena)
+        if revision.get('stdout')!='c7edf3a9d5d8276565208f72422f8f8a0806d6cf' or changed.get('stdout'):
+            raise ValueError('Missing/incompatible environment: pinned clean Arena required')
         self.out=Path(out)
         self.out.mkdir(parents=True,exist_ok=False)
         self.cfg=cfg
         self.used=0
         save_json(self.out/'config.json',cfg)
+        save_json(self.out/'backend_identity.json',{'arena_revision':revision,
+                  'tracked_status':changed,'lab_gitlink':command(
+                  ['git','rev-parse','HEAD:submodules/IsaacLab'],cwd=arena),
+                  'scope':'Pinned source entry and installed native environment; not a fresh installation'})
         save_json(self.out/'worker_reservation.json',{'maximum_episodes':cfg['physical_budget'],'at':now()})
         save_json(self.out/'gpu_workload.json',{'exclusive':False,'at':now(),'query':command(
             ['nvidia-smi','--query-gpu=index,memory.used,utilization.gpu','--format=csv'])})

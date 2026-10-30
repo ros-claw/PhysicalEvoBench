@@ -1,0 +1,15 @@
+{
+  "schema": "esl-lightweight-source-1",
+  "source_commit": "f190bf571bc34156148a90e794690b886aff69b7",
+  "file": "executable-skill-source.tar.gz",
+  "sha256": "be1a526ed9df8cdde0c21d348ba0d14dfa64a5ff5c46129bba5d033e87127189",
+  "bytes": 799265,
+  "CPU_test_scope": "tests/test_core.py + tests/test_executable_skill.py; full development repository has additional historical tests",
+  "native_backend_commit": "c7edf3a9d5d8276565208f72422f8f8a0806d6cf",
+  "excludes": [
+    "git history",
+    "raw trajectories",
+    "native dependencies",
+    "licensed assets and weights"
+  ]
+}

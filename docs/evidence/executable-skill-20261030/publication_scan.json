@@ -1,0 +1,12 @@
+{
+  "scope": "Read-only pattern scan of publication text evidence; auth stores never read; not a proof of absence of every possible secret",
+  "text_files_scanned": 4558,
+  "patterns": [
+    "sk-(?:proj-|svcacct-)?[A-Za-z0-9_-]{30,}",
+    "hf_[A-Za-z0-9]{25,}",
+    "gh[pousr]_[A-Za-z0-9]{30,}",
+    "github_pat_[A-Za-z0-9_]{30,}",
+    "-----BEGIN (?:RSA |EC |OPENSSH )?PRIVATE KEY-----"
+  ],
+  "matching_files": []
+}

@@ -1,0 +1,498 @@
+{
+  "schema": "release-event-alignment-1",
+  "episodes": [
+    {
+      "episode": "place-000",
+      "success": false,
+      "events": {
+        "opening_command": {
+          "step": 452,
+          "time_s": 9.040000000000001,
+          "goal_xy_error_m": 0.005195115029837607,
+          "object_speed_m_s": 0.27595279085324287,
+          "finger_position_m": [
+            0.02359527349472046,
+            0.02401033043861389
+          ],
+          "finger_normal_force_n": [
+            47.040409088134766,
+            47.01887130737305
+          ]
+        },
+        "support_contact": "not_measured",
+        "last_bilateral_before_open": {
+          "step": 451,
+          "time_s": 9.02,
+          "goal_xy_error_m": 0.005715902208546606,
+          "object_speed_m_s": 0.2722796032389761,
+          "finger_position_m": [
+            0.02360798791050911,
+            0.023997703567147255
+          ],
+          "finger_normal_force_n": [
+            47.06455993652344,
+            47.02455520629883
+          ]
+        },
+        "actual_open_035": {
+          "step": 498,
+          "time_s": 9.96,
+          "goal_xy_error_m": 0.055513220146313304,
+          "object_speed_m_s": 0.00013394719804037821,
+          "finger_position_m": [
+            0.035171911120414734,
+            0.035199470818042755
+          ],
+          "finger_normal_force_n": [
+            0.0,
+            0.0
+          ]
+        },
+        "finger_contact_lost": {
+          "step": 482,
+          "time_s": 9.64,
+          "goal_xy_error_m": 0.0550035329331488,
+          "object_speed_m_s": 0.18366726021870966,
+          "finger_position_m": [
+            0.02408459782600403,
+            0.024131419137120247
+          ],
+          "finger_normal_force_n": [
+            0.3605012893676758,
+            0.36166897416114807
+          ]
+        },
+        "geometry_near_plane": {
+          "step": 452,
+          "time_s": 9.040000000000001,
+          "goal_xy_error_m": 0.005195115029837607,
+          "object_speed_m_s": 0.27595279085324287,
+          "finger_position_m": [
+            0.02359527349472046,
+            0.02401033043861389
+          ],
+          "finger_normal_force_n": [
+            47.040409088134766,
+            47.01887130737305
+          ]
+        },
+        "low_speed": {
+          "step": 464,
+          "time_s": 9.28,
+          "goal_xy_error_m": 0.0482799964014382,
+          "object_speed_m_s": 0.09005049144072316,
+          "finger_position_m": [
+            0.023799926042556763,
+            0.02416573464870453
+          ],
+          "finger_normal_force_n": [
+            28.314598083496094,
+            28.343786239624023
+          ]
+        },
+        "retreat_command": {
+          "step": 473,
+          "time_s": 9.46,
+          "goal_xy_error_m": 0.05541162377055225,
+          "object_speed_m_s": 0.01768914599923019,
+          "finger_position_m": [
+            0.023970624431967735,
+            0.02417898364365101
+          ],
+          "finger_normal_force_n": [
+            14.243483543395996,
+            14.265233039855957
+          ]
+        },
+        "speed_peak": {
+          "step": 483,
+          "time_s": 9.66,
+          "goal_xy_error_m": 0.055808005300512664,
+          "object_speed_m_s": 0.3043795713521454,
+          "finger_position_m": [
+            0.024318160489201546,
+            0.024350544437766075
+          ],
+          "finger_normal_force_n": [
+            0.0,
+            0.0
+          ]
+        }
+      }
+    },
+    {
+      "episode": "place-001",
+      "opening": "not_reached"
+    },
+    {
+      "episode": "place-002",
+      "opening": "not_reached"
+    },
+    {
+      "episode": "place-003",
+      "success": false,
+      "events": {
+        "opening_command": {
+          "step": 448,
+          "time_s": 8.96,
+          "goal_xy_error_m": 0.005208399935519704,
+          "object_speed_m_s": 0.2693313686540542,
+          "finger_position_m": [
+            0.023545799776911736,
+            0.02397298626601696
+          ],
+          "finger_normal_force_n": [
+            46.97321319580078,
+            46.94955825805664
+          ]
+        },
+        "support_contact": "not_measured",
+        "last_bilateral_before_open": {
+          "step": 447,
+          "time_s": 8.94,
+          "goal_xy_error_m": 0.005861184062733629,
+          "object_speed_m_s": 0.26571071091405274,
+          "finger_position_m": [
+            0.023559795692563057,
+            0.02395908534526825
+          ],
+          "finger_normal_force_n": [
+            47.004737854003906,
+            46.96759796142578
+          ]
+        },
+        "actual_open_035": {
+          "step": 494,
+          "time_s": 9.88,
+          "goal_xy_error_m": 0.05523783391833094,
+          "object_speed_m_s": 0.00013787748737420377,
+          "finger_position_m": [
+            0.035171832889318466,
+            0.035189878195524216
+          ],
+          "finger_normal_force_n": [
+            0.0,
+            0.0
+          ]
+        },
+        "finger_contact_lost": {
+          "step": 478,
+          "time_s": 9.56,
+          "goal_xy_error_m": 0.05467798978106838,
+          "object_speed_m_s": 0.18641620399960498,
+          "finger_position_m": [
+            0.024082835763692856,
+            0.024130845442414284
+          ],
+          "finger_normal_force_n": [
+            0.19529534876346588,
+            0.16091185808181763
+          ]
+        },
+        "geometry_near_plane": {
+          "step": 448,
+          "time_s": 8.96,
+          "goal_xy_error_m": 0.005208399935519704,
+          "object_speed_m_s": 0.2693313686540542,
+          "finger_position_m": [
+            0.023545799776911736,
+            0.02397298626601696
+          ],
+          "finger_normal_force_n": [
+            46.97321319580078,
+            46.94955825805664
+          ]
+        },
+        "low_speed": {
+          "step": 459,
+          "time_s": 9.18,
+          "goal_xy_error_m": 0.04517676991053533,
+          "object_speed_m_s": 0.09961405310358458,
+          "finger_position_m": [
+            0.023729661479592323,
+            0.02412623167037964
+          ],
+          "finger_normal_force_n": [
+            29.837953567504883,
+            29.872867584228516
+          ]
+        },
+        "retreat_command": {
+          "step": 469,
+          "time_s": 9.38,
+          "goal_xy_error_m": 0.054068726804894184,
+          "object_speed_m_s": 0.014649311754941606,
+          "finger_position_m": [
+            0.023976316675543785,
+            0.024192212149500847
+          ],
+          "finger_normal_force_n": [
+            14.309527397155762,
+            14.332456588745117
+          ]
+        },
+        "speed_peak": {
+          "step": 448,
+          "time_s": 8.96,
+          "goal_xy_error_m": 0.005208399935519704,
+          "object_speed_m_s": 0.2693313686540542,
+          "finger_position_m": [
+            0.023545799776911736,
+            0.02397298626601696
+          ],
+          "finger_normal_force_n": [
+            46.97321319580078,
+            46.94955825805664
+          ]
+        }
+      }
+    },
+    {
+      "episode": "place-004",
+      "success": false,
+      "events": {
+        "opening_command": {
+          "step": 497,
+          "time_s": 9.94,
+          "goal_xy_error_m": 0.006078096826493704,
+          "object_speed_m_s": 0.3699440605895676,
+          "finger_position_m": [
+            0.023606687784194946,
+            0.02394699677824974
+          ],
+          "finger_normal_force_n": [
+            47.10687255859375,
+            46.99006271362305
+          ]
+        },
+        "support_contact": "not_measured",
+        "last_bilateral_before_open": {
+          "step": 496,
+          "time_s": 9.92,
+          "goal_xy_error_m": 0.0056041498250877135,
+          "object_speed_m_s": 0.3632599634111467,
+          "finger_position_m": [
+            0.02362559735774994,
+            0.023928018286824226
+          ],
+          "finger_normal_force_n": [
+            47.16284942626953,
+            46.9332389831543
+          ]
+        },
+        "actual_open_035": {
+          "step": 543,
+          "time_s": 10.86,
+          "goal_xy_error_m": 0.05589810931294136,
+          "object_speed_m_s": 2.3488301631014388e-05,
+          "finger_position_m": [
+            0.03517107293009758,
+            0.03521289303898811
+          ],
+          "finger_normal_force_n": [
+            0.0,
+            0.0
+          ]
+        },
+        "finger_contact_lost": {
+          "step": 536,
+          "time_s": 10.72,
+          "goal_xy_error_m": 0.05589826248604539,
+          "object_speed_m_s": 0.00040779270897564737,
+          "finger_position_m": [
+            0.02961421012878418,
+            0.030290069058537483
+          ],
+          "finger_normal_force_n": [
+            0.0,
+            0.37201225757598877
+          ]
+        },
+        "geometry_near_plane": {
+          "step": 497,
+          "time_s": 9.94,
+          "goal_xy_error_m": 0.006078096826493704,
+          "object_speed_m_s": 0.3699440605895676,
+          "finger_position_m": [
+            0.023606687784194946,
+            0.02394699677824974
+          ],
+          "finger_normal_force_n": [
+            47.10687255859375,
+            46.99006271362305
+          ]
+        },
+        "low_speed": {
+          "step": 508,
+          "time_s": 10.16,
+          "goal_xy_error_m": 0.056690515386125434,
+          "object_speed_m_s": 0.09322277486456224,
+          "finger_position_m": [
+            0.02412753365933895,
+            0.023707188665866852
+          ],
+          "finger_normal_force_n": [
+            30.7559814453125,
+            28.957382202148438
+          ]
+        },
+        "retreat_command": {
+          "step": 518,
+          "time_s": 10.36,
+          "goal_xy_error_m": 0.06088111857475267,
+          "object_speed_m_s": 0.009466273209110894,
+          "finger_position_m": [
+            0.023696918040513992,
+            0.024406643584370613
+          ],
+          "finger_normal_force_n": [
+            13.292393684387207,
+            15.278952598571777
+          ]
+        },
+        "speed_peak": {
+          "step": 497,
+          "time_s": 9.94,
+          "goal_xy_error_m": 0.006078096826493704,
+          "object_speed_m_s": 0.3699440605895676,
+          "finger_position_m": [
+            0.023606687784194946,
+            0.02394699677824974
+          ],
+          "finger_normal_force_n": [
+            47.10687255859375,
+            46.99006271362305
+          ]
+        }
+      }
+    },
+    {
+      "episode": "place-005",
+      "opening": "not_reached"
+    },
+    {
+      "episode": "place-006",
+      "opening": "not_reached"
+    },
+    {
+      "episode": "place-007",
+      "success": false,
+      "events": {
+        "opening_command": {
+          "step": 495,
+          "time_s": 9.9,
+          "goal_xy_error_m": 0.006827187827142502,
+          "object_speed_m_s": 0.3554633085219626,
+          "finger_position_m": [
+            0.023581955581903458,
+            0.023944701999425888
+          ],
+          "finger_normal_force_n": [
+            47.06884765625,
+            46.98950958251953
+          ]
+        },
+        "support_contact": "not_measured",
+        "last_bilateral_before_open": {
+          "step": 494,
+          "time_s": 9.88,
+          "goal_xy_error_m": 0.005034277528553933,
+          "object_speed_m_s": 0.35023652604321254,
+          "finger_position_m": [
+            0.023604661226272583,
+            0.023921914398670197
+          ],
+          "finger_normal_force_n": [
+            47.127540588378906,
+            46.93482971191406
+          ]
+        },
+        "actual_open_035": {
+          "step": 541,
+          "time_s": 10.82,
+          "goal_xy_error_m": 0.05644363569572746,
+          "object_speed_m_s": 0.00014186143728443066,
+          "finger_position_m": [
+            0.03517088666558266,
+            0.03520004451274872
+          ],
+          "finger_normal_force_n": [
+            0.0,
+            0.0
+          ]
+        },
+        "finger_contact_lost": {
+          "step": 534,
+          "time_s": 10.68,
+          "goal_xy_error_m": 0.05644338530405882,
+          "object_speed_m_s": 0.00017841520048788678,
+          "finger_position_m": [
+            0.029611898586153984,
+            0.030076932162046432
+          ],
+          "finger_normal_force_n": [
+            0.0,
+            0.4662742018699646
+          ]
+        },
+        "geometry_near_plane": {
+          "step": 495,
+          "time_s": 9.9,
+          "goal_xy_error_m": 0.006827187827142502,
+          "object_speed_m_s": 0.3554633085219626,
+          "finger_position_m": [
+            0.023581955581903458,
+            0.023944701999425888
+          ],
+          "finger_normal_force_n": [
+            47.06884765625,
+            46.98950958251953
+          ]
+        },
+        "low_speed": {
+          "step": 506,
+          "time_s": 10.120000000000001,
+          "goal_xy_error_m": 0.055000390385824806,
+          "object_speed_m_s": 0.08699404398754532,
+          "finger_position_m": [
+            0.024097081273794174,
+            0.023729393258690834
+          ],
+          "finger_normal_force_n": [
+            30.721803665161133,
+            28.982343673706055
+          ]
+        },
+        "retreat_command": {
+          "step": 516,
+          "time_s": 10.32,
+          "goal_xy_error_m": 0.05891605049067589,
+          "object_speed_m_s": 0.01020232982683395,
+          "finger_position_m": [
+            0.023656370118260384,
+            0.024422457441687584
+          ],
+          "finger_normal_force_n": [
+            13.354637145996094,
+            15.180624008178711
+          ]
+        },
+        "speed_peak": {
+          "step": 495,
+          "time_s": 9.9,
+          "goal_xy_error_m": 0.006827187827142502,
+          "object_speed_m_s": 0.3554633085219626,
+          "finger_position_m": [
+            0.023581955581903458,
+            0.023944701999425888
+          ],
+          "finger_normal_force_n": [
+            47.06884765625,
+            46.98950958251953
+          ]
+        }
+      }
+    }
+  ],
+  "scope": "Measured associations, not unique causal identification; support contact not_measured"
+}

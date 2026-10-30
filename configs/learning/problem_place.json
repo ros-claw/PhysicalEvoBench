@@ -1,0 +1,50 @@
+{
+  "learning_problem_id": "place-release-factorial-v2",
+  "track": "Executable-Skill Learning",
+  "task_version": "core-place-public-v3-dev",
+  "backend_profile": "arena-c7edf3a9-physx",
+  "observation_profile": "privileged-state-finger-normal-contact",
+  "execution_profile": "contact-integral-v1",
+  "starter": "starter.json",
+  "reference": "reference_aperture.json",
+  "editable_space": "core-skill-graph-2",
+  "support_goal_positions": [
+    [
+      0.62,
+      0.12,
+      0.021
+    ],
+    [
+      0.6,
+      -0.12,
+      0.021
+    ]
+  ],
+  "query_goal_positions": [
+    [
+      0.6,
+      0.12,
+      0.021
+    ],
+    [
+      0.62,
+      -0.12,
+      0.021
+    ]
+  ],
+  "mechanism": "Same cube grasp/release mechanics at new public goals; hidden mass class .1/.4 repeats; reset seeds disjoint",
+  "budget_per_learning_instance": {
+    "feedback_physical_episodes": 8,
+    "search_physical_episodes": 8,
+    "model_calls_per_model_method": 10,
+    "model_input_tokens": 300000,
+    "model_output_tokens": 48000,
+    "participant_call_timeout_s": 120,
+    "native_process_timeout_s": 7200,
+    "simulated_seconds_per_episode": 20
+  },
+  "formal_sample_size": "Not fixed; current prospective pilot one instance, exploratory extension reuses two earlier frozen instances",
+  "qualification": "QUALIFIED configs/learning/qualification.json;14 real query-family controls",
+  "scoring": "core-place-score-1",
+  "knowledge_link": "Same release mechanics; X and Y goal factors recombine at query. Hidden mass classes repeat, reset seeds are disjoint."
+}

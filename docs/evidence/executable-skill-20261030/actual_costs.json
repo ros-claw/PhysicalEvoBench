@@ -1,0 +1,91 @@
+{
+  "physical_episodes": 294,
+  "control_steps": 290524,
+  "physics_samples": 1162096,
+  "native_processes": 53,
+  "native_process_minutes": 256.8469124333334,
+  "infrastructure_failures": 1,
+  "limited_controls": 70464,
+  "hard_boundary_episodes": 0,
+  "position_violation_episodes": 0,
+  "distinct_physical_conditions": 67,
+  "by_study": [
+    {
+      "study": "peb-esl-smoke-20261030-001",
+      "completed_episodes": 1
+    },
+    {
+      "study": "peb-esl-dev-20261030-001",
+      "completed_episodes": 8
+    },
+    {
+      "study": "peb-esl-dev-20261030-002",
+      "completed_episodes": 0
+    },
+    {
+      "study": "peb-esl-dev-20261030-003",
+      "completed_episodes": 8
+    },
+    {
+      "study": "peb-esl-dev-20261030-004",
+      "completed_episodes": 8
+    },
+    {
+      "study": "peb-esl-qualification-20261030-001",
+      "completed_episodes": 22
+    },
+    {
+      "study": "peb-esl-problem-qualification-20261030-001",
+      "completed_episodes": 14
+    },
+    {
+      "study": "peb-esl-learning-20261030-001",
+      "completed_episodes": 66
+    },
+    {
+      "study": "peb-esl-extension-20261030-001",
+      "completed_episodes": 40
+    },
+    {
+      "study": "peb-learning-001",
+      "completed_episodes": 32
+    },
+    {
+      "study": "peb-learning-context2-001",
+      "completed_episodes": 35
+    },
+    {
+      "study": "peb-learning-context3-001",
+      "completed_episodes": 36
+    },
+    {
+      "study": "peb-esl-reference-replay-20261030-001",
+      "completed_episodes": 24
+    }
+  ],
+  "very_early_task_failures": [
+    {
+      "study": "peb-esl-extension-20261030-001",
+      "native": "instance-0/test-frozen",
+      "episode": "query-000",
+      "steps": 8
+    },
+    {
+      "study": "peb-esl-extension-20261030-001",
+      "native": "instance-0/test-search",
+      "episode": "query-000",
+      "steps": 8
+    },
+    {
+      "study": "peb-learning-001",
+      "native": "instance-0/test-feedback",
+      "episode": "query-000",
+      "steps": 8
+    }
+  ],
+  "model_processes": 40,
+  "model_process_wall_s": 632.5462206839584,
+  "reported_cache_read_input_tokens": 178560,
+  "reported_cache_write_input_tokens": 0,
+  "model_calls_missing_cache_usage": 0
+}

@@ -1,97 +1,83 @@
-# Core development Alpha: participate and reproduce
+# Executable-Skill Learning：独立运行与接入
 
-Status is experimental. Read BENCHMARK_CARD.md and the final implementation report
-before interpreting scores. P parameter learning and S program learning are separate.
-Normal v2 remains frozen; no benchmark task guarantees that an Agent improves.
+当前产品入口不依赖 ROSClaw、旧 B1 目录或 PPO 历史数据。T0 是回归与物理 smoke 项；新 Place 学习题只有取得资格卡才可运行学习 pilot。旧双任务 Core 的失败记录在 [1027 报告](../implementation/CORE_BENCHMARK_实施报告_20261027.md)，不会阻塞单独 T0。
 
-## 1. Lightweight source and CPU smoke
-
-A participant does not need historical PPO streams. Fetch only source paths with
-Git's partial clone/sparse checkout (Git server must support filtering):
+## 轻量源码
 
 ```bash
-git clone --filter=blob:none --sparse --branch feature/core-benchmark-alpha https://github.com/ros-claw/PhysicalEvoBench.git
+git clone --filter=blob:none --sparse --branch feature/executable-skill-learning https://github.com/ros-claw/PhysicalEvoBench.git
 cd PhysicalEvoBench
 git sparse-checkout init --cone
-git sparse-checkout set physicalevobench tests configs/core docs/core scripts
-uv sync --extra dev
+git sparse-checkout set physicalevobench tests configs/core configs/learning docs/core docs/implementation scripts
+uv sync --locked --extra dev
+uv run physicalevobench-core tasks
 uv run physicalevobench-core smoke
-uv run pytest -q tests/test_core.py
+uv run pytest -q tests/test_core.py tests/test_executable_skill.py
 ```
 
-Smoke checks schemas and serialization with **zero physical episodes**. It does
-not download weights, import Isaac Sim, call an LLM or certify a physical task.
-For an installable source bundle, include pyproject.toml, uv.lock, physicalevobench
-and the Core cards/configs; historical evidence is an optional separate download.
+`smoke` 只检查 CPU 合约，物理回合为零。源码小包不含权重与历史轨迹。若使用无 Git 的源码压缩包，先建立本地 Git 提交，运行器才能冻结执行源码；资格核对使用代码内容 SHA，不要求开发者历史运行路径或旧 Git 对象。
 
-## 2. Standard real physical pilot
+## 真实物理 smoke
 
-Initialize pinned Arena/Lab submodules and install the **separate** native runtime
-using `scripts/setup_arena.sh`. Arena must remain at c7edf3a9d5d8276565208f72422f8f8a0806d6cf,
-Lab gitlink91a0906f93802eb859192dcb0bca879f891e92d6. Read the root installation and
-NVIDIA model license instructions before downloading the checkpoint. Set
-`PHYSICALEVOBENCH_CHECKPOINT` to your external licensed model_1999.pt; its params/
-agent.yaml must be beside it. Expected SHA256 is in configs/core/frozen_reference.json.
-Never move licensed weights into the source/evidence bundle. Defaults resolve from
-**your** home directory, not a developer-specific username.
-
-Standard P interface pilot reuses the lightweight prior calibration receipt; it
-has a32-episode maximum (actual early freezes cost fewer). It does not require
-repeating the48 development episodes or downloading their raw history first:
+按根 README 和 `scripts/setup_arena.sh` 安装独立 Arena 原生环境，保持 Arena `c7edf3a9d5d8276565208f72422f8f8a0806d6cf` / Lab gitlink `91a0906f93802eb859192dcb0bca879f891e92d6`。不要共用 CPU venv。按 NVIDIA 原始条款单独获取模型，设置 `PHYSICALEVOBENCH_CHECKPOINT` 指向仓库外 `model_1999.pt`；同级需有 `params/agent.yaml`。模型 SHA 为 `babbbfd363f894443ffe494f26c5b6e0485fb35d4f5480c088295c23fc2a13aa`。
 
 ```bash
-uv run physicalevobench-core run --output /path/to/new-study-parent/peb-core-pilot-new --gpu 2
+uv run physicalevobench-core physical-smoke --output /absolute/path/peb-smoke-new --gpu 2
 ```
 
-This accepts a declared prior calibration receipt, not a fresh independent physics
-validation. Full raw audit remains optional and separate. For an explicit B1
-reproduction, run `python -m physicalevobench.core.parameter_space` with --reference,
---output and --gpu, then pass that completed directory as --calibration. B1 is a
-single bounded development diagnosis, not a per-submission search stage.
+该命令实际预留并执行 1 个 T0 物理回合，不调用模型、不读旧 B1、不依赖 T1。`result.json` 给出任务成功与控制步；物理启动错误与任务失败分开。使用干净、已提交源码和新输出目录；GPU 编号可选择，不停止其他用户任务。新目录物理复跑、全新原生安装与离线审计是三种不同验证。
 
-Use a clean committed checkout; all launch sources are content addressed. GPU2 is
-only a default; choose a GPU with room without stopping other users' processes.
-The current P pilot uses the optional Codex CLI transport and its configured account;
-install/login separately. Requests go through a generic serialized participant
-contract, with no ROSClaw dependency. Model default gpt-6.1-terra is explicitly
-recorded, not interchangeable in a same-model mechanism comparison. There is no
-model call during test episodes. The heldout manifest is public evidence after the
-run and must not be reused to tune a submission.
+## 资格与学习
 
-Generic providers can pass `--participant-command '["/absolute/path/to/participant"]'`
-to `physicalevobench-core run` or the module launcher, or use `ParticipantProcess(command=[...], model=..., ...)`:
-read one request JSON from stdin; output one JSON line with exactly `response` and
-`usage` (`input_tokens`,`output_tokens`). Response follows
-configs/core/participant_call_schema.json. Usage must be actual provider accounting.
-No shell command substitution is used to construct prompts. Returning a candidate
-is not permission to read evaluator files. Only trusted participants are supported.
+已发出的轻量 `configs/learning/qualification.json` 若状态为 QUALIFIED，连同任务卡、程序与执行内容哈希即可复用，不需先下载开发原始数据。若此文件尚未生成，说明资格仍未完成，不能直接启动比较。
 
-Task B4 is gated: run core.place_study development, then its independent confirmation
-with --confirmation-development; run core.flow only after confirmation passes.
-The exact registration captures the finite budget and fresh split assignments.
-If task calibration fails, preserve the failure and stop transfer claims; do not
-re-run confirmations on favorable seeds. See CORE_PROTOCOL_20261027.md.
+重做资格（新的明确工作，不覆盖既有成绩）：
 
-## 3. Full offline audit (no simulator or model needed)
+```bash
+uv run physicalevobench-core qualify --output /absolute/path/peb-qualification-new --program configs/learning/reference_aperture.json --gpu 2
+```
+
+实际学习与同模型对照：
+
+```bash
+uv run physicalevobench-core learn --output /absolute/path/peb-learning-new --qualification configs/learning/qualification.json --instances 2 --gpu 2
+```
+
+默认使用已安装并独立登录的 Codex CLI 参考 provider，模型固定 `gpt-6.1-terra`；临时会话、禁用内置工具，只传序列化公开上下文。支持其他 JSON provider：添加 `--provider '["/absolute/path/to/participant"]' --model YOUR_FIXED_MODEL`。入口从 stdin 读一个 JSON，stdout 输出一行 `{response,usage}`；`response` 遵循 `configs/learning/participant_schema.json`，usage 为真实 `input_tokens` / `output_tokens`，禁止估算为零。学习与无反馈组必须使用同一基础模型和计算上限。
+
+程序通过 `program_json` 提交完整 graph-v2；run_trial 注册并执行实践，revise 仅修改候选，freeze 选择持久产物。模型自行选择句柄和修改，不要求先失败、不要求正收益。当前public-context-v3将自写current_memory、已选实践句柄、客观事件级反馈和少量周期状态带回下次调用；原始笔记及全部高频轨迹留档。隐藏机制的支持/查询关系统一公开，具体数值仍不公开。测试期仅运行冻结程序，文本 memory 是来源记录，不参与控制；不是完整在线 Agent harness。
+
+每实例预留最多 8 Feedback +8 Search +5×4 query =36 回合，两实例最多72；允许早冻，实际费用单列。搜索是4候选共同2条件比较的有限提案族，不能代表全图空间最优搜索。所有实例全部冻结后才开始 query。无效提交保留为零分及有效性失败；基础设施错误单列，不悄悄从方法分母中删失败。
+
+旧 P 接口仅用于历史协议复现：`physicalevobench-core run` 仍转交旧 `core.pilot`，其历史单次预注册限制不适用于新的 `learn`。请勿把饱和 P 题作为学习主成绩。
+
+## 离线审计
 
 ```bash
 uv run physicalevobench-core audit --run-dir /path/to/extracted/study
 ```
 
-This recomputes registered raw actions, actual target constraints, physical
-substeps, terminal state, program commands and outcomes. It does **not** re-run
-physics, reconstruct proprietary weights or create a new independent learning run.
-The full public evidence delivery includes file SHA256s, source identities and
-separate extraction verification. A fresh-directory CPU check and a fresh physical
-execution are reported separately; neither is implied merely by a passing audit.
+重新计算物理评分、程序命令、产物绑定、模型决策、支持/查询隔离和真实 reset 配对。原始轨迹包为可选下载；此命令不调用模型或模拟器，不产生新独立学习实例。
 
-## Results and limits
 
-Per-result identity includes learning_run_id, budget_used, checkpoint_index,
-effective_artifact_hash, task_id, split_id, condition_id, physical_replay_id and
-execution_profile. All failure/validation/model costs count. One learning run per
-method is a pilot, not stable algorithm efficacy. Report initial/final/signed gain,
-parameter/program space, and artifact deletion. Mass/seed truth stays evaluator-only;
-state observation uses privileged simulator geometry. Normal contact and coordinate
-limits are measured; tangential forces, actual solver effort and real-robot safety
-are not established. Apache-2.0 project code does not relicense NVIDIA weights.
+新目录执行已经导出的学习产物（不重新学习、不计正式 query）：
+
+```bash
+uv run physicalevobench-core physical-smoke --task place-settle --artifact /path/to/exported-artifact.json --seed 2026103030 --output /absolute/path/peb-artifact-smoke-new --gpu 2
+```
+
+先固定使用实例0的Feedback产物，不按其成绩挑选；若该方法未形成合法产物，如实记录无法复跑，不用另一个有利产物替换。该入口只需冻结JSON、轻量资格和正常任务配置，复核执行内容哈希，不依赖原学习目录。
+
+源码包重建一个最小本地 Git checkout（后端仍单独下载）：
+
+```bash
+git init
+git add .
+git update-index --add --cacheinfo 160000,c7edf3a9d5d8276565208f72422f8f8a0806d6cf,external/IsaacLab-Arena
+git commit -m 'Initialize pinned executable-skill source'
+bash scripts/setup_arena.sh
+```
+
+源码包包含 `.gitmodules` 和 `.gitignore`；上面的 gitlink 与资格文件共同固定后端和执行内容。此路径的 CPU 重建与物理后端安装应分别声明，不能因能解压或 CPU 通过就标记物理复跑。CLI 模型标识相同，封闭服务的具体基础权重 revision 未暴露，不能声称已哈希固定其权重。
+
+本轮轻量源码、样例与可选完整轨迹见 [实验 Alpha](https://github.com/ros-claw/PhysicalEvoBench/releases/tag/esl-alpha-20261030)。结果和各版接口限制见 [实施报告](../implementation/EXECUTABLE_SKILL_LEARNING_实施报告_20261030.md)。小样例不能独自复算完整研究；全量离线审计需下载manifest列出的全部data/source分片。
