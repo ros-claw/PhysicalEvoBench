@@ -480,3 +480,86 @@ def export_replication(study,output):
                           'assigned':sum(r['method']==a for r in values),'unknown':sum(r['success'] is None for r in values if r['method']==a)} for a in ARMS}})
     save_json(output/'goal_mass_cells.json',{'cells':cells,'scope':'Descriptive predefined cells; not independent task families or population confidence intervals'})
     return {'allocated_rows':len(allocations),'artifact_diffs':len(differences),'extra_model_calls':0,'extra_physical_episodes':0}
+
+
+def initial_state_scope(study):
+    """Distinguish distinct seeded draws from distinct measured physical start poses."""
+    from physicalevobench.doctor import save_json
+
+    reg=read(study/'registration.json')
+    physical=set()
+    robot=set()
+    cube=set()
+    legacy=set()
+    ids=set()
+    count=0
+    def normalized(value):
+        if isinstance(value,list):
+            return tuple(normalized(x) for x in value)
+        return round(float(value),6)
+    for native in sorted(study.glob('instance-*/test-*')):
+        for request in sorted((native/'requests').glob('*.json')):
+            job=read(request)
+            ep=native/'episodes'/job['episode_id']
+            if not (ep/'initial_state.json').exists():
+                continue
+            s=read(ep/'initial_state.json')
+            q=normalized(s['joint_position'])
+            obj=(normalized(s['object_position']),normalized(s['object_orientation']))
+            command=normalized(s['target_command'])
+            mass=round(job['condition']['object_mass_kg'],6)
+            goal=normalized(job['public_goal'])
+            robot.add(q)
+            cube.add(obj)
+            legacy.add(command)
+            physical.add((q,obj,mass,goal))
+            ids.add(job['condition']['condition_id'])
+            count+=1
+    value={'schema':'esl-measured-reset-diversity-1','recorded_initial_captures':count,
+           'conditions_with_initial_capture':len(ids),'registered_query_conditions':sum(len(g['query']) for g in reg['conditions']),
+           'distinct_robot_joint_poses_1e6':len(robot),'distinct_cube_poses_1e6':len(cube),
+           'distinct_legacy_goal_commands_1e6':len(legacy),'distinct_physical_starts_including_goal_and_mass_1e6':len(physical),
+           'scope':'Counts rounded to 1e-6; independent seed/reset draws do not imply distinct physical poses or task families. Legacy airborne command variation is distinct from the actual public place goal.'}
+    save_json(study/'measured_reset_diversity.json',value)
+    return value
+
+
+def study_report(study,output):
+    """A compact readout for another user's completed replication directory."""
+    from physicalevobench.core.replication_metrics import ARMS,LABELS
+
+    reg=read(study/'registration.json')
+    data=read(study/'results.json')
+    summary=data['summary']
+    lines=['# Executable-Skill Learning: fixed-protocol results','',
+           f"Task: `{reg['learning_problem']['learning_problem_id']}`; execution: `{reg['learning_problem']['task_version']}`; context: `{reg['participant_context_version']}`.",
+           f"Independent learning blocks: {reg['instances']}. Recorded audit: {data['audit']}. Engineering checks, measurement validity and method efficacy are separate decisions.",'',
+           '| Method | Known successes / assigned | Actual valid task executions | Unknown outcomes | Learning physics | Model calls |',
+           '|---|---:|---:|---:|---:|---:|']
+    for arm in ARMS:
+        a=summary['arms'][arm]
+        practice=sum(b['learning_physical_attempts'].get(arm,0) for b in data['blocks'])
+        calls=sum(b['model_cost'].get(arm,{}).get('calls',0) for b in data['blocks'])
+        lines.append(f"| {LABELS[arm]} | {a['successes']}/{a['assigned']} | {a['valid_task_executions']} | {a['missing']} | {practice} | {calls} |")
+    lines+=['','Unknown infrastructure/provider outcomes are missing, not model zero scores. Invalid participant submissions and exceeded budgets remain assigned failures. TemplateSearch-4 uses expert-designed proposals; this is a budget-cap comparison with potentially unequal actual computation.','',
+            '| Comparison | Mean block effect (pp) | Hierarchical 95% interval (pp) |','|---|---:|---|']
+    for arm,c in summary['comparisons'].items():
+        mean=c['mean_block_effect']
+        ci=c['hierarchical_95_interval']
+        estimate=f'{100*mean:+.2f}' if mean is not None else 'not estimated'
+        bounds=f'[{100*ci[0]:+.2f}, {100*ci[1]:+.2f}]' if ci else c['interval_status']
+        lines.append(f'| Feedback − {LABELS[arm]} | {estimate} | {bounds} |')
+    lines+=['','| Block | Frozen | NoFeedback | TemplateSearch-4 | Feedback | Deletion | Identity discordance |','|---|---:|---:|---:|---:|---:|---:|']
+    for i,b in enumerate(data['blocks']):
+        counts=[]
+        for arm in ARMS:
+            values=list(b['scores'][arm].values())
+            counts.append(f"{sum(v is True for v in values)}/{sum(v is not None for v in values)}")
+        n=summary['identity_replays'][i]
+        lines.append('| '+str(b['block'])+' | '+' | '.join(counts+[f"{n['discordant_pairs']}/{n['paired_valid']}"])+' |')
+    lines+=['','The outer statistical unit is the independent learning block. Query/reset repetitions do not create new task families. This finite problem is not strong spatial OOD or broad self-evolution. Program changes and audit success do not themselves establish positive method gain.','',
+            'Actual physics cost:','', '```json',json.dumps(data['physical_cost'],indent=2),'```','',
+            f"Registered executor source: `{reg['source_commit']}`. Requested model: `{reg['model']}`; immutable provider weights/fingerprint are not exposed. No test-time model calls.",
+            '','Recompute from raw evidence with `physicalevobench-core audit --run-dir PATH`. This readout does not create new model calls or physical episodes.','']
+    Path(output).write_text('\n'.join(lines))
+    return {'report':str(output),'blocks':reg['instances'],'source_results':str(study/'results.json')}

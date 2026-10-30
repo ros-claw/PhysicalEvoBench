@@ -26,6 +26,9 @@ def main():
     run.add_argument('--gpu',type=int,default=2)
     run.add_argument('--model',default='gpt-6.1-terra')
     run.add_argument('--participant-command',help='JSON argv for a generic stdin provider')
+    report=sub.add_parser('report',help='Render a completed fixed-protocol replication readout')
+    report.add_argument('--run-dir',required=True)
+    report.add_argument('--output',help='Defaults to RUN_DIR/report.md')
     audit=sub.add_parser('audit',help='Recompute an existing evidence directory without physics')
     audit.add_argument('--run-dir',required=True)
     if len(sys.argv)>1 and sys.argv[1] in ('learn','qualify','replicate','ready-qualify'):
@@ -64,6 +67,10 @@ def main():
                           'physical_reference_validation':'not_run_by_this_CPU_command'}))
         return
     out=Path(a.run_dir)
+    if a.command=='report':
+        from physicalevobench.core.learning_report import study_report
+        print(json.dumps(study_report(out,Path(a.output) if a.output else out/'report.md'),indent=2))
+        return
     reg=json.loads((out/'registration.json').read_text())
     schema=reg['schema']
     if schema=='esl-state-stdin-smoke-1':

@@ -49,6 +49,7 @@ starter4 / strong4 / identical strong4 / force-open2。资格要求执行有效�
 ```bash
 uv run physicalevobench-core replicate --qualification configs/reliability/qualification.json --output /absolute/path/peb-ready-replication-new --gpus 0,1,2,3
 uv run physicalevobench-core audit --run-dir /absolute/path/peb-ready-replication-new
+uv run physicalevobench-core report --run-dir /absolute/path/peb-ready-replication-new
 ```
 
 五方法：Frozen / NoFeedback / TemplateSearch-4 / Feedback / Deletion。TemplateSearch-4有明确人工专家候选先验；自然提前冻结的比较叫budget-cap comparison，实际tokens和计算可不相等。全部8个block全部产物冻结后才查询；每block16条件=2目标×2质量×4reset抽样。所有方法共享条件，方法/条件槽位顺序预登记轮换。默认学习每GPU一条lane、查询每GPU两条lane；可在开始前用 `--query-lanes-per-gpu 1` 降低并发，注册后不按分数更改。不因输赢停止/追加，不自动重试/换seed。
