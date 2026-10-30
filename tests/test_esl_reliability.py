@@ -210,6 +210,7 @@ def test_replication_global_freeze_barrier_and_registered_query_orders(tmp_path,
                        for split,n in [('support',4),('query',16)]})
     (tmp_path/'configs/reliability').mkdir(parents=True)
     (tmp_path/'configs/reliability/public_context_v3.json').write_text('CPU fixture')
+    (tmp_path/'configs/reliability/asset_dependencies.json').write_text('{}')
     monkeypatch.setattr(replication,'command',lambda argv,**kw:{'stdout':'' if 'status' in argv else 'CPU-fixture-source'})
     monkeypatch.setattr(replication,'validate_contract',lambda *args:({},base))
     monkeypatch.setattr(replication,'manifest',lambda *args,**kwargs:groups)

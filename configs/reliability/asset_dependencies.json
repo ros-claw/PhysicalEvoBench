@@ -1,0 +1,234 @@
+{
+  "schema": "esl-usd-dependency-content-1",
+  "roots": [
+    {
+      "uri": "/home/dell/.cache/isaaclab_arena/usd/robot_on_stand/franka_panda_on_stand_0.8755_0.3888x0.3888.usd",
+      "status": "INCOMPLETE",
+      "layer_identifiers": [
+        "/home/dell/.cache/isaaclab_arena/usd/robot_on_stand/franka_panda_on_stand_0.8755_0.3888x0.3888.usd",
+        "/tmp/https/omniverse-content-production.s3-us-west-2.amazonaws.com/Assets/Isaac/6.1/Isaac/IsaacLab/Robots/FrankaEmika/Legacy/Materials/Materials.usd",
+        "/tmp/https/omniverse-content-production.s3-us-west-2.amazonaws.com/Assets/Isaac/6.1/Isaac/IsaacLab/Robots/FrankaEmika/Legacy/Props/instanceable_collision_meshes.usd",
+        "/tmp/https/omniverse-content-production.s3-us-west-2.amazonaws.com/Assets/Isaac/6.1/Isaac/IsaacLab/Robots/FrankaEmika/Legacy/Props/panda_hand.usd",
+        "/tmp/https/omniverse-content-production.s3-us-west-2.amazonaws.com/Assets/Isaac/6.1/Isaac/IsaacLab/Robots/FrankaEmika/Legacy/Props/panda_leftfinger.usd",
+        "/tmp/https/omniverse-content-production.s3-us-west-2.amazonaws.com/Assets/Isaac/6.1/Isaac/IsaacLab/Robots/FrankaEmika/Legacy/Props/panda_link0.usd",
+        "/tmp/https/omniverse-content-production.s3-us-west-2.amazonaws.com/Assets/Isaac/6.1/Isaac/IsaacLab/Robots/FrankaEmika/Legacy/Props/panda_link1.usd",
+        "/tmp/https/omniverse-content-production.s3-us-west-2.amazonaws.com/Assets/Isaac/6.1/Isaac/IsaacLab/Robots/FrankaEmika/Legacy/Props/panda_link2.usd",
+        "/tmp/https/omniverse-content-production.s3-us-west-2.amazonaws.com/Assets/Isaac/6.1/Isaac/IsaacLab/Robots/FrankaEmika/Legacy/Props/panda_link3.usd",
+        "/tmp/https/omniverse-content-production.s3-us-west-2.amazonaws.com/Assets/Isaac/6.1/Isaac/IsaacLab/Robots/FrankaEmika/Legacy/Props/panda_link4.usd",
+        "/tmp/https/omniverse-content-production.s3-us-west-2.amazonaws.com/Assets/Isaac/6.1/Isaac/IsaacLab/Robots/FrankaEmika/Legacy/Props/panda_link5.usd",
+        "/tmp/https/omniverse-content-production.s3-us-west-2.amazonaws.com/Assets/Isaac/6.1/Isaac/IsaacLab/Robots/FrankaEmika/Legacy/Props/panda_link6.usd",
+        "/tmp/https/omniverse-content-production.s3-us-west-2.amazonaws.com/Assets/Isaac/6.1/Isaac/IsaacLab/Robots/FrankaEmika/Legacy/Props/panda_link7.usd",
+        "/tmp/https/omniverse-content-production.s3-us-west-2.amazonaws.com/Assets/Isaac/6.1/Isaac/IsaacLab/Robots/FrankaEmika/Legacy/Props/panda_rightfinger.usd",
+        "/tmp/https/omniverse-content-production.s3-us-west-2.amazonaws.com/Assets/Isaac/6.1/Isaac/IsaacLab/Robots/FrankaEmika/Legacy/panda_instanceable.usd",
+        "/tmp/https/omniverse-content-production.s3-us-west-2.amazonaws.com/Assets/Isaac/6.1/Isaac/Props/Mounts/Stand/stand.usd",
+        "/tmp/https/omniverse-content-production.s3-us-west-2.amazonaws.com/Assets/Isaac/6.1/Isaac/Props/Mounts/Stand/stand_instanceable.usd"
+      ],
+      "non_layer_asset_references": [],
+      "unresolved": [
+        "OmniPBR.mdl"
+      ]
+    },
+    {
+      "uri": "https://omniverse-content-production.s3-us-west-2.amazonaws.com/Assets/Isaac/6.1/Isaac/IsaacLab/Environments/Grid/default_ground_plane_checker_v1/default_ground_plane.usda",
+      "status": "INCOMPLETE",
+      "layer_identifiers": [
+        "https://omniverse-content-production.s3-us-west-2.amazonaws.com/Assets/Isaac/6.1/Isaac/IsaacLab/Environments/Grid/default_ground_plane_checker_v1/default_ground_plane.usda"
+      ],
+      "non_layer_asset_references": [
+        "https://omniverse-content-production.s3-us-west-2.amazonaws.com/Assets/Isaac/6.1/Isaac/IsaacLab/Environments/Grid/default_ground_plane_checker_v1/Materials/Textures/default_ground_plane_albedo.png",
+        "https://omniverse-content-production.s3-us-west-2.amazonaws.com/Assets/Isaac/6.1/Isaac/IsaacLab/Environments/Grid/default_ground_plane_checker_v1/Materials/Textures/default_ground_plane_roughness.png"
+      ],
+      "unresolved": [
+        "OmniPBR.mdl"
+      ]
+    },
+    {
+      "uri": "https://omniverse-content-production.s3-us-west-2.amazonaws.com/Assets/Isaac/6.1/Isaac/Props/Blocks/DexCube/dex_cube_instanceable.usd",
+      "status": "INCOMPLETE",
+      "layer_identifiers": [
+        "https://omniverse-content-production.s3-us-west-2.amazonaws.com/Assets/Isaac/6.1/Isaac/Props/Blocks/DexCube/dex_cube_instanceable.usd",
+        "https://omniverse-content-production.s3-us-west-2.amazonaws.com/Assets/Isaac/6.1/Isaac/Props/Blocks/DexCube/Props/instanceable_meshes.usd"
+      ],
+      "non_layer_asset_references": [
+        "https://omniverse-content-production.s3-us-west-2.amazonaws.com/Assets/Isaac/6.1/Isaac/Props/Blocks/DexCube/Materials/dex_cube_mod.png"
+      ],
+      "unresolved": [
+        "OmniPBR.mdl"
+      ]
+    },
+    {
+      "uri": "https://omniverse-content-production.s3-us-west-2.amazonaws.com/Assets/Isaac/6.1/Isaac/Props/Mounts/SeattleLabTable/table_instanceable.usd",
+      "status": "INCOMPLETE",
+      "layer_identifiers": [
+        "https://omniverse-content-production.s3-us-west-2.amazonaws.com/Assets/Isaac/6.1/Isaac/Props/Mounts/SeattleLabTable/table_instanceable.usd",
+        "https://omniverse-content-production.s3-us-west-2.amazonaws.com/Assets/Isaac/6.1/Isaac/Props/Mounts/SeattleLabTable/table.usd"
+      ],
+      "non_layer_asset_references": [
+        "https://omniverse-content-production.s3-us-west-2.amazonaws.com/Assets/Isaac/6.1/Isaac/Props/Mounts/SeattleLabTable/Materials/Textures/DemoTable_TableBase_BaseColor.png",
+        "https://omniverse-content-production.s3-us-west-2.amazonaws.com/Assets/Isaac/6.1/Isaac/Props/Mounts/SeattleLabTable/Materials/Textures/DemoTable_TableBase_Metallic.png",
+        "https://omniverse-content-production.s3-us-west-2.amazonaws.com/Assets/Isaac/6.1/Isaac/Props/Mounts/SeattleLabTable/Materials/Textures/DemoTable_TableBase_Normal.png",
+        "https://omniverse-content-production.s3-us-west-2.amazonaws.com/Assets/Isaac/6.1/Isaac/Props/Mounts/SeattleLabTable/Materials/Textures/DemoTable_TableBase_Roughness.png",
+        "https://omniverse-content-production.s3-us-west-2.amazonaws.com/Assets/Isaac/6.1/Isaac/Props/Mounts/SeattleLabTable/Materials/Textures/DemoTable_TableParts_BaseColor.png",
+        "https://omniverse-content-production.s3-us-west-2.amazonaws.com/Assets/Isaac/6.1/Isaac/Props/Mounts/SeattleLabTable/Materials/Textures/DemoTable_TableParts_Metallic.png",
+        "https://omniverse-content-production.s3-us-west-2.amazonaws.com/Assets/Isaac/6.1/Isaac/Props/Mounts/SeattleLabTable/Materials/Textures/DemoTable_TableParts_Normal.png",
+        "https://omniverse-content-production.s3-us-west-2.amazonaws.com/Assets/Isaac/6.1/Isaac/Props/Mounts/SeattleLabTable/Materials/Textures/DemoTable_TableParts_Roughness.png"
+      ],
+      "unresolved": [
+        "OmniPBR.mdl"
+      ]
+    },
+    {
+      "uri": "https://omniverse-content-production.s3-us-west-2.amazonaws.com/Assets/Isaac/6.1/Isaac/Props/UIElements/frame_prim.usd",
+      "status": "RESOLVED",
+      "layer_identifiers": [
+        "https://omniverse-content-production.s3-us-west-2.amazonaws.com/Assets/Isaac/6.1/Isaac/Props/UIElements/frame_prim.usd"
+      ],
+      "non_layer_asset_references": [],
+      "unresolved": []
+    }
+  ],
+  "layers": {
+    "/home/dell/.cache/isaaclab_arena/usd/robot_on_stand/franka_panda_on_stand_0.8755_0.3888x0.3888.usd": {
+      "identifier": "/home/dell/.cache/isaaclab_arena/usd/robot_on_stand/franka_panda_on_stand_0.8755_0.3888x0.3888.usd",
+      "resolved_path": "/home/dell/.cache/isaaclab_arena/usd/robot_on_stand/franka_panda_on_stand_0.8755_0.3888x0.3888.usd",
+      "serialized_usda_sha256": "2704c54267f447a7c8f04b16ea8805bc730472d980b05954bbaaa4ce5e73cb10",
+      "serialized_bytes": 819
+    },
+    "/tmp/https/omniverse-content-production.s3-us-west-2.amazonaws.com/Assets/Isaac/6.1/Isaac/IsaacLab/Robots/FrankaEmika/Legacy/Materials/Materials.usd": {
+      "identifier": "/tmp/https/omniverse-content-production.s3-us-west-2.amazonaws.com/Assets/Isaac/6.1/Isaac/IsaacLab/Robots/FrankaEmika/Legacy/Materials/Materials.usd",
+      "resolved_path": "/tmp/https/omniverse-content-production.s3-us-west-2.amazonaws.com/Assets/Isaac/6.1/Isaac/IsaacLab/Robots/FrankaEmika/Legacy/Materials/Materials.usd",
+      "serialized_usda_sha256": "32dc744efc113710a6280a628b052a09235e08bfbf27558d6350268312c05a6e",
+      "serialized_bytes": 20470
+    },
+    "/tmp/https/omniverse-content-production.s3-us-west-2.amazonaws.com/Assets/Isaac/6.1/Isaac/IsaacLab/Robots/FrankaEmika/Legacy/Props/instanceable_collision_meshes.usd": {
+      "identifier": "/tmp/https/omniverse-content-production.s3-us-west-2.amazonaws.com/Assets/Isaac/6.1/Isaac/IsaacLab/Robots/FrankaEmika/Legacy/Props/instanceable_collision_meshes.usd",
+      "resolved_path": "/tmp/https/omniverse-content-production.s3-us-west-2.amazonaws.com/Assets/Isaac/6.1/Isaac/IsaacLab/Robots/FrankaEmika/Legacy/Props/instanceable_collision_meshes.usd",
+      "serialized_usda_sha256": "2e661a5c85b977c7f177971eab7a634ac9a8e83f71c2c9e8e33c5786875a299d",
+      "serialized_bytes": 339644
+    },
+    "/tmp/https/omniverse-content-production.s3-us-west-2.amazonaws.com/Assets/Isaac/6.1/Isaac/IsaacLab/Robots/FrankaEmika/Legacy/Props/panda_hand.usd": {
+      "identifier": "/tmp/https/omniverse-content-production.s3-us-west-2.amazonaws.com/Assets/Isaac/6.1/Isaac/IsaacLab/Robots/FrankaEmika/Legacy/Props/panda_hand.usd",
+      "resolved_path": "/tmp/https/omniverse-content-production.s3-us-west-2.amazonaws.com/Assets/Isaac/6.1/Isaac/IsaacLab/Robots/FrankaEmika/Legacy/Props/panda_hand.usd",
+      "serialized_usda_sha256": "3e58fbda8f5eab48f80ca560988933767527b67ae12200fa2a485863249518d9",
+      "serialized_bytes": 1603922
+    },
+    "/tmp/https/omniverse-content-production.s3-us-west-2.amazonaws.com/Assets/Isaac/6.1/Isaac/IsaacLab/Robots/FrankaEmika/Legacy/Props/panda_leftfinger.usd": {
+      "identifier": "/tmp/https/omniverse-content-production.s3-us-west-2.amazonaws.com/Assets/Isaac/6.1/Isaac/IsaacLab/Robots/FrankaEmika/Legacy/Props/panda_leftfinger.usd",
+      "resolved_path": "/tmp/https/omniverse-content-production.s3-us-west-2.amazonaws.com/Assets/Isaac/6.1/Isaac/IsaacLab/Robots/FrankaEmika/Legacy/Props/panda_leftfinger.usd",
+      "serialized_usda_sha256": "c4f40b7aaaf19ec6bb9d7b4f860601fd938dc6c4678f0cae179929cebc54110c",
+      "serialized_bytes": 135987
+    },
+    "/tmp/https/omniverse-content-production.s3-us-west-2.amazonaws.com/Assets/Isaac/6.1/Isaac/IsaacLab/Robots/FrankaEmika/Legacy/Props/panda_link0.usd": {
+      "identifier": "/tmp/https/omniverse-content-production.s3-us-west-2.amazonaws.com/Assets/Isaac/6.1/Isaac/IsaacLab/Robots/FrankaEmika/Legacy/Props/panda_link0.usd",
+      "resolved_path": "/tmp/https/omniverse-content-production.s3-us-west-2.amazonaws.com/Assets/Isaac/6.1/Isaac/IsaacLab/Robots/FrankaEmika/Legacy/Props/panda_link0.usd",
+      "serialized_usda_sha256": "a72d3cc48c08e96d5655401839b98e31bdd299d02cf917c59c8cd4769ded4445",
+      "serialized_bytes": 4405340
+    },
+    "/tmp/https/omniverse-content-production.s3-us-west-2.amazonaws.com/Assets/Isaac/6.1/Isaac/IsaacLab/Robots/FrankaEmika/Legacy/Props/panda_link1.usd": {
+      "identifier": "/tmp/https/omniverse-content-production.s3-us-west-2.amazonaws.com/Assets/Isaac/6.1/Isaac/IsaacLab/Robots/FrankaEmika/Legacy/Props/panda_link1.usd",
+      "resolved_path": "/tmp/https/omniverse-content-production.s3-us-west-2.amazonaws.com/Assets/Isaac/6.1/Isaac/IsaacLab/Robots/FrankaEmika/Legacy/Props/panda_link1.usd",
+      "serialized_usda_sha256": "897a1d87958d6ed86ead6a67616cda1c9b52e21bfd63edab2a8de673a837fb1b",
+      "serialized_bytes": 1703263
+    },
+    "/tmp/https/omniverse-content-production.s3-us-west-2.amazonaws.com/Assets/Isaac/6.1/Isaac/IsaacLab/Robots/FrankaEmika/Legacy/Props/panda_link2.usd": {
+      "identifier": "/tmp/https/omniverse-content-production.s3-us-west-2.amazonaws.com/Assets/Isaac/6.1/Isaac/IsaacLab/Robots/FrankaEmika/Legacy/Props/panda_link2.usd",
+      "resolved_path": "/tmp/https/omniverse-content-production.s3-us-west-2.amazonaws.com/Assets/Isaac/6.1/Isaac/IsaacLab/Robots/FrankaEmika/Legacy/Props/panda_link2.usd",
+      "serialized_usda_sha256": "f56cf0e900dd52502041177d51e0cb1832cf2cd8f6fb580a8430619cbadad2d5",
+      "serialized_bytes": 1698510
+    },
+    "/tmp/https/omniverse-content-production.s3-us-west-2.amazonaws.com/Assets/Isaac/6.1/Isaac/IsaacLab/Robots/FrankaEmika/Legacy/Props/panda_link3.usd": {
+      "identifier": "/tmp/https/omniverse-content-production.s3-us-west-2.amazonaws.com/Assets/Isaac/6.1/Isaac/IsaacLab/Robots/FrankaEmika/Legacy/Props/panda_link3.usd",
+      "resolved_path": "/tmp/https/omniverse-content-production.s3-us-west-2.amazonaws.com/Assets/Isaac/6.1/Isaac/IsaacLab/Robots/FrankaEmika/Legacy/Props/panda_link3.usd",
+      "serialized_usda_sha256": "55183bfb1d6ce7963169d5cce07e7cd55ee9cb492d1cc7aceaf4982cb2b7e67b",
+      "serialized_bytes": 1791957
+    },
+    "/tmp/https/omniverse-content-production.s3-us-west-2.amazonaws.com/Assets/Isaac/6.1/Isaac/IsaacLab/Robots/FrankaEmika/Legacy/Props/panda_link4.usd": {
+      "identifier": "/tmp/https/omniverse-content-production.s3-us-west-2.amazonaws.com/Assets/Isaac/6.1/Isaac/IsaacLab/Robots/FrankaEmika/Legacy/Props/panda_link4.usd",
+      "resolved_path": "/tmp/https/omniverse-content-production.s3-us-west-2.amazonaws.com/Assets/Isaac/6.1/Isaac/IsaacLab/Robots/FrankaEmika/Legacy/Props/panda_link4.usd",
+      "serialized_usda_sha256": "e197c586747c15dca5db267f37eddca1ca89454c82699b6f453b665740881d49",
+      "serialized_bytes": 1802346
+    },
+    "/tmp/https/omniverse-content-production.s3-us-west-2.amazonaws.com/Assets/Isaac/6.1/Isaac/IsaacLab/Robots/FrankaEmika/Legacy/Props/panda_link5.usd": {
+      "identifier": "/tmp/https/omniverse-content-production.s3-us-west-2.amazonaws.com/Assets/Isaac/6.1/Isaac/IsaacLab/Robots/FrankaEmika/Legacy/Props/panda_link5.usd",
+      "resolved_path": "/tmp/https/omniverse-content-production.s3-us-west-2.amazonaws.com/Assets/Isaac/6.1/Isaac/IsaacLab/Robots/FrankaEmika/Legacy/Props/panda_link5.usd",
+      "serialized_usda_sha256": "15bd05e568049e75d70f2e615fc78188c82ee825c3b3b97eb39ae0bb3952c94c",
+      "serialized_bytes": 1602501
+    },
+    "/tmp/https/omniverse-content-production.s3-us-west-2.amazonaws.com/Assets/Isaac/6.1/Isaac/IsaacLab/Robots/FrankaEmika/Legacy/Props/panda_link6.usd": {
+      "identifier": "/tmp/https/omniverse-content-production.s3-us-west-2.amazonaws.com/Assets/Isaac/6.1/Isaac/IsaacLab/Robots/FrankaEmika/Legacy/Props/panda_link6.usd",
+      "resolved_path": "/tmp/https/omniverse-content-production.s3-us-west-2.amazonaws.com/Assets/Isaac/6.1/Isaac/IsaacLab/Robots/FrankaEmika/Legacy/Props/panda_link6.usd",
+      "serialized_usda_sha256": "e6638649776aa182b3e70ec2829ce814b6ad4055779e8012ce76ea38338fd682",
+      "serialized_bytes": 4633186
+    },
+    "/tmp/https/omniverse-content-production.s3-us-west-2.amazonaws.com/Assets/Isaac/6.1/Isaac/IsaacLab/Robots/FrankaEmika/Legacy/Props/panda_link7.usd": {
+      "identifier": "/tmp/https/omniverse-content-production.s3-us-west-2.amazonaws.com/Assets/Isaac/6.1/Isaac/IsaacLab/Robots/FrankaEmika/Legacy/Props/panda_link7.usd",
+      "resolved_path": "/tmp/https/omniverse-content-production.s3-us-west-2.amazonaws.com/Assets/Isaac/6.1/Isaac/IsaacLab/Robots/FrankaEmika/Legacy/Props/panda_link7.usd",
+      "serialized_usda_sha256": "7a241e1c1d2d11bdb362346baed65d0a7c2554bd78d53785e1a359df73f96caf",
+      "serialized_bytes": 2851580
+    },
+    "/tmp/https/omniverse-content-production.s3-us-west-2.amazonaws.com/Assets/Isaac/6.1/Isaac/IsaacLab/Robots/FrankaEmika/Legacy/Props/panda_rightfinger.usd": {
+      "identifier": "/tmp/https/omniverse-content-production.s3-us-west-2.amazonaws.com/Assets/Isaac/6.1/Isaac/IsaacLab/Robots/FrankaEmika/Legacy/Props/panda_rightfinger.usd",
+      "resolved_path": "/tmp/https/omniverse-content-production.s3-us-west-2.amazonaws.com/Assets/Isaac/6.1/Isaac/IsaacLab/Robots/FrankaEmika/Legacy/Props/panda_rightfinger.usd",
+      "serialized_usda_sha256": "aa5a5072c0c1310ec994ef8bee69da7145f5631a9166f28ab1ab3ca2d4ad9900",
+      "serialized_bytes": 136474
+    },
+    "/tmp/https/omniverse-content-production.s3-us-west-2.amazonaws.com/Assets/Isaac/6.1/Isaac/IsaacLab/Robots/FrankaEmika/Legacy/panda_instanceable.usd": {
+      "identifier": "/tmp/https/omniverse-content-production.s3-us-west-2.amazonaws.com/Assets/Isaac/6.1/Isaac/IsaacLab/Robots/FrankaEmika/Legacy/panda_instanceable.usd",
+      "resolved_path": "/tmp/https/omniverse-content-production.s3-us-west-2.amazonaws.com/Assets/Isaac/6.1/Isaac/IsaacLab/Robots/FrankaEmika/Legacy/panda_instanceable.usd",
+      "serialized_usda_sha256": "90d8a5db1c14fa9238d38e3f31f643c46b874aafb7d317cbb4bf1ff3c9f55aee",
+      "serialized_bytes": 22114
+    },
+    "/tmp/https/omniverse-content-production.s3-us-west-2.amazonaws.com/Assets/Isaac/6.1/Isaac/Props/Mounts/Stand/stand.usd": {
+      "identifier": "/tmp/https/omniverse-content-production.s3-us-west-2.amazonaws.com/Assets/Isaac/6.1/Isaac/Props/Mounts/Stand/stand.usd",
+      "resolved_path": "/tmp/https/omniverse-content-production.s3-us-west-2.amazonaws.com/Assets/Isaac/6.1/Isaac/Props/Mounts/Stand/stand.usd",
+      "serialized_usda_sha256": "02f9fe2a86562dd81aef23f85669e340ad206d5b9ce3631ad51e24f5beee3e55",
+      "serialized_bytes": 9735187
+    },
+    "/tmp/https/omniverse-content-production.s3-us-west-2.amazonaws.com/Assets/Isaac/6.1/Isaac/Props/Mounts/Stand/stand_instanceable.usd": {
+      "identifier": "/tmp/https/omniverse-content-production.s3-us-west-2.amazonaws.com/Assets/Isaac/6.1/Isaac/Props/Mounts/Stand/stand_instanceable.usd",
+      "resolved_path": "/tmp/https/omniverse-content-production.s3-us-west-2.amazonaws.com/Assets/Isaac/6.1/Isaac/Props/Mounts/Stand/stand_instanceable.usd",
+      "serialized_usda_sha256": "34022697e64e190177cd9dd6e6bfe3f95b41860bdff9e8af49c86ac93e43d667",
+      "serialized_bytes": 4721
+    },
+    "https://omniverse-content-production.s3-us-west-2.amazonaws.com/Assets/Isaac/6.1/Isaac/IsaacLab/Environments/Grid/default_ground_plane_checker_v1/default_ground_plane.usda": {
+      "identifier": "https://omniverse-content-production.s3-us-west-2.amazonaws.com/Assets/Isaac/6.1/Isaac/IsaacLab/Environments/Grid/default_ground_plane_checker_v1/default_ground_plane.usda",
+      "resolved_path": "https://omniverse-content-production.s3-us-west-2.amazonaws.com/Assets/Isaac/6.1/Isaac/IsaacLab/Environments/Grid/default_ground_plane_checker_v1/default_ground_plane.usda",
+      "serialized_usda_sha256": "aba22961cac146ae7963e9ab1389038974a09b5345e334d5399aa6850216790c",
+      "serialized_bytes": 3177
+    },
+    "https://omniverse-content-production.s3-us-west-2.amazonaws.com/Assets/Isaac/6.1/Isaac/Props/Blocks/DexCube/dex_cube_instanceable.usd": {
+      "identifier": "https://omniverse-content-production.s3-us-west-2.amazonaws.com/Assets/Isaac/6.1/Isaac/Props/Blocks/DexCube/dex_cube_instanceable.usd",
+      "resolved_path": "https://omniverse-content-production.s3-us-west-2.amazonaws.com/Assets/Isaac/6.1/Isaac/Props/Blocks/DexCube/dex_cube_instanceable.usd",
+      "serialized_usda_sha256": "bb8854aeabb2637a31cf3f67e9d40cb348ececa5e20755478daf7f5be79fc802",
+      "serialized_bytes": 4803
+    },
+    "https://omniverse-content-production.s3-us-west-2.amazonaws.com/Assets/Isaac/6.1/Isaac/Props/Blocks/DexCube/Props/instanceable_meshes.usd": {
+      "identifier": "https://omniverse-content-production.s3-us-west-2.amazonaws.com/Assets/Isaac/6.1/Isaac/Props/Blocks/DexCube/Props/instanceable_meshes.usd",
+      "resolved_path": "https://omniverse-content-production.s3-us-west-2.amazonaws.com/Assets/Isaac/6.1/Isaac/Props/Blocks/DexCube/Props/instanceable_meshes.usd",
+      "serialized_usda_sha256": "c8403bb250c401ccb1c96bd765f0796a2135015495644274d802027cb71aaebd",
+      "serialized_bytes": 9912
+    },
+    "https://omniverse-content-production.s3-us-west-2.amazonaws.com/Assets/Isaac/6.1/Isaac/Props/Mounts/SeattleLabTable/table_instanceable.usd": {
+      "identifier": "https://omniverse-content-production.s3-us-west-2.amazonaws.com/Assets/Isaac/6.1/Isaac/Props/Mounts/SeattleLabTable/table_instanceable.usd",
+      "resolved_path": "https://omniverse-content-production.s3-us-west-2.amazonaws.com/Assets/Isaac/6.1/Isaac/Props/Mounts/SeattleLabTable/table_instanceable.usd",
+      "serialized_usda_sha256": "e642c0b3e43e29459d6ab533e7a7f678ab6c7779b7be5884a92eef5e5a8279e1",
+      "serialized_bytes": 6550
+    },
+    "https://omniverse-content-production.s3-us-west-2.amazonaws.com/Assets/Isaac/6.1/Isaac/Props/Mounts/SeattleLabTable/table.usd": {
+      "identifier": "https://omniverse-content-production.s3-us-west-2.amazonaws.com/Assets/Isaac/6.1/Isaac/Props/Mounts/SeattleLabTable/table.usd",
+      "resolved_path": "https://omniverse-content-production.s3-us-west-2.amazonaws.com/Assets/Isaac/6.1/Isaac/Props/Mounts/SeattleLabTable/table.usd",
+      "serialized_usda_sha256": "3cd8ecc81dfd03d401349c592f6d23e5d675b3c8f5f51feb319b1eab04eeb1ea",
+      "serialized_bytes": 36154652
+    },
+    "https://omniverse-content-production.s3-us-west-2.amazonaws.com/Assets/Isaac/6.1/Isaac/Props/UIElements/frame_prim.usd": {
+      "identifier": "https://omniverse-content-production.s3-us-west-2.amazonaws.com/Assets/Isaac/6.1/Isaac/Props/UIElements/frame_prim.usd",
+      "resolved_path": "https://omniverse-content-production.s3-us-west-2.amazonaws.com/Assets/Isaac/6.1/Isaac/Props/UIElements/frame_prim.usd",
+      "serialized_usda_sha256": "2d7c9fcbcdb0e45044ab25a6c1499891ba768f7223fac49e69f98a01cea8fc8d",
+      "serialized_bytes": 9990
+    }
+  },
+  "physical_episodes": 0,
+  "PPO_weights_used": false,
+  "hash_kind": "SHA256 of each dependency layer serialized to USDA by the pinned runtime; not original binary bytes. Texture/non-layer asset content not hashed; no vision claim.",
+  "scope": "Resolved USD physics/geometry dependency provenance; hashes only, no licensed asset content redistributed. Same-machine snapshot, not a second-machine verification."
+}
