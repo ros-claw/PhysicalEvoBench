@@ -1,24 +1,47 @@
 {
-  "schema": "esl-task-qualification-1",
+  "schema": "learning-problem-qualification-1",
   "status": "QUALIFIED",
-  "at": "2026-10-30T02:44:45.052571+00:00",
-  "source_commit": "7f92a8bda435333d9c1cba2f14bc5b1d9dc68654",
-  "registration_sha256": "aded533f75ee5ea53026138f80074b01c18f0a1ebe4fe7d10fcdc6a7ab9b85d4",
-  "task_version": "core-place-public-v3-dev",
-  "control_profile": "contact-integral-v1",
-  "reference_hash": "953e414dd434f7f194ccec42b889407288f8a2859a2b1df7b8ea5a0c65d887c7",
-  "starter_hash": "68a177c9c64be12741e66d1c85990ae9e73af2e00cc77e0f39e888e62acca63d",
+  "source_commit": "f76310936c9f5b34e09d0122bc7d3f050eb1a9b7",
+  "at": "2026-10-30T03:36:44.394271+00:00",
+  "registration_sha256": "9ad3ef271402a23222b62204623270498a5878f9391ac88198a651162930987a",
+  "learning_problem": {
+    "learning_problem_id": "place-release-factorial-v2",
+    "support_goal_positions": [
+      [
+        0.62,
+        0.12,
+        0.021
+      ],
+      [
+        0.6,
+        -0.12,
+        0.021
+      ]
+    ],
+    "query_goal_positions": [
+      [
+        0.6,
+        0.12,
+        0.021
+      ],
+      [
+        0.62,
+        -0.12,
+        0.021
+      ]
+    ],
+    "editable_space": "core-skill-graph-2",
+    "execution_profile": "contact-integral-v1",
+    "task_version": "core-place-public-v3-dev",
+    "scoring": "core-place-score-1",
+    "knowledge_link": "Same release mechanics; X and Y goal factors recombine at query. Hidden mass classes repeat, reset seeds are disjoint."
+  },
+  "learning_problem_sha256": "b128c825692798639c460323ffce1a5a183f126c3d013e749f3f2e7880b702ae",
   "scores": {
     "starter": [
+      true,
+      true,
       false,
-      true,
-      false,
-      true
-    ],
-    "aperture_guard": [
-      true,
-      true,
-      true,
       true
     ],
     "strong": [
@@ -33,20 +56,13 @@
       true,
       true
     ],
-    "query_geometry_reference": [
-      true,
-      true,
-      true,
-      true
-    ],
     "force_open": [
       false,
       false
     ]
   },
-  "strategy_gap_count": 2,
+  "strategy_gap_count": 1,
   "identity_gap_count": 0,
-  "scope": "Small finite qualification; not a population significance or learning-effect claim",
   "execution_files": {
     "physicalevobench/core/collect.py": "969d957a1b496ab3af0537f433204eedbc10d21d914cbd1b09bc63e41386736e",
     "physicalevobench/core/native.py": "7980c963eed5f2d00a2e55ad9d1bde65521fac7f0d1be073bc696b1dc7bb9a3e",
@@ -66,5 +82,9 @@
     "physicalevobench/protocols/skill.py": "baaf80cbaa0cf6512350690471157017110a75671223964417bdb1d12540091b"
   },
   "initial_reference_sha256": "3afd2f34102079831e4cddba8ed8a8eb8a99809754ed7adf52695a5dda09f282",
-  "portable_identity_note": "Content hashes derived from actual native/source_identity.json; no added physics or changed scores"
+  "reference_hash": "953e414dd434f7f194ccec42b889407288f8a2859a2b1df7b8ea5a0c65d887c7",
+  "starter_hash": "68a177c9c64be12741e66d1c85990ae9e73af2e00cc77e0f39e888e62acca63d",
+  "task_version": "core-place-public-v3-dev",
+  "control_profile": "contact-integral-v1",
+  "scope": "Finite query-family qualification; no selected Agent performance criterion"
 }

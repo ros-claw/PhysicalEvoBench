@@ -1,5 +1,5 @@
 {
-  "learning_problem_id": "place-release-adaptation-v1",
+  "learning_problem_id": "place-release-factorial-v2",
   "track": "Executable-Skill Learning",
   "task_version": "core-place-public-v3-dev",
   "backend_profile": "arena-c7edf3a9-physx",
@@ -22,13 +22,13 @@
   ],
   "query_goal_positions": [
     [
-      0.58,
-      0.1,
+      0.6,
+      0.12,
       0.021
     ],
     [
-      0.64,
-      -0.08,
+      0.62,
+      -0.12,
       0.021
     ]
   ],
@@ -43,6 +43,8 @@
     "native_process_timeout_s": 7200,
     "simulated_seconds_per_episode": 20
   },
-  "formal_sample_size": "pilot only, 2 independently started learning instances x 4 paired query conditions, no stability claim",
-  "qualification": "QUALIFIED: configs/learning/qualification.json (finite22episodes)"
+  "formal_sample_size": "Not fixed; current prospective pilot one instance, exploratory extension reuses two earlier frozen instances",
+  "qualification": "QUALIFIED configs/learning/qualification.json;14 real query-family controls",
+  "scoring": "core-place-score-1",
+  "knowledge_link": "Same release mechanics; X and Y goal factors recombine at query. Hidden mass classes repeat, reset seeds are disjoint."
 }
