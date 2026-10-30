@@ -131,6 +131,14 @@ def verify(evidence,out):
         elif status['status']!='COMPLETED':
             # Failure evidence stays published, but never becomes a passed study.
             results[name]={'status':status['status'],'scope':'Incomplete attempts retained; no completed study claim'}
+        elif reg['schema']=='esl-reference-replay-1':
+            from physicalevobench.core.reference_replay import summarize as replay_summary, audit_source_pairing
+            recorded=json.loads((study/'results.json').read_text())
+            results[name]=replay_summary(study)
+            if results[name]!=recorded:
+                raise ValueError('Reference replay counts differ from raw physical data')
+            roots={case['source_study']:out/case['source_study'] for case in reg['cases']}
+            results[name]['source_pairing']=audit_source_pairing(study,roots)
         elif reg['schema']=='esl-problem-qualification-1':
             from physicalevobench.core.problem import audit_receipt
             results[name]=audit_receipt(study)
