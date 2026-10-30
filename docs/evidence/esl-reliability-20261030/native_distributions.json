@@ -1,0 +1,18 @@
+{
+  "interpreter": "/code/rosclaw/physicalEvoBench/external/IsaacLab-Arena/.venv/bin/python",
+  "sys_prefix": "/code/rosclaw/physicalEvoBench/external/IsaacLab-Arena/.venv",
+  "distributions": {
+    "isaacsim": "6.1.0.0",
+    "isaaclab": "17.0.2",
+    "isaaclab_physx": "6.0.0",
+    "torch": "2.11.0+cu128",
+    "rsl-rl-lib": "5.4.1",
+    "warp-lang": "1.16.0",
+    "numpy": "2.3.1"
+  },
+  "module_origins": {
+    "isaaclab": "/code/rosclaw/physicalEvoBench/external/IsaacLab-Arena/submodules/IsaacLab/source/isaaclab/isaaclab/__init__.py",
+    "isaaclab_physx": "/code/rosclaw/physicalEvoBench/external/IsaacLab-Arena/submodules/IsaacLab/source/isaaclab_physx/isaaclab_physx/__init__.py",
+    "isaaclab_arena": "/code/rosclaw/physicalEvoBench/external/IsaacLab-Arena/isaaclab_arena/__init__.py"
+  }
+}

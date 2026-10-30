@@ -16,7 +16,8 @@ from physicalevobench.v02.reference_artifact import load as load_reference
 
 
 PRIVATE_KEYS={'seed','object_mass_kg','mass_readback_kg','inertia_readback','split','split_id',
-              'condition_id','heldout','test_results','evaluator_config','checkpoint_path'}
+              'condition_id','heldout','test_results','evaluator_config','checkpoint_path','evaluator_support','evaluator_guard',
+              'physx_model_before_probe','physx_model_after_probe','physx_model_at_task_start'}
 
 
 def assert_public(value):
@@ -63,6 +64,23 @@ def audit_session(worker):
         if job.get('candidate_artifact'):
             if digest(job['candidate_artifact'])!=job['identity']['effective_artifact_hash']:
                 raise ValueError('Effective training artifact identity changed')
+        if cfg.get('initialization_profile') in ('support-probe-restore-1','support-probe-restore-2'):
+            if read(episode/'readiness.json')['profile']!=cfg['initialization_profile']:
+                raise ValueError('Ready execution profile differs from native configuration')
+            from physicalevobench.core.readiness_audit import audit_readiness
+            audit_readiness(episode,job['condition'],row)
+            if row['execution_status']=='INIT_INVALID':
+                continue
+        if cfg.get('state_execution_sha256'):
+            from physicalevobench.core.state_config import StateExecutionSkill
+            state_hash=cfg['state_execution_sha256']
+            expected_skill=StateExecutionSkill(state_hash)
+            if (digest(cfg['state_policy_context'])!=state_hash or
+                    row.get('state_execution_sha256')!=state_hash or
+                    row.get('execution_identity_kind')!='state_executor_not_PPO_checkpoint' or
+                    'base_checkpoint_sha256' in row or row['skill_sha256']!=expected_skill.sha256 or
+                    read(episode/'skill.json')!={**expected_skill.to_dict(),'skill_sha256':expected_skill.sha256}):
+                raise ValueError('State-only execution identity was replaced or mislabeled as a PPO checkpoint')
         if read(episode/'initial_state.json')['condition']!=job['condition']:
             raise ValueError('Executed condition differs from reservation')
         if abs(read(episode/'initial_state.json')['mass_readback_kg'][0][0]-job['condition']['object_mass_kg'])>1e-5:
@@ -100,6 +118,8 @@ def audit_session(worker):
             decision=fsm.update(public,meta['control_dt'])
             if decision!=d['decision']:
                 raise ValueError('Actual skill command differs from public-state program')
+            if 'evaluator_guard' in d and d['evaluator_guard']!=fsm.last_guard_evaluation:
+                raise ValueError('Recorded public-guard branch differs from executable decision')
             if cfg.get('control_profile')=='contact-integral-v1':
                 active=min(public['cube_contact_force'])>=.5 and sum(public['finger_position'])/2<.035
                 if active:

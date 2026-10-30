@@ -1,0 +1,146 @@
+{
+  "selection_rule": "Lowest block then lowest base query id for Frozen; all two TemplateSearch-4 failures; Feedback has no failed query in full raw ledger. Descriptive after-query analysis, not causal isolation.",
+  "cases": [
+    {
+      "method": "frozen",
+      "block": 0,
+      "episode_id": "query-008",
+      "condition": {
+        "condition_id": "instance-0-query-8",
+        "seed": 390442242,
+        "split": "query",
+        "object_mass_kg": 0.1
+      },
+      "goal": [
+        0.62,
+        -0.12,
+        0.021
+      ],
+      "steps": 1000,
+      "place": {
+        "schema": "core-place-score-1",
+        "success": false,
+        "lift_observed": true,
+        "transport_observed": true,
+        "maximum_stable_span_s": 0.0,
+        "first_success_time_s": null,
+        "terminal_eligible": false,
+        "left_after_first_success": false,
+        "place_target_world": [
+          0.62,
+          -0.12,
+          0.021
+        ],
+        "scoring_samples": 1000
+      },
+      "failure_type": "place_task_not_completed",
+      "terminal_xy_error_m": 0.06751332736619158,
+      "terminal_finger_positions": [
+        0.03999999910593033,
+        0.039999958127737045
+      ],
+      "terminal_object_velocity": [
+        7.079748320393264e-05,
+        -4.135048948228359e-05,
+        -0.00011211633682250977,
+        0.00515546603128314,
+        0.00801633670926094,
+        5.1141025323886424e-05
+      ]
+    },
+    {
+      "method": "search",
+      "block": 1,
+      "episode_id": "query-012",
+      "condition": {
+        "condition_id": "instance-1-query-12",
+        "seed": 1411995039,
+        "split": "query",
+        "object_mass_kg": 0.4
+      },
+      "goal": [
+        0.62,
+        -0.12,
+        0.021
+      ],
+      "steps": 1000,
+      "place": {
+        "schema": "core-place-score-1",
+        "success": false,
+        "lift_observed": true,
+        "transport_observed": true,
+        "maximum_stable_span_s": 0.0,
+        "first_success_time_s": null,
+        "terminal_eligible": false,
+        "left_after_first_success": false,
+        "place_target_world": [
+          0.62,
+          -0.12,
+          0.021
+        ],
+        "scoring_samples": 1000
+      },
+      "failure_type": "place_task_not_completed",
+      "terminal_xy_error_m": 0.05308878682256168,
+      "terminal_finger_positions": [
+        0.03999999538064003,
+        0.039999984204769135
+      ],
+      "terminal_object_velocity": [
+        6.651370495092124e-05,
+        -3.0150335078360513e-05,
+        -0.00011650612577795982,
+        0.004961746744811535,
+        0.00824348907917738,
+        3.161024142173119e-05
+      ]
+    },
+    {
+      "method": "search",
+      "block": 1,
+      "episode_id": "query-015",
+      "condition": {
+        "condition_id": "instance-1-query-15",
+        "seed": 1822179311,
+        "split": "query",
+        "object_mass_kg": 0.4
+      },
+      "goal": [
+        0.62,
+        -0.12,
+        0.021
+      ],
+      "steps": 1000,
+      "place": {
+        "schema": "core-place-score-1",
+        "success": false,
+        "lift_observed": true,
+        "transport_observed": true,
+        "maximum_stable_span_s": 0.0,
+        "first_success_time_s": null,
+        "terminal_eligible": false,
+        "left_after_first_success": false,
+        "place_target_world": [
+          0.62,
+          -0.12,
+          0.021
+        ],
+        "scoring_samples": 1000
+      },
+      "failure_type": "place_task_not_completed",
+      "terminal_xy_error_m": 0.06121916089108624,
+      "terminal_finger_positions": [
+        0.03999999910593033,
+        0.03999995067715645
+      ],
+      "terminal_object_velocity": [
+        5.80701744183898e-05,
+        -3.232050221413374e-05,
+        -0.00010356074199080467,
+        0.005308161024004221,
+        0.007934263907372952,
+        3.784475120482966e-05
+      ]
+    }
+  ]
+}

@@ -220,3 +220,346 @@ def main():
 
 if __name__ == '__main__':
     main()
+
+
+def reliability_report(study,qualification,conformance,output,adapter=None):
+    """Source-backed Markdown for the three independent acceptance decisions."""
+    from physicalevobench.core.replication_metrics import ARMS,LABELS
+
+    reg=read(study/'registration.json')
+    data=read(study/'results.json')
+    q=read(qualification/'qualification.json')
+    con=read(conformance/'results.json')
+    summary=data['summary']
+    def percent(v):
+        return '未估计' if v is None else f'{100*v:+.2f} pp'
+    valid_feedback=sum('feedback' in b['retained_artifacts'] for b in data['blocks'])
+    lines=['# PhysicalEvoBench ESL：可靠性与独立重复实施报告','',
+           f'预登记8个独立学习block，其中{valid_feedback}个形成合法Feedback冻结产物；缺失、INIT_INVALID和参与者错误分别保留，不能把未完成方法写成算法零分。', '',
+           '本轮保留 Place–Release Factorial v2，公开上下文固定 public-context-v3，执行版本固定 core-place-public-v5-ready2。独立学习8个block，每block16个配对query，五方法；全部产物先冻结，再开始查询。旧Alpha及其失败不改判、不池化。','',
+           '| 方法 | 已知成功 / 全部分配 | 有效任务执行成功 | 学习物理尝试 | 实际模型调用 | 输入 / 输出 tokens |',
+           '|---|---:|---:|---:|---:|---:|']
+    for arm in ARMS:
+        a=summary['arms'][arm]
+        costs=[b['model_cost'].get(arm,{}) for b in data['blocks']]
+        calls=sum(c.get('calls',0) for c in costs)
+        tokens=[]
+        for key in ('input_tokens','output_tokens'):
+            tokens.append(str(sum(c.get(key,0) for c in costs)) if all(isinstance(c.get(key,0),int) for c in costs) else 'unknown')
+        practice=sum(b['learning_physical_attempts'].get(arm,0) for b in data['blocks'])
+        lines.append(f"| {LABELS[arm]} | {a['successes']}/{a['assigned']} | {a['successes']}/{a['valid_task_executions']} | {practice} | {calls} | {' / '.join(tokens)} |")
+    lines+=['','全分配列是已观察到的成功产出，缺失/服务故障不会补成模型能力零分；下表列出缺失和归因。有效执行分母另列。Deletion恢复共同starter，其配套学习成本已在Feedback计费，不重复计费。','',
+            '| 验收维度 | 判断与边界 |','|---|---|',
+            '| 工程 | 纯状态执行、冻结恢复、通用stdin接入及证据重算分别验证；同机新目录验证见下文。没有第二机器/独立外部人复现结论。 |',
+            f"| 测量 | Ready正常/有效故障注入 {con['status']}；固定8-block尝试的完成/缺失见逐block表；同图discordance保留。旧异常唯一因果归属尚未完全确定，已证实的参数传输缺陷已修复；运行期未知掉落不自动归基础设施。 |",
+            '| 算法 | 依据以下原始计数、block效果和区间判断，零/负收益不使基准失败。工程/审计通过不等于方法有效，也不证明广泛或递归自进化。 |','',
+            '## 固定方法比较与逐block结果','',
+            '这是budget-cap comparison：NoFeedback和Feedback共享最大预算，但允许自然提前冻结，实际tokens/调用可以不同。TemplateSearch-4是人工专家候选先验加score-only选择，4候选×共同2支持条件；不是无先验盲搜，也不等于全图空间最优搜索。','',
+            '| 比较 | block均值差 | 分层95%区间 |','|---|---:|---|']
+    for arm,value in summary['comparisons'].items():
+        ci=value['hierarchical_95_interval']
+        lines.append(f"| Feedback − {LABELS[arm]} | {percent(value['mean_block_effect'])} | {('['+percent(ci[0])+', '+percent(ci[1])+']') if ci else value['interval_status']} |")
+    lines+=['','| Block | Frozen | NoFeedback | TemplateSearch-4 | Feedback | Deletion | F−NoFeedback | F−Deletion | F−Template | 同图不一致 |','|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|']
+    for i,b in enumerate(data['blocks']):
+        counts=[]
+        for arm in ARMS:
+            values=list(b['scores'][arm].values())
+            known=sum(v is not None for v in values)
+            success=sum(v is True for v in values)
+            counts.append(f'{success}/{known}'+(f'（缺失{16-known}）' if known<16 else ''))
+        gains=[percent(summary['comparisons'][arm]['block_points'][i]['feedback_minus_baseline']) for arm in ('designer','deletion','search')]
+        noise=summary['identity_replays'][i]
+        lines.append('| '+str(i)+' | '+' | '.join(counts+gains+[f"{noise['discordant_pairs']}/{noise['paired_valid']}"])+' |')
+    lines+=['','统计以独立学习block为最外层，内部在goal×mass cell内配对抽样；本研究只有一个有限物理问题，128个query不是128个独立任务族。每方法/条件通常只有一次物理执行，Frozen/Deletion同图重放用于显示不一致，无法完全分离每个学习产物的物理重放方差。8个block也不保证总体显著性。','',
+            '| Block | Frozen独胜 | Deletion独胜 | 不一致对 / 有效配对 |','|---|---:|---:|---:|']
+    for n in summary['identity_replays']:
+        lines.append(f"| {n['block']} | {n['frozen_only_success']} | {n['deletion_only_success']} | {n['discordant_pairs']}/{n['paired_valid']} |")
+    lines+=['','不能用净成功差代替重放噪声；相反方向的交换会抵消。历史v2 N=1的三个同向不一致对精确双侧配对二项p=0.25，v3一个不一致对p=1；它们只说明小样本分辨力，不与本轮合并，也不把p阈值当验收条件。','',
+            '## 学到了什么、实际执行是否受到影响','',
+            '以下仅记录产物和真实执行链，不能凭文件diff、笔记不同或节点增加判为能力增长。是否值得继承，要同时看Feedback−Deletion、参考方法比较、成本与独立block不确定性。','',
+            '| Block | Feedback实践数 | 覆盖支持句柄 | 图与starter行为指纹是否不同 | 最终节点数 | NoFeedback调用数 | Feedback调用数 |','|---|---:|---|---|---:|---:|---:|']
+    for b in data['blocks']:
+        i=b['block']
+        directory=study/f'instance-{i}'
+        history=read(directory/'feedback/history.json') if (directory/'feedback/history.json').exists() else []
+        handles=[h['practice_handle'] for h in history if h.get('tool')=='run_trial']
+        f=b['retained_artifacts'].get('feedback',{})
+        starter=b['retained_artifacts']['frozen']
+        changed=(f.get('executable_fingerprint')!=starter['executable_fingerprint']) if f else '无合法产物'
+        lines.append(f"| {i} | {b['learning_physical_attempts'].get('feedback',0)} | {handles} | {changed} | {f.get('nodes','missing')} | {b['model_cost']['designer']['calls']} | {b['model_cost']['feedback']['calls']} |")
+    lines+=['','| 查询方法 | GUARD_EVALUATED | BRANCH_TAKEN | COMMAND_CHANGED | APPLIED_TARGET_CHANGED |','|---|---:|---:|---:|---:|']
+    for arm in ARMS:
+        chain=[b['execution_effects'].get(arm,{}).get('counts',{}) for b in data['blocks']]
+        counts=[sum(c.get(k,0) for c in chain) for k in ('GUARD_EVALUATED','BRANCH_TAKEN','COMMAND_CHANGED','APPLIED_TARGET_CHANGED')]
+        lines.append('| '+LABELS[arm]+' | '+' | '.join(map(str,counts))+' |')
+    lines+=['','这些是嵌套的真实轨迹计数：实际评估守卫→发生转移→高层命令变化→实际有界关节目标变化。超时转移与守卫转移在原始结果JSON中分列；它们不单独证明改动造成任务收益。例证固定展示block0，未按最高成绩选择：','']
+    first=data['blocks'][0]['execution_effects'].get('feedback',{}).get('example')
+    if first:
+        lines+=['```json',json.dumps(first,ensure_ascii=False,indent=2),'```','']
+    else:
+        lines+=['block0没有完整链例证，保留缺失。','']
+    lines+=['## 参数传输缺陷、初始化边界与尚未确定的因果归属','',
+            '三条旧异常对预选同条件正常对照，首次明显分离均在记录的第17个物理子步（0.085s）：异常z≈0.01943m、vz≈−0.83385m/s；正常z≈0.02100m、vz≈−0.00535m/s，指物法向接触为0。它发生在夹持之前，支持支撑异常层面的判断。旧协议未测cube–table配对接触，不能追溯断言某个collider/cooking/API是唯一根因。','',
+            '18次固定关节/开指、无接近交叉诊断：旧异常条件轮换首/二/三槽位，有/无额外readback，均未复现穿桌；不足以证明普通随机噪声，也不能据此排除初始化时序问题。并发源码导出曾发生半写入误判；已完成9次保留，仅9个未启动槽位恢复，源码缓存导出改为跨线程/进程锁。','',
+            'Ready采用固定200子步（1秒）无候选支撑预演，检查PhysX静态桌面shape ray hits、Cube实测净法向力、速度/高度、有限状态、shape/body数量及质量读回；恢复同一条件原始关节/物体状态、朝向和速度，不换seed、不再随机、不改任务时钟/评分。任务起点仍是原始cube高度0.055m，相对抬升门槛未放宽。求解器/接触历史被预演，属于新执行分布。','',
+            '实际静态桌面碰撞路径为 /World/envs/env_0/table/Collisions/Cube，运行时查询顶部约−0.003m；Cube落稳中心约0.021m。Cube net_normal_forces_w是世界轴牛顿值（轻质量约0.981N），不是精确cube–table配对力。静态桌面不能直接用旧的刚体ContactSensor正则过滤；该错误启动尝试保留。PhysX配对report当前为空/未测，不能把净力冒充配对力。GPU动态Cube ray返回曾显示滞后姿态，因此Ready仅用静态桌面查询，不声称所有动态查询已同步。','',
+            '| 诊断/尝试 | 实际物理尝试 | 结果 |','|---|---:|---|',
+            '| 固定姿态交叉（含仅未启动槽位恢复） | 18 | 0次自发异常复现；根因未定 |',
+            '| Ready-001 | 0 | 静态表面传感器filter构建失败，原生设置失败 |',
+            '| Ready-002 | 6 | 原碰撞配置未生效，负例无效，不能作检测证明 |',
+            '| Ready-003 | 6 | 4正常READY，2个已确认移除碰撞体的负例INIT_INVALID，任务控制0步 |',
+            '| 参数传输独立诊断 | 6 | GPU缓存0.4kg而PhysX模型0.1kg/惯量不一致；同值同步重写组未发现不一致 |',
+            '| Ready-004（Ready2） | 6 | 4正常READY且真实模型参数匹配，2确认支撑缺失INIT_INVALID，任务控制0步 |',
+            f"| 新执行参考资格 | 14 | {q['status']}；starter {sum(q['scores']['starter'])}/4，strong {sum(q['scores']['strong'])}/4，同图 {sum(q['scores']['identity_strong'])}/4，force-open {sum(q['scores']['force_open'])}/2 |",'',
+            '短诊断总计42次，低于48上限；两版参考资格各14次另列。无故障注入冒称自发故障复现。正常检查与明确支撑缺失负例的离线原始重算一致；这限定了当前可检测边界，不能保证所有仿真错误均可识别。Ready失败不生成任务标签；原因不明的运行期掉落仍保留任务失败/UNKNOWN，不自动免责。','',
+            '已确认的参数传输缺陷：固定Lab的indexed setter把GPU数据异步wp.copy到pinned CPU mass/inertia/index scratch，随后CPU PhysX setter可能消费未完成的旧数据。直接PhysX getter与GPU shadow读回分离的诊断复现了这一点；同值同步重写消除该诊断中的不一致。Ready2只在Cube对应的set_masses/set_inertias入口等待当前上下文传输完成，保留原采样与惯量比例。预演前后及恢复后都用PhysX get_masses/get_inertias验证真实模型值，不能靠缓存自证。固定Arena/Lab文件没有修改。','',
+            '首次Ready1 cohort因此在所有query开始前整体停止，未挑有利block回收：59次已完成物理尝试、41次真实模型调用、0query，全部成本单列保留。这不是负算法成绩，也不是一次正式8-block结果。新Ready2从所有方法共同starter/空记忆重新登记完整8-block；提示仍是原v3，没有把新诊断写进Agent上下文。旧Ready1资格卡保留，但其缓存核验不能追认为真实质量已验证。','',
+            '## 故障、分母和真实成本','',
+            '| 方法 | 全部分配 | 有效任务执行 | INIT_INVALID | 参与者非法 | 结果缺失 |','|---|---:|---:|---:|---:|---:|']
+    for arm,a in summary['arms'].items():
+        lines.append(f"| {LABELS[arm]} | {a['assigned']} | {a['valid_task_executions']} | {a['init_invalid']} | {a['participant_invalid']} | {a['missing']} |")
+    failures=[{'block':b['block'],'method':a,**v} for b in data['blocks'] for a,v in b['method_failures'].items()]
+    lines+=['',f'服务/基础设施导致的未完成方法记录：{json.dumps(failures,ensure_ascii=False)}。自动provider/物理重试均为0；usage缺失为unknown。参与者格式错误可在原预算内自行修正，评测器不代修图。','',
+            '主研究实际物理成本（诊断、参考资格、外部接入另列）：','',
+            '```json',json.dumps(data['physical_cost'],ensure_ascii=False,indent=2),'```','',
+            '任务物理时长按实际子步×0.005s，Ready时长另列；模型缓存是输入的子集，不与输入重复相加。原生进程时间含启动、空闲等待模型和退出，不等于GPU独占时长。货币费用无账单为unknown。安全只报告已测硬边界、坐标越界与限幅，不宣称全接触/真机安全。','']
+    for name in ('designer','feedback'):
+        costs=[b['model_cost'][name] for b in data['blocks']]
+        aggregate={}
+        for key in ('calls','input_tokens','output_tokens','cached_input_tokens','cache_write_input_tokens','wall_seconds'):
+            aggregate[key]=sum(c[key] for c in costs) if all(isinstance(c[key],(int,float)) for c in costs) else 'unknown'
+        lines+=['```json',json.dumps({'method':LABELS[name],**aggregate,'money':'unknown'},ensure_ascii=False,indent=2),'```','']
+    lines+=['## 外部接入与复现范围','']
+    if adapter and (adapter/'result.json').exists():
+        lines+=['同机新源码目录、新CPU venv，复用固定原生安装/资产缓存；通用stdin adapter走实际模型调用，设计并冻结后在新原生进程执行：','',
+                '```json',json.dumps(read(adapter/'result.json'),ensure_ascii=False,indent=2),'```','']
+    else:
+        lines+=['新目录stdin实际物理接入结果尚未提供，不能声称已完成。','']
+    lines+=['适配器仍经同一个Codex CLI和同一请求模型，不是第二个独立框架或模型。第二兼容RTX机器与未参与开发的外部人员复现均未验证；本轮不冒称完成。新状态执行无需下载/加载未使用的PPO checkpoint，身份为代码/执行配置哈希，旧模型接口保留。资产与原生依赖许可单独遵守。','',
+            '最小入口见 [Quickstart](../reliability/QUICKSTART.md)，源码/固定局部样例与完整轨迹分开。默认不下载历史证据。DeliberationOnly-9与额外B2/B4查询曲线在主研究开始前登记为NOT_RUN，本轮优先完成固定主研究；B2/4/8快照只留档，不伪造未测学习曲线。','',
+            '## 证据与适用范围','',
+            f'- 主研究注册与完整结果：[{study.name}]({study})，注册源码 `{reg["source_commit"]}`。',
+            f'- 新执行资格：[{qualification.name}]({qualification})；故障边界：[{conformance.name}]({conformance})。',
+            '- 旧异常首次分离：[原始来源与SHA](../evidence/esl-reliability-20261030/old_first_divergence.json)。',
+            '- 任务书：[ESL下一阶段实施任务书](../../PhysicalEvoBench_ESL_下一阶段实施任务书_20261030.md)。','',
+            '物理命令/返回码见每个native的launch.json与process.json；请求、保留预算、模型真实usage、公开反馈、Ready预演、逐子步轨迹、产物SHA、逐block图与实际执行链保留。离线重算不会产生新的独立学习或物理回合。服务标识gpt-6.1-terra，具体基础权重哈希、effort与fingerprint unavailable，结论限定于本实验窗口。','',
+            '查询X差仅2cm，小于5cm成功容差，称留出因素组合而非强空间OOD。结论不外推到跨任务迁移、视觉、在线任意代码、权重学习、多智能体或递归自进化。旧双任务Core不因此追认验收。未按成绩换题、换提示、追加直到显著；PR #10与旧Alpha保留，新合并/发布不在本轮授权范围。','']
+    Path(output).write_text('\n'.join(lines))
+    return {'report':str(output),'blocks':len(data['blocks'])}
+
+
+def reliability_costs(studies):
+    """All incurred attempts, including initialization/transport/aborted-cohort costs."""
+    summaries=[]
+    for study in studies:
+        totals={'study':str(study),'completed_physical_attempts':0,'reserved_attempts':0,
+                'init_invalid':0,'task_controls':0,'task_physics_substeps':0,'ready_physics_substeps':0,
+                'native_processes':0,'known_native_seconds':0.,'native_processes_unknown_exit_or_duration':0,
+                'model_calls':0,'known_input_tokens':0,'known_output_tokens':0,'unknown_usage_calls':0}
+        recovered={}
+        receipt=study/'stopped_model_cost_receipts.json'
+        if receipt.exists():
+            recovered={r['call']:r['usage'] for r in read(receipt)['calls']}
+        for source in sorted(study.rglob('source_identity.json')):
+            native=source.parent
+            if not (native/'launch.json').exists():
+                continue
+            totals['native_processes']+=1
+            process=read(native/'process.json') if (native/'process.json').exists() else {}
+            start=read(native/'launch.json')['started_at']
+            if process.get('finished_at'):
+                totals['known_native_seconds']+=(datetime.fromisoformat(process['finished_at'])-datetime.fromisoformat(start)).total_seconds()
+            else:
+                totals['native_processes_unknown_exit_or_duration']+=1
+            totals['reserved_attempts']+=len(list((native/'requests').glob('*.json')))
+            ledger=native/'episodes.jsonl'
+            rows=[json.loads(line) for line in ledger.read_text().splitlines()] if ledger.exists() else []
+            for row in rows:
+                totals['completed_physical_attempts']+=1
+                totals['init_invalid']+=row['execution_status']=='INIT_INVALID'
+                totals['task_controls']+=row['steps']
+                totals['task_physics_substeps']+=row.get('diagnostic',{}).get('physics_samples',0)
+                ready=native/'episodes'/row['episode_id']/'readiness.json'
+                if ready.exists():
+                    totals['ready_physics_substeps']+=read(ready)['physical_substeps']
+        for call in sorted(study.glob('**/model_calls/call-*')):
+            if not call.is_dir():
+                continue
+            totals['model_calls']+=1
+            usage=read(call/'usage.json') if (call/'usage.json').exists() else recovered.get(str(call.relative_to(study)))
+            if usage is None:
+                totals['unknown_usage_calls']+=1
+            else:
+                totals['known_input_tokens']+=usage['input_tokens']
+                totals['known_output_tokens']+=usage['output_tokens']
+        summaries.append(totals)
+    return {'schema':'esl-reliability-all-incurred-cost-1','studies':summaries,
+            'totals':{key:sum(s[key] for s in summaries) for key in summaries[0] if key!='study'},
+            'scope':'Known actual costs, including stopped measurement cohort. Unknown process durations/exits remain unknown, not zero; simulator startup/internal build steps outside recorded task/probe are not fully measured. Cache tokens are a subset of input; currency unknown.'}
+
+
+def export_replication(study,output):
+    """Every allocation, physical validity and graph diff, without extra model/physics calls."""
+    import csv
+
+    from physicalevobench.core.artifact import load as load_artifact
+    from physicalevobench.core.replication import artifact_path
+    from physicalevobench.core.replication_metrics import ARMS
+    from physicalevobench.doctor import save_json
+
+    output.mkdir(parents=True,exist_ok=True)
+    reg=read(study/'registration.json')
+    result=read(study/'results.json')
+    allocations=[]
+    differences=[]
+    for b,group in zip(result['blocks'],reg['conditions'],strict=True):
+        directory=study/f"instance-{b['block']}"
+        initial=load_artifact(directory/'frozen.json')['payload']['skill']
+        initial_nodes={n['id']:n for n in initial['nodes']}
+        for arm in ARMS:
+            native=directory/f'test-{arm}'
+            actual={}
+            for request in sorted((native/'requests').glob('*.json')):
+                job=read(request)
+                ep=native/'episodes'/job['episode_id']
+                if (ep/'episode.json').exists():
+                    actual[job['condition']['condition_id']]=(ep,read(ep/'episode.json'))
+            path=artifact_path(directory,arm)
+            if path.exists():
+                payload=load_artifact(path)['payload']
+                changes=[]
+                for node in payload['skill']['nodes']:
+                    old=initial_nodes.get(node['id'],{})
+                    changed={k:{'before':old.get(k,'not_present'),'after':v} for k,v in node.items() if k!='id' and old.get(k)!=v}
+                    if changed:
+                        changes.append({'node':node['id'],'fields':changed})
+                removed=sorted(set(initial_nodes)-{n['id'] for n in payload['skill']['nodes']})
+                differences.append({'block':b['block'],'method':arm,'changes':changes,'removed_nodes':removed,
+                    'actual_self_written_memory':payload['memory'],'practice_cost':payload['budget_used'],
+                    'scope':'Representational diff and participant notes only; functional control response is independently recomputed, not inferred from this diff.'})
+            for c in group['query']:
+                key=c['condition_id']
+                item={'block':b['block'],'method':arm,'condition_id':key,'goal_x':c['public_goal'][0],
+                      'goal_y':c['public_goal'][1],'evaluator_requested_mass_kg':c['object_mass_kg'],
+                      'execution_status':b['execution_statuses'][arm][key],'success':b['scores'][arm][key],
+                      'task_controls':None,'physx_model_mass_kg':None,'ready_status':None,
+                      'lift_observed':None,'transport_observed':None,'maximum_stable_span_s':None,
+                      'first_success_time_s':None,'left_after_first_success':None,
+                      'terminal_xy_error_m':None,'terminal_z_error_m':None,'terminal_speed_m_s':None,
+                      'terminal_finger_min_m':None,'artifact_hash':b['retained_artifacts'].get(arm,{}).get('effective_artifact_hash')}
+                if key in actual:
+                    ep,row=actual[key]
+                    item['task_controls']=row['steps']
+                    ready=read(ep/'readiness.json')
+                    item['ready_status']=ready['status']
+                    model=ready.get('physx_model_at_task_start',ready.get('physx_model_before_probe',{}))
+                    if model.get('status')=='MEASURED':
+                        item['physx_model_mass_kg']=model['mass'][0][0]
+                    place=row.get('place',{})
+                    for name in ('lift_observed','transport_observed','maximum_stable_span_s','first_success_time_s','left_after_first_success'):
+                        item[name]=place.get(name)
+                    terminal=ep/'terminal_pre_reset.json'
+                    if terminal.exists():
+                        t=read(terminal)
+                        import math
+                        item.update(terminal_xy_error_m=math.dist(t['object_position'][0][:2],c['public_goal'][:2]),
+                                    terminal_z_error_m=abs(t['object_position'][0][2]-c['public_goal'][2]),
+                                    terminal_speed_m_s=math.sqrt(sum(v*v for v in t['object_velocity'][0][:3])),
+                                    terminal_finger_min_m=min(t['finger_position']))
+                allocations.append(item)
+    with (output/'per_condition.csv').open('w') as stream:
+        writer=csv.DictWriter(stream,fieldnames=list(allocations[0]),lineterminator='\n')
+        writer.writeheader()
+        writer.writerows(allocations)
+    save_json(output/'artifact_differences.json',{'schema':'esl-actual-graph-diff-1','artifacts':differences})
+    cells=[]
+    for goal in reg['learning_problem']['query_goal_positions']:
+        for mass in (.1,.4):
+            values=[r for r in allocations if r['goal_x']==goal[0] and r['goal_y']==goal[1] and r['evaluator_requested_mass_kg']==mass]
+            cells.append({'goal':goal,'mass_kg':mass,'arms':{a:{'successes':sum(r['success'] is True for r in values if r['method']==a),
+                          'assigned':sum(r['method']==a for r in values),'unknown':sum(r['success'] is None for r in values if r['method']==a)} for a in ARMS}})
+    save_json(output/'goal_mass_cells.json',{'cells':cells,'scope':'Descriptive predefined cells; not independent task families or population confidence intervals'})
+    return {'allocated_rows':len(allocations),'artifact_diffs':len(differences),'extra_model_calls':0,'extra_physical_episodes':0}
+
+
+def initial_state_scope(study):
+    """Distinguish distinct seeded draws from distinct measured physical start poses."""
+    from physicalevobench.doctor import save_json
+
+    reg=read(study/'registration.json')
+    physical=set()
+    robot=set()
+    cube=set()
+    legacy=set()
+    ids=set()
+    count=0
+    def normalized(value):
+        if isinstance(value,list):
+            return tuple(normalized(x) for x in value)
+        return round(float(value),6)
+    for native in sorted(study.glob('instance-*/test-*')):
+        for request in sorted((native/'requests').glob('*.json')):
+            job=read(request)
+            ep=native/'episodes'/job['episode_id']
+            if not (ep/'initial_state.json').exists():
+                continue
+            s=read(ep/'initial_state.json')
+            q=normalized(s['joint_position'])
+            obj=(normalized(s['object_position']),normalized(s['object_orientation']))
+            command=normalized(s['target_command'])
+            mass=round(job['condition']['object_mass_kg'],6)
+            goal=normalized(job['public_goal'])
+            robot.add(q)
+            cube.add(obj)
+            legacy.add(command)
+            physical.add((q,obj,mass,goal))
+            ids.add(job['condition']['condition_id'])
+            count+=1
+    value={'schema':'esl-measured-reset-diversity-1','recorded_initial_captures':count,
+           'conditions_with_initial_capture':len(ids),'registered_query_conditions':sum(len(g['query']) for g in reg['conditions']),
+           'distinct_robot_joint_poses_1e6':len(robot),'distinct_cube_poses_1e6':len(cube),
+           'distinct_legacy_goal_commands_1e6':len(legacy),'distinct_physical_starts_including_goal_and_mass_1e6':len(physical),
+           'scope':'Counts rounded to 1e-6; independent seed/reset draws do not imply distinct physical poses or task families. Legacy airborne command variation is distinct from the actual public place goal.'}
+    save_json(study/'measured_reset_diversity.json',value)
+    return value
+
+
+def study_report(study,output):
+    """A compact readout for another user's completed replication directory."""
+    from physicalevobench.core.replication_metrics import ARMS,LABELS
+
+    reg=read(study/'registration.json')
+    data=read(study/'results.json')
+    summary=data['summary']
+    lines=['# Executable-Skill Learning: fixed-protocol results','',
+           f"Task: `{reg['learning_problem']['learning_problem_id']}`; execution: `{reg['learning_problem']['task_version']}`; context: `{reg['participant_context_version']}`.",
+           f"Independent learning blocks: {reg['instances']}. Recorded audit: {data['audit']}. Engineering checks, measurement validity and method efficacy are separate decisions.",'',
+           '| Method | Known successes / assigned | Actual valid task executions | Unknown outcomes | Learning physics | Model calls |',
+           '|---|---:|---:|---:|---:|---:|']
+    for arm in ARMS:
+        a=summary['arms'][arm]
+        practice=sum(b['learning_physical_attempts'].get(arm,0) for b in data['blocks'])
+        calls=sum(b['model_cost'].get(arm,{}).get('calls',0) for b in data['blocks'])
+        lines.append(f"| {LABELS[arm]} | {a['successes']}/{a['assigned']} | {a['valid_task_executions']} | {a['missing']} | {practice} | {calls} |")
+    lines+=['','Unknown infrastructure/provider outcomes are missing, not model zero scores. Invalid participant submissions and exceeded budgets remain assigned failures. TemplateSearch-4 uses expert-designed proposals; this is a budget-cap comparison with potentially unequal actual computation.','',
+            '| Comparison | Mean block effect (pp) | Hierarchical 95% interval (pp) |','|---|---:|---|']
+    for arm,c in summary['comparisons'].items():
+        mean=c['mean_block_effect']
+        ci=c['hierarchical_95_interval']
+        estimate=f'{100*mean:+.2f}' if mean is not None else 'not estimated'
+        bounds=f'[{100*ci[0]:+.2f}, {100*ci[1]:+.2f}]' if ci else c['interval_status']
+        lines.append(f'| Feedback − {LABELS[arm]} | {estimate} | {bounds} |')
+    lines+=['','| Block | Frozen | NoFeedback | TemplateSearch-4 | Feedback | Deletion | Identity discordance |','|---|---:|---:|---:|---:|---:|---:|']
+    for i,b in enumerate(data['blocks']):
+        counts=[]
+        for arm in ARMS:
+            values=list(b['scores'][arm].values())
+            counts.append(f"{sum(v is True for v in values)}/{sum(v is not None for v in values)}")
+        n=summary['identity_replays'][i]
+        lines.append('| '+str(b['block'])+' | '+' | '.join(counts+[f"{n['discordant_pairs']}/{n['paired_valid']}"])+' |')
+    lines+=['','The outer statistical unit is the independent learning block. Query/reset repetitions do not create new task families. This finite problem is not strong spatial OOD or broad self-evolution. Program changes and audit success do not themselves establish positive method gain.','',
+            'Actual physics cost:','', '```json',json.dumps(data['physical_cost'],indent=2),'```','',
+            f"Registered executor source: `{reg['source_commit']}`. Requested model: `{reg['model']}`; immutable provider weights/fingerprint are not exposed. No test-time model calls.",
+            '','Recompute from raw evidence with `physicalevobench-core audit --run-dir PATH`. This readout does not create new model calls or physical episodes.','']
+    Path(output).write_text('\n'.join(lines))
+    return {'report':str(output),'blocks':reg['instances'],'source_results':str(study/'results.json')}

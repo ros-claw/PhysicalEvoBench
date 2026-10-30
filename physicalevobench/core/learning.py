@@ -14,6 +14,7 @@ from physicalevobench.core.artifact import freeze, load as load_artifact
 from physicalevobench.core.audit import assert_public, audit_session
 from physicalevobench.core.metrics import compare
 from physicalevobench.core.model import ParticipantProcess
+from physicalevobench.core.errors import (ParticipantBudgetExceeded,ParticipantError,ParticipantFormatError,ProviderError)
 from physicalevobench.core.pilot import worker_config
 from physicalevobench.core.program import GUARDS, MODES, NODE_FIELDS, TARGETS, Program
 from physicalevobench.core.runtime import NativeSession
@@ -102,7 +103,7 @@ def event_feedback(directory, row):
             'events_and_periodic_samples': samples}
 
 
-def manifest(root, parent, instances, profile=None,stream=2026103004):
+def manifest(root, parent, instances, profile=None,stream=2026103004,query_repeats=1):
     from physicalevobench.core.problem import PROFILE
     profile=profile or PROFILE
     excluded = published_seeds(root)
@@ -117,21 +118,22 @@ def manifest(root, parent, instances, profile=None,stream=2026103004):
             group[split] = []
             for goal in goals:
                 for mass in (.1, .4):
-                    seed = rng.randrange(2**31)
-                    while seed in excluded:
+                    for _ in range(query_repeats if split=='query' else 1):
                         seed = rng.randrange(2**31)
-                    excluded.add(seed)
-                    group[split].append({'condition_id': f'instance-{run}-{split}-{len(group[split])}',
-                                         'seed': seed, 'split': split, 'object_mass_kg': mass,
-                                         'public_goal': goal})
+                        while seed in excluded:
+                            seed = rng.randrange(2**31)
+                        excluded.add(seed)
+                        group[split].append({'condition_id': f'instance-{run}-{split}-{len(group[split])}',
+                                             'seed': seed, 'split': split, 'object_mass_kg': mass,
+                                             'public_goal': goal})
         groups.append(group)
     return groups
 
 
 def artifact(base, program, source, run_id, name, used, memory):
     return {'schema': 'core-artifact-1', 'track': 'S', 'participant': name,
-            'interface': 'executable-skill-json-v2', 'executor': 'contact-integral-v1/'+source,
-            'task': 'core-place-public-v3-dev', 'scoring': 'core-place-score-1',
+            'interface': 'executable-skill-json-v2', 'executor': (('state-ready2/contact-integral-v1/' if base.get('initialization_profile')=='support-probe-restore-2' else 'state-ready1/contact-integral-v1/') if base.get('schema')=='state-program-reference-1' else 'contact-integral-v1/')+source,
+            'task': base['task_version'] if base.get('schema')=='state-program-reference-1' else 'core-place-public-v3-dev', 'scoring': 'core-place-score-1',
             'initial_reference': digest(base), 'skill': program.to_dict(), 'memory': memory,
             'budget_used': used, 'learning_run_id': run_id}
 
@@ -180,7 +182,14 @@ def learn(root, out, source, cfg, base, group, name, model, provider, run_id, gp
                        'history': compact(history)}
             assert_public(request)
             stage='participant'
-            response = participant.call(request)
+            try:
+                response = participant.call(request)
+            except ParticipantFormatError as error:
+                response={'invalid_wire_answer':str(error)}
+                save_json(directory/f'proposal-{index:02d}.json',response)
+                history.append({'tool':'validation_error','error':str(error),'cost_episodes':0})
+                save_json(directory/'history.json',history)
+                continue
             save_json(directory/f'proposal-{index:02d}.json', response)
             try:
                 if not isinstance(response,dict) or set(response)!={'tool','program_json','practice_handle','memory'}:
@@ -210,8 +219,16 @@ def learn(root, out, source, cfg, base, group, name, model, provider, run_id, gp
             if tool == 'freeze':
                 save_json(directory/'freeze_receipt.json',{'at':now(),'proposal_index':index,
                           'program_hash':current.sha256,'physical_episodes_used':used})
-                return freeze(artifact(base, current, source, run_id+'/'+name, name, used, response['memory']),
-                              directory/'artifact.json')
+                retained=freeze(artifact(base,current,source,run_id+'/'+name,name,used,response['memory']),directory/'artifact.json')
+                if cfg.get('save_sparse_snapshots'):
+                    (directory/'snapshots').mkdir(exist_ok=True)
+                    for cap in (2,4,8):
+                        path=directory/'snapshots'/f'B{cap}.json'
+                        if used<=cap and not path.exists():
+                            freeze(retained['payload'],path)
+                    save_json(directory/'snapshots/availability.json',{'actual_practice_used':used,
+                              'rule':'At exact practice count latest executed proposal; after early stop reuse final artifact where available; no extra model or physical calls; snapshots are not measured learning curves'})
+                return retained
             if tool == 'run_trial':
                 if not feedback_enabled or used >= 8:
                     raise ValueError('Unauthorized physical trial')
@@ -223,19 +240,34 @@ def learn(root, out, source, cfg, base, group, name, model, provider, run_id, gp
                 job['identity'].update(learning_run_id=run_id+'/'+name, candidate_index=index)
                 stage='physics'
                 row = session.trial(job)
+                if row.get('execution_status')=='INIT_INVALID':
+                    from physicalevobench.core.errors import InitializationInvalid
+                    raise InitializationInvalid('Registered practice rejected before first participant action')
                 stage='participant'
                 used += 1
                 entry['feedback'] = event_feedback(session.out, row)
+                if cfg.get('save_sparse_snapshots') and used in (2,4,8):
+                    (directory/'snapshots').mkdir(exist_ok=True)
+                    freeze(artifact(base,current,source,run_id+'/'+name,name,used,current_memory),
+                           directory/'snapshots'/f'B{used}.json')
             elif tool != 'revise':
                 raise ValueError('Invalid participant tool')
             history.append(entry)
             save_json(directory/'history.json', history)
-        raise ValueError('Participant failed to freeze within call budget')
+        raise ParticipantBudgetExceeded('Participant failed to freeze within call budget')
     except Exception as error:
         if stage=='physics':
             raise
+        if isinstance(error,ProviderError):
+            save_json(directory/'provider_failure.json',{'status':error.category,'reason':str(error),
+                      'calls_consumed':participant.calls,'usage':'unknown unless individual usage record exists',
+                      'retry_limit':0,'at':now()})
+            raise
+        if not isinstance(error,ParticipantError):
+            save_json(directory/'harness_failure.json',{'status':'UNKNOWN_FAILURE','reason':str(error),'at':now()})
+            raise
         save_json(directory/'validity_failure.json',{'status':'INVALID_PARTICIPANT_SUBMISSION',
-                  'reason':str(error),'physical_episodes_used':used,'at':now(),
+                  'reason':str(error),'failure_category':error.category,'physical_episodes_used':used,'at':now(),
                   'query_scoring':'zero for every assigned query; retained in denominator'})
         return None
     finally:
@@ -283,6 +315,9 @@ def score_search(root,directory,source,cfg,base,group,run_id,gpu):
                 job=make_job(program,c,f'search-{i}-{j}','search')
                 job['reference_config']=base['reference_config']
                 row=session.trial(job)
+                if row.get('execution_status')=='INIT_INVALID':
+                    from physicalevobench.core.errors import InitializationInvalid
+                    raise InitializationInvalid('TemplateSearch received no valid execution; no score imputed')
                 # Algorithm observes only the task score, never the trace.
                 outcomes.append(bool(row['success']))
             scores.append(sum(outcomes))

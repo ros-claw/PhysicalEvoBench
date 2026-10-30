@@ -1,0 +1,33 @@
+{
+  "executor_source": "aefd7955fcbf75363979ef0cd0e5825e52748771",
+  "cwd": "/code/rosclaw/physicalEvoBench",
+  "environment": {
+    "PHYSICALEVOBENCH_CHECKPOINT": "/__not_available__/unused-policy.pt"
+  },
+  "argv": [
+    "uv",
+    "run",
+    "physicalevobench-core",
+    "replicate",
+    "--qualification",
+    "configs/reliability/qualification.json",
+    "--output",
+    "/home/dell/peb-esl-replication-20261030-002",
+    "--gpus",
+    "0,1,2,3",
+    "--query-lanes-per-gpu",
+    "2"
+  ],
+  "exec_session": 55137,
+  "returncode": 0,
+  "status": "COMPLETED",
+  "registered_raw_audit": "PASS",
+  "native_processes": 56,
+  "native_returncodes": {
+    "0": 56
+  },
+  "query_episodes": 640,
+  "learning_episodes": 118,
+  "test_time_model_calls": 0,
+  "completed_at": "2026-10-30T14:01:09.580430+00:00"
+}

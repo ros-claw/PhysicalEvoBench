@@ -1,0 +1,17 @@
+{
+  "schema": "core-delivery-audit-1",
+  "status": "PASS",
+  "raw_files": 49,
+  "registered_source_checks": 119,
+  "studies": {
+    "peb-esl-ready2-stdin-integration-20261030-001": {
+      "audit": "PASS",
+      "physical_attempts": 1,
+      "task_success": true,
+      "task_controls": 1000,
+      "model_calls": 1,
+      "scope": "Generic stdin envelope, actual usage, selected artifact, independent source/qualification and real physics; same-machine only"
+    }
+  },
+  "scope": "Independent extraction and CPU recomputation; no new model, training or physics."
+}

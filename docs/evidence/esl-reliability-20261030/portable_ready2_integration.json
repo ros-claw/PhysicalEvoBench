@@ -1,0 +1,32 @@
+{
+  "source_archive": "/home/dell/peb-esl-ready2-source-aefd795.tar.gz",
+  "source_archive_sha256": "f79493e294251aafa02a7d593bcbac05e16df771f393624f5750f485b512a314",
+  "source_archive_bytes": 347551,
+  "fresh_root": "/home/dell/peb-esl-ready2-fresh-20261030-001",
+  "fresh_commit": "4a3c0e32e92c61194c23fee61f35c9a35a4186a6",
+  "history_commits": 1,
+  "fresh_cpu_venv": "/home/dell/peb-esl-ready2-fresh-20261030-001/.venv",
+  "cpu_checks": "36 passed; Ruff passed",
+  "native_reused_from": "/code/rosclaw/physicalEvoBench/external/IsaacLab-Arena/.venv",
+  "PPO_checkpoint_environment": "/__not_available__/unused-policy.pt",
+  "new_native_install": false,
+  "second_machine": false,
+  "independent_external_person": false,
+  "physical_integration": {
+    "status": "PASS",
+    "physical_attempts": 1,
+    "task_success": true,
+    "task_controls": 1000,
+    "PPO_weights_used": false,
+    "model_calls": 1,
+    "scope": "Protocol and real execution integration only; task failure would not by itself fail engineering integration."
+  },
+  "independent_raw_audit": {
+    "audit": "PASS",
+    "physical_attempts": 1,
+    "task_success": true,
+    "task_controls": 1000,
+    "model_calls": 1,
+    "scope": "Generic stdin envelope, actual usage, selected artifact, independent source/qualification and real physics; same-machine only"
+  }
+}

@@ -1,0 +1,9 @@
+{
+  "status": "PASS_REJECTED_STALE_MODEL_READBACK",
+  "tamper": "GPU shadow/request remain .1kg; actual model receipt changed to .4kg",
+  "exception": "Pre-agent validity differs from raw probe",
+  "source": "/home/dell/peb-esl-ready2-sample-independent-extract-20261030/peb-esl-ready2-stdin-integration-20261030-001",
+  "tampered_copy": "/home/dell/peb-esl-ready2-tamper-model-check-20261030",
+  "extra_physical_episodes": 0,
+  "extra_model_calls": 0
+}

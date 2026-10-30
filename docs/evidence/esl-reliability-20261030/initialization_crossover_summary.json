@@ -1,0 +1,188 @@
+{
+  "status": "COMPLETED",
+  "physical_episodes": 18,
+  "unsupported_drops": 0,
+  "cases": [
+    {
+      "source": "/home/dell/peb-esl-readiness-diagnosis-20261030-001/observe-0-order-0/episodes/slot-0",
+      "slot": 0,
+      "batch": "observe-0-order-0",
+      "seed": 315924514,
+      "minimum_z_m": 0.0209997296333313,
+      "steps": 50,
+      "all_commands_hold": true,
+      "raw_sha256": "22eb41897fdefc9c2994b7dec4f3c732cc5267ac763fbee5415b7d0cf2199b43"
+    },
+    {
+      "source": "/home/dell/peb-esl-readiness-diagnosis-20261030-001/observe-0-order-0/episodes/slot-1",
+      "slot": 1,
+      "batch": "observe-0-order-0",
+      "seed": 903479326,
+      "minimum_z_m": 0.0209997296333313,
+      "steps": 50,
+      "all_commands_hold": true,
+      "raw_sha256": "c33b95bb0b6af715ab29bc023d99c1f68e13dfdf524581d9f3bf4e5a650103ff"
+    },
+    {
+      "source": "/home/dell/peb-esl-readiness-diagnosis-20261030-001/observe-0-order-0/episodes/slot-2",
+      "slot": 2,
+      "batch": "observe-0-order-0",
+      "seed": 1132640734,
+      "minimum_z_m": 0.0209997296333313,
+      "steps": 50,
+      "all_commands_hold": true,
+      "raw_sha256": "4a87f95907cee71e5abe2c9693b223eaaf86a223bd7c65b894f8ac6fad711a18"
+    },
+    {
+      "source": "/home/dell/peb-esl-readiness-diagnosis-20261030-001/observe-0-order-2/episodes/slot-0",
+      "slot": 0,
+      "batch": "observe-0-order-2",
+      "seed": 1132640734,
+      "minimum_z_m": 0.0209997296333313,
+      "steps": 50,
+      "all_commands_hold": true,
+      "raw_sha256": "857f1f9b1ad22fea0f92fdfaf926d23e98ad6e7d2839ae2804bfa5f81952644e"
+    },
+    {
+      "source": "/home/dell/peb-esl-readiness-diagnosis-20261030-001/observe-0-order-2/episodes/slot-1",
+      "slot": 1,
+      "batch": "observe-0-order-2",
+      "seed": 315924514,
+      "minimum_z_m": 0.0209997296333313,
+      "steps": 50,
+      "all_commands_hold": true,
+      "raw_sha256": "19d8f72b8601a1ec4253f9352c216737ca007a6d6d3cda825d1081b7ae98bcf0"
+    },
+    {
+      "source": "/home/dell/peb-esl-readiness-diagnosis-20261030-001/observe-0-order-2/episodes/slot-2",
+      "slot": 2,
+      "batch": "observe-0-order-2",
+      "seed": 903479326,
+      "minimum_z_m": 0.0209997296333313,
+      "steps": 50,
+      "all_commands_hold": true,
+      "raw_sha256": "bbbb892e7536c9b0d7b86946c916c12164258e1875bc356ea53d7df84a2085ed"
+    },
+    {
+      "source": "/home/dell/peb-esl-readiness-diagnosis-20261030-001/observe-1-order-1/episodes/slot-0",
+      "slot": 0,
+      "batch": "observe-1-order-1",
+      "seed": 903479326,
+      "minimum_z_m": 0.0209997296333313,
+      "steps": 50,
+      "all_commands_hold": true,
+      "raw_sha256": "e7ba735252a19dbb86b2615b27ac6f5451b18f14738c52967980124b6c26b72e"
+    },
+    {
+      "source": "/home/dell/peb-esl-readiness-diagnosis-20261030-001/observe-1-order-1/episodes/slot-1",
+      "slot": 1,
+      "batch": "observe-1-order-1",
+      "seed": 1132640734,
+      "minimum_z_m": 0.0209997296333313,
+      "steps": 50,
+      "all_commands_hold": true,
+      "raw_sha256": "391cc75613ab787c9c79e093bbbd19f474fe8979858972c8281d0488d2cc8831"
+    },
+    {
+      "source": "/home/dell/peb-esl-readiness-diagnosis-20261030-001/observe-1-order-1/episodes/slot-2",
+      "slot": 2,
+      "batch": "observe-1-order-1",
+      "seed": 315924514,
+      "minimum_z_m": 0.0209997296333313,
+      "steps": 50,
+      "all_commands_hold": true,
+      "raw_sha256": "3896941020323d85441dc3bcf721040c98efde633981548b35ff860d79e87a63"
+    },
+    {
+      "source": "/home/dell/peb-esl-readiness-diagnosis-20261030-002/observe-0-order-1/episodes/slot-0",
+      "slot": 0,
+      "batch": "observe-0-order-1",
+      "seed": 903479326,
+      "minimum_z_m": 0.0209997296333313,
+      "steps": 50,
+      "all_commands_hold": true,
+      "raw_sha256": "84f0620feedb69b452a59d6ca7f7a8e7bcced8e1693b77f4dd9bbd2b6aa05f7e"
+    },
+    {
+      "source": "/home/dell/peb-esl-readiness-diagnosis-20261030-002/observe-0-order-1/episodes/slot-1",
+      "slot": 1,
+      "batch": "observe-0-order-1",
+      "seed": 1132640734,
+      "minimum_z_m": 0.0209997296333313,
+      "steps": 50,
+      "all_commands_hold": true,
+      "raw_sha256": "76e505dc53f95d90378b4330e1e881c9cb56b9cec20209fbe2f64f7d05a14034"
+    },
+    {
+      "source": "/home/dell/peb-esl-readiness-diagnosis-20261030-002/observe-0-order-1/episodes/slot-2",
+      "slot": 2,
+      "batch": "observe-0-order-1",
+      "seed": 315924514,
+      "minimum_z_m": 0.0209997296333313,
+      "steps": 50,
+      "all_commands_hold": true,
+      "raw_sha256": "d83a941918e2bd9fa1d8b77c9f2527dcf89f61a19b6d1f40c4beb1422b8f0e88"
+    },
+    {
+      "source": "/home/dell/peb-esl-readiness-diagnosis-20261030-002/observe-1-order-0/episodes/slot-0",
+      "slot": 0,
+      "batch": "observe-1-order-0",
+      "seed": 315924514,
+      "minimum_z_m": 0.0209997296333313,
+      "steps": 50,
+      "all_commands_hold": true,
+      "raw_sha256": "e1699225693f5004cb3079e69c43224cb635937b291da563409550282a3d9cd4"
+    },
+    {
+      "source": "/home/dell/peb-esl-readiness-diagnosis-20261030-002/observe-1-order-0/episodes/slot-1",
+      "slot": 1,
+      "batch": "observe-1-order-0",
+      "seed": 903479326,
+      "minimum_z_m": 0.0209997296333313,
+      "steps": 50,
+      "all_commands_hold": true,
+      "raw_sha256": "79cd43244712a708fc842d972d42c4321447dbaee16e9c947887cb961652d29f"
+    },
+    {
+      "source": "/home/dell/peb-esl-readiness-diagnosis-20261030-002/observe-1-order-0/episodes/slot-2",
+      "slot": 2,
+      "batch": "observe-1-order-0",
+      "seed": 1132640734,
+      "minimum_z_m": 0.0209997296333313,
+      "steps": 50,
+      "all_commands_hold": true,
+      "raw_sha256": "1d3c958b2d138a9cea27767028111fbe9d4019e39ac6255a14ceaa1d421ca716"
+    },
+    {
+      "source": "/home/dell/peb-esl-readiness-diagnosis-20261030-002/observe-1-order-2/episodes/slot-0",
+      "slot": 0,
+      "batch": "observe-1-order-2",
+      "seed": 1132640734,
+      "minimum_z_m": 0.0209997296333313,
+      "steps": 50,
+      "all_commands_hold": true,
+      "raw_sha256": "ee250b5e0c10edd061137564915ee461e82d16ac80aa6a1a99eba24eb055a9d5"
+    },
+    {
+      "source": "/home/dell/peb-esl-readiness-diagnosis-20261030-002/observe-1-order-2/episodes/slot-1",
+      "slot": 1,
+      "batch": "observe-1-order-2",
+      "seed": 315924514,
+      "minimum_z_m": 0.0209997296333313,
+      "steps": 50,
+      "all_commands_hold": true,
+      "raw_sha256": "9f6eb0c01941ac972b710bf5f48fb42143182b7d735058e9f44a0c76010a6902"
+    },
+    {
+      "source": "/home/dell/peb-esl-readiness-diagnosis-20261030-002/observe-1-order-2/episodes/slot-2",
+      "slot": 2,
+      "batch": "observe-1-order-2",
+      "seed": 903479326,
+      "minimum_z_m": 0.0209997296333313,
+      "steps": 50,
+      "all_commands_hold": true,
+      "raw_sha256": "650c56d0495a05682504e8e5d8f5e9b80b047119ae8677cc6d7a98bdca5cbb45"
+    }
+  ],
+  "scope": "No unique root cause identified; original scheduler failure retained; only nine never-launched slots recovered"
+}

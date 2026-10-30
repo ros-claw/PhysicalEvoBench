@@ -20,7 +20,7 @@ def atomic_json(path,value):
 
 
 class NativeSession:
-    def __init__(self,root,out,source_commit,cfg,gpu):
+    def __init__(self,root,out,source_commit,cfg,gpu,module='physicalevobench.core.collect'):
         arena=Path(root)/'external/IsaacLab-Arena'
         revision=command(['git','rev-parse','HEAD'],cwd=arena)
         changed=command(['git','status','--porcelain','--untracked-files=no'],cwd=arena)
@@ -41,7 +41,7 @@ class NativeSession:
         source,hashes=snapshot_source(root,source_commit)
         save_json(self.out/'source_identity.json',{'commit':source_commit,'files':hashes})
         self.pool=concurrent.futures.ThreadPoolExecutor(max_workers=1)
-        self.future=self.pool.submit(launch,Path(root),source,self.out,'physicalevobench.core.collect',gpu)
+        self.future=self.pool.submit(launch,Path(root),source,self.out,module,gpu)
 
     def _wait(self,path,timeout=600):
         deadline=time.monotonic()+timeout

@@ -16,6 +16,7 @@ def main():
     p.add_argument('--run-dir',required=True)
     out=Path(p.parse_args().run_dir)
     cfg=json.loads((out/'config.json').read_text())
+    from physicalevobench.core.errors import InitializationInvalid
     from isaaclab_arena.cli.isaaclab_arena_cli import get_isaaclab_arena_cli_parser
     from isaaclab_arena.utils.isaaclab_utils.simulation_app import SimulationAppContext
 
@@ -25,10 +26,19 @@ def main():
         from physicalevobench.core.native import CoreWorker
         from physicalevobench.v02.reference_native import StateBasedReference
 
-        if sha256(cfg['checkpoint_path'])!=cfg['checkpoint_sha256']:
-            raise ValueError('Immutable checkpoint changed')
-        shutil.copyfile(Path(cfg['checkpoint_path']).parent/'params/agent.yaml',out/'policy_config.yaml')
-        worker=CoreWorker(cfg['checkpoint_path'],out,cfg)
+        if cfg.get('state_execution_sha256'):
+            import yaml
+            (out/'policy_config.yaml').write_text(yaml.safe_dump(cfg['state_policy_context'],sort_keys=True))
+            if sha256(out/'policy_config.yaml')!=cfg['policy_config_sha256']:
+                raise ValueError('State policy configuration identity mismatch')
+        else:
+            if sha256(cfg['checkpoint_path'])!=cfg['checkpoint_sha256']:
+                raise ValueError('Immutable checkpoint changed')
+            shutil.copyfile(Path(cfg['checkpoint_path']).parent/'params/agent.yaml',out/'policy_config.yaml')
+        worker=CoreWorker(cfg.get('checkpoint_path'),out,cfg)
+        if cfg.get('initialization_diagnostic'):
+            from physicalevobench.core.scene_diagnostics import install
+            install(worker)
         (out/'episodes.jsonl').touch()
         save_json(out/'ready.json',{'at':now()})
         completed=[]
@@ -52,6 +62,9 @@ def main():
                     worker.policy=ProgramReference(worker,cfg['reference_config'],job['program'])
                 else:
                     worker.policy=StateBasedReference(worker,job['reference_config'])
+                if job.get('diagnostic_hold'):
+                    from physicalevobench.core.scene_diagnostics import HoldReference
+                    worker.policy=HoldReference(worker)
                 if job.get('force_open'):
                     from physicalevobench.v02.reference_native import OpenReference
                     worker.policy=OpenReference(worker.policy,worker.action_mapping['gripper_action']['start'])
@@ -63,8 +76,26 @@ def main():
                     return action
 
                 worker.policy.get_action=proposed
-                row=worker.run_episode(job['condition'],SkillSpec(worker.checkpoint_hash),
-                                       'core-participant',job['episode_id'])
+                if cfg.get('state_execution_sha256'):
+                    from physicalevobench.core.state_config import StateExecutionSkill
+                    skill=StateExecutionSkill(worker.checkpoint_hash)
+                else:
+                    skill=SkillSpec(worker.checkpoint_hash)
+                try:
+                    row=worker.run_episode(job['condition'],skill,'core-participant',job['episode_id'])
+                except InitializationInvalid as error:
+                    row={'episode_id':job['episode_id'],'condition_id':job['condition']['condition_id'],
+                         'execution_status':'INIT_INVALID','success':None,'steps':0,
+                         'failure_type':'pre_agent_initialization_invalid','reason':str(error),
+                         'core_identity':job['identity'],'readiness_artifact':f"episodes/{job['episode_id']}/readiness.json"}
+                    save_json(out/'episodes'/job['episode_id']/'episode.json',row)
+                    completed.append(row)
+                    (out/'episodes.jsonl').write_text(''.join(json.dumps(r)+'\n' for r in completed))
+                    save_json(out/'responses'/f'{i:03d}.json',row)
+                    continue
+                if cfg.get('initialization_diagnostic'):
+                    save_json(out/'episodes'/job['episode_id']/'initialization_events.json',worker.initialization_events)
+                    worker.initialization_events=[]
                 trace=out/row['trace_artifact']
                 with trace.open('rb') as src,gzip.open(str(trace)+'.gz','wb') as dst:
                     shutil.copyfileobj(src,dst)

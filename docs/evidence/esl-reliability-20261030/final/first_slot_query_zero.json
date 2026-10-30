@@ -1,0 +1,58 @@
+{
+  "schema": "esl-first-slot-query-zero-check-1",
+  "source_study": "/home/dell/peb-esl-replication-20261030-002",
+  "process_first_slots": {
+    "attempts": 40,
+    "valid": 40,
+    "init_invalid": 0,
+    "early_task_failures_le8_controls": 0,
+    "episode_ids": {
+      "query-012": 5,
+      "query-003": 2,
+      "query-009": 4,
+      "query-000": 1,
+      "query-006": 3,
+      "query-015": 5,
+      "query-002": 5,
+      "query-005": 5,
+      "query-008": 4,
+      "query-011": 3,
+      "query-014": 2,
+      "query-001": 1
+    }
+  },
+  "base_query_000": {
+    "attempts": 40,
+    "valid": 40,
+    "init_invalid": 0,
+    "early_task_failures_le8_controls": 0,
+    "episode_ids": {
+      "query-000": 40
+    }
+  },
+  "all_query": {
+    "attempts": 640,
+    "valid": 640,
+    "init_invalid": 0,
+    "early_task_failures_le8_controls": 0,
+    "episode_ids": {
+      "query-012": 40,
+      "query-013": 40,
+      "query-014": 40,
+      "query-015": 40,
+      "query-000": 40,
+      "query-001": 40,
+      "query-002": 40,
+      "query-003": 40,
+      "query-004": 40,
+      "query-005": 40,
+      "query-006": 40,
+      "query-007": 40,
+      "query-008": 40,
+      "query-009": 40,
+      "query-010": 40,
+      "query-011": 40
+    }
+  },
+  "scope": "Raw ledger checks after all640 queries; registered executor physics audit PASS. Independent extracted whole-study receipt is separate. Rotated order separates process slot from base query id; no retrospective attribution of old falls."
+}

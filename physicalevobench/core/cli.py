@@ -12,6 +12,8 @@ from physicalevobench.core.program import Program, initial_program
 def main():
     p=argparse.ArgumentParser(prog='physicalevobench-core')
     sub=p.add_subparsers(dest='command',required=True)
+    sub.add_parser('replicate',help='Fixed eight-block Ready state-only replication')
+    sub.add_parser('ready-qualify',help='New execution reference qualification')
     sub.add_parser('learn',help='Qualified executable-skill pilot with same-model controls')
     sub.add_parser('qualify',help='Independent task qualification')
     sub.add_parser('physical-smoke',help='Standalone real T0 episode; no T1 or historical run required')
@@ -24,10 +26,17 @@ def main():
     run.add_argument('--gpu',type=int,default=2)
     run.add_argument('--model',default='gpt-6.1-terra')
     run.add_argument('--participant-command',help='JSON argv for a generic stdin provider')
+    report=sub.add_parser('report',help='Render a completed fixed-protocol replication readout')
+    report.add_argument('--run-dir',required=True)
+    report.add_argument('--output',help='Defaults to RUN_DIR/report.md')
     audit=sub.add_parser('audit',help='Recompute an existing evidence directory without physics')
     audit.add_argument('--run-dir',required=True)
-    if len(sys.argv)>1 and sys.argv[1] in ('learn','qualify'):
-        if sys.argv[1]=='learn':
+    if len(sys.argv)>1 and sys.argv[1] in ('learn','qualify','replicate','ready-qualify'):
+        if sys.argv[1]=='replicate':
+            from physicalevobench.core.replication import main as entry
+        elif sys.argv[1]=='ready-qualify':
+            from physicalevobench.core.ready_qualification import main as entry
+        elif sys.argv[1]=='learn':
             from physicalevobench.core.learning import main as entry
         else:
             from physicalevobench.core.problem import main as entry
@@ -58,9 +67,25 @@ def main():
                           'physical_reference_validation':'not_run_by_this_CPU_command'}))
         return
     out=Path(a.run_dir)
+    if a.command=='report':
+        from physicalevobench.core.learning_report import study_report
+        print(json.dumps(study_report(out,Path(a.output) if a.output else out/'report.md'),indent=2))
+        return
     reg=json.loads((out/'registration.json').read_text())
     schema=reg['schema']
-    if schema=='esl-reference-replay-1':
+    if schema=='esl-state-stdin-smoke-1':
+        from physicalevobench.core.adapter_smoke import audit_result
+        result=audit_result(out)
+    elif schema=='esl-ready-conformance-1':
+        from physicalevobench.core.readiness_check import audit_result
+        result=audit_result(out)
+    elif schema=='esl-replication-1':
+        from physicalevobench.core.replication import audit_and_summarize
+        result=audit_and_summarize(out)
+    elif schema=='esl-ready-qualification-1':
+        from physicalevobench.core.ready_qualification import audit_receipt
+        result=audit_receipt(out)
+    elif schema=='esl-reference-replay-1':
         from physicalevobench.core.reference_replay import summarize
         result=summarize(out)
     elif schema=='esl-problem-qualification-1':

@@ -113,8 +113,10 @@ def verify(evidence,out):
     results={}
     for name in manifest['studies']:
         study=out/name
-        reg=json.loads((study/'registration.json').read_text())
-        status=json.loads((study/'status.json').read_text())
+        metadata_only=not (study/'registration.json').exists() and (study/'asset_manifest.json').exists()
+        reg=({'schema':'esl-asset-dependency-snapshot-1'} if metadata_only else
+             json.loads((study/'registration.json').read_text()))
+        status=({'status':'COMPLETED'} if metadata_only else json.loads((study/'status.json').read_text()))
         identities=list(study.rglob('source_identity.json'))
         if reg.get('source_sha256'):
             identities.append(None)
@@ -124,7 +126,10 @@ def verify(evidence,out):
                 if sources[identity['commit']].get(file)!=expected_digest:
                     raise ValueError('Registered source differs from bundled immutable source')
                 source_checks+=1
-        if status['status']=='CANCELLED_BEFORE_LAUNCH':
+        if metadata_only:
+            from physicalevobench.core.asset_manifest import audit_result
+            results[name]=audit_result(study)
+        elif status['status']=='CANCELLED_BEFORE_LAUNCH':
             if status['actual_episodes']!=0 or list(study.rglob('launch.json')):
                 raise ValueError('Cancelled reservation executed physics')
             results[name]={'status':'CANCELLED_BEFORE_LAUNCH','episodes':0}
@@ -133,6 +138,30 @@ def verify(evidence,out):
             partial=sum(len(p.read_text().splitlines()) for p in study.rglob('episodes.jsonl'))
             results[name]={'status':status['status'],'completed_episodes':partial,
                            'scope':'Incomplete attempts retained; no completed study claim'}
+        elif reg['schema']=='esl-replication-1':
+            from physicalevobench.core.replication import audit_and_summarize
+            recorded=json.loads((study/'results.json').read_text())
+            results[name]=audit_and_summarize(study)
+            if results[name]!=recorded:
+                raise ValueError('Replication differs from independent raw recomputation')
+        elif reg['schema']=='esl-ready-qualification-1':
+            from physicalevobench.core.ready_qualification import audit_receipt
+            results[name]=audit_receipt(study)
+        elif reg['schema']=='esl-ready-conformance-1':
+            from physicalevobench.core.readiness_check import audit_result
+            results[name]=audit_result(study)
+        elif reg['schema']=='esl-state-stdin-smoke-1':
+            from physicalevobench.core.adapter_smoke import audit_result
+            results[name]=audit_result(study)
+        elif reg['schema']=='esl-initialization-crossover-1':
+            from physicalevobench.core.initialization import summarize as initialization_summary
+            recorded=json.loads((study/'results.json').read_text())
+            results[name]=initialization_summary(study)
+            if results[name]!=recorded:
+                raise ValueError('Initialization crossover differs from raw physics')
+        elif reg['schema']=='esl-model-transport-diagnostic-1':
+            from physicalevobench.core.mass_transport import audit_result
+            results[name]=audit_result(study)
         elif reg['schema']=='esl-reference-replay-1':
             from physicalevobench.core.reference_replay import summarize as replay_summary, audit_source_pairing
             recorded=json.loads((study/'results.json').read_text())

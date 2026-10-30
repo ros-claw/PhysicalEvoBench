@@ -16,12 +16,11 @@ def tensor_json(value):
 
 class LiftWorker:
     def __init__(self, checkpoint, output_dir, record_camera_video=False, stability_mode=False,
-                 action_limit=None, environment_transform=None):
+                 action_limit=None, environment_transform=None, state_execution_sha256=None):
         import torch
 
         from isaaclab_arena.environments.arena_env_builder import ArenaEnvBuilder
         from isaaclab_arena.environments.arena_env_builder_cfg import ArenaEnvBuilderCfg
-        from isaaclab_arena.policy.rsl_rl_action_policy import RslRlActionPolicy, RslRlActionPolicyCfg
         from isaaclab_arena.variations.object_mass_variation import ObjectMassVariationCfg
         from isaaclab_arena.variations.uniform_sampler import UniformSamplerCfg
         from isaaclab_arena_environments.lift_object_environment import (
@@ -30,8 +29,9 @@ class LiftWorker:
         )
 
         self.output_dir = Path(output_dir)
-        self.checkpoint = Path(checkpoint)
-        self.checkpoint_hash = sha256(checkpoint)
+        self.state_execution_sha256=state_execution_sha256
+        self.checkpoint = Path(checkpoint) if checkpoint is not None else None
+        self.checkpoint_hash = state_execution_sha256 or sha256(checkpoint)
         self.record_camera_video = record_camera_video
         self.stability_mode = stability_mode
         self.action_limit = action_limit
@@ -60,10 +60,15 @@ class LiftWorker:
         self.mass_sampler = self.base.event_manager.get_term_cfg(
             "dex_cube_mass_variation"
         ).params["sampler"]
-        self.policy = RslRlActionPolicy(RslRlActionPolicyCfg(
-            checkpoint_path=str(checkpoint), device="cuda:0"
-        ))
-        self.policy.set_task_description(self.base.get_language_instruction())
+        if state_execution_sha256:
+            from physicalevobench.core.state_config import UnusedPolicy
+            self.policy=UnusedPolicy()
+        else:
+            from isaaclab_arena.policy.rsl_rl_action_policy import RslRlActionPolicy,RslRlActionPolicyCfg
+            self.policy = RslRlActionPolicy(RslRlActionPolicyCfg(
+                checkpoint_path=str(checkpoint), device="cuda:0"
+            ))
+            self.policy.set_task_description(self.base.get_language_instruction())
         manager = self.base.action_manager
         mapping = {}
         offset = 0
@@ -112,7 +117,10 @@ class LiftWorker:
     def _run_episode(self, condition, skill, agent_id, episode_id):
         import torch
 
-        if skill.base_checkpoint_sha256 != self.checkpoint_hash or sha256(self.checkpoint) != self.checkpoint_hash:
+        if self.state_execution_sha256:
+            if skill.state_execution_sha256!=self.state_execution_sha256:
+                raise RuntimeError('State execution identity changed')
+        elif skill.base_checkpoint_sha256 != self.checkpoint_hash or sha256(self.checkpoint) != self.checkpoint_hash:
             raise RuntimeError("Frozen checkpoint changed")
         directory = self.output_dir / "episodes" / episode_id
         directory.mkdir(parents=True, exist_ok=False)
@@ -247,6 +255,10 @@ class LiftWorker:
                "trace_artifact": str((directory / "trace.jsonl").relative_to(self.output_dir)),
                "upstream_artifact": str(raw_path.relative_to(self.output_dir)), "video_artifact": None,
                "ignored_zero_step_resets": len(raw_records) - len(finished)}
+        if self.state_execution_sha256:
+            row.pop('base_checkpoint_sha256')
+            row['state_execution_sha256']=self.state_execution_sha256
+            row['execution_identity_kind']='state_executor_not_PPO_checkpoint'
         from physicalevobench.calibration.safety import summarize_safety
 
         if self.action_limit is not None and not self.stability_mode:

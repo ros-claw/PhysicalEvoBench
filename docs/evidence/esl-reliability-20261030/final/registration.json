@@ -1,0 +1,3871 @@
+{
+  "schema": "esl-replication-1",
+  "at": "2026-10-30T10:45:52.925250+00:00",
+  "study_id": "102c8c75-bea4-4be9-9526-5f6b0f40c209",
+  "source_commit": "aefd7955fcbf75363979ef0cd0e5825e52748771",
+  "instances": 8,
+  "conditions": [
+    {
+      "support": [
+        {
+          "condition_id": "instance-0-support-0",
+          "seed": 1574603640,
+          "split": "support",
+          "object_mass_kg": 0.1,
+          "public_goal": [
+            0.62,
+            0.12,
+            0.021
+          ]
+        },
+        {
+          "condition_id": "instance-0-support-1",
+          "seed": 2023351245,
+          "split": "support",
+          "object_mass_kg": 0.4,
+          "public_goal": [
+            0.62,
+            0.12,
+            0.021
+          ]
+        },
+        {
+          "condition_id": "instance-0-support-2",
+          "seed": 390357285,
+          "split": "support",
+          "object_mass_kg": 0.1,
+          "public_goal": [
+            0.6,
+            -0.12,
+            0.021
+          ]
+        },
+        {
+          "condition_id": "instance-0-support-3",
+          "seed": 2102508785,
+          "split": "support",
+          "object_mass_kg": 0.4,
+          "public_goal": [
+            0.6,
+            -0.12,
+            0.021
+          ]
+        }
+      ],
+      "query": [
+        {
+          "condition_id": "instance-0-query-0",
+          "seed": 1026759822,
+          "split": "query",
+          "object_mass_kg": 0.1,
+          "public_goal": [
+            0.6,
+            0.12,
+            0.021
+          ]
+        },
+        {
+          "condition_id": "instance-0-query-1",
+          "seed": 1490514256,
+          "split": "query",
+          "object_mass_kg": 0.1,
+          "public_goal": [
+            0.6,
+            0.12,
+            0.021
+          ]
+        },
+        {
+          "condition_id": "instance-0-query-2",
+          "seed": 753938817,
+          "split": "query",
+          "object_mass_kg": 0.1,
+          "public_goal": [
+            0.6,
+            0.12,
+            0.021
+          ]
+        },
+        {
+          "condition_id": "instance-0-query-3",
+          "seed": 959912882,
+          "split": "query",
+          "object_mass_kg": 0.1,
+          "public_goal": [
+            0.6,
+            0.12,
+            0.021
+          ]
+        },
+        {
+          "condition_id": "instance-0-query-4",
+          "seed": 1462027382,
+          "split": "query",
+          "object_mass_kg": 0.4,
+          "public_goal": [
+            0.6,
+            0.12,
+            0.021
+          ]
+        },
+        {
+          "condition_id": "instance-0-query-5",
+          "seed": 230584239,
+          "split": "query",
+          "object_mass_kg": 0.4,
+          "public_goal": [
+            0.6,
+            0.12,
+            0.021
+          ]
+        },
+        {
+          "condition_id": "instance-0-query-6",
+          "seed": 985569672,
+          "split": "query",
+          "object_mass_kg": 0.4,
+          "public_goal": [
+            0.6,
+            0.12,
+            0.021
+          ]
+        },
+        {
+          "condition_id": "instance-0-query-7",
+          "seed": 398374058,
+          "split": "query",
+          "object_mass_kg": 0.4,
+          "public_goal": [
+            0.6,
+            0.12,
+            0.021
+          ]
+        },
+        {
+          "condition_id": "instance-0-query-8",
+          "seed": 390442242,
+          "split": "query",
+          "object_mass_kg": 0.1,
+          "public_goal": [
+            0.62,
+            -0.12,
+            0.021
+          ]
+        },
+        {
+          "condition_id": "instance-0-query-9",
+          "seed": 685765172,
+          "split": "query",
+          "object_mass_kg": 0.1,
+          "public_goal": [
+            0.62,
+            -0.12,
+            0.021
+          ]
+        },
+        {
+          "condition_id": "instance-0-query-10",
+          "seed": 1341896493,
+          "split": "query",
+          "object_mass_kg": 0.1,
+          "public_goal": [
+            0.62,
+            -0.12,
+            0.021
+          ]
+        },
+        {
+          "condition_id": "instance-0-query-11",
+          "seed": 1973116860,
+          "split": "query",
+          "object_mass_kg": 0.1,
+          "public_goal": [
+            0.62,
+            -0.12,
+            0.021
+          ]
+        },
+        {
+          "condition_id": "instance-0-query-12",
+          "seed": 2066591973,
+          "split": "query",
+          "object_mass_kg": 0.4,
+          "public_goal": [
+            0.62,
+            -0.12,
+            0.021
+          ]
+        },
+        {
+          "condition_id": "instance-0-query-13",
+          "seed": 1840020804,
+          "split": "query",
+          "object_mass_kg": 0.4,
+          "public_goal": [
+            0.62,
+            -0.12,
+            0.021
+          ]
+        },
+        {
+          "condition_id": "instance-0-query-14",
+          "seed": 1556206253,
+          "split": "query",
+          "object_mass_kg": 0.4,
+          "public_goal": [
+            0.62,
+            -0.12,
+            0.021
+          ]
+        },
+        {
+          "condition_id": "instance-0-query-15",
+          "seed": 813485002,
+          "split": "query",
+          "object_mass_kg": 0.4,
+          "public_goal": [
+            0.62,
+            -0.12,
+            0.021
+          ]
+        }
+      ]
+    },
+    {
+      "support": [
+        {
+          "condition_id": "instance-1-support-0",
+          "seed": 1173198217,
+          "split": "support",
+          "object_mass_kg": 0.1,
+          "public_goal": [
+            0.62,
+            0.12,
+            0.021
+          ]
+        },
+        {
+          "condition_id": "instance-1-support-1",
+          "seed": 1900785217,
+          "split": "support",
+          "object_mass_kg": 0.4,
+          "public_goal": [
+            0.62,
+            0.12,
+            0.021
+          ]
+        },
+        {
+          "condition_id": "instance-1-support-2",
+          "seed": 2005889945,
+          "split": "support",
+          "object_mass_kg": 0.1,
+          "public_goal": [
+            0.6,
+            -0.12,
+            0.021
+          ]
+        },
+        {
+          "condition_id": "instance-1-support-3",
+          "seed": 1940158579,
+          "split": "support",
+          "object_mass_kg": 0.4,
+          "public_goal": [
+            0.6,
+            -0.12,
+            0.021
+          ]
+        }
+      ],
+      "query": [
+        {
+          "condition_id": "instance-1-query-0",
+          "seed": 1544299504,
+          "split": "query",
+          "object_mass_kg": 0.1,
+          "public_goal": [
+            0.6,
+            0.12,
+            0.021
+          ]
+        },
+        {
+          "condition_id": "instance-1-query-1",
+          "seed": 868371282,
+          "split": "query",
+          "object_mass_kg": 0.1,
+          "public_goal": [
+            0.6,
+            0.12,
+            0.021
+          ]
+        },
+        {
+          "condition_id": "instance-1-query-2",
+          "seed": 812119749,
+          "split": "query",
+          "object_mass_kg": 0.1,
+          "public_goal": [
+            0.6,
+            0.12,
+            0.021
+          ]
+        },
+        {
+          "condition_id": "instance-1-query-3",
+          "seed": 295508550,
+          "split": "query",
+          "object_mass_kg": 0.1,
+          "public_goal": [
+            0.6,
+            0.12,
+            0.021
+          ]
+        },
+        {
+          "condition_id": "instance-1-query-4",
+          "seed": 1404053412,
+          "split": "query",
+          "object_mass_kg": 0.4,
+          "public_goal": [
+            0.6,
+            0.12,
+            0.021
+          ]
+        },
+        {
+          "condition_id": "instance-1-query-5",
+          "seed": 412531443,
+          "split": "query",
+          "object_mass_kg": 0.4,
+          "public_goal": [
+            0.6,
+            0.12,
+            0.021
+          ]
+        },
+        {
+          "condition_id": "instance-1-query-6",
+          "seed": 1161950373,
+          "split": "query",
+          "object_mass_kg": 0.4,
+          "public_goal": [
+            0.6,
+            0.12,
+            0.021
+          ]
+        },
+        {
+          "condition_id": "instance-1-query-7",
+          "seed": 1104160327,
+          "split": "query",
+          "object_mass_kg": 0.4,
+          "public_goal": [
+            0.6,
+            0.12,
+            0.021
+          ]
+        },
+        {
+          "condition_id": "instance-1-query-8",
+          "seed": 1229125240,
+          "split": "query",
+          "object_mass_kg": 0.1,
+          "public_goal": [
+            0.62,
+            -0.12,
+            0.021
+          ]
+        },
+        {
+          "condition_id": "instance-1-query-9",
+          "seed": 1136694185,
+          "split": "query",
+          "object_mass_kg": 0.1,
+          "public_goal": [
+            0.62,
+            -0.12,
+            0.021
+          ]
+        },
+        {
+          "condition_id": "instance-1-query-10",
+          "seed": 1126235768,
+          "split": "query",
+          "object_mass_kg": 0.1,
+          "public_goal": [
+            0.62,
+            -0.12,
+            0.021
+          ]
+        },
+        {
+          "condition_id": "instance-1-query-11",
+          "seed": 1818634577,
+          "split": "query",
+          "object_mass_kg": 0.1,
+          "public_goal": [
+            0.62,
+            -0.12,
+            0.021
+          ]
+        },
+        {
+          "condition_id": "instance-1-query-12",
+          "seed": 1411995039,
+          "split": "query",
+          "object_mass_kg": 0.4,
+          "public_goal": [
+            0.62,
+            -0.12,
+            0.021
+          ]
+        },
+        {
+          "condition_id": "instance-1-query-13",
+          "seed": 1107114167,
+          "split": "query",
+          "object_mass_kg": 0.4,
+          "public_goal": [
+            0.62,
+            -0.12,
+            0.021
+          ]
+        },
+        {
+          "condition_id": "instance-1-query-14",
+          "seed": 1334556004,
+          "split": "query",
+          "object_mass_kg": 0.4,
+          "public_goal": [
+            0.62,
+            -0.12,
+            0.021
+          ]
+        },
+        {
+          "condition_id": "instance-1-query-15",
+          "seed": 1822179311,
+          "split": "query",
+          "object_mass_kg": 0.4,
+          "public_goal": [
+            0.62,
+            -0.12,
+            0.021
+          ]
+        }
+      ]
+    },
+    {
+      "support": [
+        {
+          "condition_id": "instance-2-support-0",
+          "seed": 1123850235,
+          "split": "support",
+          "object_mass_kg": 0.1,
+          "public_goal": [
+            0.62,
+            0.12,
+            0.021
+          ]
+        },
+        {
+          "condition_id": "instance-2-support-1",
+          "seed": 1019251725,
+          "split": "support",
+          "object_mass_kg": 0.4,
+          "public_goal": [
+            0.62,
+            0.12,
+            0.021
+          ]
+        },
+        {
+          "condition_id": "instance-2-support-2",
+          "seed": 1518087510,
+          "split": "support",
+          "object_mass_kg": 0.1,
+          "public_goal": [
+            0.6,
+            -0.12,
+            0.021
+          ]
+        },
+        {
+          "condition_id": "instance-2-support-3",
+          "seed": 647266741,
+          "split": "support",
+          "object_mass_kg": 0.4,
+          "public_goal": [
+            0.6,
+            -0.12,
+            0.021
+          ]
+        }
+      ],
+      "query": [
+        {
+          "condition_id": "instance-2-query-0",
+          "seed": 58705550,
+          "split": "query",
+          "object_mass_kg": 0.1,
+          "public_goal": [
+            0.6,
+            0.12,
+            0.021
+          ]
+        },
+        {
+          "condition_id": "instance-2-query-1",
+          "seed": 1574895217,
+          "split": "query",
+          "object_mass_kg": 0.1,
+          "public_goal": [
+            0.6,
+            0.12,
+            0.021
+          ]
+        },
+        {
+          "condition_id": "instance-2-query-2",
+          "seed": 1898205326,
+          "split": "query",
+          "object_mass_kg": 0.1,
+          "public_goal": [
+            0.6,
+            0.12,
+            0.021
+          ]
+        },
+        {
+          "condition_id": "instance-2-query-3",
+          "seed": 1170562251,
+          "split": "query",
+          "object_mass_kg": 0.1,
+          "public_goal": [
+            0.6,
+            0.12,
+            0.021
+          ]
+        },
+        {
+          "condition_id": "instance-2-query-4",
+          "seed": 330854338,
+          "split": "query",
+          "object_mass_kg": 0.4,
+          "public_goal": [
+            0.6,
+            0.12,
+            0.021
+          ]
+        },
+        {
+          "condition_id": "instance-2-query-5",
+          "seed": 153111434,
+          "split": "query",
+          "object_mass_kg": 0.4,
+          "public_goal": [
+            0.6,
+            0.12,
+            0.021
+          ]
+        },
+        {
+          "condition_id": "instance-2-query-6",
+          "seed": 995129160,
+          "split": "query",
+          "object_mass_kg": 0.4,
+          "public_goal": [
+            0.6,
+            0.12,
+            0.021
+          ]
+        },
+        {
+          "condition_id": "instance-2-query-7",
+          "seed": 1839606007,
+          "split": "query",
+          "object_mass_kg": 0.4,
+          "public_goal": [
+            0.6,
+            0.12,
+            0.021
+          ]
+        },
+        {
+          "condition_id": "instance-2-query-8",
+          "seed": 550354384,
+          "split": "query",
+          "object_mass_kg": 0.1,
+          "public_goal": [
+            0.62,
+            -0.12,
+            0.021
+          ]
+        },
+        {
+          "condition_id": "instance-2-query-9",
+          "seed": 1670121510,
+          "split": "query",
+          "object_mass_kg": 0.1,
+          "public_goal": [
+            0.62,
+            -0.12,
+            0.021
+          ]
+        },
+        {
+          "condition_id": "instance-2-query-10",
+          "seed": 1299577811,
+          "split": "query",
+          "object_mass_kg": 0.1,
+          "public_goal": [
+            0.62,
+            -0.12,
+            0.021
+          ]
+        },
+        {
+          "condition_id": "instance-2-query-11",
+          "seed": 179582597,
+          "split": "query",
+          "object_mass_kg": 0.1,
+          "public_goal": [
+            0.62,
+            -0.12,
+            0.021
+          ]
+        },
+        {
+          "condition_id": "instance-2-query-12",
+          "seed": 1943567341,
+          "split": "query",
+          "object_mass_kg": 0.4,
+          "public_goal": [
+            0.62,
+            -0.12,
+            0.021
+          ]
+        },
+        {
+          "condition_id": "instance-2-query-13",
+          "seed": 1239809693,
+          "split": "query",
+          "object_mass_kg": 0.4,
+          "public_goal": [
+            0.62,
+            -0.12,
+            0.021
+          ]
+        },
+        {
+          "condition_id": "instance-2-query-14",
+          "seed": 1497407524,
+          "split": "query",
+          "object_mass_kg": 0.4,
+          "public_goal": [
+            0.62,
+            -0.12,
+            0.021
+          ]
+        },
+        {
+          "condition_id": "instance-2-query-15",
+          "seed": 600213766,
+          "split": "query",
+          "object_mass_kg": 0.4,
+          "public_goal": [
+            0.62,
+            -0.12,
+            0.021
+          ]
+        }
+      ]
+    },
+    {
+      "support": [
+        {
+          "condition_id": "instance-3-support-0",
+          "seed": 1178204055,
+          "split": "support",
+          "object_mass_kg": 0.1,
+          "public_goal": [
+            0.62,
+            0.12,
+            0.021
+          ]
+        },
+        {
+          "condition_id": "instance-3-support-1",
+          "seed": 1181089820,
+          "split": "support",
+          "object_mass_kg": 0.4,
+          "public_goal": [
+            0.62,
+            0.12,
+            0.021
+          ]
+        },
+        {
+          "condition_id": "instance-3-support-2",
+          "seed": 317341001,
+          "split": "support",
+          "object_mass_kg": 0.1,
+          "public_goal": [
+            0.6,
+            -0.12,
+            0.021
+          ]
+        },
+        {
+          "condition_id": "instance-3-support-3",
+          "seed": 157047327,
+          "split": "support",
+          "object_mass_kg": 0.4,
+          "public_goal": [
+            0.6,
+            -0.12,
+            0.021
+          ]
+        }
+      ],
+      "query": [
+        {
+          "condition_id": "instance-3-query-0",
+          "seed": 1426413139,
+          "split": "query",
+          "object_mass_kg": 0.1,
+          "public_goal": [
+            0.6,
+            0.12,
+            0.021
+          ]
+        },
+        {
+          "condition_id": "instance-3-query-1",
+          "seed": 1757195179,
+          "split": "query",
+          "object_mass_kg": 0.1,
+          "public_goal": [
+            0.6,
+            0.12,
+            0.021
+          ]
+        },
+        {
+          "condition_id": "instance-3-query-2",
+          "seed": 258854692,
+          "split": "query",
+          "object_mass_kg": 0.1,
+          "public_goal": [
+            0.6,
+            0.12,
+            0.021
+          ]
+        },
+        {
+          "condition_id": "instance-3-query-3",
+          "seed": 299582784,
+          "split": "query",
+          "object_mass_kg": 0.1,
+          "public_goal": [
+            0.6,
+            0.12,
+            0.021
+          ]
+        },
+        {
+          "condition_id": "instance-3-query-4",
+          "seed": 273483405,
+          "split": "query",
+          "object_mass_kg": 0.4,
+          "public_goal": [
+            0.6,
+            0.12,
+            0.021
+          ]
+        },
+        {
+          "condition_id": "instance-3-query-5",
+          "seed": 1993767686,
+          "split": "query",
+          "object_mass_kg": 0.4,
+          "public_goal": [
+            0.6,
+            0.12,
+            0.021
+          ]
+        },
+        {
+          "condition_id": "instance-3-query-6",
+          "seed": 685496968,
+          "split": "query",
+          "object_mass_kg": 0.4,
+          "public_goal": [
+            0.6,
+            0.12,
+            0.021
+          ]
+        },
+        {
+          "condition_id": "instance-3-query-7",
+          "seed": 1596162315,
+          "split": "query",
+          "object_mass_kg": 0.4,
+          "public_goal": [
+            0.6,
+            0.12,
+            0.021
+          ]
+        },
+        {
+          "condition_id": "instance-3-query-8",
+          "seed": 1558698058,
+          "split": "query",
+          "object_mass_kg": 0.1,
+          "public_goal": [
+            0.62,
+            -0.12,
+            0.021
+          ]
+        },
+        {
+          "condition_id": "instance-3-query-9",
+          "seed": 1952463664,
+          "split": "query",
+          "object_mass_kg": 0.1,
+          "public_goal": [
+            0.62,
+            -0.12,
+            0.021
+          ]
+        },
+        {
+          "condition_id": "instance-3-query-10",
+          "seed": 1796539022,
+          "split": "query",
+          "object_mass_kg": 0.1,
+          "public_goal": [
+            0.62,
+            -0.12,
+            0.021
+          ]
+        },
+        {
+          "condition_id": "instance-3-query-11",
+          "seed": 1054298987,
+          "split": "query",
+          "object_mass_kg": 0.1,
+          "public_goal": [
+            0.62,
+            -0.12,
+            0.021
+          ]
+        },
+        {
+          "condition_id": "instance-3-query-12",
+          "seed": 1522462948,
+          "split": "query",
+          "object_mass_kg": 0.4,
+          "public_goal": [
+            0.62,
+            -0.12,
+            0.021
+          ]
+        },
+        {
+          "condition_id": "instance-3-query-13",
+          "seed": 843069889,
+          "split": "query",
+          "object_mass_kg": 0.4,
+          "public_goal": [
+            0.62,
+            -0.12,
+            0.021
+          ]
+        },
+        {
+          "condition_id": "instance-3-query-14",
+          "seed": 245553568,
+          "split": "query",
+          "object_mass_kg": 0.4,
+          "public_goal": [
+            0.62,
+            -0.12,
+            0.021
+          ]
+        },
+        {
+          "condition_id": "instance-3-query-15",
+          "seed": 2006216986,
+          "split": "query",
+          "object_mass_kg": 0.4,
+          "public_goal": [
+            0.62,
+            -0.12,
+            0.021
+          ]
+        }
+      ]
+    },
+    {
+      "support": [
+        {
+          "condition_id": "instance-4-support-0",
+          "seed": 1057349765,
+          "split": "support",
+          "object_mass_kg": 0.1,
+          "public_goal": [
+            0.62,
+            0.12,
+            0.021
+          ]
+        },
+        {
+          "condition_id": "instance-4-support-1",
+          "seed": 211119664,
+          "split": "support",
+          "object_mass_kg": 0.4,
+          "public_goal": [
+            0.62,
+            0.12,
+            0.021
+          ]
+        },
+        {
+          "condition_id": "instance-4-support-2",
+          "seed": 1917255457,
+          "split": "support",
+          "object_mass_kg": 0.1,
+          "public_goal": [
+            0.6,
+            -0.12,
+            0.021
+          ]
+        },
+        {
+          "condition_id": "instance-4-support-3",
+          "seed": 758019407,
+          "split": "support",
+          "object_mass_kg": 0.4,
+          "public_goal": [
+            0.6,
+            -0.12,
+            0.021
+          ]
+        }
+      ],
+      "query": [
+        {
+          "condition_id": "instance-4-query-0",
+          "seed": 292715755,
+          "split": "query",
+          "object_mass_kg": 0.1,
+          "public_goal": [
+            0.6,
+            0.12,
+            0.021
+          ]
+        },
+        {
+          "condition_id": "instance-4-query-1",
+          "seed": 1376692694,
+          "split": "query",
+          "object_mass_kg": 0.1,
+          "public_goal": [
+            0.6,
+            0.12,
+            0.021
+          ]
+        },
+        {
+          "condition_id": "instance-4-query-2",
+          "seed": 534363810,
+          "split": "query",
+          "object_mass_kg": 0.1,
+          "public_goal": [
+            0.6,
+            0.12,
+            0.021
+          ]
+        },
+        {
+          "condition_id": "instance-4-query-3",
+          "seed": 1734122316,
+          "split": "query",
+          "object_mass_kg": 0.1,
+          "public_goal": [
+            0.6,
+            0.12,
+            0.021
+          ]
+        },
+        {
+          "condition_id": "instance-4-query-4",
+          "seed": 474690617,
+          "split": "query",
+          "object_mass_kg": 0.4,
+          "public_goal": [
+            0.6,
+            0.12,
+            0.021
+          ]
+        },
+        {
+          "condition_id": "instance-4-query-5",
+          "seed": 1880762837,
+          "split": "query",
+          "object_mass_kg": 0.4,
+          "public_goal": [
+            0.6,
+            0.12,
+            0.021
+          ]
+        },
+        {
+          "condition_id": "instance-4-query-6",
+          "seed": 182709542,
+          "split": "query",
+          "object_mass_kg": 0.4,
+          "public_goal": [
+            0.6,
+            0.12,
+            0.021
+          ]
+        },
+        {
+          "condition_id": "instance-4-query-7",
+          "seed": 1154396807,
+          "split": "query",
+          "object_mass_kg": 0.4,
+          "public_goal": [
+            0.6,
+            0.12,
+            0.021
+          ]
+        },
+        {
+          "condition_id": "instance-4-query-8",
+          "seed": 2087010099,
+          "split": "query",
+          "object_mass_kg": 0.1,
+          "public_goal": [
+            0.62,
+            -0.12,
+            0.021
+          ]
+        },
+        {
+          "condition_id": "instance-4-query-9",
+          "seed": 1484047108,
+          "split": "query",
+          "object_mass_kg": 0.1,
+          "public_goal": [
+            0.62,
+            -0.12,
+            0.021
+          ]
+        },
+        {
+          "condition_id": "instance-4-query-10",
+          "seed": 31725626,
+          "split": "query",
+          "object_mass_kg": 0.1,
+          "public_goal": [
+            0.62,
+            -0.12,
+            0.021
+          ]
+        },
+        {
+          "condition_id": "instance-4-query-11",
+          "seed": 1158838987,
+          "split": "query",
+          "object_mass_kg": 0.1,
+          "public_goal": [
+            0.62,
+            -0.12,
+            0.021
+          ]
+        },
+        {
+          "condition_id": "instance-4-query-12",
+          "seed": 938591530,
+          "split": "query",
+          "object_mass_kg": 0.4,
+          "public_goal": [
+            0.62,
+            -0.12,
+            0.021
+          ]
+        },
+        {
+          "condition_id": "instance-4-query-13",
+          "seed": 1125851559,
+          "split": "query",
+          "object_mass_kg": 0.4,
+          "public_goal": [
+            0.62,
+            -0.12,
+            0.021
+          ]
+        },
+        {
+          "condition_id": "instance-4-query-14",
+          "seed": 2004902976,
+          "split": "query",
+          "object_mass_kg": 0.4,
+          "public_goal": [
+            0.62,
+            -0.12,
+            0.021
+          ]
+        },
+        {
+          "condition_id": "instance-4-query-15",
+          "seed": 1177106797,
+          "split": "query",
+          "object_mass_kg": 0.4,
+          "public_goal": [
+            0.62,
+            -0.12,
+            0.021
+          ]
+        }
+      ]
+    },
+    {
+      "support": [
+        {
+          "condition_id": "instance-5-support-0",
+          "seed": 1407336819,
+          "split": "support",
+          "object_mass_kg": 0.1,
+          "public_goal": [
+            0.62,
+            0.12,
+            0.021
+          ]
+        },
+        {
+          "condition_id": "instance-5-support-1",
+          "seed": 1864623016,
+          "split": "support",
+          "object_mass_kg": 0.4,
+          "public_goal": [
+            0.62,
+            0.12,
+            0.021
+          ]
+        },
+        {
+          "condition_id": "instance-5-support-2",
+          "seed": 1710681581,
+          "split": "support",
+          "object_mass_kg": 0.1,
+          "public_goal": [
+            0.6,
+            -0.12,
+            0.021
+          ]
+        },
+        {
+          "condition_id": "instance-5-support-3",
+          "seed": 848633917,
+          "split": "support",
+          "object_mass_kg": 0.4,
+          "public_goal": [
+            0.6,
+            -0.12,
+            0.021
+          ]
+        }
+      ],
+      "query": [
+        {
+          "condition_id": "instance-5-query-0",
+          "seed": 2124751135,
+          "split": "query",
+          "object_mass_kg": 0.1,
+          "public_goal": [
+            0.6,
+            0.12,
+            0.021
+          ]
+        },
+        {
+          "condition_id": "instance-5-query-1",
+          "seed": 102896815,
+          "split": "query",
+          "object_mass_kg": 0.1,
+          "public_goal": [
+            0.6,
+            0.12,
+            0.021
+          ]
+        },
+        {
+          "condition_id": "instance-5-query-2",
+          "seed": 1297838797,
+          "split": "query",
+          "object_mass_kg": 0.1,
+          "public_goal": [
+            0.6,
+            0.12,
+            0.021
+          ]
+        },
+        {
+          "condition_id": "instance-5-query-3",
+          "seed": 856568188,
+          "split": "query",
+          "object_mass_kg": 0.1,
+          "public_goal": [
+            0.6,
+            0.12,
+            0.021
+          ]
+        },
+        {
+          "condition_id": "instance-5-query-4",
+          "seed": 1068017992,
+          "split": "query",
+          "object_mass_kg": 0.4,
+          "public_goal": [
+            0.6,
+            0.12,
+            0.021
+          ]
+        },
+        {
+          "condition_id": "instance-5-query-5",
+          "seed": 644103845,
+          "split": "query",
+          "object_mass_kg": 0.4,
+          "public_goal": [
+            0.6,
+            0.12,
+            0.021
+          ]
+        },
+        {
+          "condition_id": "instance-5-query-6",
+          "seed": 1035572580,
+          "split": "query",
+          "object_mass_kg": 0.4,
+          "public_goal": [
+            0.6,
+            0.12,
+            0.021
+          ]
+        },
+        {
+          "condition_id": "instance-5-query-7",
+          "seed": 1563823529,
+          "split": "query",
+          "object_mass_kg": 0.4,
+          "public_goal": [
+            0.6,
+            0.12,
+            0.021
+          ]
+        },
+        {
+          "condition_id": "instance-5-query-8",
+          "seed": 1728413519,
+          "split": "query",
+          "object_mass_kg": 0.1,
+          "public_goal": [
+            0.62,
+            -0.12,
+            0.021
+          ]
+        },
+        {
+          "condition_id": "instance-5-query-9",
+          "seed": 1006546519,
+          "split": "query",
+          "object_mass_kg": 0.1,
+          "public_goal": [
+            0.62,
+            -0.12,
+            0.021
+          ]
+        },
+        {
+          "condition_id": "instance-5-query-10",
+          "seed": 1517847300,
+          "split": "query",
+          "object_mass_kg": 0.1,
+          "public_goal": [
+            0.62,
+            -0.12,
+            0.021
+          ]
+        },
+        {
+          "condition_id": "instance-5-query-11",
+          "seed": 384762270,
+          "split": "query",
+          "object_mass_kg": 0.1,
+          "public_goal": [
+            0.62,
+            -0.12,
+            0.021
+          ]
+        },
+        {
+          "condition_id": "instance-5-query-12",
+          "seed": 1289051733,
+          "split": "query",
+          "object_mass_kg": 0.4,
+          "public_goal": [
+            0.62,
+            -0.12,
+            0.021
+          ]
+        },
+        {
+          "condition_id": "instance-5-query-13",
+          "seed": 2070520649,
+          "split": "query",
+          "object_mass_kg": 0.4,
+          "public_goal": [
+            0.62,
+            -0.12,
+            0.021
+          ]
+        },
+        {
+          "condition_id": "instance-5-query-14",
+          "seed": 2012708793,
+          "split": "query",
+          "object_mass_kg": 0.4,
+          "public_goal": [
+            0.62,
+            -0.12,
+            0.021
+          ]
+        },
+        {
+          "condition_id": "instance-5-query-15",
+          "seed": 1092888900,
+          "split": "query",
+          "object_mass_kg": 0.4,
+          "public_goal": [
+            0.62,
+            -0.12,
+            0.021
+          ]
+        }
+      ]
+    },
+    {
+      "support": [
+        {
+          "condition_id": "instance-6-support-0",
+          "seed": 392234369,
+          "split": "support",
+          "object_mass_kg": 0.1,
+          "public_goal": [
+            0.62,
+            0.12,
+            0.021
+          ]
+        },
+        {
+          "condition_id": "instance-6-support-1",
+          "seed": 1795005439,
+          "split": "support",
+          "object_mass_kg": 0.4,
+          "public_goal": [
+            0.62,
+            0.12,
+            0.021
+          ]
+        },
+        {
+          "condition_id": "instance-6-support-2",
+          "seed": 538094719,
+          "split": "support",
+          "object_mass_kg": 0.1,
+          "public_goal": [
+            0.6,
+            -0.12,
+            0.021
+          ]
+        },
+        {
+          "condition_id": "instance-6-support-3",
+          "seed": 1548064981,
+          "split": "support",
+          "object_mass_kg": 0.4,
+          "public_goal": [
+            0.6,
+            -0.12,
+            0.021
+          ]
+        }
+      ],
+      "query": [
+        {
+          "condition_id": "instance-6-query-0",
+          "seed": 1108851493,
+          "split": "query",
+          "object_mass_kg": 0.1,
+          "public_goal": [
+            0.6,
+            0.12,
+            0.021
+          ]
+        },
+        {
+          "condition_id": "instance-6-query-1",
+          "seed": 1678262034,
+          "split": "query",
+          "object_mass_kg": 0.1,
+          "public_goal": [
+            0.6,
+            0.12,
+            0.021
+          ]
+        },
+        {
+          "condition_id": "instance-6-query-2",
+          "seed": 614559043,
+          "split": "query",
+          "object_mass_kg": 0.1,
+          "public_goal": [
+            0.6,
+            0.12,
+            0.021
+          ]
+        },
+        {
+          "condition_id": "instance-6-query-3",
+          "seed": 531903618,
+          "split": "query",
+          "object_mass_kg": 0.1,
+          "public_goal": [
+            0.6,
+            0.12,
+            0.021
+          ]
+        },
+        {
+          "condition_id": "instance-6-query-4",
+          "seed": 1141280262,
+          "split": "query",
+          "object_mass_kg": 0.4,
+          "public_goal": [
+            0.6,
+            0.12,
+            0.021
+          ]
+        },
+        {
+          "condition_id": "instance-6-query-5",
+          "seed": 1182716422,
+          "split": "query",
+          "object_mass_kg": 0.4,
+          "public_goal": [
+            0.6,
+            0.12,
+            0.021
+          ]
+        },
+        {
+          "condition_id": "instance-6-query-6",
+          "seed": 798091795,
+          "split": "query",
+          "object_mass_kg": 0.4,
+          "public_goal": [
+            0.6,
+            0.12,
+            0.021
+          ]
+        },
+        {
+          "condition_id": "instance-6-query-7",
+          "seed": 30830765,
+          "split": "query",
+          "object_mass_kg": 0.4,
+          "public_goal": [
+            0.6,
+            0.12,
+            0.021
+          ]
+        },
+        {
+          "condition_id": "instance-6-query-8",
+          "seed": 1383768565,
+          "split": "query",
+          "object_mass_kg": 0.1,
+          "public_goal": [
+            0.62,
+            -0.12,
+            0.021
+          ]
+        },
+        {
+          "condition_id": "instance-6-query-9",
+          "seed": 252389129,
+          "split": "query",
+          "object_mass_kg": 0.1,
+          "public_goal": [
+            0.62,
+            -0.12,
+            0.021
+          ]
+        },
+        {
+          "condition_id": "instance-6-query-10",
+          "seed": 685658253,
+          "split": "query",
+          "object_mass_kg": 0.1,
+          "public_goal": [
+            0.62,
+            -0.12,
+            0.021
+          ]
+        },
+        {
+          "condition_id": "instance-6-query-11",
+          "seed": 432024307,
+          "split": "query",
+          "object_mass_kg": 0.1,
+          "public_goal": [
+            0.62,
+            -0.12,
+            0.021
+          ]
+        },
+        {
+          "condition_id": "instance-6-query-12",
+          "seed": 1899901385,
+          "split": "query",
+          "object_mass_kg": 0.4,
+          "public_goal": [
+            0.62,
+            -0.12,
+            0.021
+          ]
+        },
+        {
+          "condition_id": "instance-6-query-13",
+          "seed": 512370520,
+          "split": "query",
+          "object_mass_kg": 0.4,
+          "public_goal": [
+            0.62,
+            -0.12,
+            0.021
+          ]
+        },
+        {
+          "condition_id": "instance-6-query-14",
+          "seed": 1275749843,
+          "split": "query",
+          "object_mass_kg": 0.4,
+          "public_goal": [
+            0.62,
+            -0.12,
+            0.021
+          ]
+        },
+        {
+          "condition_id": "instance-6-query-15",
+          "seed": 1962570424,
+          "split": "query",
+          "object_mass_kg": 0.4,
+          "public_goal": [
+            0.62,
+            -0.12,
+            0.021
+          ]
+        }
+      ]
+    },
+    {
+      "support": [
+        {
+          "condition_id": "instance-7-support-0",
+          "seed": 1031940326,
+          "split": "support",
+          "object_mass_kg": 0.1,
+          "public_goal": [
+            0.62,
+            0.12,
+            0.021
+          ]
+        },
+        {
+          "condition_id": "instance-7-support-1",
+          "seed": 2054880905,
+          "split": "support",
+          "object_mass_kg": 0.4,
+          "public_goal": [
+            0.62,
+            0.12,
+            0.021
+          ]
+        },
+        {
+          "condition_id": "instance-7-support-2",
+          "seed": 1625279474,
+          "split": "support",
+          "object_mass_kg": 0.1,
+          "public_goal": [
+            0.6,
+            -0.12,
+            0.021
+          ]
+        },
+        {
+          "condition_id": "instance-7-support-3",
+          "seed": 1120988306,
+          "split": "support",
+          "object_mass_kg": 0.4,
+          "public_goal": [
+            0.6,
+            -0.12,
+            0.021
+          ]
+        }
+      ],
+      "query": [
+        {
+          "condition_id": "instance-7-query-0",
+          "seed": 1644344502,
+          "split": "query",
+          "object_mass_kg": 0.1,
+          "public_goal": [
+            0.6,
+            0.12,
+            0.021
+          ]
+        },
+        {
+          "condition_id": "instance-7-query-1",
+          "seed": 609825828,
+          "split": "query",
+          "object_mass_kg": 0.1,
+          "public_goal": [
+            0.6,
+            0.12,
+            0.021
+          ]
+        },
+        {
+          "condition_id": "instance-7-query-2",
+          "seed": 665906350,
+          "split": "query",
+          "object_mass_kg": 0.1,
+          "public_goal": [
+            0.6,
+            0.12,
+            0.021
+          ]
+        },
+        {
+          "condition_id": "instance-7-query-3",
+          "seed": 11625766,
+          "split": "query",
+          "object_mass_kg": 0.1,
+          "public_goal": [
+            0.6,
+            0.12,
+            0.021
+          ]
+        },
+        {
+          "condition_id": "instance-7-query-4",
+          "seed": 603333344,
+          "split": "query",
+          "object_mass_kg": 0.4,
+          "public_goal": [
+            0.6,
+            0.12,
+            0.021
+          ]
+        },
+        {
+          "condition_id": "instance-7-query-5",
+          "seed": 969856329,
+          "split": "query",
+          "object_mass_kg": 0.4,
+          "public_goal": [
+            0.6,
+            0.12,
+            0.021
+          ]
+        },
+        {
+          "condition_id": "instance-7-query-6",
+          "seed": 1033477322,
+          "split": "query",
+          "object_mass_kg": 0.4,
+          "public_goal": [
+            0.6,
+            0.12,
+            0.021
+          ]
+        },
+        {
+          "condition_id": "instance-7-query-7",
+          "seed": 1402792233,
+          "split": "query",
+          "object_mass_kg": 0.4,
+          "public_goal": [
+            0.6,
+            0.12,
+            0.021
+          ]
+        },
+        {
+          "condition_id": "instance-7-query-8",
+          "seed": 1017973233,
+          "split": "query",
+          "object_mass_kg": 0.1,
+          "public_goal": [
+            0.62,
+            -0.12,
+            0.021
+          ]
+        },
+        {
+          "condition_id": "instance-7-query-9",
+          "seed": 1337618829,
+          "split": "query",
+          "object_mass_kg": 0.1,
+          "public_goal": [
+            0.62,
+            -0.12,
+            0.021
+          ]
+        },
+        {
+          "condition_id": "instance-7-query-10",
+          "seed": 1975297528,
+          "split": "query",
+          "object_mass_kg": 0.1,
+          "public_goal": [
+            0.62,
+            -0.12,
+            0.021
+          ]
+        },
+        {
+          "condition_id": "instance-7-query-11",
+          "seed": 328198819,
+          "split": "query",
+          "object_mass_kg": 0.1,
+          "public_goal": [
+            0.62,
+            -0.12,
+            0.021
+          ]
+        },
+        {
+          "condition_id": "instance-7-query-12",
+          "seed": 1389112690,
+          "split": "query",
+          "object_mass_kg": 0.4,
+          "public_goal": [
+            0.62,
+            -0.12,
+            0.021
+          ]
+        },
+        {
+          "condition_id": "instance-7-query-13",
+          "seed": 2098874026,
+          "split": "query",
+          "object_mass_kg": 0.4,
+          "public_goal": [
+            0.62,
+            -0.12,
+            0.021
+          ]
+        },
+        {
+          "condition_id": "instance-7-query-14",
+          "seed": 639594400,
+          "split": "query",
+          "object_mass_kg": 0.4,
+          "public_goal": [
+            0.62,
+            -0.12,
+            0.021
+          ]
+        },
+        {
+          "condition_id": "instance-7-query-15",
+          "seed": 408213045,
+          "split": "query",
+          "object_mass_kg": 0.4,
+          "public_goal": [
+            0.62,
+            -0.12,
+            0.021
+          ]
+        }
+      ]
+    }
+  ],
+  "query_arm_orders": [
+    [
+      "frozen",
+      "designer",
+      "search",
+      "feedback",
+      "deletion"
+    ],
+    [
+      "designer",
+      "search",
+      "feedback",
+      "deletion",
+      "frozen"
+    ],
+    [
+      "search",
+      "feedback",
+      "deletion",
+      "frozen",
+      "designer"
+    ],
+    [
+      "feedback",
+      "deletion",
+      "frozen",
+      "designer",
+      "search"
+    ],
+    [
+      "deletion",
+      "frozen",
+      "designer",
+      "search",
+      "feedback"
+    ],
+    [
+      "frozen",
+      "designer",
+      "search",
+      "feedback",
+      "deletion"
+    ],
+    [
+      "designer",
+      "search",
+      "feedback",
+      "deletion",
+      "frozen"
+    ],
+    [
+      "search",
+      "feedback",
+      "deletion",
+      "frozen",
+      "designer"
+    ]
+  ],
+  "query_order_by_arm": [
+    {
+      "frozen": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15
+      ],
+      "designer": [
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        0,
+        1,
+        2
+      ],
+      "search": [
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        0,
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "feedback": [
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8
+      ],
+      "deletion": [
+        12,
+        13,
+        14,
+        15,
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11
+      ]
+    },
+    {
+      "frozen": [
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        0,
+        1,
+        2
+      ],
+      "designer": [
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        0,
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "search": [
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8
+      ],
+      "feedback": [
+        12,
+        13,
+        14,
+        15,
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11
+      ],
+      "deletion": [
+        15,
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14
+      ]
+    },
+    {
+      "frozen": [
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        0,
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "designer": [
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8
+      ],
+      "search": [
+        12,
+        13,
+        14,
+        15,
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11
+      ],
+      "feedback": [
+        15,
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14
+      ],
+      "deletion": [
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        0,
+        1
+      ]
+    },
+    {
+      "frozen": [
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8
+      ],
+      "designer": [
+        12,
+        13,
+        14,
+        15,
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11
+      ],
+      "search": [
+        15,
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14
+      ],
+      "feedback": [
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        0,
+        1
+      ],
+      "deletion": [
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        0,
+        1,
+        2,
+        3,
+        4
+      ]
+    },
+    {
+      "frozen": [
+        12,
+        13,
+        14,
+        15,
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11
+      ],
+      "designer": [
+        15,
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14
+      ],
+      "search": [
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        0,
+        1
+      ],
+      "feedback": [
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "deletion": [
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7
+      ]
+    },
+    {
+      "frozen": [
+        15,
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14
+      ],
+      "designer": [
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        0,
+        1
+      ],
+      "search": [
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "feedback": [
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7
+      ],
+      "deletion": [
+        11,
+        12,
+        13,
+        14,
+        15,
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10
+      ]
+    },
+    {
+      "frozen": [
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        0,
+        1
+      ],
+      "designer": [
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "search": [
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7
+      ],
+      "feedback": [
+        11,
+        12,
+        13,
+        14,
+        15,
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10
+      ],
+      "deletion": [
+        14,
+        15,
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13
+      ]
+    },
+    {
+      "frozen": [
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "designer": [
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7
+      ],
+      "search": [
+        11,
+        12,
+        13,
+        14,
+        15,
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10
+      ],
+      "feedback": [
+        14,
+        15,
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13
+      ],
+      "deletion": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        0
+      ]
+    }
+  ],
+  "participant_context_version": "public-context-v3",
+  "instructions_sha256": "cfcf29c2d36b31d8720287a417cd61369bbef6b1dee38a81eabed3b58cda3554",
+  "context_contract_sha256": "a24b1043809550e2336a38f88e75ebd6f54399a094f98514f9bb62bd8777a71c",
+  "asset_dependency_snapshot_sha256": "a477d5f00db7b6909b026d88313a7d104fe61c89f535a9b13267dcb578f7b827",
+  "asset_dependency_scope": "Serialized content SHA256 for 23 resolved USD layers; same-machine provenance. OmniPBR.mdl unresolved in this read-only resolver, non-layer texture bytes not hashed. No vision or complete cross-machine asset equivalence claim.",
+  "executor_prefix": "state-ready2/contact-integral-v1/",
+  "condition_stream": 2026103033,
+  "learning_problem": {
+    "learning_problem_id": "place-release-factorial-v2",
+    "support_goal_positions": [
+      [
+        0.62,
+        0.12,
+        0.021
+      ],
+      [
+        0.6,
+        -0.12,
+        0.021
+      ]
+    ],
+    "query_goal_positions": [
+      [
+        0.6,
+        0.12,
+        0.021
+      ],
+      [
+        0.62,
+        -0.12,
+        0.021
+      ]
+    ],
+    "editable_space": "core-skill-graph-2",
+    "execution_profile": "state-ready2/contact-integral-v1",
+    "task_version": "core-place-public-v5-ready2",
+    "scoring": "core-place-score-1",
+    "knowledge_link": "Same release mechanics; X and Y goal factors recombine at query. Hidden mass classes repeat, reset seeds are disjoint.",
+    "initialization_profile": "support-probe-restore-2"
+  },
+  "qualification": {
+    "schema": "esl-ready-qualification-receipt-1",
+    "status": "QUALIFIED",
+    "source_commit": "707c7f46ea12b097b8d4c7c35d92c9f0d541d83e",
+    "at": "2026-10-30T10:42:03.100896+00:00",
+    "learning_problem": {
+      "learning_problem_id": "place-release-factorial-v2",
+      "support_goal_positions": [
+        [
+          0.62,
+          0.12,
+          0.021
+        ],
+        [
+          0.6,
+          -0.12,
+          0.021
+        ]
+      ],
+      "query_goal_positions": [
+        [
+          0.6,
+          0.12,
+          0.021
+        ],
+        [
+          0.62,
+          -0.12,
+          0.021
+        ]
+      ],
+      "editable_space": "core-skill-graph-2",
+      "execution_profile": "state-ready2/contact-integral-v1",
+      "task_version": "core-place-public-v5-ready2",
+      "scoring": "core-place-score-1",
+      "knowledge_link": "Same release mechanics; X and Y goal factors recombine at query. Hidden mass classes repeat, reset seeds are disjoint.",
+      "initialization_profile": "support-probe-restore-2"
+    },
+    "learning_problem_sha256": "91d3c7c202fe59829a783f025739dc2bd6388eddf512f94bec97d3d11584a1f8",
+    "registration_sha256": "970d77cd6504c41a7f5d0fbe3e209c3ed7e95951c9e0766b345b426dd6087dbb",
+    "initial_reference_sha256": "50ae98a7f04c44c5b85d75028fa3ebc66553cab9b84ee1d6b9f57d8dee636dbb",
+    "starter_hash": "68a177c9c64be12741e66d1c85990ae9e73af2e00cc77e0f39e888e62acca63d",
+    "reference_hash": "953e414dd434f7f194ccec42b889407288f8a2859a2b1df7b8ea5a0c65d887c7",
+    "scores": {
+      "starter": [
+        true,
+        true,
+        false,
+        true
+      ],
+      "strong": [
+        true,
+        true,
+        true,
+        true
+      ],
+      "identity_strong": [
+        true,
+        true,
+        true,
+        true
+      ],
+      "force_open": [
+        false,
+        false
+      ]
+    },
+    "valid_attempts": 14,
+    "assigned_attempts": 14,
+    "identity_discordances": 0,
+    "execution_files": {
+      "physicalevobench/core/collect.py": "8bca96b72b4ae021725e0c754202ca802bc6ec37f7e405e32eed747d600b28ec",
+      "physicalevobench/core/native.py": "4d6fd03b8b5b1c19e7f2088e962b176e49598853de0bb90917fd8b92f0c487b9",
+      "physicalevobench/core/program.py": "8c0c77b7c03f6e76f62bce1b54de87fc65da7561a2097e96984277df544cf5e4",
+      "physicalevobench/core/expressions.py": "09168214b825701dde51e976841c96b9f8fcffa43a7b22e61f67f647710088fe",
+      "physicalevobench/core/metrics.py": "e7e5aaa6430385268a679122a0e0dfac6e07b6d3c4907086591c1fb1e17a8d02",
+      "physicalevobench/v02/reference_native.py": "b747d254ce02005a07a48ae96ca7c52a339a4d8cfc8e4f43224d425d10ee3962",
+      "physicalevobench/v02/reference.py": "56125505d8331a8a4dff5f9e7ef9f49d6de2b36bf7cec9e6751e8b1b3b775a3e",
+      "physicalevobench/v02/native.py": "e16b0c57673322136b84764beda1433249a08e0dacbc9814841820e2d8ec98be",
+      "physicalevobench/v02/execution.py": "965d65ce6d3c6587815134ed91e806724d822d4158d30fd36cec45cb539a9824",
+      "physicalevobench/v02/audit.py": "ce45ee81a323c668cf5312a5426ad74683aca3425db0ee61ba6d935e517e2477",
+      "physicalevobench/adapters/lift_worker.py": "b1d590961400152c4c10a57f568518aea99d1b6fc7ee410d2ada7f31516970a8",
+      "physicalevobench/adapters/arena_worker.py": "8f3e7ad140f702eb1d3323195f0f76a12d4f0978a90e195306a4883578f29961",
+      "physicalevobench/calibration/policies.py": "88e301b3460c01330985a4f56da8bc85c7d2a8b4ab89c464ceef645bcbad527b",
+      "physicalevobench/stability/audit.py": "5efe79724b21b93bfe919f78538afad05dd1d329309c0b64399d22f7ff9bef5e",
+      "physicalevobench/stability/metrics.py": "e5171f974c9e3977716cdc4b9cd8114818e50b0e19150509edb525c99a5c1963",
+      "physicalevobench/protocols/skill.py": "baaf80cbaa0cf6512350690471157017110a75671223964417bdb1d12540091b",
+      "physicalevobench/core/readiness.py": "838f3d02101f864978b11f4fc56e1e3b04fe534f11e6fd8c27a2923a401af5ea",
+      "physicalevobench/core/state_config.py": "8e204f6dac9046f6332c9e44eaaf6c77b724bce9b97e26880c09367eaf922d15",
+      "physicalevobench/core/scene_diagnostics.py": "2528884bb3ccff7841d47d999a1e8f2f3e5659d7088c1e0ffbad134ab8573ac9",
+      "physicalevobench/core/errors.py": "d7d517f4227c6bf6e12557e98de87530b8d277013f6c752357bc53d5b93c513f",
+      "physicalevobench/core/parameter_transport.py": "2d23781603070cabd6132a56fb0f94f1664a1598c31885de6d95301fb5612cf2"
+    },
+    "scope": "Finite same-problem qualification, not cross-task validity or method efficacy"
+  },
+  "qualification_sha256": "cecb25a5e1bcfe5663285248b3a560ce8f148c143adb8d91aeb7444735a1496d",
+  "reference": {
+    "schema": "state-program-reference-1",
+    "reference_config": {
+      "approach_clearance_m": 0.1,
+      "approach_tolerance_m": 0.025,
+      "close_timeout_s": 1.2,
+      "contact_force_n": 0.5,
+      "descend_tolerance_m": 0.015,
+      "dwell_s": 0.06,
+      "grasp_offset_m": 0.005,
+      "joint_integral_gain_s": 1.0,
+      "joint_integral_limit_rad": 0.12,
+      "maximum_recoveries": 1,
+      "minimum_close_s": 0.2,
+      "object_follow_m": 0.02,
+      "orientation_tolerance_rad": 0.15,
+      "probe_lift_m": 0.05,
+      "relative_drift_m": 0.025
+    },
+    "task_version": "core-place-public-v5-ready2",
+    "horizon_s": 20.0,
+    "control_profile": "contact-integral-v1",
+    "initialization_profile": "support-probe-restore-2",
+    "backend_commit": "c7edf3a9d5d8276565208f72422f8f8a0806d6cf",
+    "weight_dependency": null,
+    "scoring": "core-place-score-1"
+  },
+  "cfg": {
+    "state_policy_context": {
+      "schema": "state-policy-context-1",
+      "reference": {
+        "schema": "state-program-reference-1",
+        "reference_config": {
+          "approach_clearance_m": 0.1,
+          "approach_tolerance_m": 0.025,
+          "close_timeout_s": 1.2,
+          "contact_force_n": 0.5,
+          "descend_tolerance_m": 0.015,
+          "dwell_s": 0.06,
+          "grasp_offset_m": 0.005,
+          "joint_integral_gain_s": 1.0,
+          "joint_integral_limit_rad": 0.12,
+          "maximum_recoveries": 1,
+          "minimum_close_s": 0.2,
+          "object_follow_m": 0.02,
+          "orientation_tolerance_rad": 0.15,
+          "probe_lift_m": 0.05,
+          "relative_drift_m": 0.025
+        },
+        "task_version": "core-place-public-v5-ready2",
+        "horizon_s": 20.0,
+        "control_profile": "contact-integral-v1",
+        "initialization_profile": "support-probe-restore-2",
+        "backend_commit": "c7edf3a9d5d8276565208f72422f8f8a0806d6cf",
+        "weight_dependency": null,
+        "scoring": "core-place-score-1"
+      }
+    },
+    "state_execution_sha256": "75836e137ed089ed12b902daa5bd6c5d9b98fe86dcd1dbd9b92c75c5fdca3454",
+    "policy_config_sha256": "9373dea8c03349b38ec1096215a100a4974bb3068844ce6b3ee4af9d93c45427",
+    "mode": "FixedHorizonDiagnostic",
+    "execution_layer": "TargetBounded",
+    "reference_controller": "StateBasedReference",
+    "reference_config": {
+      "approach_clearance_m": 0.1,
+      "approach_tolerance_m": 0.025,
+      "close_timeout_s": 1.2,
+      "contact_force_n": 0.5,
+      "descend_tolerance_m": 0.015,
+      "dwell_s": 0.06,
+      "grasp_offset_m": 0.005,
+      "joint_integral_gain_s": 1.0,
+      "joint_integral_limit_rad": 0.12,
+      "maximum_recoveries": 1,
+      "minimum_close_s": 0.2,
+      "object_follow_m": 0.02,
+      "orientation_tolerance_rad": 0.15,
+      "probe_lift_m": 0.05,
+      "relative_drift_m": 0.025
+    },
+    "horizon_s": 20.0,
+    "task_version": "core-place-public-v5-ready2",
+    "core_task": "place",
+    "physical_budget": 8,
+    "control_profile": "contact-integral-v1",
+    "initialization_profile": "support-probe-restore-2",
+    "public_goal": [
+      0.62,
+      0.12,
+      0.021
+    ],
+    "save_sparse_snapshots": true
+  },
+  "model": "gpt-6.1-terra",
+  "provider": [
+    "codex"
+  ],
+  "provider_cli_version": {
+    "command": [
+      "codex",
+      "--version"
+    ],
+    "returncode": 0,
+    "stdout": "codex-cli 0.166.0",
+    "stderr": ""
+  },
+  "model_limits_per_method": {
+    "calls": 10,
+    "input_tokens": 300000,
+    "output_tokens": 48000
+  },
+  "physical_budget": 768,
+  "ready_probe_substeps_per_attempt": 200,
+  "gpus": [
+    0,
+    1,
+    2,
+    3
+  ],
+  "concurrency": {
+    "training_lanes": 4,
+    "query_lanes": 8,
+    "query_lanes_per_gpu": 2,
+    "reason": "Pre-outcome resource plan; task dt/controls unchanged; independent native process per arm/block; shared GPU workload receipts retained"
+  },
+  "method_labels": {
+    "frozen": "Frozen",
+    "designer": "NoFeedback",
+    "search": "TemplateSearch-4",
+    "feedback": "Feedback",
+    "deletion": "Deletion"
+  },
+  "method_order": [
+    [
+      "designer",
+      "feedback"
+    ],
+    [
+      "feedback",
+      "designer"
+    ],
+    [
+      "designer",
+      "feedback"
+    ],
+    [
+      "feedback",
+      "designer"
+    ],
+    [
+      "designer",
+      "feedback"
+    ],
+    [
+      "feedback",
+      "designer"
+    ],
+    [
+      "designer",
+      "feedback"
+    ],
+    [
+      "feedback",
+      "designer"
+    ]
+  ],
+  "search": {
+    "name": "TemplateSearch-4 / Expert-Prior Search",
+    "human_prior": "Four hand-structured release/place graph variants; not blind random search",
+    "programs": [
+      {
+        "schema": "core-skill-graph-2",
+        "start": "approach",
+        "max_retries": 1,
+        "nodes": [
+          {
+            "id": "approach",
+            "target": "object_above",
+            "gripper": "open",
+            "guard": "pose",
+            "next": "descend",
+            "timeout": "failed",
+            "mode": "approach",
+            "offset_m": 0.1,
+            "minimum_s": 0.0,
+            "timeout_s": 20.0,
+            "tolerance": 0.025,
+            "dwell_s": 0.06
+          },
+          {
+            "id": "descend",
+            "target": "object_grasp",
+            "gripper": "open",
+            "guard": "pose",
+            "next": "close",
+            "timeout": "failed",
+            "mode": "descend",
+            "offset_m": 0.005,
+            "minimum_s": 0.0,
+            "timeout_s": 20.0,
+            "tolerance": 0.015,
+            "dwell_s": 0.06
+          },
+          {
+            "id": "close",
+            "target": "anchor",
+            "gripper": "close",
+            "guard": "bilateral",
+            "next": "probe",
+            "timeout": "recover",
+            "mode": "close",
+            "offset_m": 0.0,
+            "minimum_s": 0.2,
+            "timeout_s": 1.2,
+            "tolerance": 0.025,
+            "dwell_s": 0.06
+          },
+          {
+            "id": "probe",
+            "target": "probe",
+            "gripper": "close",
+            "guard": "follow",
+            "next": "lift",
+            "timeout": "failed",
+            "mode": "probe",
+            "offset_m": 0.05,
+            "minimum_s": 0.0,
+            "timeout_s": 20.0,
+            "tolerance": 0.025,
+            "dwell_s": 0.06
+          },
+          {
+            "id": "lift",
+            "target": "lift_initial",
+            "gripper": "close",
+            "guard": "pose",
+            "next": "transport",
+            "timeout": "failed",
+            "mode": "lift",
+            "offset_m": 0.12,
+            "minimum_s": 0.0,
+            "timeout_s": 20.0,
+            "tolerance": 0.025,
+            "dwell_s": 0.06
+          },
+          {
+            "id": "hold",
+            "target": "goal_offset",
+            "gripper": "close",
+            "guard": "always",
+            "next": "hold",
+            "timeout": "failed",
+            "mode": "hold",
+            "offset_m": 0.0,
+            "minimum_s": 0.0,
+            "timeout_s": 20.0,
+            "tolerance": 0.025,
+            "dwell_s": 0.06
+          },
+          {
+            "id": "recover",
+            "target": "retreat_anchor",
+            "gripper": "open",
+            "guard": "pose",
+            "next": "approach",
+            "timeout": "failed",
+            "mode": "recover",
+            "offset_m": 0.08,
+            "minimum_s": 0.0,
+            "timeout_s": 20.0,
+            "tolerance": 0.025,
+            "dwell_s": 0.06
+          },
+          {
+            "id": "failed",
+            "target": "anchor",
+            "gripper": "open",
+            "guard": "always",
+            "next": "failed",
+            "timeout": "failed",
+            "mode": "failed",
+            "offset_m": 0.0,
+            "minimum_s": 0.0,
+            "timeout_s": 20.0,
+            "tolerance": 0.025,
+            "dwell_s": 0.06
+          },
+          {
+            "id": "transport",
+            "target": {
+              "frame": "goal",
+              "offset_m": [
+                0.0,
+                0.0,
+                0.12
+              ],
+              "grasp_offset": true
+            },
+            "gripper": "close",
+            "guard": "pose",
+            "next": "lower",
+            "timeout": "failed",
+            "mode": "lift",
+            "offset_m": 0.12,
+            "minimum_s": 0.0,
+            "timeout_s": 20.0,
+            "tolerance": 0.025,
+            "dwell_s": 0.06
+          },
+          {
+            "id": "lower",
+            "target": {
+              "frame": "goal",
+              "offset_m": [
+                0.0,
+                0.0,
+                0.008
+              ],
+              "grasp_offset": true
+            },
+            "gripper": "close",
+            "guard": "pose",
+            "next": "release",
+            "timeout": "failed",
+            "mode": "lift",
+            "offset_m": 0.008,
+            "minimum_s": 0.0,
+            "timeout_s": 20.0,
+            "tolerance": 0.015,
+            "dwell_s": 0.06
+          },
+          {
+            "id": "release",
+            "target": {
+              "frame": "goal",
+              "offset_m": [
+                0.0,
+                0.0,
+                0.008
+              ],
+              "grasp_offset": true
+            },
+            "gripper": "open",
+            "guard": "elapsed",
+            "next": "retreat",
+            "timeout": "failed",
+            "mode": "release",
+            "offset_m": 0.008,
+            "minimum_s": 0.35,
+            "timeout_s": 20.0,
+            "tolerance": 0.025,
+            "dwell_s": 0.06
+          },
+          {
+            "id": "retreat",
+            "target": {
+              "frame": "goal",
+              "offset_m": [
+                0.0,
+                0.0,
+                0.12
+              ],
+              "grasp_offset": true
+            },
+            "gripper": "open",
+            "guard": "pose",
+            "next": "done",
+            "timeout": "failed",
+            "mode": "release",
+            "offset_m": 0.12,
+            "minimum_s": 0.0,
+            "timeout_s": 20.0,
+            "tolerance": 0.025,
+            "dwell_s": 0.06
+          },
+          {
+            "id": "done",
+            "target": {
+              "frame": "goal",
+              "offset_m": [
+                0.0,
+                0.0,
+                0.12
+              ],
+              "grasp_offset": true
+            },
+            "gripper": "open",
+            "guard": "always",
+            "next": "done",
+            "timeout": "failed",
+            "mode": "release",
+            "offset_m": 0.12,
+            "minimum_s": 0.0,
+            "timeout_s": 20.0,
+            "tolerance": 0.025,
+            "dwell_s": 0.06
+          }
+        ]
+      },
+      {
+        "schema": "core-skill-graph-2",
+        "start": "approach",
+        "max_retries": 1,
+        "nodes": [
+          {
+            "id": "approach",
+            "target": "object_above",
+            "gripper": "open",
+            "guard": "pose",
+            "next": "descend",
+            "timeout": "failed",
+            "mode": "approach",
+            "offset_m": 0.1,
+            "minimum_s": 0.0,
+            "timeout_s": 20.0,
+            "tolerance": 0.025,
+            "dwell_s": 0.06
+          },
+          {
+            "id": "descend",
+            "target": "object_grasp",
+            "gripper": "open",
+            "guard": "pose",
+            "next": "close",
+            "timeout": "failed",
+            "mode": "descend",
+            "offset_m": 0.005,
+            "minimum_s": 0.0,
+            "timeout_s": 20.0,
+            "tolerance": 0.015,
+            "dwell_s": 0.06
+          },
+          {
+            "id": "close",
+            "target": "anchor",
+            "gripper": "close",
+            "guard": "bilateral",
+            "next": "probe",
+            "timeout": "recover",
+            "mode": "close",
+            "offset_m": 0.0,
+            "minimum_s": 0.2,
+            "timeout_s": 1.2,
+            "tolerance": 0.025,
+            "dwell_s": 0.06
+          },
+          {
+            "id": "probe",
+            "target": "probe",
+            "gripper": "close",
+            "guard": "follow",
+            "next": "lift",
+            "timeout": "failed",
+            "mode": "probe",
+            "offset_m": 0.05,
+            "minimum_s": 0.0,
+            "timeout_s": 20.0,
+            "tolerance": 0.025,
+            "dwell_s": 0.06
+          },
+          {
+            "id": "lift",
+            "target": "lift_initial",
+            "gripper": "close",
+            "guard": "pose",
+            "next": "transport",
+            "timeout": "failed",
+            "mode": "lift",
+            "offset_m": 0.12,
+            "minimum_s": 0.0,
+            "timeout_s": 20.0,
+            "tolerance": 0.025,
+            "dwell_s": 0.06
+          },
+          {
+            "id": "hold",
+            "target": "goal_offset",
+            "gripper": "close",
+            "guard": "always",
+            "next": "hold",
+            "timeout": "failed",
+            "mode": "hold",
+            "offset_m": 0.0,
+            "minimum_s": 0.0,
+            "timeout_s": 20.0,
+            "tolerance": 0.025,
+            "dwell_s": 0.06
+          },
+          {
+            "id": "recover",
+            "target": "retreat_anchor",
+            "gripper": "open",
+            "guard": "pose",
+            "next": "approach",
+            "timeout": "failed",
+            "mode": "recover",
+            "offset_m": 0.08,
+            "minimum_s": 0.0,
+            "timeout_s": 20.0,
+            "tolerance": 0.025,
+            "dwell_s": 0.06
+          },
+          {
+            "id": "failed",
+            "target": "anchor",
+            "gripper": "open",
+            "guard": "always",
+            "next": "failed",
+            "timeout": "failed",
+            "mode": "failed",
+            "offset_m": 0.0,
+            "minimum_s": 0.0,
+            "timeout_s": 20.0,
+            "tolerance": 0.025,
+            "dwell_s": 0.06
+          },
+          {
+            "id": "transport",
+            "target": {
+              "frame": "goal",
+              "offset_m": [
+                0.0,
+                0.0,
+                0.12
+              ],
+              "grasp_offset": true
+            },
+            "gripper": "close",
+            "guard": "pose",
+            "next": "lower",
+            "timeout": "failed",
+            "mode": "lift",
+            "offset_m": 0.12,
+            "minimum_s": 0.0,
+            "timeout_s": 20.0,
+            "tolerance": 0.025,
+            "dwell_s": 0.06
+          },
+          {
+            "id": "lower",
+            "target": {
+              "frame": "goal",
+              "offset_m": [
+                0.0,
+                0.0,
+                0.008
+              ],
+              "grasp_offset": true
+            },
+            "gripper": "close",
+            "guard": "pose",
+            "next": "release",
+            "timeout": "failed",
+            "mode": "lift",
+            "offset_m": 0.008,
+            "minimum_s": 0.0,
+            "timeout_s": 20.0,
+            "tolerance": 0.015,
+            "dwell_s": 0.06
+          },
+          {
+            "id": "release",
+            "target": {
+              "frame": "goal",
+              "offset_m": [
+                0.0,
+                0.0,
+                0.008
+              ],
+              "grasp_offset": true
+            },
+            "gripper": "open",
+            "guard": {
+              "observable": "finger_min",
+              "op": "ge",
+              "value": 0.03606455304553298
+            },
+            "next": "retreat",
+            "timeout": "failed",
+            "mode": "release",
+            "offset_m": 0.008,
+            "minimum_s": 0.35,
+            "timeout_s": 20.0,
+            "tolerance": 0.025,
+            "dwell_s": 0.1
+          },
+          {
+            "id": "retreat",
+            "target": {
+              "frame": "goal",
+              "offset_m": [
+                0.0,
+                0.0,
+                0.12
+              ],
+              "grasp_offset": true
+            },
+            "gripper": "open",
+            "guard": "pose",
+            "next": "done",
+            "timeout": "failed",
+            "mode": "release",
+            "offset_m": 0.12,
+            "minimum_s": 0.0,
+            "timeout_s": 20.0,
+            "tolerance": 0.025,
+            "dwell_s": 0.06
+          },
+          {
+            "id": "done",
+            "target": {
+              "frame": "goal",
+              "offset_m": [
+                0.0,
+                0.0,
+                0.12
+              ],
+              "grasp_offset": true
+            },
+            "gripper": "open",
+            "guard": "always",
+            "next": "done",
+            "timeout": "failed",
+            "mode": "release",
+            "offset_m": 0.12,
+            "minimum_s": 0.0,
+            "timeout_s": 20.0,
+            "tolerance": 0.025,
+            "dwell_s": 0.06
+          }
+        ]
+      },
+      {
+        "schema": "core-skill-graph-2",
+        "start": "approach",
+        "max_retries": 1,
+        "nodes": [
+          {
+            "id": "approach",
+            "target": "object_above",
+            "gripper": "open",
+            "guard": "pose",
+            "next": "descend",
+            "timeout": "failed",
+            "mode": "approach",
+            "offset_m": 0.1,
+            "minimum_s": 0.0,
+            "timeout_s": 20.0,
+            "tolerance": 0.025,
+            "dwell_s": 0.06
+          },
+          {
+            "id": "descend",
+            "target": "object_grasp",
+            "gripper": "open",
+            "guard": "pose",
+            "next": "close",
+            "timeout": "failed",
+            "mode": "descend",
+            "offset_m": 0.005,
+            "minimum_s": 0.0,
+            "timeout_s": 20.0,
+            "tolerance": 0.015,
+            "dwell_s": 0.06
+          },
+          {
+            "id": "close",
+            "target": "anchor",
+            "gripper": "close",
+            "guard": "bilateral",
+            "next": "probe",
+            "timeout": "recover",
+            "mode": "close",
+            "offset_m": 0.0,
+            "minimum_s": 0.2,
+            "timeout_s": 1.2,
+            "tolerance": 0.025,
+            "dwell_s": 0.06
+          },
+          {
+            "id": "probe",
+            "target": "probe",
+            "gripper": "close",
+            "guard": "follow",
+            "next": "lift",
+            "timeout": "failed",
+            "mode": "probe",
+            "offset_m": 0.05,
+            "minimum_s": 0.0,
+            "timeout_s": 20.0,
+            "tolerance": 0.025,
+            "dwell_s": 0.06
+          },
+          {
+            "id": "lift",
+            "target": "lift_initial",
+            "gripper": "close",
+            "guard": "pose",
+            "next": "transport",
+            "timeout": "failed",
+            "mode": "lift",
+            "offset_m": 0.12,
+            "minimum_s": 0.0,
+            "timeout_s": 20.0,
+            "tolerance": 0.025,
+            "dwell_s": 0.06
+          },
+          {
+            "id": "hold",
+            "target": "goal_offset",
+            "gripper": "close",
+            "guard": "always",
+            "next": "hold",
+            "timeout": "failed",
+            "mode": "hold",
+            "offset_m": 0.0,
+            "minimum_s": 0.0,
+            "timeout_s": 20.0,
+            "tolerance": 0.025,
+            "dwell_s": 0.06
+          },
+          {
+            "id": "recover",
+            "target": "retreat_anchor",
+            "gripper": "open",
+            "guard": "pose",
+            "next": "approach",
+            "timeout": "failed",
+            "mode": "recover",
+            "offset_m": 0.08,
+            "minimum_s": 0.0,
+            "timeout_s": 20.0,
+            "tolerance": 0.025,
+            "dwell_s": 0.06
+          },
+          {
+            "id": "failed",
+            "target": "anchor",
+            "gripper": "open",
+            "guard": "always",
+            "next": "failed",
+            "timeout": "failed",
+            "mode": "failed",
+            "offset_m": 0.0,
+            "minimum_s": 0.0,
+            "timeout_s": 20.0,
+            "tolerance": 0.025,
+            "dwell_s": 0.06
+          },
+          {
+            "id": "transport",
+            "target": {
+              "frame": "goal",
+              "offset_m": [
+                0.0,
+                0.0,
+                0.12
+              ],
+              "grasp_offset": true
+            },
+            "gripper": "close",
+            "guard": "pose",
+            "next": "lower",
+            "timeout": "failed",
+            "mode": "lift",
+            "offset_m": 0.12,
+            "minimum_s": 0.0,
+            "timeout_s": 20.0,
+            "tolerance": 0.025,
+            "dwell_s": 0.06
+          },
+          {
+            "id": "lower",
+            "target": {
+              "frame": "goal",
+              "offset_m": [
+                0.0,
+                0.0,
+                0.008
+              ],
+              "grasp_offset": true
+            },
+            "gripper": "close",
+            "guard": {
+              "all": [
+                {
+                  "observable": "goal_xy_error",
+                  "op": "le",
+                  "value": 0.035
+                },
+                {
+                  "observable": "object_speed",
+                  "op": "le",
+                  "value": 0.08275379593605603
+                }
+              ]
+            },
+            "next": "release",
+            "timeout": "failed",
+            "mode": "lift",
+            "offset_m": 0.008,
+            "minimum_s": 0.0,
+            "timeout_s": 20.0,
+            "tolerance": 0.015,
+            "dwell_s": 0.06
+          },
+          {
+            "id": "release",
+            "target": {
+              "frame": "goal",
+              "offset_m": [
+                0.0,
+                0.0,
+                0.008
+              ],
+              "grasp_offset": true
+            },
+            "gripper": "open",
+            "guard": "elapsed",
+            "next": "retreat",
+            "timeout": "failed",
+            "mode": "release",
+            "offset_m": 0.008,
+            "minimum_s": 0.35,
+            "timeout_s": 20.0,
+            "tolerance": 0.025,
+            "dwell_s": 0.06
+          },
+          {
+            "id": "retreat",
+            "target": {
+              "frame": "goal",
+              "offset_m": [
+                0.0,
+                0.0,
+                0.12
+              ],
+              "grasp_offset": true
+            },
+            "gripper": "open",
+            "guard": "pose",
+            "next": "done",
+            "timeout": "failed",
+            "mode": "release",
+            "offset_m": 0.12,
+            "minimum_s": 0.0,
+            "timeout_s": 20.0,
+            "tolerance": 0.025,
+            "dwell_s": 0.06
+          },
+          {
+            "id": "done",
+            "target": {
+              "frame": "goal",
+              "offset_m": [
+                0.0,
+                0.0,
+                0.12
+              ],
+              "grasp_offset": true
+            },
+            "gripper": "open",
+            "guard": "always",
+            "next": "done",
+            "timeout": "failed",
+            "mode": "release",
+            "offset_m": 0.12,
+            "minimum_s": 0.0,
+            "timeout_s": 20.0,
+            "tolerance": 0.025,
+            "dwell_s": 0.06
+          }
+        ]
+      },
+      {
+        "schema": "core-skill-graph-2",
+        "start": "approach",
+        "max_retries": 1,
+        "nodes": [
+          {
+            "id": "approach",
+            "target": "object_above",
+            "gripper": "open",
+            "guard": "pose",
+            "next": "descend",
+            "timeout": "failed",
+            "mode": "approach",
+            "offset_m": 0.1,
+            "minimum_s": 0.0,
+            "timeout_s": 20.0,
+            "tolerance": 0.025,
+            "dwell_s": 0.06
+          },
+          {
+            "id": "descend",
+            "target": "object_grasp",
+            "gripper": "open",
+            "guard": "pose",
+            "next": "close",
+            "timeout": "failed",
+            "mode": "descend",
+            "offset_m": 0.005,
+            "minimum_s": 0.0,
+            "timeout_s": 20.0,
+            "tolerance": 0.015,
+            "dwell_s": 0.06
+          },
+          {
+            "id": "close",
+            "target": "anchor",
+            "gripper": "close",
+            "guard": "bilateral",
+            "next": "probe",
+            "timeout": "recover",
+            "mode": "close",
+            "offset_m": 0.0,
+            "minimum_s": 0.2,
+            "timeout_s": 1.2,
+            "tolerance": 0.025,
+            "dwell_s": 0.06
+          },
+          {
+            "id": "probe",
+            "target": "probe",
+            "gripper": "close",
+            "guard": "follow",
+            "next": "lift",
+            "timeout": "failed",
+            "mode": "probe",
+            "offset_m": 0.05,
+            "minimum_s": 0.0,
+            "timeout_s": 20.0,
+            "tolerance": 0.025,
+            "dwell_s": 0.06
+          },
+          {
+            "id": "lift",
+            "target": "lift_initial",
+            "gripper": "close",
+            "guard": "pose",
+            "next": "transport",
+            "timeout": "failed",
+            "mode": "lift",
+            "offset_m": 0.12,
+            "minimum_s": 0.0,
+            "timeout_s": 20.0,
+            "tolerance": 0.025,
+            "dwell_s": 0.06
+          },
+          {
+            "id": "hold",
+            "target": "goal_offset",
+            "gripper": "close",
+            "guard": "always",
+            "next": "hold",
+            "timeout": "failed",
+            "mode": "hold",
+            "offset_m": 0.0,
+            "minimum_s": 0.0,
+            "timeout_s": 20.0,
+            "tolerance": 0.025,
+            "dwell_s": 0.06
+          },
+          {
+            "id": "recover",
+            "target": "retreat_anchor",
+            "gripper": "open",
+            "guard": "pose",
+            "next": "approach",
+            "timeout": "failed",
+            "mode": "recover",
+            "offset_m": 0.08,
+            "minimum_s": 0.0,
+            "timeout_s": 20.0,
+            "tolerance": 0.025,
+            "dwell_s": 0.06
+          },
+          {
+            "id": "failed",
+            "target": "anchor",
+            "gripper": "open",
+            "guard": "always",
+            "next": "failed",
+            "timeout": "failed",
+            "mode": "failed",
+            "offset_m": 0.0,
+            "minimum_s": 0.0,
+            "timeout_s": 20.0,
+            "tolerance": 0.025,
+            "dwell_s": 0.06
+          },
+          {
+            "id": "transport",
+            "target": {
+              "frame": "goal",
+              "offset_m": [
+                0.0,
+                0.0,
+                0.12
+              ],
+              "grasp_offset": true
+            },
+            "gripper": "close",
+            "guard": "pose",
+            "next": "lower",
+            "timeout": "failed",
+            "mode": "lift",
+            "offset_m": 0.12,
+            "minimum_s": 0.0,
+            "timeout_s": 20.0,
+            "tolerance": 0.025,
+            "dwell_s": 0.06
+          },
+          {
+            "id": "lower",
+            "target": {
+              "frame": "goal",
+              "offset_m": [
+                0.0,
+                0.0,
+                0.008
+              ],
+              "grasp_offset": true
+            },
+            "gripper": "close",
+            "guard": "pose",
+            "next": "release",
+            "timeout": "failed",
+            "mode": "lift",
+            "offset_m": 0.008,
+            "minimum_s": 0.0,
+            "timeout_s": 20.0,
+            "tolerance": 0.015,
+            "dwell_s": 0.06
+          },
+          {
+            "id": "release",
+            "target": {
+              "frame": "goal",
+              "offset_m": [
+                0.0,
+                0.0,
+                0.008
+              ],
+              "grasp_offset": true
+            },
+            "gripper": "open",
+            "guard": "elapsed",
+            "next": "retreat",
+            "timeout": "failed",
+            "mode": "release",
+            "offset_m": 0.008,
+            "minimum_s": 1.0,
+            "timeout_s": 20.0,
+            "tolerance": 0.025,
+            "dwell_s": 0.06
+          },
+          {
+            "id": "retreat",
+            "target": {
+              "frame": "goal",
+              "offset_m": [
+                0.0,
+                0.0,
+                0.12
+              ],
+              "grasp_offset": true
+            },
+            "gripper": "open",
+            "guard": "pose",
+            "next": "done",
+            "timeout": "failed",
+            "mode": "release",
+            "offset_m": 0.12,
+            "minimum_s": 0.0,
+            "timeout_s": 20.0,
+            "tolerance": 0.025,
+            "dwell_s": 0.06
+          },
+          {
+            "id": "done",
+            "target": {
+              "frame": "goal",
+              "offset_m": [
+                0.0,
+                0.0,
+                0.12
+              ],
+              "grasp_offset": true
+            },
+            "gripper": "open",
+            "guard": "always",
+            "next": "done",
+            "timeout": "failed",
+            "mode": "release",
+            "offset_m": 0.12,
+            "minimum_s": 0.0,
+            "timeout_s": 20.0,
+            "tolerance": 0.025,
+            "dwell_s": 0.06
+          }
+        ]
+      }
+    ],
+    "practice_indices": [
+      0,
+      1
+    ],
+    "selection": "largest score; earliest tie"
+  },
+  "comparison": "budget-cap comparison; natural early freeze; actual computation unequal",
+  "retry_limits": {
+    "provider": 0,
+    "physics": 0
+  },
+  "missing_rule": "No reseed or favorable replacement. Provider/infra failure stays incomplete; participant invalid stays assigned failure. Show valid-task and all-assigned separately.",
+  "statistics": "8 outer independent learning blocks; paired goal/mass-cell stratified hierarchical bootstrap; identity discordance, not net difference",
+  "optional_diagnostics": {
+    "DeliberationOnly-9": "NOT_RUN; prioritize fixed 8-block main experiment",
+    "B2_B4_query_curves": "NOT_RUN; only no-extra-call snapshots"
+  },
+  "inference_identity": "Requested model identifier and actual CLI receipts; provider effort/fingerprint/immutable weights unavailable, not guaranteed constant"
+}

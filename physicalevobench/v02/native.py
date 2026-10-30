@@ -40,7 +40,8 @@ class DiagnosticWorker(LiftWorker):
                     horizon = self.diag_cfg['horizon_s']
                     if not ((horizon in (5.,10.) and self.diag_cfg.get('task_version') == f'state-reference-h{horizon:g}-v1') or
                             (horizon==20. and self.diag_cfg.get('core_task')=='place' and
-                             self.diag_cfg.get('task_version') in ('core-place-h20-v2-dev','core-place-public-v3-dev'))):
+                             self.diag_cfg.get('task_version') in ('core-place-h20-v2-dev','core-place-public-v3-dev','core-place-public-v4-ready1','core-place-public-v5-ready2')) or
+                            (horizon==1. and self.diag_cfg.get('task_version')=='esl-initialization-diagnostic-v1')):
                         raise ValueError('Reference horizon must have a distinct registered task version')
                     env_cfg.episode_length_s = horizon
                 env_cfg.terminations.v02_hard_boundary = TerminationTermCfg(func=hard_boundary)
@@ -49,6 +50,15 @@ class DiagnosticWorker(LiftWorker):
                     setattr(env_cfg.scene, 'v02_contact_'+label, ContactSensorCfg(
                         prim_path=env_cfg.scene.robot.prim_path+'/'+body, update_period=0., history_length=1,
                         filter_prim_paths_expr=[env_cfg.scene.dex_cube.prim_path]))
+                if self.diag_cfg.get('initialization_profile') in ('support-probe-restore-1','support-probe-restore-2'):
+                    env_cfg.sim.enable_scene_query_support=True
+                    env_cfg.scene.dex_cube.spawn.activate_contact_sensors=True
+                    env_cfg.scene.esl_support=ContactSensorCfg(prim_path=env_cfg.scene.dex_cube.prim_path,
+                        update_period=0.,history_length=1)
+                if self.diag_cfg.get('diagnostic_disable_table_collision'):
+                    from physicalevobench.core.scene_diagnostics import spawn_table_without_collision
+                    env_cfg.scene.table.spawn.diagnostic_original_spawn=env_cfg.scene.table.spawn.func
+                    env_cfg.scene.table.spawn.func=spawn_table_without_collision
                 env_cfg.compute_final_obs = True
                 return env_cfg
 
@@ -56,7 +66,8 @@ class DiagnosticWorker(LiftWorker):
             return definition
 
         super().__init__(checkpoint, output_dir, stability_mode=cfg['mode']=='FixedHorizonDiagnostic',
-                         action_limit=1000., environment_transform=transform)
+                         action_limit=1000., environment_transform=transform,
+                         state_execution_sha256=cfg.get('state_execution_sha256'))
         self.robot = self.base.scene['robot']
         names = list(self.robot.joint_names)
         self.bounds = self.as_torch(self.robot.data.joint_pos_limits)[0].tolist()
@@ -116,6 +127,8 @@ class DiagnosticWorker(LiftWorker):
         if 'task_version' in self.diag_cfg:
             semantics.update(task_version=self.diag_cfg['task_version'],horizon_s=self.base.max_episode_length_s,
                              reference_config=self.diag_cfg['reference_config'])
+        if self.diag_cfg.get('initialization_profile'):
+            semantics['initialization_profile']=self.diag_cfg['initialization_profile']
         save_json(self.output_dir/'control_semantics.json', semantics)
 
     def _snapshot(self, phase):

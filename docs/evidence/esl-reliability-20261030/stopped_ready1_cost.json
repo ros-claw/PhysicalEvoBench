@@ -1,0 +1,122 @@
+{
+  "schema": "esl-stopped-measurement-cost-1",
+  "at": "2026-10-30T10:29:03.967062+00:00",
+  "reason": "Independent PhysX model/GPU shadow disagreement; no query score observed",
+  "query_attempts": 0,
+  "physical_by_native": [
+    {
+      "native": "instance-0/feedback/native",
+      "completed_attempts": 3,
+      "task_controls": 2000,
+      "ready_physics_substeps": 600,
+      "task_physics_substeps": 8000,
+      "init_invalid": 1,
+      "server_closed": true,
+      "launcher_exit_code": 0
+    },
+    {
+      "native": "instance-0/search/native",
+      "completed_attempts": 8,
+      "task_controls": 8000,
+      "ready_physics_substeps": 1600,
+      "task_physics_substeps": 32000,
+      "init_invalid": 0,
+      "server_closed": true,
+      "launcher_exit_code": 0
+    },
+    {
+      "native": "instance-1/feedback/native",
+      "completed_attempts": 7,
+      "task_controls": 7000,
+      "ready_physics_substeps": 1400,
+      "task_physics_substeps": 28000,
+      "init_invalid": 0,
+      "server_closed": true,
+      "launcher_exit_code": 0
+    },
+    {
+      "native": "instance-1/search/native",
+      "completed_attempts": 8,
+      "task_controls": 8000,
+      "ready_physics_substeps": 1600,
+      "task_physics_substeps": 32000,
+      "init_invalid": 0,
+      "server_closed": true,
+      "launcher_exit_code": 0
+    },
+    {
+      "native": "instance-2/feedback/native",
+      "completed_attempts": 1,
+      "task_controls": 0,
+      "ready_physics_substeps": 200,
+      "task_physics_substeps": 0,
+      "init_invalid": 1,
+      "server_closed": true,
+      "launcher_exit_code": 0
+    },
+    {
+      "native": "instance-2/search/native",
+      "completed_attempts": 8,
+      "task_controls": 8000,
+      "ready_physics_substeps": 1600,
+      "task_physics_substeps": 32000,
+      "init_invalid": 0,
+      "server_closed": true,
+      "launcher_exit_code": 0
+    },
+    {
+      "native": "instance-3/feedback/native",
+      "completed_attempts": 8,
+      "task_controls": 8000,
+      "ready_physics_substeps": 1600,
+      "task_physics_substeps": 32000,
+      "init_invalid": 0,
+      "server_closed": true,
+      "launcher_exit_code": 0
+    },
+    {
+      "native": "instance-3/search/native",
+      "completed_attempts": 5,
+      "task_controls": 5000,
+      "ready_physics_substeps": 1000,
+      "task_physics_substeps": 20000,
+      "init_invalid": 0,
+      "server_closed": true,
+      "launcher_exit_code": "unknown: launcher stopped"
+    },
+    {
+      "native": "instance-4/feedback/native",
+      "completed_attempts": 3,
+      "task_controls": 3000,
+      "ready_physics_substeps": 600,
+      "task_physics_substeps": 12000,
+      "init_invalid": 0,
+      "server_closed": true,
+      "launcher_exit_code": "unknown: launcher stopped"
+    },
+    {
+      "native": "instance-5/feedback/native",
+      "completed_attempts": 1,
+      "task_controls": 1000,
+      "ready_physics_substeps": 200,
+      "task_physics_substeps": 4000,
+      "init_invalid": 0,
+      "server_closed": true,
+      "launcher_exit_code": "unknown: launcher stopped"
+    },
+    {
+      "native": "instance-6/feedback/native",
+      "completed_attempts": 7,
+      "task_controls": 7000,
+      "ready_physics_substeps": 1400,
+      "task_physics_substeps": 28000,
+      "init_invalid": 0,
+      "server_closed": true,
+      "launcher_exit_code": "unknown: launcher stopped"
+    }
+  ],
+  "model_calls": 41,
+  "input_tokens": 967958,
+  "output_tokens": 42235,
+  "scope": "Incurred cost of stopped invalid-measurement cohort; no algorithm score, no replacement of individual bad blocks"
+}
