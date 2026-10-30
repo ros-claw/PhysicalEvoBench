@@ -1,0 +1,1174 @@
+{
+  "schema": "core-delivery-audit-1",
+  "status": "PASS",
+  "raw_files": 5442,
+  "registered_source_checks": 5263,
+  "studies": {
+    "peb-esl-smoke-20261030-001": {
+      "audit": "PASS",
+      "episodes": 1,
+      "successes": 1,
+      "scores": {
+        "smoke": [
+          true
+        ]
+      }
+    },
+    "peb-esl-dev-20261030-001": {
+      "audit": "PASS",
+      "episodes": 8,
+      "successes": 4,
+      "scores": {
+        "starter": [
+          false,
+          true
+        ],
+        "open": [
+          true,
+          false
+        ],
+        "settle": [
+          true,
+          false
+        ],
+        "settle_open": [
+          true,
+          false
+        ]
+      }
+    },
+    "peb-esl-dev-20261030-002": {
+      "status": "FAILED",
+      "completed_episodes": 0,
+      "scope": "Incomplete attempts retained; no completed study claim"
+    },
+    "peb-esl-dev-20261030-003": {
+      "audit": "PASS",
+      "episodes": 8,
+      "successes": 6,
+      "scores": {
+        "starter": [
+          false,
+          true,
+          false,
+          true
+        ],
+        "aperture": [
+          true,
+          true,
+          true,
+          true
+        ]
+      }
+    },
+    "peb-esl-dev-20261030-004": {
+      "audit": "PASS",
+      "episodes": 8,
+      "successes": 7,
+      "scores": {
+        "starter": [
+          true,
+          true,
+          false,
+          true
+        ],
+        "aperture": [
+          true,
+          true,
+          true,
+          true
+        ]
+      }
+    },
+    "peb-esl-qualification-20261030-001": {
+      "audit": "PASS",
+      "episodes": 22,
+      "successes": 18,
+      "scores": {
+        "starter": [
+          false,
+          true,
+          false,
+          true
+        ],
+        "aperture_guard": [
+          true,
+          true,
+          true,
+          true
+        ],
+        "strong": [
+          true,
+          true,
+          true,
+          true
+        ],
+        "identity_strong": [
+          true,
+          true,
+          true,
+          true
+        ],
+        "query_geometry_reference": [
+          true,
+          true,
+          true,
+          true
+        ],
+        "force_open": [
+          false,
+          false
+        ]
+      }
+    },
+    "peb-esl-problem-qualification-20261030-001": {
+      "status": "PASS",
+      "episodes": 14,
+      "qualification_status": "QUALIFIED",
+      "scores": {
+        "starter": [
+          true,
+          true,
+          false,
+          true
+        ],
+        "strong": [
+          true,
+          true,
+          true,
+          true
+        ],
+        "identity_strong": [
+          true,
+          true,
+          true,
+          true
+        ],
+        "force_open": [
+          false,
+          false
+        ]
+      }
+    },
+    "peb-esl-learning-20261030-001": {
+      "binding_audit": {
+        "status": "PASS",
+        "paired_test_bindings": 40,
+        "scope": "Model choices, no-feedback isolation, freeze, assignment, budgets, reset pairing"
+      },
+      "paired_conditional_intervals": {
+        "feedback_gain": {
+          "difference": -0.25,
+          "per_seed_difference": [
+            -0.25,
+            -0.25
+          ],
+          "interval": [
+            -0.625,
+            0.0
+          ],
+          "alpha": 0.05,
+          "learning_seeds": 2,
+          "conditions": 8,
+          "scope": "condition resampling within fixed learning seeds; not a population-of-learners interval"
+        },
+        "artifact_gain": {
+          "difference": -0.25,
+          "per_seed_difference": [
+            -0.25,
+            -0.25
+          ],
+          "interval": [
+            -0.625,
+            0.0
+          ],
+          "alpha": 0.05,
+          "learning_seeds": 2,
+          "conditions": 8,
+          "scope": "condition resampling within fixed learning seeds; not a population-of-learners interval"
+        }
+      },
+      "schema": "esl-learning-results-1",
+      "audit": "PASS",
+      "instances": [
+        {
+          "artifact_cost": {
+            "frozen": {
+              "serialized_bytes": 6308,
+              "program_nodes": 13,
+              "memory_characters": 0,
+              "physical_learning_episodes": 0,
+              "shared_dependencies": [],
+              "dispatch_owner": "single graph, no task router"
+            },
+            "designer": {
+              "serialized_bytes": 6422,
+              "program_nodes": 13,
+              "memory_characters": 103,
+              "physical_learning_episodes": 0,
+              "shared_dependencies": [],
+              "dispatch_owner": "single graph, no task router"
+            },
+            "search": {
+              "serialized_bytes": 6423,
+              "program_nodes": 13,
+              "memory_characters": 0,
+              "physical_learning_episodes": 8,
+              "shared_dependencies": [],
+              "dispatch_owner": "single graph, no task router"
+            },
+            "feedback": {
+              "serialized_bytes": 6969,
+              "program_nodes": 12,
+              "memory_characters": 215,
+              "physical_learning_episodes": 5,
+              "shared_dependencies": [],
+              "dispatch_owner": "single graph, no task router"
+            },
+            "deletion": {
+              "serialized_bytes": 6310,
+              "program_nodes": 13,
+              "memory_characters": 0,
+              "physical_learning_episodes": 0,
+              "shared_dependencies": [],
+              "dispatch_owner": "single graph, no task router"
+            }
+          },
+          "learning_instance": 0,
+          "scores": {
+            "frozen": {
+              "instance-0-query-0": true,
+              "instance-0-query-1": true,
+              "instance-0-query-2": true,
+              "instance-0-query-3": true
+            },
+            "designer": {
+              "instance-0-query-0": true,
+              "instance-0-query-1": true,
+              "instance-0-query-2": true,
+              "instance-0-query-3": true
+            },
+            "search": {
+              "instance-0-query-0": true,
+              "instance-0-query-1": true,
+              "instance-0-query-2": true,
+              "instance-0-query-3": true
+            },
+            "feedback": {
+              "instance-0-query-0": true,
+              "instance-0-query-1": true,
+              "instance-0-query-2": true,
+              "instance-0-query-3": false
+            },
+            "deletion": {
+              "instance-0-query-0": true,
+              "instance-0-query-1": true,
+              "instance-0-query-2": true,
+              "instance-0-query-3": true
+            }
+          },
+          "model_cost": {
+            "designer": {
+              "calls": 1,
+              "input_tokens": 14746,
+              "output_tokens": 1080
+            },
+            "feedback": {
+              "calls": 6,
+              "input_tokens": 149244,
+              "output_tokens": 6310
+            }
+          },
+          "participant_validity": {
+            "designer": "VALID",
+            "feedback": "VALID"
+          },
+          "feedback_gain": {
+            "initial_successes": 4,
+            "final_successes": 3,
+            "episodes_per_arm": 4,
+            "initial_rate": 1.0,
+            "final_rate": 0.75,
+            "gain": -0.25,
+            "statistical_scope": "One frozen learning artifact; paired conditions are not independent learning runs."
+          },
+          "artifact_gain": {
+            "initial_successes": 4,
+            "final_successes": 3,
+            "episodes_per_arm": 4,
+            "initial_rate": 1.0,
+            "final_rate": 0.75,
+            "gain": -0.25,
+            "statistical_scope": "One frozen learning artifact; paired conditions are not independent learning runs."
+          },
+          "designer_gain": {
+            "initial_successes": 4,
+            "final_successes": 4,
+            "episodes_per_arm": 4,
+            "initial_rate": 1.0,
+            "final_rate": 1.0,
+            "gain": 0.0,
+            "statistical_scope": "One frozen learning artifact; paired conditions are not independent learning runs."
+          }
+        },
+        {
+          "artifact_cost": {
+            "frozen": {
+              "serialized_bytes": 6308,
+              "program_nodes": 13,
+              "memory_characters": 0,
+              "physical_learning_episodes": 0,
+              "shared_dependencies": [],
+              "dispatch_owner": "single graph, no task router"
+            },
+            "designer": {
+              "serialized_bytes": 6369,
+              "program_nodes": 13,
+              "memory_characters": 50,
+              "physical_learning_episodes": 0,
+              "shared_dependencies": [],
+              "dispatch_owner": "single graph, no task router"
+            },
+            "search": {
+              "serialized_bytes": 6423,
+              "program_nodes": 13,
+              "memory_characters": 0,
+              "physical_learning_episodes": 8,
+              "shared_dependencies": [],
+              "dispatch_owner": "single graph, no task router"
+            },
+            "feedback": {
+              "serialized_bytes": 6951,
+              "program_nodes": 12,
+              "memory_characters": 200,
+              "physical_learning_episodes": 5,
+              "shared_dependencies": [],
+              "dispatch_owner": "single graph, no task router"
+            },
+            "deletion": {
+              "serialized_bytes": 6310,
+              "program_nodes": 13,
+              "memory_characters": 0,
+              "physical_learning_episodes": 0,
+              "shared_dependencies": [],
+              "dispatch_owner": "single graph, no task router"
+            }
+          },
+          "learning_instance": 1,
+          "scores": {
+            "frozen": {
+              "instance-1-query-0": true,
+              "instance-1-query-1": true,
+              "instance-1-query-2": true,
+              "instance-1-query-3": true
+            },
+            "designer": {
+              "instance-1-query-0": true,
+              "instance-1-query-1": true,
+              "instance-1-query-2": true,
+              "instance-1-query-3": true
+            },
+            "search": {
+              "instance-1-query-0": true,
+              "instance-1-query-1": true,
+              "instance-1-query-2": true,
+              "instance-1-query-3": true
+            },
+            "feedback": {
+              "instance-1-query-0": true,
+              "instance-1-query-1": true,
+              "instance-1-query-2": true,
+              "instance-1-query-3": false
+            },
+            "deletion": {
+              "instance-1-query-0": true,
+              "instance-1-query-1": true,
+              "instance-1-query-2": true,
+              "instance-1-query-3": true
+            }
+          },
+          "model_cost": {
+            "designer": {
+              "calls": 1,
+              "input_tokens": 14746,
+              "output_tokens": 1067
+            },
+            "feedback": {
+              "calls": 6,
+              "input_tokens": 154469,
+              "output_tokens": 6358
+            }
+          },
+          "participant_validity": {
+            "designer": "VALID",
+            "feedback": "VALID"
+          },
+          "feedback_gain": {
+            "initial_successes": 4,
+            "final_successes": 3,
+            "episodes_per_arm": 4,
+            "initial_rate": 1.0,
+            "final_rate": 0.75,
+            "gain": -0.25,
+            "statistical_scope": "One frozen learning artifact; paired conditions are not independent learning runs."
+          },
+          "artifact_gain": {
+            "initial_successes": 4,
+            "final_successes": 3,
+            "episodes_per_arm": 4,
+            "initial_rate": 1.0,
+            "final_rate": 0.75,
+            "gain": -0.25,
+            "statistical_scope": "One frozen learning artifact; paired conditions are not independent learning runs."
+          },
+          "designer_gain": {
+            "initial_successes": 4,
+            "final_successes": 4,
+            "episodes_per_arm": 4,
+            "initial_rate": 1.0,
+            "final_rate": 1.0,
+            "gain": 0.0,
+            "statistical_scope": "One frozen learning artifact; paired conditions are not independent learning runs."
+          }
+        }
+      ],
+      "physical_episodes": 66,
+      "controls": 66000,
+      "physics_samples": 264000,
+      "search": "COMMON_BATCH_4x2",
+      "transfer": "NOT_RUN",
+      "retention": "NOT_RUN",
+      "scope": "Small adaptation pilot; zero/negative effects retained, no stability claim"
+    },
+    "peb-esl-extension-20261030-001": {
+      "schema": "esl-frozen-extension-results-1",
+      "audit": "PASS",
+      "instances": [
+        {
+          "learning_instance": 0,
+          "scores": {
+            "frozen": {
+              "factorial-query-0": false,
+              "factorial-query-1": true,
+              "factorial-query-2": false,
+              "factorial-query-3": true
+            },
+            "designer": {
+              "factorial-query-0": true,
+              "factorial-query-1": true,
+              "factorial-query-2": false,
+              "factorial-query-3": true
+            },
+            "search": {
+              "factorial-query-0": false,
+              "factorial-query-1": true,
+              "factorial-query-2": true,
+              "factorial-query-3": true
+            },
+            "feedback": {
+              "factorial-query-0": true,
+              "factorial-query-1": false,
+              "factorial-query-2": true,
+              "factorial-query-3": true
+            },
+            "deletion": {
+              "factorial-query-0": true,
+              "factorial-query-1": true,
+              "factorial-query-2": false,
+              "factorial-query-3": true
+            }
+          },
+          "feedback_gain": {
+            "initial_successes": 3,
+            "final_successes": 3,
+            "episodes_per_arm": 4,
+            "initial_rate": 0.75,
+            "final_rate": 0.75,
+            "gain": 0.0,
+            "statistical_scope": "One frozen learning artifact; paired conditions are not independent learning runs."
+          },
+          "artifact_gain": {
+            "initial_successes": 3,
+            "final_successes": 3,
+            "episodes_per_arm": 4,
+            "initial_rate": 0.75,
+            "final_rate": 0.75,
+            "gain": 0.0,
+            "statistical_scope": "One frozen learning artifact; paired conditions are not independent learning runs."
+          },
+          "search_gain": {
+            "initial_successes": 2,
+            "final_successes": 3,
+            "episodes_per_arm": 4,
+            "initial_rate": 0.5,
+            "final_rate": 0.75,
+            "gain": 0.25,
+            "statistical_scope": "One frozen learning artifact; paired conditions are not independent learning runs."
+          }
+        },
+        {
+          "learning_instance": 1,
+          "scores": {
+            "frozen": {
+              "factorial-query-4": true,
+              "factorial-query-5": true,
+              "factorial-query-6": false,
+              "factorial-query-7": false
+            },
+            "designer": {
+              "factorial-query-4": true,
+              "factorial-query-5": true,
+              "factorial-query-6": false,
+              "factorial-query-7": true
+            },
+            "search": {
+              "factorial-query-4": true,
+              "factorial-query-5": true,
+              "factorial-query-6": true,
+              "factorial-query-7": true
+            },
+            "feedback": {
+              "factorial-query-4": true,
+              "factorial-query-5": true,
+              "factorial-query-6": true,
+              "factorial-query-7": false
+            },
+            "deletion": {
+              "factorial-query-4": true,
+              "factorial-query-5": true,
+              "factorial-query-6": false,
+              "factorial-query-7": true
+            }
+          },
+          "feedback_gain": {
+            "initial_successes": 3,
+            "final_successes": 3,
+            "episodes_per_arm": 4,
+            "initial_rate": 0.75,
+            "final_rate": 0.75,
+            "gain": 0.0,
+            "statistical_scope": "One frozen learning artifact; paired conditions are not independent learning runs."
+          },
+          "artifact_gain": {
+            "initial_successes": 3,
+            "final_successes": 3,
+            "episodes_per_arm": 4,
+            "initial_rate": 0.75,
+            "final_rate": 0.75,
+            "gain": 0.0,
+            "statistical_scope": "One frozen learning artifact; paired conditions are not independent learning runs."
+          },
+          "search_gain": {
+            "initial_successes": 2,
+            "final_successes": 4,
+            "episodes_per_arm": 4,
+            "initial_rate": 0.5,
+            "final_rate": 1.0,
+            "gain": 0.5,
+            "statistical_scope": "One frozen learning artifact; paired conditions are not independent learning runs."
+          }
+        }
+      ],
+      "paired_conditional_intervals": {
+        "feedback_gain": {
+          "difference": 0.0,
+          "per_seed_difference": [
+            0.0,
+            0.0
+          ],
+          "interval": [
+            -0.5,
+            0.5
+          ],
+          "alpha": 0.05,
+          "learning_seeds": 2,
+          "conditions": 8,
+          "scope": "condition resampling within fixed learning seeds; not a population-of-learners interval"
+        },
+        "artifact_gain": {
+          "difference": 0.0,
+          "per_seed_difference": [
+            0.0,
+            0.0
+          ],
+          "interval": [
+            -0.5,
+            0.5
+          ],
+          "alpha": 0.05,
+          "learning_seeds": 2,
+          "conditions": 8,
+          "scope": "condition resampling within fixed learning seeds; not a population-of-learners interval"
+        }
+      },
+      "physical_episodes": 40,
+      "controls": 38016,
+      "physics_samples": 152064,
+      "new_learning_instances": 0,
+      "new_model_calls": 0,
+      "new_training_episodes": 0,
+      "scope": "Exploratory factorial-query extension of same two frozen learning instances; original query ceiling reported separately, not confirmatory stability"
+    },
+    "peb-learning-001": {
+      "binding_audit": {
+        "status": "PASS",
+        "paired_test_bindings": 20,
+        "scope": "Model choices, no-feedback isolation, freeze, assignment, budgets, reset pairing"
+      },
+      "paired_conditional_intervals": {
+        "feedback_gain": {
+          "difference": -0.25,
+          "per_seed_difference": [
+            -0.25
+          ],
+          "interval": [
+            -1.0,
+            0.5
+          ],
+          "alpha": 0.05,
+          "learning_seeds": 1,
+          "conditions": 4,
+          "scope": "condition resampling within fixed learning seeds; not a population-of-learners interval"
+        },
+        "artifact_gain": {
+          "difference": -0.25,
+          "per_seed_difference": [
+            -0.25
+          ],
+          "interval": [
+            -1.0,
+            0.5
+          ],
+          "alpha": 0.05,
+          "learning_seeds": 1,
+          "conditions": 4,
+          "scope": "condition resampling within fixed learning seeds; not a population-of-learners interval"
+        }
+      },
+      "schema": "esl-learning-results-1",
+      "audit": "PASS",
+      "instances": [
+        {
+          "artifact_cost": {
+            "frozen": {
+              "serialized_bytes": 6308,
+              "program_nodes": 13,
+              "memory_characters": 0,
+              "physical_learning_episodes": 0,
+              "shared_dependencies": [],
+              "dispatch_owner": "single graph, no task router"
+            },
+            "designer": {
+              "serialized_bytes": 6379,
+              "program_nodes": 13,
+              "memory_characters": 60,
+              "physical_learning_episodes": 0,
+              "shared_dependencies": [],
+              "dispatch_owner": "single graph, no task router"
+            },
+            "search": {
+              "serialized_bytes": 6423,
+              "program_nodes": 13,
+              "memory_characters": 0,
+              "physical_learning_episodes": 8,
+              "shared_dependencies": [],
+              "dispatch_owner": "single graph, no task router"
+            },
+            "feedback": {
+              "serialized_bytes": 7026,
+              "program_nodes": 12,
+              "memory_characters": 223,
+              "physical_learning_episodes": 4,
+              "shared_dependencies": [],
+              "dispatch_owner": "single graph, no task router"
+            },
+            "deletion": {
+              "serialized_bytes": 6310,
+              "program_nodes": 13,
+              "memory_characters": 0,
+              "physical_learning_episodes": 0,
+              "shared_dependencies": [],
+              "dispatch_owner": "single graph, no task router"
+            }
+          },
+          "learning_instance": 0,
+          "scores": {
+            "frozen": {
+              "instance-0-query-0": true,
+              "instance-0-query-1": true,
+              "instance-0-query-2": false,
+              "instance-0-query-3": true
+            },
+            "designer": {
+              "instance-0-query-0": true,
+              "instance-0-query-1": true,
+              "instance-0-query-2": false,
+              "instance-0-query-3": true
+            },
+            "search": {
+              "instance-0-query-0": true,
+              "instance-0-query-1": true,
+              "instance-0-query-2": true,
+              "instance-0-query-3": true
+            },
+            "feedback": {
+              "instance-0-query-0": false,
+              "instance-0-query-1": true,
+              "instance-0-query-2": true,
+              "instance-0-query-3": false
+            },
+            "deletion": {
+              "instance-0-query-0": true,
+              "instance-0-query-1": true,
+              "instance-0-query-2": false,
+              "instance-0-query-3": true
+            }
+          },
+          "model_cost": {
+            "designer": {
+              "calls": 2,
+              "input_tokens": 32048,
+              "output_tokens": 2142
+            },
+            "feedback": {
+              "calls": 5,
+              "input_tokens": 122668,
+              "output_tokens": 5491
+            }
+          },
+          "participant_validity": {
+            "designer": "VALID",
+            "feedback": "VALID"
+          },
+          "feedback_gain": {
+            "initial_successes": 3,
+            "final_successes": 2,
+            "episodes_per_arm": 4,
+            "initial_rate": 0.75,
+            "final_rate": 0.5,
+            "gain": -0.25,
+            "statistical_scope": "One frozen learning artifact; paired conditions are not independent learning runs."
+          },
+          "artifact_gain": {
+            "initial_successes": 3,
+            "final_successes": 2,
+            "episodes_per_arm": 4,
+            "initial_rate": 0.75,
+            "final_rate": 0.5,
+            "gain": -0.25,
+            "statistical_scope": "One frozen learning artifact; paired conditions are not independent learning runs."
+          },
+          "designer_gain": {
+            "initial_successes": 3,
+            "final_successes": 3,
+            "episodes_per_arm": 4,
+            "initial_rate": 0.75,
+            "final_rate": 0.75,
+            "gain": 0.0,
+            "statistical_scope": "One frozen learning artifact; paired conditions are not independent learning runs."
+          }
+        }
+      ],
+      "physical_episodes": 32,
+      "controls": 31008,
+      "physics_samples": 124032,
+      "search": "COMMON_BATCH_4x2",
+      "transfer": "NOT_RUN",
+      "retention": "NOT_RUN",
+      "scope": "Small adaptation pilot; zero/negative effects retained, no stability claim"
+    },
+    "peb-learning-context2-001": {
+      "binding_audit": {
+        "status": "PASS",
+        "paired_test_bindings": 20,
+        "scope": "Model choices, no-feedback isolation, freeze, assignment, budgets, reset pairing"
+      },
+      "paired_conditional_intervals": {
+        "feedback_gain": {
+          "difference": 0.75,
+          "per_seed_difference": [
+            0.75
+          ],
+          "interval": [
+            0.25,
+            1.0
+          ],
+          "alpha": 0.05,
+          "learning_seeds": 1,
+          "conditions": 4,
+          "scope": "condition resampling within fixed learning seeds; not a population-of-learners interval"
+        },
+        "artifact_gain": {
+          "difference": 0.5,
+          "per_seed_difference": [
+            0.5
+          ],
+          "interval": [
+            0.0,
+            1.0
+          ],
+          "alpha": 0.05,
+          "learning_seeds": 1,
+          "conditions": 4,
+          "scope": "condition resampling within fixed learning seeds; not a population-of-learners interval"
+        }
+      },
+      "schema": "esl-learning-results-1",
+      "audit": "PASS",
+      "instances": [
+        {
+          "artifact_cost": {
+            "frozen": {
+              "serialized_bytes": 6308,
+              "program_nodes": 13,
+              "memory_characters": 0,
+              "physical_learning_episodes": 0,
+              "shared_dependencies": [],
+              "dispatch_owner": "single graph, no task router"
+            },
+            "designer": {
+              "serialized_bytes": 6400,
+              "program_nodes": 13,
+              "memory_characters": 81,
+              "physical_learning_episodes": 0,
+              "shared_dependencies": [],
+              "dispatch_owner": "single graph, no task router"
+            },
+            "search": {
+              "serialized_bytes": 6423,
+              "program_nodes": 13,
+              "memory_characters": 0,
+              "physical_learning_episodes": 8,
+              "shared_dependencies": [],
+              "dispatch_owner": "single graph, no task router"
+            },
+            "feedback": {
+              "serialized_bytes": 7311,
+              "program_nodes": 13,
+              "memory_characters": 203,
+              "physical_learning_episodes": 7,
+              "shared_dependencies": [],
+              "dispatch_owner": "single graph, no task router"
+            },
+            "deletion": {
+              "serialized_bytes": 6310,
+              "program_nodes": 13,
+              "memory_characters": 0,
+              "physical_learning_episodes": 0,
+              "shared_dependencies": [],
+              "dispatch_owner": "single graph, no task router"
+            }
+          },
+          "learning_instance": 0,
+          "scores": {
+            "frozen": {
+              "instance-0-query-0": false,
+              "instance-0-query-1": true,
+              "instance-0-query-2": true,
+              "instance-0-query-3": false
+            },
+            "designer": {
+              "instance-0-query-0": false,
+              "instance-0-query-1": true,
+              "instance-0-query-2": false,
+              "instance-0-query-3": false
+            },
+            "search": {
+              "instance-0-query-0": true,
+              "instance-0-query-1": true,
+              "instance-0-query-2": true,
+              "instance-0-query-3": true
+            },
+            "feedback": {
+              "instance-0-query-0": true,
+              "instance-0-query-1": true,
+              "instance-0-query-2": true,
+              "instance-0-query-3": true
+            },
+            "deletion": {
+              "instance-0-query-0": true,
+              "instance-0-query-1": true,
+              "instance-0-query-2": false,
+              "instance-0-query-3": false
+            }
+          },
+          "model_cost": {
+            "designer": {
+              "calls": 1,
+              "input_tokens": 17365,
+              "output_tokens": 1068
+            },
+            "feedback": {
+              "calls": 8,
+              "input_tokens": 211606,
+              "output_tokens": 8956
+            }
+          },
+          "participant_validity": {
+            "designer": "VALID",
+            "feedback": "VALID"
+          },
+          "feedback_gain": {
+            "initial_successes": 1,
+            "final_successes": 4,
+            "episodes_per_arm": 4,
+            "initial_rate": 0.25,
+            "final_rate": 1.0,
+            "gain": 0.75,
+            "statistical_scope": "One frozen learning artifact; paired conditions are not independent learning runs."
+          },
+          "artifact_gain": {
+            "initial_successes": 2,
+            "final_successes": 4,
+            "episodes_per_arm": 4,
+            "initial_rate": 0.5,
+            "final_rate": 1.0,
+            "gain": 0.5,
+            "statistical_scope": "One frozen learning artifact; paired conditions are not independent learning runs."
+          },
+          "designer_gain": {
+            "initial_successes": 2,
+            "final_successes": 1,
+            "episodes_per_arm": 4,
+            "initial_rate": 0.5,
+            "final_rate": 0.25,
+            "gain": -0.25,
+            "statistical_scope": "One frozen learning artifact; paired conditions are not independent learning runs."
+          }
+        }
+      ],
+      "physical_episodes": 35,
+      "controls": 35000,
+      "physics_samples": 140000,
+      "search": "COMMON_BATCH_4x2",
+      "transfer": "NOT_RUN",
+      "retention": "NOT_RUN",
+      "scope": "Small adaptation pilot; zero/negative effects retained, no stability claim"
+    },
+    "peb-learning-context3-001": {
+      "binding_audit": {
+        "status": "PASS",
+        "paired_test_bindings": 20,
+        "scope": "Model choices, no-feedback isolation, freeze, assignment, budgets, reset pairing"
+      },
+      "paired_conditional_intervals": {
+        "feedback_gain": {
+          "difference": 0.25,
+          "per_seed_difference": [
+            0.25
+          ],
+          "interval": [
+            0.0,
+            0.75
+          ],
+          "alpha": 0.05,
+          "learning_seeds": 1,
+          "conditions": 4,
+          "scope": "condition resampling within fixed learning seeds; not a population-of-learners interval"
+        },
+        "artifact_gain": {
+          "difference": 0.25,
+          "per_seed_difference": [
+            0.25
+          ],
+          "interval": [
+            0.0,
+            0.75
+          ],
+          "alpha": 0.05,
+          "learning_seeds": 1,
+          "conditions": 4,
+          "scope": "condition resampling within fixed learning seeds; not a population-of-learners interval"
+        }
+      },
+      "schema": "esl-learning-results-1",
+      "audit": "PASS",
+      "instances": [
+        {
+          "artifact_cost": {
+            "frozen": {
+              "serialized_bytes": 6308,
+              "program_nodes": 13,
+              "memory_characters": 0,
+              "physical_learning_episodes": 0,
+              "shared_dependencies": [],
+              "dispatch_owner": "single graph, no task router"
+            },
+            "designer": {
+              "serialized_bytes": 6421,
+              "program_nodes": 13,
+              "memory_characters": 102,
+              "physical_learning_episodes": 0,
+              "shared_dependencies": [],
+              "dispatch_owner": "single graph, no task router"
+            },
+            "search": {
+              "serialized_bytes": 6423,
+              "program_nodes": 13,
+              "memory_characters": 0,
+              "physical_learning_episodes": 8,
+              "shared_dependencies": [],
+              "dispatch_owner": "single graph, no task router"
+            },
+            "feedback": {
+              "serialized_bytes": 6754,
+              "program_nodes": 12,
+              "memory_characters": 216,
+              "physical_learning_episodes": 8,
+              "shared_dependencies": [],
+              "dispatch_owner": "single graph, no task router"
+            },
+            "deletion": {
+              "serialized_bytes": 6310,
+              "program_nodes": 13,
+              "memory_characters": 0,
+              "physical_learning_episodes": 0,
+              "shared_dependencies": [],
+              "dispatch_owner": "single graph, no task router"
+            }
+          },
+          "learning_instance": 0,
+          "scores": {
+            "frozen": {
+              "instance-0-query-0": true,
+              "instance-0-query-1": true,
+              "instance-0-query-2": false,
+              "instance-0-query-3": true
+            },
+            "designer": {
+              "instance-0-query-0": true,
+              "instance-0-query-1": true,
+              "instance-0-query-2": false,
+              "instance-0-query-3": true
+            },
+            "search": {
+              "instance-0-query-0": true,
+              "instance-0-query-1": true,
+              "instance-0-query-2": true,
+              "instance-0-query-3": true
+            },
+            "feedback": {
+              "instance-0-query-0": true,
+              "instance-0-query-1": true,
+              "instance-0-query-2": true,
+              "instance-0-query-3": true
+            },
+            "deletion": {
+              "instance-0-query-0": true,
+              "instance-0-query-1": true,
+              "instance-0-query-2": false,
+              "instance-0-query-3": true
+            }
+          },
+          "model_cost": {
+            "designer": {
+              "calls": 1,
+              "input_tokens": 17396,
+              "output_tokens": 1074
+            },
+            "feedback": {
+              "calls": 9,
+              "input_tokens": 238824,
+              "output_tokens": 9542
+            }
+          },
+          "participant_validity": {
+            "designer": "VALID",
+            "feedback": "VALID"
+          },
+          "feedback_gain": {
+            "initial_successes": 3,
+            "final_successes": 4,
+            "episodes_per_arm": 4,
+            "initial_rate": 0.75,
+            "final_rate": 1.0,
+            "gain": 0.25,
+            "statistical_scope": "One frozen learning artifact; paired conditions are not independent learning runs."
+          },
+          "artifact_gain": {
+            "initial_successes": 3,
+            "final_successes": 4,
+            "episodes_per_arm": 4,
+            "initial_rate": 0.75,
+            "final_rate": 1.0,
+            "gain": 0.25,
+            "statistical_scope": "One frozen learning artifact; paired conditions are not independent learning runs."
+          },
+          "designer_gain": {
+            "initial_successes": 3,
+            "final_successes": 3,
+            "episodes_per_arm": 4,
+            "initial_rate": 0.75,
+            "final_rate": 0.75,
+            "gain": 0.0,
+            "statistical_scope": "One frozen learning artifact; paired conditions are not independent learning runs."
+          }
+        }
+      ],
+      "physical_episodes": 36,
+      "controls": 36000,
+      "physics_samples": 144000,
+      "search": "COMMON_BATCH_4x2",
+      "transfer": "NOT_RUN",
+      "retention": "NOT_RUN",
+      "scope": "Small adaptation pilot; zero/negative effects retained, no stability claim"
+    },
+    "peb-esl-reference-replay-20261030-001": {
+      "schema": "fixed-reference-replay-results-1",
+      "audit": "PASS",
+      "episodes": 24,
+      "groups": {
+        "peb-esl-extension-20261030-001/0": {
+          "strong": [
+            true,
+            true,
+            true,
+            true
+          ],
+          "identity_strong": [
+            true,
+            true,
+            true,
+            true
+          ]
+        },
+        "peb-esl-extension-20261030-001/1": {
+          "strong": [
+            true,
+            true,
+            true,
+            true
+          ],
+          "identity_strong": [
+            true,
+            true,
+            true,
+            true
+          ]
+        },
+        "peb-learning-001/0": {
+          "strong": [
+            true,
+            true,
+            true,
+            true
+          ],
+          "identity_strong": [
+            true,
+            true,
+            true,
+            true
+          ]
+        }
+      },
+      "new_learning_instances": 0,
+      "model_calls": 0,
+      "scope": "Reference and identical reference only; same-condition source pairing audited after all source queries complete",
+      "source_pairing": {
+        "status": "PASS",
+        "source_query_initial_pairs": 24
+      }
+    }
+  },
+  "scope": "Independent extraction and CPU recomputation; no new model, training or physics."
+}

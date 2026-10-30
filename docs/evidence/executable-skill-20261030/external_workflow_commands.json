@@ -1,0 +1,89 @@
+{
+  "scope": "Post-completion transcription of actual commands and observed exit codes; not a prelaunch reservation. Registrations and native launch logs are included separately. Independent source directories/new CPU environments reuse the pinned native installation and external licensed weights.",
+  "runs": [
+    {
+      "label": "context-v1",
+      "cwd": "/home/dell/peb-esl-fresh-20261030-001",
+      "command": [
+        "uv",
+        "run",
+        "physicalevobench-core",
+        "learn",
+        "--output",
+        "/home/dell/peb-esl-external-runs-20261030/peb-learning-001",
+        "--qualification",
+        "configs/learning/qualification.json",
+        "--instances",
+        "1",
+        "--condition-stream",
+        "2026103031",
+        "--gpu",
+        "1"
+      ],
+      "observed_returncode": 0,
+      "source_commit": "c4d2f04a37dd4c2c8bd30e0355698b5b8429585b",
+      "condition_stream": 2026103031,
+      "startup_CPU_tests": 23,
+      "status": {
+        "status": "COMPLETED",
+        "at": "2026-10-30T04:09:18.045235+00:00"
+      }
+    },
+    {
+      "label": "context-v2",
+      "cwd": "/home/dell/peb-esl-fresh-20261030-001",
+      "command": [
+        "uv",
+        "run",
+        "physicalevobench-core",
+        "learn",
+        "--output",
+        "/home/dell/peb-esl-context2-external-runs-20261030/peb-learning-context2-001",
+        "--qualification",
+        "configs/learning/qualification.json",
+        "--instances",
+        "1",
+        "--condition-stream",
+        "2026103032",
+        "--gpu",
+        "1"
+      ],
+      "observed_returncode": 0,
+      "source_commit": "403cf8fb7bc694034ed5309591bd6c055dcbaec8",
+      "condition_stream": 2026103032,
+      "startup_CPU_tests": 24,
+      "status": {
+        "status": "COMPLETED",
+        "at": "2026-10-30T05:28:13.752051+00:00"
+      }
+    },
+    {
+      "label": "context-v3",
+      "cwd": "/home/dell/peb-esl-context3-fresh-20261030-001",
+      "command": [
+        "uv",
+        "run",
+        "physicalevobench-core",
+        "learn",
+        "--output",
+        "/home/dell/peb-esl-context3-external-runs-20261030/peb-learning-context3-001",
+        "--qualification",
+        "configs/learning/qualification.json",
+        "--instances",
+        "1",
+        "--condition-stream",
+        "2026103033",
+        "--gpu",
+        "2"
+      ],
+      "observed_returncode": 0,
+      "source_commit": "a030a990d05967a4c59a9daff2532f03c01e27cd",
+      "condition_stream": 2026103033,
+      "startup_CPU_tests": 25,
+      "status": {
+        "status": "COMPLETED",
+        "at": "2026-10-30T06:14:11.284527+00:00"
+      }
+    }
+  ]
+}
