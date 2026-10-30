@@ -200,3 +200,5 @@ artifact_gain 条件bootstrap95%区间 [+0.00%, +75.00%]。
 实验预发行入口：[esl-alpha-20261030](https://github.com/ros-claw/PhysicalEvoBench/releases/tag/esl-alpha-20261030)。[PR #10](https://github.com/ros-claw/PhysicalEvoBench/pull/10)保持草稿、未合并；旧双任务Core未验收。公开下载与源码重建的最终收据见证据目录中的对应JSON文件。
 
 轻量源码资产 `executable-skill-source.tar.gz` 为799,265 bytes（约0.80 MB），打包自f190bf5；最终发布提交另附交付收据，执行代码不变。局部样例为5,306,479 bytes，固定选query-000的Frozen/Feedback两条轨迹，两条均通过逐回合评分/动作诊断重算；它不是展示增益的有利案例选择。详见 [源码清单](../evidence/executable-skill-20261030/source_manifest.json) 和 [源码独立重建](../evidence/executable-skill-20261030/source_rebuild_audit.json)。
+
+预发行已公开，标签指向通过CI的ed4d736。38个固定载荷资产的服务器SHA-256均与本地一致；7种小文件已实际下载，源码和样例还分别完成匿名HTTP下载，共9次SHA核对通过。完整大轨迹未从远端重复全量下载，其证据是本地独立解包重算与远端逐资产摘要一致。公开收据见 [publication_receipt.json](../evidence/executable-skill-20261030/publication_receipt.json)。PR #10仍是开放草稿、未合并，稳定自进化仍未证明。

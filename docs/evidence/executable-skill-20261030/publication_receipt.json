@@ -1,0 +1,231 @@
+{
+  "schema": "esl-experimental-publication-1",
+  "status": "PUBLISHED_EXPERIMENTAL_ALPHA",
+  "url": "https://github.com/ros-claw/PhysicalEvoBench/releases/tag/esl-alpha-20261030",
+  "tag_name": "esl-alpha-20261030",
+  "release_commit": "ed4d7364352565e58b6c62a7a82427da184817c6",
+  "published_at": "2026-10-30T06:31:42Z",
+  "is_prerelease": true,
+  "immutable_payload_server_digest_checks": [
+    {
+      "name": "data-00.tar.gz",
+      "bytes": 40761023,
+      "sha256": "4534375abeb181ea6d0690a7e1b6f77f61559e8fac3d4152aab8923ac8a547b2"
+    },
+    {
+      "name": "data-01.tar.gz",
+      "bytes": 40570455,
+      "sha256": "b92af9c51c1e901bfc948a014138792c3814fc1c41cd046060ba5c1516f150aa"
+    },
+    {
+      "name": "data-02.tar.gz",
+      "bytes": 40146236,
+      "sha256": "09abf7f9539d72849eb9066e8941749957f1a7dbee6d3e5ab3a11cc250a9cffb"
+    },
+    {
+      "name": "data-03.tar.gz",
+      "bytes": 40537995,
+      "sha256": "837b91d7ff5a421c2ea23537ced9753b8c244988b6e282cc8d724b34851b06ad"
+    },
+    {
+      "name": "data-04.tar.gz",
+      "bytes": 41128999,
+      "sha256": "8a12c6596e388440da439145a10c87762e49287bfe7680a8dbd210e5daea5a85"
+    },
+    {
+      "name": "data-05.tar.gz",
+      "bytes": 40325367,
+      "sha256": "561430d3a5de97afd4437811200029f3884289402d5b680091e86aea4b8cc569"
+    },
+    {
+      "name": "data-06.tar.gz",
+      "bytes": 39619522,
+      "sha256": "1346f7d27d07a6406bc0b2485af665578af1cf17a592af14eee616adef624312"
+    },
+    {
+      "name": "data-07.tar.gz",
+      "bytes": 40888661,
+      "sha256": "052c8b3d4015e1d9132924ce8a243b28896b3ecd69f0f861ac8800d3670296b4"
+    },
+    {
+      "name": "data-08.tar.gz",
+      "bytes": 40453813,
+      "sha256": "73b83293249068b35096ca675bb24288397d58573465de6a281657a1062e0f47"
+    },
+    {
+      "name": "data-09.tar.gz",
+      "bytes": 39923936,
+      "sha256": "6dcac72ed61f42558a248c572e1c2c13f07edb69733801c3393f680c6b433878"
+    },
+    {
+      "name": "data-10.tar.gz",
+      "bytes": 40450108,
+      "sha256": "19e61dab739198f5e774d9fda2055148c358caad386ff68aa3e35360dd7adaa4"
+    },
+    {
+      "name": "data-11.tar.gz",
+      "bytes": 39783543,
+      "sha256": "efe4ee85644360ac4ef30099deaf3f4b2dda49c94efd8ea465f69885100ec2c7"
+    },
+    {
+      "name": "data-12.tar.gz",
+      "bytes": 39157455,
+      "sha256": "b70331a54284ebcf4c3589d9b0ceba50d502924fb9bfa096338b0464da56b43b"
+    },
+    {
+      "name": "data-13.tar.gz",
+      "bytes": 40479497,
+      "sha256": "b0bc2a8555695ed4611eda8c8c5ee9b2595a7d46a04b5804305f86f76a0fe323"
+    },
+    {
+      "name": "data-14.tar.gz",
+      "bytes": 38815299,
+      "sha256": "917ae18c211851ea0979b35d9c54f4e9895af87d21079e3e811b36e8b07165f4"
+    },
+    {
+      "name": "data-15.tar.gz",
+      "bytes": 40664097,
+      "sha256": "e65e7743c271e09684a6d55b638b30eb7ee7f1e45879df1db2c9d079fa5d5f78"
+    },
+    {
+      "name": "data-16.tar.gz",
+      "bytes": 39779125,
+      "sha256": "d5c0483638624c5b8085288b69056b323e937d9303ace59242a1646e1a8ed91b"
+    },
+    {
+      "name": "data-17.tar.gz",
+      "bytes": 40750084,
+      "sha256": "bf06c82e11ecc85252250618bebdc7ac30ef9a56699d656eb9b635ce52ff7d61"
+    },
+    {
+      "name": "data-18.tar.gz",
+      "bytes": 22746744,
+      "sha256": "87fdf885beb4955209a3ae3dca6b18025037f370e5b45395c4f76fc8c8f7b2ef"
+    },
+    {
+      "name": "executable-skill-sample.tar.gz",
+      "bytes": 5306479,
+      "sha256": "dbc50f765b04a9d190f79938c5ea755a58f06e4ec39ddbc807a6591d92748ceb"
+    },
+    {
+      "name": "executable-skill-source.tar.gz",
+      "bytes": 799265,
+      "sha256": "be1a526ed9df8cdde0c21d348ba0d14dfa64a5ff5c46129bba5d033e87127189"
+    },
+    {
+      "name": "manifest.json",
+      "bytes": 1156595,
+      "sha256": "83357f29eda7f001d6392f9f94affc95694eee77b4932b30dc0157c58ac19d6a"
+    },
+    {
+      "name": "public_delivery_audit.json",
+      "bytes": 36678,
+      "sha256": "6357e29bb6e9b6570fc3f1e29c9fe20138f8c53ca7905638568c54ffa8570c35"
+    },
+    {
+      "name": "source-0f8546aa28d6.tar.gz",
+      "bytes": 143597,
+      "sha256": "bd738f1e4e2c4141759bf9f1d51470ee4c8d0c7f9e8d870c1737b27d6462525a"
+    },
+    {
+      "name": "source-403cf8fb7bc6.tar.gz",
+      "bytes": 151212,
+      "sha256": "031fa2035e8990cc3a66b335258b2819c4882ff494ce36b305072c2ec47926a0"
+    },
+    {
+      "name": "source-77eb18efcf6b.tar.gz",
+      "bytes": 150107,
+      "sha256": "3715a63ce287162c35d645361ad8b8dab3afd2c71d12bac02c19de5a2d77da40"
+    },
+    {
+      "name": "source-7f92a8bda435.tar.gz",
+      "bytes": 132692,
+      "sha256": "b8f62dde7b8261dff12f25108588e34b7def1b455489e53ff492c3e597549725"
+    },
+    {
+      "name": "source-9da36a4898a5.tar.gz",
+      "bytes": 127857,
+      "sha256": "69e4b61f6eccb6cac97e0fd450885a3680403a6fa516c4ec04bc3112b775c605"
+    },
+    {
+      "name": "source-a030a990d059.tar.gz",
+      "bytes": 151871,
+      "sha256": "43c69dc2d724a8f76d0d3921e0335d25a12f9c3c5c0d84f527626cadd748bfd1"
+    },
+    {
+      "name": "source-a5e9f0cea91b.tar.gz",
+      "bytes": 121860,
+      "sha256": "d0a4460fa7ec45c774cf393606bf0cb512efee97a7873ba1290cb42cde8912c5"
+    },
+    {
+      "name": "source-aa3c54cf88a3.tar.gz",
+      "bytes": 128858,
+      "sha256": "8fef07c89c67fb47bd6d9247df474f911b515e17a207adbca6c6d4be553d37c2"
+    },
+    {
+      "name": "source-c4c6cce248f2.tar.gz",
+      "bytes": 140460,
+      "sha256": "1c9f07566f01a208c31487e1300c5eb2e5a1e8d993cb8473511e5c18c1b6d047"
+    },
+    {
+      "name": "source-c4d2f04a37dd.tar.gz",
+      "bytes": 147237,
+      "sha256": "b43416746c53b0eb20da17a2d0d0c3c31d8361aa54e909eb5b39780734035d96"
+    },
+    {
+      "name": "source-d1594bf87343.tar.gz",
+      "bytes": 154597,
+      "sha256": "ea56e1471e24e9f5ede5c68ede2d62785c8c06febd6e8376ea4e7005d7d70977"
+    },
+    {
+      "name": "source-eb9326d11620.tar.gz",
+      "bytes": 117082,
+      "sha256": "977bce2ea2c6958a81284ee682c375c200172a8550fa10be1c8ef28ddf5850d3"
+    },
+    {
+      "name": "source-f76310936c9f.tar.gz",
+      "bytes": 147174,
+      "sha256": "1e532fe3618d26b832ba7b19a12153fe5ff73d6c2e99636fd84ff85495cbe5b1"
+    },
+    {
+      "name": "source_manifest.json",
+      "bytes": 581,
+      "sha256": "f6415489b8f9473f881cc2997c1599ded39ececc2ae2423b0f2cce2766790d4a"
+    },
+    {
+      "name": "source_rebuild_audit.json",
+      "bytes": 700,
+      "sha256": "484e0b13978d0eac90f3eadda2ae2dc246b931ee45a925634e70bfa47ed3004e"
+    }
+  ],
+  "public_download_verification": {
+    "status": "PASS",
+    "downloaded_small_files": 7,
+    "anonymous_source_and_sample_downloads": 2,
+    "SHA256_comparisons": 9,
+    "scope": "Source/sample and five small metadata files downloaded; both source and sample also fetched anonymously. Full remote raw data were not downloaded again."
+  },
+  "local_full_evidence_audit": {
+    "status": "PASS",
+    "raw_files": 5442,
+    "registered_source_checks": 5263,
+    "scope": "Independent local extraction and CPU recomputation; no new physics"
+  },
+  "source_rebuild": {
+    "status": "PASS",
+    "included_CPU_tests": 26,
+    "archive_sha256": "be1a526ed9df8cdde0c21d348ba0d14dfa64a5ff5c46129bba5d033e87127189",
+    "packaged_source_commit": "f190bf571bc34156148a90e794690b886aff69b7"
+  },
+  "release_commit_CI": [
+    "https://github.com/ros-claw/PhysicalEvoBench/actions/runs/41014194350",
+    "https://github.com/ros-claw/PhysicalEvoBench/actions/runs/41014187395"
+  ],
+  "pr": {
+    "url": "https://github.com/ros-claw/PhysicalEvoBench/pull/10",
+    "state": "OPEN",
+    "draft": true,
+    "merged": false
+  },
+  "limits": "One finite task family, five separately interpreted evidence groups; no stable evolution, broad transfer, leaderboard or historical two-task Core acceptance claim. Checksum and this receipt metadata excluded from the immutable payload inventory to avoid recursive identity."
+}
