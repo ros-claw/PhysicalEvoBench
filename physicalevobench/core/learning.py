@@ -278,6 +278,8 @@ def score_search(root,directory,source,cfg,base,group,run_id,gpu):
     return freeze(artifact(base,programs[selected],source,run_id+'/search','search',8,''),out/'artifact.json')
 
 def run(root, out, qualification, reference, model, provider, instances, gpu):
+    if instances<1:
+        raise ValueError('At least one independent learning instance required')
     if command(['git', 'status', '--porcelain'], cwd=root)['stdout']:
         raise ValueError('Freeze implementation before learning registration')
     receipt = json.loads(qualification.read_text())
@@ -419,7 +421,7 @@ def main():
     p.add_argument('--reference', default='configs/core/frozen_reference.json')
     p.add_argument('--model', default='gpt-6.1-terra')
     p.add_argument('--provider', help='JSON argv; omit for existing Codex transport')
-    p.add_argument('--instances', type=int, default=2, choices=[1, 2])
+    p.add_argument('--instances', type=int, default=2)
     p.add_argument('--gpu', type=int, default=2)
     a = p.parse_args()
     run(Path.cwd(), Path(a.output).absolute(), Path(a.qualification), Path(a.reference),

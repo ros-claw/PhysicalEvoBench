@@ -227,6 +227,10 @@ def verify(evidence,out):
             results[name]={'audit':'PASS','episodes':len(data),'successes':sum(r['success'] for r in data)}
         else:
             raise ValueError('Unknown completed Core study')
+        if (study/'command_response.json').exists():
+            from physicalevobench.core.response import response
+            if json.loads((study/'command_response.json').read_text())!=response(study,write=False):
+                raise ValueError('Command response differs from identical-observation recomputation')
     receipt={'schema':'core-delivery-audit-1','status':'PASS','raw_files':len(manifest['files']),
              'registered_source_checks':source_checks,'studies':results,
              'scope':'Independent extraction and CPU recomputation; no new model, training or physics.'}
