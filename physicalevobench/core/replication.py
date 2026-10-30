@@ -111,7 +111,7 @@ def run(root,out,qualification,gpus,query_lanes_per_gpu=2):
         directory=out/f'instance-{i}'
         for name in orders[i]:
             path=artifact_path(directory,name)
-            if not path.exists():
+            if not path.exists() or (directory/name/'method_failure.json').exists():
                 continue
             persisted=load_artifact(path)
             if persisted['effective_artifact_hash']!=all_frozen['artifacts'][i][name]:

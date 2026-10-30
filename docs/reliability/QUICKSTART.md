@@ -31,6 +31,8 @@ uv run python -m physicalevobench.core.adapter_smoke --output /absolute/path/peb
 
 该入口经通用stdin adapter执行NoFeedback设计→产物冻结→新的原生进程执行一个预登记query条件。实际调用/usage、初态、Ready探测、任务轨迹和返回码全部留在输出目录。其意义是验证第二种协议接入，仍使用同一模型/CLI，不是第二个独立Agent框架。任务失败和接入失败分别报告。
 
+接入自己的参与者：在上述smoke命令添加 `--provider '["/absolute/path/to/participant"]' --model YOUR_FIXED_MODEL`。这是接入诊断，不能把换模型结果混入已冻结的主研究。
+
 通用provider协议：stdin一个公开JSON，stdout仅一行 `{"response":...,"usage":{"input_tokens":真实整数,"output_tokens":真实整数}}`。`response`遵守graph-v2参与者schema；缺usage报unknown，不补0。实现示例在 `physicalevobench/core/stdin_adapter.py`，原始CLI收据由stderr保留。测试期零模型调用，文本memory只作来源记录。
 
 ## 重做新执行资格（14回合）

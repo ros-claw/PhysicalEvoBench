@@ -59,3 +59,46 @@ def main():
 
 if __name__=='__main__':
     main()
+
+
+def audit_result(out):
+    from physicalevobench.core.readiness_audit import audit_readiness
+    from physicalevobench.doctor import sha256
+    from physicalevobench.v02.audit import episode_metrics,records
+
+    def read(path):
+        return json.loads(path.read_text())
+    reg=read(out/'registration.json')
+    stored=read(out/'results.json')
+    cases=[]
+    for group in reg['groups']:
+        native=out/group['name']
+        if read(native/'process.json')['returncode']!=0:
+            raise ValueError('Conformance native process did not close successfully')
+        for i,(mass,seed) in enumerate(zip(group['masses'],group['seeds'],strict=True)):
+            job=read(native/'requests'/f'{i:03d}.json')
+            if job['condition']['seed']!=seed or job['condition']['object_mass_kg']!=mass:
+                raise ValueError('Conformance changed registered condition')
+            episode=native/'episodes'/f'check-{i}'
+            row=read(episode/'episode.json')
+            ready=read(episode/'readiness.json')
+            audit_readiness(episode,job['condition'],row)
+            if row['execution_status']!='INIT_INVALID':
+                if row['diagnostic']!=episode_metrics(episode,native/'control_semantics.json'):
+                    raise ValueError('Held conformance physics differs from raw trace')
+                trace=records(native/row['trace_artifact'])
+                if (sha256(native/row['trace_artifact'])!=row['trace_sha256'] or len(trace)!=row['steps'] or
+                        any(t['policy_diagnostics'].get('diagnostic_control')!='fixed_initial_joint_target_open_gripper' for t in trace)):
+                    raise ValueError('Conformance used a participant/approach action')
+            cases.append({'group':group['name'],'slot':i,'execution_status':row['execution_status'],
+                          'ready_status':ready['status'],'reason':ready['reason'],'task_controls':row['steps'],
+                          'runtime_table_shape_hit':ready['runtime_shapes_after']['table_shape_hit']})
+    for raw,recorded in zip(cases,stored['cases'],strict=True):
+        if any(raw[key]!=value for key,value in recorded.items()):
+            raise ValueError('Conformance case changed')
+    passed=all(r['ready_status']==('INIT_INVALID' if r['group']=='fault-injected' else 'READY') and
+               r['runtime_table_shape_hit']==(r['group']=='normal') for r in cases)
+    if stored['status']!=('PASS' if passed else 'FAIL') or stored['attempts']!=len(cases):
+        raise ValueError('Conformance outcome differs from physical evidence')
+    return {'audit':'PASS','conformance_status':stored['status'],'attempts':len(cases),
+            'scope':'Evidence verification; an ineffective historical fault injection remains FAIL, not a passed detector test'}

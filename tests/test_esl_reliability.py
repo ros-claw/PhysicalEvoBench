@@ -192,7 +192,8 @@ def test_v3_handle_current_program_memory_invalid_repair_and_submission_order(tm
         assert 'query' not in request
 
 
-def test_replication_global_freeze_barrier_and_registered_query_orders(tmp_path,monkeypatch):
+@pytest.mark.parametrize('failure_after_freeze',[False,True])
+def test_replication_global_freeze_barrier_and_registered_query_orders(tmp_path,monkeypatch,failure_after_freeze):
     import json
     import threading
 
@@ -223,6 +224,8 @@ def test_replication_global_freeze_barrier_and_registered_query_orders(tmp_path,
         value=freeze(artifact(base,starter_program(),source,run_id,name,0,''),path/'artifact.json')
         with lock:
             completed.append((directory.name,name))
+        if failure_after_freeze and directory.name=='instance-0' and name=='feedback':
+            raise RuntimeError('CPU fixture: runtime close failed after local artifact creation')
         return value
     def fake_search(root,directory,source,cfg,base,group,run_id,gpu):
         return fake_learn(root,directory,source,cfg,base,group,'search',None,None,run_id,gpu)
@@ -245,7 +248,10 @@ def test_replication_global_freeze_barrier_and_registered_query_orders(tmp_path,
     (tmp_path/'unused').write_text('{}')
     replication.run(tmp_path,out,tmp_path/'unused',[0,1,2,3])
     reg=json.loads((out/'registration.json').read_text())
-    assert len(observed)==40
+    assert len(observed)==(39 if failure_after_freeze else 40)
+    if failure_after_freeze:
+        assert (out/'instance-0/feedback/artifact.json').exists()
+        assert ('instance-0','test-feedback') not in observed
     for (block,method),conditions in observed.items():
         i=int(block.removeprefix('instance-'))
         arm=method.removeprefix('test-')

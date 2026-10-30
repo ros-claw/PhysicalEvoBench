@@ -71,6 +71,16 @@ def audit_session(worker):
             audit_readiness(episode,job['condition'],row)
             if row['execution_status']=='INIT_INVALID':
                 continue
+        if cfg.get('state_execution_sha256'):
+            from physicalevobench.core.state_config import StateExecutionSkill
+            state_hash=cfg['state_execution_sha256']
+            expected_skill=StateExecutionSkill(state_hash)
+            if (digest(cfg['state_policy_context'])!=state_hash or
+                    row.get('state_execution_sha256')!=state_hash or
+                    row.get('execution_identity_kind')!='state_executor_not_PPO_checkpoint' or
+                    'base_checkpoint_sha256' in row or row['skill_sha256']!=expected_skill.sha256 or
+                    read(episode/'skill.json')!={**expected_skill.to_dict(),'skill_sha256':expected_skill.sha256}):
+                raise ValueError('State-only execution identity was replaced or mislabeled as a PPO checkpoint')
         if read(episode/'initial_state.json')['condition']!=job['condition']:
             raise ValueError('Executed condition differs from reservation')
         if abs(read(episode/'initial_state.json')['mass_readback_kg'][0][0]-job['condition']['object_mass_kg'])>1e-5:

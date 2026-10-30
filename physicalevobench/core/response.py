@@ -14,6 +14,7 @@ def response(directory, write=True):
     root = Path(directory)
     reg = json.loads((root/'registration.json').read_text())
     summaries = []
+    excluded = []
     for native in sorted(root.rglob('source_identity.json')):
         native = native.parent
         if not (native/'episodes.jsonl').exists():
@@ -22,6 +23,10 @@ def response(directory, write=True):
         for i, row in enumerate(rows):
             job = json.loads((native/'requests'/f'{i:03d}.json').read_text())
             if not job.get('program'):
+                continue
+            if row.get('execution_status')=='INIT_INVALID':
+                excluded.append({'native':str(native.relative_to(root)),'episode_id':row['episode_id'],
+                                 'status':'INIT_INVALID','participant_controls':0})
                 continue
             trace = records(native/row['trace_artifact'])
             controls = records(native/'episodes'/row['episode_id']/'controls.jsonl.gz')
@@ -51,6 +56,8 @@ def response(directory, write=True):
                                    for k in range(1, len(controls))), default=0.)})
     value = {'schema': 'executable-command-response-1', 'study': reg['schema'], 'episodes': summaries,
              'scope': 'Both FSMs receive same recorded public observations; counterfactual is a command mapping, not another physical rollout. Actual targets/limits are measured separately.'}
+    if excluded:
+        value['excluded_pre_agent_attempts']=excluded
     if write:
         save_json(root/'command_response.json', value)
     return value

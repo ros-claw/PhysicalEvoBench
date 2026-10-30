@@ -396,3 +396,87 @@ def reliability_costs(studies):
     return {'schema':'esl-reliability-all-incurred-cost-1','studies':summaries,
             'totals':{key:sum(s[key] for s in summaries) for key in summaries[0] if key!='study'},
             'scope':'Known actual costs, including stopped measurement cohort. Unknown process durations/exits remain unknown, not zero; simulator startup/internal build steps outside recorded task/probe are not fully measured. Cache tokens are a subset of input; currency unknown.'}
+
+
+def export_replication(study,output):
+    """Every allocation, physical validity and graph diff, without extra model/physics calls."""
+    import csv
+
+    from physicalevobench.core.artifact import load as load_artifact
+    from physicalevobench.core.replication import artifact_path
+    from physicalevobench.core.replication_metrics import ARMS
+    from physicalevobench.doctor import save_json
+
+    output.mkdir(parents=True,exist_ok=True)
+    reg=read(study/'registration.json')
+    result=read(study/'results.json')
+    allocations=[]
+    differences=[]
+    for b,group in zip(result['blocks'],reg['conditions'],strict=True):
+        directory=study/f"instance-{b['block']}"
+        initial=load_artifact(directory/'frozen.json')['payload']['skill']
+        initial_nodes={n['id']:n for n in initial['nodes']}
+        for arm in ARMS:
+            native=directory/f'test-{arm}'
+            actual={}
+            for request in sorted((native/'requests').glob('*.json')):
+                job=read(request)
+                ep=native/'episodes'/job['episode_id']
+                if (ep/'episode.json').exists():
+                    actual[job['condition']['condition_id']]=(ep,read(ep/'episode.json'))
+            path=artifact_path(directory,arm)
+            if path.exists():
+                payload=load_artifact(path)['payload']
+                changes=[]
+                for node in payload['skill']['nodes']:
+                    old=initial_nodes.get(node['id'],{})
+                    changed={k:{'before':old.get(k,'not_present'),'after':v} for k,v in node.items() if k!='id' and old.get(k)!=v}
+                    if changed:
+                        changes.append({'node':node['id'],'fields':changed})
+                removed=sorted(set(initial_nodes)-{n['id'] for n in payload['skill']['nodes']})
+                differences.append({'block':b['block'],'method':arm,'changes':changes,'removed_nodes':removed,
+                    'actual_self_written_memory':payload['memory'],'practice_cost':payload['budget_used'],
+                    'scope':'Representational diff and participant notes only; functional control response is independently recomputed, not inferred from this diff.'})
+            for c in group['query']:
+                key=c['condition_id']
+                item={'block':b['block'],'method':arm,'condition_id':key,'goal_x':c['public_goal'][0],
+                      'goal_y':c['public_goal'][1],'evaluator_requested_mass_kg':c['object_mass_kg'],
+                      'execution_status':b['execution_statuses'][arm][key],'success':b['scores'][arm][key],
+                      'task_controls':None,'physx_model_mass_kg':None,'ready_status':None,
+                      'lift_observed':None,'transport_observed':None,'maximum_stable_span_s':None,
+                      'first_success_time_s':None,'left_after_first_success':None,
+                      'terminal_xy_error_m':None,'terminal_z_error_m':None,'terminal_speed_m_s':None,
+                      'terminal_finger_min_m':None,'artifact_hash':b['retained_artifacts'].get(arm,{}).get('effective_artifact_hash')}
+                if key in actual:
+                    ep,row=actual[key]
+                    item['task_controls']=row['steps']
+                    ready=read(ep/'readiness.json')
+                    item['ready_status']=ready['status']
+                    model=ready.get('physx_model_at_task_start',ready.get('physx_model_before_probe',{}))
+                    if model.get('status')=='MEASURED':
+                        item['physx_model_mass_kg']=model['mass'][0][0]
+                    place=row.get('place',{})
+                    for name in ('lift_observed','transport_observed','maximum_stable_span_s','first_success_time_s','left_after_first_success'):
+                        item[name]=place.get(name)
+                    terminal=ep/'terminal_pre_reset.json'
+                    if terminal.exists():
+                        t=read(terminal)
+                        import math
+                        item.update(terminal_xy_error_m=math.dist(t['object_position'][0][:2],c['public_goal'][:2]),
+                                    terminal_z_error_m=abs(t['object_position'][0][2]-c['public_goal'][2]),
+                                    terminal_speed_m_s=math.sqrt(sum(v*v for v in t['object_velocity'][0][:3])),
+                                    terminal_finger_min_m=min(t['finger_position']))
+                allocations.append(item)
+    with (output/'per_condition.csv').open('w') as stream:
+        writer=csv.DictWriter(stream,fieldnames=list(allocations[0]),lineterminator='\n')
+        writer.writeheader()
+        writer.writerows(allocations)
+    save_json(output/'artifact_differences.json',{'schema':'esl-actual-graph-diff-1','artifacts':differences})
+    cells=[]
+    for goal in reg['learning_problem']['query_goal_positions']:
+        for mass in (.1,.4):
+            values=[r for r in allocations if r['goal_x']==goal[0] and r['goal_y']==goal[1] and r['evaluator_requested_mass_kg']==mass]
+            cells.append({'goal':goal,'mass_kg':mass,'arms':{a:{'successes':sum(r['success'] is True for r in values if r['method']==a),
+                          'assigned':sum(r['method']==a for r in values),'unknown':sum(r['success'] is None for r in values if r['method']==a)} for a in ARMS}})
+    save_json(output/'goal_mass_cells.json',{'cells':cells,'scope':'Descriptive predefined cells; not independent task families or population confidence intervals'})
+    return {'allocated_rows':len(allocations),'artifact_diffs':len(differences),'extra_model_calls':0,'extra_physical_episodes':0}

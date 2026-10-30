@@ -66,7 +66,13 @@ def main():
     out=Path(a.run_dir)
     reg=json.loads((out/'registration.json').read_text())
     schema=reg['schema']
-    if schema=='esl-replication-1':
+    if schema=='esl-state-stdin-smoke-1':
+        from physicalevobench.core.adapter_smoke import audit_result
+        result=audit_result(out)
+    elif schema=='esl-ready-conformance-1':
+        from physicalevobench.core.readiness_check import audit_result
+        result=audit_result(out)
+    elif schema=='esl-replication-1':
         from physicalevobench.core.replication import audit_and_summarize
         result=audit_and_summarize(out)
     elif schema=='esl-ready-qualification-1':
