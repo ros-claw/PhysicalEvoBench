@@ -233,7 +233,9 @@ def reliability_report(study,qualification,conformance,output,adapter=None):
     summary=data['summary']
     def percent(v):
         return '未估计' if v is None else f'{100*v:+.2f} pp'
+    valid_feedback=sum('feedback' in b['retained_artifacts'] for b in data['blocks'])
     lines=['# PhysicalEvoBench ESL：可靠性与独立重复实施报告','',
+           f'预登记8个独立学习block，其中{valid_feedback}个形成合法Feedback冻结产物；缺失、INIT_INVALID和参与者错误分别保留，不能把未完成方法写成算法零分。', '',
            '本轮保留 Place–Release Factorial v2，公开上下文固定 public-context-v3，执行版本固定 core-place-public-v4-ready1。独立学习8个block，每block16个配对query，五方法；全部产物先冻结，再开始查询。旧Alpha及其失败不改判、不池化。','',
            '| 方法 | 已知成功 / 全部分配 | 有效任务执行成功 | 学习物理尝试 | 实际模型调用 | 输入 / 输出 tokens |',
            '|---|---:|---:|---:|---:|---:|']
@@ -249,7 +251,7 @@ def reliability_report(study,qualification,conformance,output,adapter=None):
     lines+=['','全分配列是已观察到的成功产出，缺失/服务故障不会补成模型能力零分；下表列出缺失和归因。有效执行分母另列。Deletion恢复共同starter，其配套学习成本已在Feedback计费，不重复计费。','',
             '| 验收维度 | 判断与边界 |','|---|---|',
             '| 工程 | 纯状态执行、冻结恢复、通用stdin接入及证据重算分别验证；同机新目录验证见下文。没有第二机器/独立外部人复现结论。 |',
-            f"| 测量 | Ready正常/有效故障注入 {con['status']}；固定8-block完成；同图discordance保留。旧异常唯一根因未知，运行期未知掉落不自动归基础设施。 |",
+            f"| 测量 | Ready正常/有效故障注入 {con['status']}；固定8-block尝试的完成/缺失见逐block表；同图discordance保留。旧异常唯一根因未知，运行期未知掉落不自动归基础设施。 |",
             '| 算法 | 依据以下原始计数、block效果和区间判断，零/负收益不使基准失败。工程/审计通过不等于方法有效，也不证明广泛或递归自进化。 |','',
             '## 固定方法比较与逐block结果','',
             '这是budget-cap comparison：NoFeedback和Feedback共享最大预算，但允许自然提前冻结，实际tokens/调用可以不同。TemplateSearch-4是人工专家候选先验加score-only选择，4候选×共同2支持条件；不是无先验盲搜，也不等于全图空间最优搜索。','',
@@ -259,7 +261,12 @@ def reliability_report(study,qualification,conformance,output,adapter=None):
         lines.append(f"| Feedback − {LABELS[arm]} | {percent(value['mean_block_effect'])} | {('['+percent(ci[0])+', '+percent(ci[1])+']') if ci else value['interval_status']} |")
     lines+=['','| Block | Frozen | NoFeedback | TemplateSearch-4 | Feedback | Deletion | F−NoFeedback | F−Deletion | F−Template | 同图不一致 |','|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|']
     for i,b in enumerate(data['blocks']):
-        counts=[f"{sum(v is True for v in b['scores'][arm].values())}/16" for arm in ARMS]
+        counts=[]
+        for arm in ARMS:
+            values=list(b['scores'][arm].values())
+            known=sum(v is not None for v in values)
+            success=sum(v is True for v in values)
+            counts.append(f'{success}/{known}'+(f'（缺失{16-known}）' if known<16 else ''))
         gains=[percent(summary['comparisons'][arm]['block_points'][i]['feedback_minus_baseline']) for arm in ('designer','deletion','search')]
         noise=summary['identity_replays'][i]
         lines.append('| '+str(i)+' | '+' | '.join(counts+gains+[f"{noise['discordant_pairs']}/{noise['paired_valid']}"])+' |')

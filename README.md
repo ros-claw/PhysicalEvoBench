@@ -7,7 +7,22 @@ its frozen version helps on independent conditions. The initial v0.1 track uses 
 Isaac Lab-Arena/PhysX, object mass perturbations, frozen official RSL-RL weights and bounded arm gain.
 Later experiments add actual PPO weight updates. The tasks use privileged state observations.
 
-## Executable-Skill Learning (2026-10-30)
+## Ready reliability / replication study (2026-10-30)
+
+The new state-only entry requires **no PPO checkpoint**. It keeps the same
+Place–Release Factorial v2 problem and frozen public-context-v3, with a separately
+versioned pre-agent support probe (`core-place-public-v4-ready1`). Engineering,
+measurement reliability and algorithm efficacy are assessed separately.
+Normal support checks and confirmed missing-table fault injection passed; finite
+reference qualification measured starter2/4, strong4/4, identical strong4/4 and
+forced-open0/2. The fixed eight-block comparison is registered independently of
+those engineering results. Its method results must be read from the completed
+study, without pooling historical pilots.
+
+[Ready state-only quickstart](docs/reliability/QUICKSTART.md) ·
+[Frozen reliability protocol](docs/reliability/PROTOCOL.md).
+
+## Executable-Skill Learning (2026-10-30) — historical Alpha snapshot
 
 The current entry point separates task engineering, qualification and method comparison.
 T0 is an independently runnable regression task; unfinished Place engineering does not
