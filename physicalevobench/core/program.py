@@ -106,6 +106,7 @@ class ProgramFSM:
         self.retries=0
         self.transitions=0
         self.exhausted=False
+        self.last_guard_evaluation=None
 
     def target(self,n,obs):
         obj=obs['object_position']
@@ -134,6 +135,7 @@ class ProgramFSM:
                 .021+dz+self.offset[2]]
 
     def update(self,obs,dt):
+        self.last_guard_evaluation=None
         if not math.isfinite(dt) or dt<=0:
             raise ValueError('Positive timestep required')
         for key in ('ee_position','object_position','goal_position','object_velocity','finger_position','cube_contact_force'):
@@ -164,6 +166,9 @@ class ProgramFSM:
             qualified=evaluate(guard,obs,target)
         else:
             qualified=legacy[guard]
+        self.last_guard_evaluation={'node':self.current,'guard_evaluated':True,
+            'predicate_satisfied':bool(qualified),'minimum_satisfied':self.age>=n['minimum_s'],
+            'branch_taken':False,'guard':guard}
         qualified=qualified and self.age>=n['minimum_s']
         self.dwell=self.dwell+dt if qualified else 0.
         next_id=self.current
@@ -191,6 +196,7 @@ class ProgramFSM:
                 self.offset=relative
             if n['mode'] in ('close','probe') and next_n['mode']=='lift':
                 self.offset=relative
+            self.last_guard_evaluation.update(branch_taken=True,destination=next_id,reason=reason)
             self.current=next_id
             self.age=self.dwell=0.
             n=next_n

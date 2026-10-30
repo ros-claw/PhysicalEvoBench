@@ -1,5 +1,6 @@
 """Evaluator-only initialization observations; no participant observations added."""
 
+import json
 import time
 
 from physicalevobench.adapters.lift_worker import tensor_json
@@ -117,3 +118,30 @@ def install(worker):
         return value
     worker.base.scene.update=observed_update
     record('instrumentation_installed_after_construction')
+
+
+def spawn_table_without_collision(prim_path,cfg,**kwargs):
+    """Diagnostic-only USD edit before physics construction, with explicit readback."""
+    from pxr import Usd,UsdPhysics
+
+    original=cfg.diagnostic_original_spawn
+    prim=original(prim_path,cfg,**kwargs)
+    # Instance proxies cannot carry authored overrides. Expand only this diagnostic asset.
+    while True:
+        instances=[p for p in Usd.PrimRange(prim) if p.IsInstance()]
+        if not instances:
+            break
+        for item in instances:
+            item.SetInstanceable(False)
+    edited=[]
+    for item in Usd.PrimRange(prim):
+        if item.HasAPI(UsdPhysics.CollisionAPI):
+            api=UsdPhysics.CollisionAPI(item)
+            api.CreateCollisionEnabledAttr(False)
+            if api.GetCollisionEnabledAttr().Get() is not False:
+                raise RuntimeError('Table collision fault injection did not apply')
+            edited.append(str(item.GetPath()))
+    if not edited:
+        raise RuntimeError('Table collision fault injection found no colliders')
+    print('ESL_FAULT_DISABLED_TABLE_COLLIDERS '+json.dumps(edited),flush=True)
+    return prim

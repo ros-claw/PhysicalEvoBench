@@ -10,6 +10,12 @@ class ProgramReference(StateBasedReference):
         self.program=Program.from_dict(program)
         super().__init__(worker,configuration)
 
+    def get_action(self,env,observation):
+        action=super().get_action(env,observation)
+        if self.worker.diag_cfg.get('initialization_profile')=='support-probe-restore-1':
+            self.diagnostics['evaluator_guard']=self.fsm.last_guard_evaluation
+        return action
+
     def reset(self):
         super().reset()
         self.fsm=ProgramFSM(self.program)

@@ -56,8 +56,9 @@ class DiagnosticWorker(LiftWorker):
                     env_cfg.scene.esl_support=ContactSensorCfg(prim_path=env_cfg.scene.dex_cube.prim_path,
                         update_period=0.,history_length=1)
                 if self.diag_cfg.get('diagnostic_disable_table_collision'):
-                    from isaaclab.sim import CollisionPropertiesCfg
-                    env_cfg.scene.table.spawn.collision_props=CollisionPropertiesCfg(collision_enabled=False)
+                    from physicalevobench.core.scene_diagnostics import spawn_table_without_collision
+                    env_cfg.scene.table.spawn.diagnostic_original_spawn=env_cfg.scene.table.spawn.func
+                    env_cfg.scene.table.spawn.func=spawn_table_without_collision
                 env_cfg.compute_final_obs = True
                 return env_cfg
 

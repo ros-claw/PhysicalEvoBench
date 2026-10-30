@@ -37,10 +37,12 @@ def run(root,out):
                     'reference_config':base['reference_config'],'identity':{'diagnostic':group['name']}})
                 ready=json.loads((out/group['name']/f'episodes/check-{i}/readiness.json').read_text())
                 result.append({'group':group['name'],'slot':i,'execution_status':row['execution_status'],
-                               'ready_status':ready['status'],'reason':ready['reason'],'task_controls':row['steps']})
+                               'ready_status':ready['status'],'reason':ready['reason'],'task_controls':row['steps'],
+                               'runtime_table_shape_hit':ready['runtime_shapes_after']['table_shape_hit']})
         finally:
             session.close()
-    passed=all(r['ready_status']==('INIT_INVALID' if r['group']=='fault-injected' else 'READY') for r in result)
+    passed=all(r['ready_status']==('INIT_INVALID' if r['group']=='fault-injected' else 'READY')
+               and r['runtime_table_shape_hit']==(r['group']=='normal') for r in result)
     value={'status':'PASS' if passed else 'FAIL','cases':result,'attempts':len(result),
            'PPO_weights_used':False,'model_calls':0,'scope':'Fault injection validates detection, not spontaneous fault root cause'}
     save_json(out/'results.json',value)
