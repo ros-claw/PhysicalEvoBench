@@ -24,7 +24,7 @@ def run(root, out, reference, program_file, gpu):
     for i, c in enumerate(cs):
         c['public_goal'] = [.62, .12, .021] if i < 2 else [.60, -.12, .021]
     jobs = []
-    programs = {'starter': candidate('starter'), 'open_guard': candidate('open'),
+    programs = {'starter': candidate('starter'), 'aperture_guard': candidate('aperture'),
                 'strong': strong, 'identity_strong': strong}
     for i, c in enumerate(cs):
         names = list(programs)

@@ -26,7 +26,7 @@ class CoreWorker(DiagnosticWorker):
         geometry={}
         for name in ('dex_cube','table'):
             asset=self.base.scene[name]
-            path=getattr(asset,'cfg',asset).prim_path.replace('{ENV_REGEX_NS}','/World/envs/env_0').replace('env_.*','env_0')
+            path=self.base.scene.env_prim_paths[0]+'/'+getattr(asset,'cfg',asset).prim_path.rsplit('/',1)[-1]
             prim=stage.GetPrimAtPath(path)
             if prim and prim.IsValid():
                 box=cache.ComputeWorldBound(prim).ComputeAlignedRange()
