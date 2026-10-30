@@ -63,3 +63,16 @@ def call_schema():
     properties={'tool':{'type':'string','enum':['run_trial','freeze']},'library':library,
                 'training_condition_handle':{'type':'string'},'memory':{'type':'string','maxLength':4000}}
     return {'type':'object','additionalProperties':False,'properties':properties,'required':list(properties)}
+
+
+def reuse_provenance(library):
+    """Describe module isolation without claiming autonomous/shared-skill retention."""
+    import json
+    return {'dispatch_owner':'framework','dispatch':'fixed lift/place slots',
+            'transfer_owner':'framework','transfer_kind':'framework_mapped_parameter_transfer',
+            'mapped_fields':['approach_clearance_m','minimum_close_s'],
+            'shared_executable_modules':[],
+            'preserved_lift_sha256':library.lift.sha256,
+            'place_sha256':library.place.sha256,
+            'serialized_bytes':len(json.dumps(library.to_dict(),sort_keys=True).encode()),
+            'retention_interpretation':'Independent module preservation; not shared-skill anti-forgetting'}

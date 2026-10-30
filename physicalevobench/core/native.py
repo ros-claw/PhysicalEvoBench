@@ -16,6 +16,27 @@ class ProgramReference(StateBasedReference):
 
 
 class CoreWorker(DiagnosticWorker):
+    def __init__(self,*args,**kwargs):
+        super().__init__(*args,**kwargs)
+        import omni.usd
+        from pxr import Usd, UsdGeom
+        from physicalevobench.doctor import save_json
+        stage=omni.usd.get_context().get_stage()
+        cache=UsdGeom.BBoxCache(Usd.TimeCode.Default(),[UsdGeom.Tokens.default_,UsdGeom.Tokens.render,UsdGeom.Tokens.proxy])
+        geometry={}
+        for name in ('dex_cube','table'):
+            asset=self.base.scene[name]
+            path=asset.cfg.prim_path.replace('{ENV_REGEX_NS}','/World/envs/env_0').replace('env_.*','env_0')
+            prim=stage.GetPrimAtPath(path)
+            if prim and prim.IsValid():
+                box=cache.ComputeWorldBound(prim).ComputeAlignedRange()
+                geometry[name]={'prim_path':path,'world_bound_min':list(box.GetMin()),
+                                'world_bound_max':list(box.GetMax()),
+                                'scope':'USD visual/proxy bounds; not measured support contact or collider hull'}
+            else:
+                geometry[name]={'status':'not_measured','path':path}
+        save_json(self.output_dir/'geometry.json',geometry)
+
     def _snapshot(self,phase):
         result=super()._snapshot(phase)
         result['finger_position']=self.as_torch(self.robot.data.joint_pos)[0,self.finger_joint_indices].tolist()
@@ -26,5 +47,5 @@ class CoreWorker(DiagnosticWorker):
         if self.diag_cfg.get('task_version')!='core-place-public-v3-dev':
             return {}
         return {'task_goal_position':list(self.diag_cfg['public_goal']),
-                'support_geometry':{'plane_z_m':0.,'object_half_extent_m':.02,
-                                    'support_contact':'not_measured'}}
+                'support_geometry':{'support_contact':'not_measured',
+                                    'geometry_source':'see geometry.json; not inferred from reset center'}}

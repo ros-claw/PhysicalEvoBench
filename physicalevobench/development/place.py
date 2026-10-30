@@ -53,7 +53,7 @@ def make_job(program, c, episode, name):
             'public_goal': c['public_goal'], 'identity': {'method': name, 'program_hash': program.sha256}}
 
 
-def run(root, out, reference, gpu, variants, count, profile):
+def run(root, out, reference, gpu, variants, count, profile, goal=None):
     if command(['git', 'status', '--porcelain'], cwd=root)['stdout']:
         raise ValueError('Commit development source before launch')
     if any(v not in ('starter', 'open', 'settle', 'settle_open') for v in variants):
@@ -62,6 +62,11 @@ def run(root, out, reference, gpu, variants, count, profile):
     source = command(['git', 'rev-parse', 'HEAD'], cwd=root)['stdout']
     jobs = []
     cs = conditions('dev1030', 2026103002, count)
+    if goal is not None:
+        if len(goal)!=3 or not .4<=goal[0]<=.7 or abs(goal[1])>.2 or goal[2]!=.021:
+            raise ValueError('Unsupported public table goal')
+        for c in cs:
+            c['public_goal']=goal
     for i, c in enumerate(cs):
         for v in variants:
             job = make_job(candidate(v), c, f'dev-{len(jobs):03d}', v)
@@ -111,9 +116,10 @@ def main():
     p.add_argument('--conditions', type=int, default=2, choices=range(1, 5))
     p.add_argument('--control-profile', default='contact-integral-v1',
                    choices=['contact-integral-v1', 'phase-integral-legacy'])
+    p.add_argument('--goal', help='JSON public goal vector, engineering intervention only')
     a = p.parse_args()
     run(Path.cwd(), Path(a.output).absolute(), Path(a.reference), a.gpu,
-        a.variants.split(','), a.conditions, a.control_profile)
+        a.variants.split(','), a.conditions, a.control_profile, json.loads(a.goal) if a.goal else None)
 
 
 if __name__ == '__main__':
