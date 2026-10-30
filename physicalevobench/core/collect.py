@@ -29,6 +29,9 @@ def main():
             raise ValueError('Immutable checkpoint changed')
         shutil.copyfile(Path(cfg['checkpoint_path']).parent/'params/agent.yaml',out/'policy_config.yaml')
         worker=CoreWorker(cfg['checkpoint_path'],out,cfg)
+        if cfg.get('initialization_diagnostic'):
+            from physicalevobench.core.scene_diagnostics import install
+            install(worker)
         (out/'episodes.jsonl').touch()
         save_json(out/'ready.json',{'at':now()})
         completed=[]
@@ -52,6 +55,9 @@ def main():
                     worker.policy=ProgramReference(worker,cfg['reference_config'],job['program'])
                 else:
                     worker.policy=StateBasedReference(worker,job['reference_config'])
+                if job.get('diagnostic_hold'):
+                    from physicalevobench.core.scene_diagnostics import HoldReference
+                    worker.policy=HoldReference(worker)
                 if job.get('force_open'):
                     from physicalevobench.v02.reference_native import OpenReference
                     worker.policy=OpenReference(worker.policy,worker.action_mapping['gripper_action']['start'])
@@ -65,6 +71,9 @@ def main():
                 worker.policy.get_action=proposed
                 row=worker.run_episode(job['condition'],SkillSpec(worker.checkpoint_hash),
                                        'core-participant',job['episode_id'])
+                if cfg.get('initialization_diagnostic'):
+                    save_json(out/'episodes'/job['episode_id']/'initialization_events.json',worker.initialization_events)
+                    worker.initialization_events=[]
                 trace=out/row['trace_artifact']
                 with trace.open('rb') as src,gzip.open(str(trace)+'.gz','wb') as dst:
                     shutil.copyfileobj(src,dst)

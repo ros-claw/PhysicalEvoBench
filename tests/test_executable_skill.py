@@ -242,13 +242,16 @@ def test_portable_qualification_rejects_changed_starter_with_unchanged_executor_
     import json
     from pathlib import Path
 
-    from physicalevobench.core.execution_identity import validate_execution
+    from physicalevobench.core.execution_identity import EXECUTION_FILES,validate_execution
+    from physicalevobench.doctor import sha256
     from physicalevobench.development import place
     from physicalevobench.v02.reference_artifact import load
 
     root=Path(__file__).resolve().parents[1]
     receipt=json.loads((root/'configs/learning/qualification.json').read_text())
     base=load(root/'configs/core/frozen_reference.json')
+    # CPU-only receipt fixture for contract testing; never written as physics qualification.
+    receipt['execution_files']={p:sha256(root/p) for p in EXECUTION_FILES}
     validate_execution(root,receipt,base)
     changed=place.starter_program().to_dict()
     changed['nodes'][0]['timeout_s']=19.
