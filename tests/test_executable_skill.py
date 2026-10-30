@@ -121,7 +121,7 @@ def test_invalid_designer_is_retained_as_failure_without_any_physics(tmp_path):
     assert failure['status'] == 'INVALID_PARTICIPANT_SUBMISSION'
     assert 'denominator' in failure['query_scoring']
     assert not (tmp_path/'designer/native').exists()
-    assert json.loads((tmp_path/'designer/model_calls/budget.json').read_text())['input_tokens'] == 12
+    assert json.loads((tmp_path/'designer/model_calls/budget.json').read_text())['input_tokens'] == 120
 
 
 def test_common_batch_search_uses_identical_conditions_before_selection(tmp_path, monkeypatch):

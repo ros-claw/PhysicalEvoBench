@@ -169,14 +169,27 @@ def learn(root, out, source, cfg, base, group, name, model, provider, run_id, gp
             stage='participant'
             response = participant.call(request)
             save_json(directory/f'proposal-{index:02d}.json', response)
-            if set(response) != {'tool', 'program_json', 'practice_handle', 'memory'}:
-                raise ValueError('Participant invalid fields')
-            current = Program.from_dict(json.loads(response['program_json']))
-            if current.schema != 'core-skill-graph-2':
-                raise ValueError('Participant must use declared v2 graph')
-            if not isinstance(response['memory'], str) or len(response['memory']) > 4000:
-                raise ValueError('Invalid participant memory')
-            tool = response['tool']
+            try:
+                if not isinstance(response,dict) or set(response)!={'tool','program_json','practice_handle','memory'}:
+                    raise ValueError('Participant invalid fields')
+                proposal=Program.from_dict(json.loads(response['program_json']))
+                if proposal.schema!='core-skill-graph-2':
+                    raise ValueError('Participant must use declared v2 graph')
+                if not isinstance(response['memory'],str) or len(response['memory'])>4000:
+                    raise ValueError('Invalid participant memory')
+                tool=response['tool']
+                if tool not in ('run_trial','revise','freeze'):
+                    raise ValueError('Invalid participant tool')
+                if tool=='run_trial' and (not feedback_enabled or used>=8):
+                    raise ValueError('Physical trials unavailable for this method/budget')
+                handles={f'practice-{i}':c for i,c in enumerate(group['support'])}
+                if tool=='run_trial' and response['practice_handle'] not in handles:
+                    raise ValueError('Invalid practice handle')
+            except (ValueError,TypeError,KeyError) as error:
+                history.append({'tool':'validation_error','error':str(error),'cost_episodes':0})
+                save_json(directory/'history.json',history)
+                continue
+            current=proposal
             entry = {'tool': tool, 'program': current.to_dict(), 'program_hash': current.sha256}
             if tool == 'freeze':
                 save_json(directory/'freeze_receipt.json',{'at':now(),'proposal_index':index,
