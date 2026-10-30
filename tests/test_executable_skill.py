@@ -63,7 +63,8 @@ def test_goal_target_comes_from_public_goal_and_rejects_private_paths():
             Program.from_dict(bad)
 
 
-def test_task_lifecycle_does_not_block_other_task_development():
+def test_task_lifecycle_does_not_block_other_task_development(tmp_path, monkeypatch):
+    monkeypatch.chdir(tmp_path)
     assert task('lift-regression', 'DEV')['status'] == 'REGRESSION'
     assert task('place-settle', 'DEV')['status'] == 'DEV'
     with pytest.raises(ValueError, match='formal scores'):

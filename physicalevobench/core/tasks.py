@@ -14,6 +14,15 @@ def task(name, mode):
     if mode not in ('DEV', 'QUALIFICATION', 'BENCHMARK'):
         raise ValueError('Invalid execution mode')
     value = dict(TASKS[name])
+    if name=='place-settle':
+        import json
+        from pathlib import Path
+        receipt=Path('configs/learning/qualification.json')
+        if receipt.exists():
+            q=json.loads(receipt.read_text())
+            if q.get('status')=='QUALIFIED':
+                value.update(status='QUALIFIED',qualification_receipt=str(receipt),
+                             scope='Finite qualified public-goal release adaptation; pilot statistics')
     if mode == 'BENCHMARK' and value['status'] != 'QUALIFIED':
         raise ValueError(f'Task {name} is {value["status"]}; cannot receive formal scores')
     return value

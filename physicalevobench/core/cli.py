@@ -39,8 +39,8 @@ def main():
         return physical_main()
     a=p.parse_args()
     if a.command=='tasks':
-        from physicalevobench.core.tasks import TASKS
-        print(json.dumps(TASKS,indent=2))
+        from physicalevobench.core.tasks import TASKS,task
+        print(json.dumps({k:task(k,'DEV') for k in TASKS},indent=2))
         return
     if a.command=='run':
         argv=[sys.executable,'-m','physicalevobench.core.pilot','--output',a.output,
