@@ -1,12 +1,33 @@
 """Export an immutable runtime package from a registered Git commit."""
 
+import fcntl
 import subprocess
+from contextlib import contextmanager
 from pathlib import Path
 
 from physicalevobench.doctor import sha256
 
 
+@contextmanager
+def source_lock(root,ref):
+    directory=Path(root)/'.cache/study-source-locks'
+    directory.mkdir(parents=True,exist_ok=True)
+    with (directory/(ref+'.lock')).open('a') as stream:
+        fcntl.flock(stream,fcntl.LOCK_EX)
+        try:
+            yield
+        finally:
+            fcntl.flock(stream,fcntl.LOCK_UN)
+
+
 def snapshot_source(root, ref):
+    if len(ref)!=40 or any(c not in '0123456789abcdef' for c in ref):
+        raise ValueError('Runtime source needs a full commit digest')
+    with source_lock(root,ref):
+        return _snapshot_source(root,ref)
+
+
+def _snapshot_source(root, ref):
     root=Path(root)
     if len(ref)!=40 or any(c not in '0123456789abcdef' for c in ref):
         raise ValueError('Runtime source needs a full commit digest')
