@@ -72,7 +72,7 @@ def report(primary, extension, prospective, task_qualification, problem_qualific
              '|---|---|---|---|---|---|']
     for (label, _, _), counts in zip(groups, totals, strict=True):
         lines.append('| '+label+' | '+' | '.join(f'{counts[n][0]}/{counts[n][1]}' for n in arms)+' |')
-    lines += ['', '三组结果分别解释，不能合成漂亮平均分：原查询分布发现了起点饱和，保留全部结果；组合扩展在看到该缺口后定义，使用早已冻结的同两条学习产物，0新学习、0新模型调用，是探索性结果；最后一组在问题资格通过后，从新目录按公开入口重新学习，是1条前瞻pilot。两条旧实例不会因扩展再算成两条新实例。', '',
+    lines += ['', f"探索组合中，Feedback对Frozen的表面差是{totals[1]['feedback'][0]/totals[1]['feedback'][1]-totals[1]['frozen'][0]/totals[1]['frozen'][1]:+.2%}，但对删除经验的差是{totals[1]['feedback'][0]/totals[1]['feedback'][1]-totals[1]['deletion'][0]/totals[1]['deletion'][1]:+.2%}；同初始程序重放已经出现了相应差异，因此不能把表面前后改善归因于持久经验。前瞻pilot也未显示Feedback优于无反馈。", '', '三组结果分别解释，不能合成漂亮平均分：原查询分布发现了起点饱和，保留全部结果；组合扩展在看到该缺口后定义，使用早已冻结的同两条学习产物，0新学习、0新模型调用，是探索性结果；最后一组在问题资格通过后，从新目录按公开入口重新学习，是1条前瞻pilot。两条旧实例不会因扩展再算成两条新实例。', '',
               '## 1. 为什么这是一道有效学习题', '',
               '| 新组合资格对照 | 成功/回合 |', '|---|---|']
     for name, values in q['scores'].items():
@@ -118,7 +118,7 @@ def report(primary, extension, prospective, task_qualification, problem_qualific
     for (label, _, data), counts in zip(groups, totals, strict=True):
         def rate(n):
             return counts[n][0]/counts[n][1]
-        lines.append(f"**{label}**：Feedback相对No-Feedback {rate('feedback')-rate('designer'):+.2%}；相对删除经验 {rate('feedback')-rate('deletion'):+.2%}；Search相对Frozen {rate('search')-rate('frozen'):+.2%}。")
+        lines.append(f"**{label}**：Feedback相对No-Feedback {rate('feedback')-rate('designer'):+.2%}；相对删除经验 {rate('feedback')-rate('deletion'):+.2%}；Search相对Frozen {rate('search')-rate('frozen'):+.2%}、相对删除经验 {rate('search')-rate('deletion'):+.2%}。")
         for name, value in data['paired_conditional_intervals'].items():
             lines.append(f"{name} 条件bootstrap95%区间 [{value['interval'][0]:+.2%}, {value['interval'][1]:+.2%}]。")
         lines.append('')
