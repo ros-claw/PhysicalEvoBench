@@ -13,3 +13,5 @@
 `command_response.json` 用同一组真实公开观测同时解释两个候选，报告期望目标/夹爪分歧；它是命令映射的反事实，不是额外物理回合。真实 processed/applied targets 与限幅步另记，避免把候选变化等同于最终动作变化。
 
 独立 lift/place 槽位的旧 SkillLibrary 继续兼容。`reuse_provenance()` 明确 framework_mapped_parameter_transfer、固定任务分派、无共享可执行模块、原样 lift 的哈希及序列化字节。不能把它单独解释为自主技能抽象或共享抗遗忘。当前单题 pilot 没有声称迁移/保持运行。
+
+mode仍声明图解释器中的通用抓取frame捕获及recover计数语义：进入close/recover可更新anchor，进入probe保存物体/相对偏移，close/probe转lift更新抓取偏移。这是公开程序语义，不能将mode称为完全无作用标签；被移除的是mode对新执行协议积分启停的隐藏影响。

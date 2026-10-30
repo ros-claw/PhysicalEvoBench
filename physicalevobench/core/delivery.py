@@ -23,7 +23,8 @@ def package(root,out,studies):
 
     out.mkdir(parents=True,exist_ok=False)
     files=[]
-    commits=set()
+    packaging_commit=subprocess.check_output(['git','rev-parse','HEAD'],cwd=root,text=True).strip()
+    commits={packaging_commit}
     for study in studies:
         for f in sorted(study.rglob('*')):
             if not f.is_file() or f.is_symlink() or any(x in f.parts for x in ('recorder','__pycache__')):
@@ -67,7 +68,7 @@ def package(root,out,studies):
         data=subprocess.check_output(['git','archive','--format=tar.gz',commit,'physicalevobench'],cwd=root)
         dest.write_bytes(data)
         sources.append({'commit':commit,'file':dest.name,'sha256':sha256(dest)})
-    manifest={'schema':'core-evidence-delivery-1','studies':[s.name for s in studies],
+    manifest={'packaging_source_commit':packaging_commit,'schema':'core-evidence-delivery-1','studies':[s.name for s in studies],
               'files':[{k:v for k,v in f.items() if k!='local'} for f in files],
               'archives':archives,'sources':sources,
               'scope':'Raw physics and model/tool evidence; no licensed weights. Offline audit is not new physics.'}
