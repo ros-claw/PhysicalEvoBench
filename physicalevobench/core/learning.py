@@ -138,6 +138,8 @@ def artifact(base, program, source, run_id, name, used, memory):
 
 def compact(history):
     value = json.loads(json.dumps(history))
+    for item in value:
+        item.pop('memory',None)
     for item in value[:-1]:
         if item.get('feedback'):
             item['feedback'].pop('events_and_periodic_samples', None)
@@ -156,6 +158,7 @@ def learn(root, out, source, cfg, base, group, name, model, provider, run_id, gp
         session = NativeSession(root, directory/'native', source, cfg, gpu)
         session.ready()
     history, used = [], 0
+    current_memory=''
     stage='participant'
     current = starter_program()
     try:
@@ -169,10 +172,11 @@ def learn(root, out, source, cfg, base, group, name, model, provider, run_id, gp
                                                    for i, c in enumerate(group['support'])],
                        'legacy_targets': sorted(t for t in TARGETS if not t.startswith('place_')), 'legacy_guards': sorted(GUARDS),
                        'legacy_modes': sorted(MODES), 'node_fields': sorted(NODE_FIELDS),
-                       'context_version':'public-context-v2',
+                       'context_version':'public-context-v3', 'current_memory':current_memory,
                        'budget': {'max_calls': 10, 'calls_used': index, 'max_physical_episodes': 8 if feedback_enabled else 0,
                                   'physical_episodes_used': used, 'input_token_cap': 300000,
-                                  'output_token_cap': 48000},
+                                  'output_token_cap': 48000,'input_tokens_used':participant.input_tokens,
+                                  'output_tokens_used':participant.output_tokens},
                        'history': compact(history)}
             assert_public(request)
             stage='participant'
@@ -199,7 +203,10 @@ def learn(root, out, source, cfg, base, group, name, model, provider, run_id, gp
                 save_json(directory/'history.json',history)
                 continue
             current=proposal
-            entry = {'tool': tool, 'program': current.to_dict(), 'program_hash': current.sha256}
+            current_memory=response['memory']
+            entry = {'tool': tool, 'program': current.to_dict(), 'program_hash': current.sha256,
+                     'practice_handle':response['practice_handle'] if tool=='run_trial' else '',
+                     'memory':current_memory}
             if tool == 'freeze':
                 save_json(directory/'freeze_receipt.json',{'at':now(),'proposal_index':index,
                           'program_hash':current.sha256,'physical_episodes_used':used})
@@ -308,7 +315,7 @@ def run(root, out, qualification, reference, model, provider, instances, gpu, co
     out.mkdir(parents=True, exist_ok=False)
     study_id = str(uuid.uuid4())
     save_json(out/'registration.json', {'schema': 'esl-learning-1', 'mode': 'BENCHMARK_PILOT',
-              'participant_context_version':'public-context-v2','instructions_sha256':digest({'instructions':INSTRUCTIONS}),
+              'participant_context_version':'public-context-v3','instructions_sha256':digest({'instructions':INSTRUCTIONS}),
               'condition_stream':condition_stream,'study_id': study_id, 'source_commit': executor_source, 'scheduler_source_commit':source,'at': now(), 'conditions': groups,
               'physical_budget': instances*(8+8+20), 'instances': instances, 'model': model,
               'model_limits_per_method': {'calls': 10, 'input_tokens': 300000, 'output_tokens': 48000},

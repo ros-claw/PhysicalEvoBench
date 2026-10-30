@@ -86,6 +86,16 @@ def audit_bindings(out, reg, frozen):
                     request = read(call/'request.json')
                     if request['history'] != compact(history[:j]):
                         raise ValueError('Participant history differs from actual prior trials')
+                    if reg.get('participant_context_version')=='public-context-v3':
+                        prior=[h['memory'] for h in history[:j] if 'memory' in h]
+                        if request.get('current_memory')!=(prior[-1] if prior else ''):
+                            raise ValueError('Participant memory did not survive the serialized boundary')
+                        for k,h in enumerate(history[:j]):
+                            if h['tool']!='validation_error':
+                                chosen=read(directory/name/f'proposal-{k:02d}.json')
+                                if (h['memory']!=chosen['memory'] or
+                                        (h['tool']=='run_trial' and h['practice_handle']!=chosen['practice_handle'])):
+                                    raise ValueError('Past experiment identity or learner notes were lost')
                 trials = [j for j, item in enumerate(history) if item['tool'] == 'run_trial']
                 if art['payload']['budget_used'] != len(trials):
                     raise ValueError('Artifact learning cost differs from actual trials')

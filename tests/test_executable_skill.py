@@ -186,3 +186,53 @@ def test_pairing_rejects_different_inertia_velocity_or_nonfinite_measured_state(
         b = {**a, field: replacement}
         with pytest.raises(ValueError, match='initial physical'):
             assert_initial_pair(a, b)
+
+
+def test_real_loop_contract_preserves_trial_handle_and_participant_memory(tmp_path, monkeypatch):
+    import json
+
+    from physicalevobench.core import learning
+    from physicalevobench.development.place import conditions, starter_program
+
+    class CPUOnlySession:
+        def __init__(self, root, out, *args):
+            self.out = out
+
+        def ready(self):
+            pass
+
+        def trial(self, job):
+            assert job['condition']['condition_id'].endswith('-01')
+            return {'CPU_fixture': True}
+
+        def close(self):
+            pass
+
+    class CPUOnlyProvider:
+        def __init__(self, *args, **kwargs):
+            self.input_tokens = self.output_tokens = self.calls = 0
+
+        def call(self, request):
+            if self.calls == 0:
+                assert request['current_memory'] == ''
+                assert request['history'] == []
+                tool, note = 'run_trial', 'My hypothesis and chosen practice-1 must survive.'
+            else:
+                assert request['current_memory'] == 'My hypothesis and chosen practice-1 must survive.'
+                assert request['history'][0]['practice_handle'] == 'practice-1'
+                assert request['history'][0]['feedback']['success'] is False
+                assert request['budget']['input_tokens_used'] == 100
+                tool, note = 'freeze', 'Retain my revised assessment.'
+            self.calls += 1
+            self.input_tokens += 100
+            return {'tool': tool, 'practice_handle': 'practice-1', 'memory': note,
+                    'program_json': json.dumps(starter_program().to_dict())}
+
+    monkeypatch.setattr(learning, 'NativeSession', CPUOnlySession)
+    monkeypatch.setattr(learning, 'ParticipantProcess', CPUOnlyProvider)
+    monkeypatch.setattr(learning, 'event_feedback', lambda *args: {'success': False})
+    group = {'support': conditions('CPU-only', 1234, 2)}
+    result = learning.learn(tmp_path, tmp_path, 'a'*40, {}, {'reference_config': {}}, group, 'feedback',
+                            'CPU-fixture', ['unused'], 'cpu-only', 2)
+    assert result['payload']['memory'] == 'Retain my revised assessment.'
+    assert result['payload']['budget_used'] == 1
