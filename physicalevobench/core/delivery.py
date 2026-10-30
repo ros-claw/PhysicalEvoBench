@@ -113,8 +113,10 @@ def verify(evidence,out):
     results={}
     for name in manifest['studies']:
         study=out/name
-        reg=json.loads((study/'registration.json').read_text())
-        status=json.loads((study/'status.json').read_text())
+        metadata_only=not (study/'registration.json').exists() and (study/'asset_manifest.json').exists()
+        reg=({'schema':'esl-asset-dependency-snapshot-1'} if metadata_only else
+             json.loads((study/'registration.json').read_text()))
+        status=({'status':'COMPLETED'} if metadata_only else json.loads((study/'status.json').read_text()))
         identities=list(study.rglob('source_identity.json'))
         if reg.get('source_sha256'):
             identities.append(None)
@@ -124,7 +126,10 @@ def verify(evidence,out):
                 if sources[identity['commit']].get(file)!=expected_digest:
                     raise ValueError('Registered source differs from bundled immutable source')
                 source_checks+=1
-        if status['status']=='CANCELLED_BEFORE_LAUNCH':
+        if metadata_only:
+            from physicalevobench.core.asset_manifest import audit_result
+            results[name]=audit_result(study)
+        elif status['status']=='CANCELLED_BEFORE_LAUNCH':
             if status['actual_episodes']!=0 or list(study.rglob('launch.json')):
                 raise ValueError('Cancelled reservation executed physics')
             results[name]={'status':'CANCELLED_BEFORE_LAUNCH','episodes':0}

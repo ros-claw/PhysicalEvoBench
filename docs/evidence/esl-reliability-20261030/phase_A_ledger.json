@@ -1,7 +1,7 @@
 {
-  "short_physical_attempts": 30,
+  "short_physical_attempts": 42,
   "cap": 48,
-  "reference_qualification_separate": 14,
+  "reference_qualification_separate": 28,
   "entries": [
     {
       "path": "/home/dell/peb-esl-readiness-diagnosis-20261030-001",
@@ -27,6 +27,16 @@
       "path": "/home/dell/peb-esl-ready-conformance-20261030-003",
       "physical_attempts": 6,
       "status": "PASS_CONFIRMED_FAULT_BOUNDARY"
+    },
+    {
+      "path": "/home/dell/peb-esl-mass-transport-20261030-001",
+      "physical_attempts": 6,
+      "status": "CONFIRMED_MODEL_SHADOW_MISMATCH_AND_SYNC_REAPPLY"
+    },
+    {
+      "path": "/home/dell/peb-esl-ready-conformance-20261030-004",
+      "physical_attempts": 6,
+      "status": "PASS_ACTUAL_MODEL_READBACK_AND_CONFIRMED_FAULT_BOUNDARY"
     }
   ]
 }

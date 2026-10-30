@@ -79,6 +79,7 @@ def run(root,out,qualification,gpus,query_lanes_per_gpu=2):
          'optional_diagnostics':{'DeliberationOnly-9':'NOT_RUN; prioritize fixed 8-block main experiment','B2_B4_query_curves':'NOT_RUN; only no-extra-call snapshots'},
          'inference_identity':'Requested model identifier and actual CLI receipts; provider effort/fingerprint/immutable weights unavailable, not guaranteed constant'}
     save_json(out/'registration.json',reg)
+    (out/'asset_dependencies.json').write_bytes((root/'configs/reliability/asset_dependencies.json').read_bytes())
     save_json(out/'status.json',{'status':'LEARNING','at':now()})
     def train(i,gpu):
         directory=out/f'instance-{i}'
@@ -150,6 +151,8 @@ def run(root,out,qualification,gpus,query_lanes_per_gpu=2):
 
 def audit_and_summarize(out):
     reg=json.loads((out/'registration.json').read_text())
+    if reg.get('asset_dependency_snapshot_sha256') and sha256(out/'asset_dependencies.json')!=reg['asset_dependency_snapshot_sha256']:
+        raise ValueError('Registered asset dependency snapshot changed')
     frozen=json.loads((out/'all_frozen.json').read_text())
     binding=audit_bindings(out,reg,frozen)
     blocks=[]

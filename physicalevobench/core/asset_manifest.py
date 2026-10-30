@@ -46,3 +46,23 @@ def main():
 
 if __name__=='__main__':
     main()
+
+
+def audit_result(out):
+    import re
+
+    cfg=json.loads((out/'config.json').read_text())
+    manifest=json.loads((out/'asset_manifest.json').read_text())
+    process=json.loads((out/'process.json').read_text())
+    if (process['returncode']!=0 or manifest['physical_episodes']!=0 or
+            list(out.rglob('episodes.jsonl')) or [r['uri'] for r in manifest['roots']]!=cfg['usd_roots']):
+        raise ValueError('Read-only dependency job changed scope or inputs')
+    for name,layer in manifest['layers'].items():
+        if (layer['identifier']!=name or not re.fullmatch('[0-9a-f]{64}',layer['serialized_usda_sha256']) or
+                layer['serialized_bytes']<=0):
+            raise ValueError('Invalid recorded dependency content digest')
+    if any(name not in manifest['layers'] for root in manifest['roots'] for name in root.get('layer_identifiers',[])):
+        raise ValueError('Dependency root references an absent layer')
+    return {'audit':'METADATA_INTEGRITY_ONLY','physical_episodes':0,'resolved_layers':len(manifest['layers']),
+            'unresolved':{r['uri']:r.get('unresolved',[]) for r in manifest['roots']},
+            'scope':'Code/input/record integrity, not an independent rehash of licensed assets or second-machine validation'}
