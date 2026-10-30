@@ -19,3 +19,5 @@ D：仅在Ready边界及新执行参考资格通过后，冻结全部执行、�
 稀疏B=2/4/8快照可以不增加调用地留档，但本轮不运行额外256回合曲线；未测部分不画成绩。DeliberationOnly-9为独立具名诊断，若运行必须在开始前单独登记，不混入上述768，不按主结果好坏决定追加。跨任务扩展不在本轮实施范围。
 
 剥离PPO依赖使用 `state-program-reference-1` / `state-execution-skill-1` 与执行配置哈希，不能把新identity伪称旧checkpoint SHA；旧权重接口兼容保留。第二stdin adapter、同机新目录物理接入单列；没有第二台机器或独立外部人时如实未验证。新发布/合并不在本任务自动授权范围；既有Alpha与PR保持原状态。本轮先创建可审查feature PR，最终报告 `docs/implementation/ESL_RELIABILITY_REPLICATION_REPORT.md`。
+
+在主研究读取结果前固定资源安排：学习阶段每GPU一条lane（同时最多4条模型/原生学习流程）；查询阶段每GPU两条lane（最多8个独立原生进程，每block/arm仍新进程）。现有共享GPU约13–18GB常驻占用，余量充足；不修改他人作业。记录每次进程的GPU负载、时长和顺序。并发只改变墙钟调度，不改变物理dt、任务时长、动作或评分；其可见的重放差异保留，不能声称GPU独占或确定性。

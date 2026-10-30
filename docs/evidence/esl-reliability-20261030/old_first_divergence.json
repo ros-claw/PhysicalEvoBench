@@ -1,0 +1,219 @@
+{
+  "schema": "esl-old-early-drop-diagnostic-1",
+  "cases": [
+    {
+      "abnormal": "/home/dell/peb-esl-extension-20261030-001/instance-0/test-frozen/episodes/query-000",
+      "preselected_control": "/home/dell/peb-esl-extension-20261030-001/instance-0/test-designer/episodes/query-000",
+      "condition": {
+        "condition_id": "factorial-query-0",
+        "split": "factorial-query",
+        "seed": 315924514,
+        "object_mass_kg": 0.1
+      },
+      "initial_conditions_equal": true,
+      "first_divergence_rule": "Earliest recorded post-physics substep with |dz|>.001m or |dvz|>.05m/s; exploratory diagnostic threshold, not a success rule",
+      "first_divergence": {
+        "substep_index": 16,
+        "time_after_first_physics_s": 0.085,
+        "abnormal_z_m": 0.019431065768003464,
+        "normal_z_m": 0.021000128239393234,
+        "abnormal_vz_m_s": -0.83385169506073,
+        "normal_vz_m_s": -0.005346137564629316
+      },
+      "commands_at_divergence": [
+        {
+          "case": "abnormal",
+          "decision": {
+            "phase": "approach",
+            "program_node": "approach",
+            "target_position": [
+              0.5,
+              0.0,
+              0.12348536252975464
+            ],
+            "gripper": "open",
+            "transition_reason": null,
+            "phase_age_s": 0.1,
+            "recoveries": 0
+          },
+          "ee_object_distance_m": 0.9150945935146519,
+          "measured_finger_cube_normal_N": [
+            0.0,
+            0.0
+          ]
+        },
+        {
+          "case": "preselected_normal",
+          "decision": {
+            "phase": "approach",
+            "program_node": "approach",
+            "target_position": [
+              0.5,
+              0.0,
+              0.12348536252975464
+            ],
+            "gripper": "open",
+            "transition_reason": null,
+            "phase_age_s": 0.1,
+            "recoveries": 0
+          },
+          "ee_object_distance_m": 0.9150945935146519,
+          "measured_finger_cube_normal_N": [
+            0.0,
+            0.0
+          ]
+        }
+      ],
+      "raw_hashes": {
+        "/home/dell/peb-esl-extension-20261030-001/instance-0/test-frozen/episodes/query-000/physics.jsonl.gz": "0b975e2521139552e1cedc73cccd635183fb99492d37f619d48da573435c9db9",
+        "/home/dell/peb-esl-extension-20261030-001/instance-0/test-designer/episodes/query-000/physics.jsonl.gz": "004f398b648141e4cb4c17edfcac1c76a2a67555969797e0e1605c442c7b6844",
+        "/home/dell/peb-esl-extension-20261030-001/instance-0/test-frozen/episodes/query-000/trace.jsonl.gz": "a1376b44ca5219a63dfe1d706dbec118fc40c4a189f6998bd3e8ccc96b3da4f3",
+        "/home/dell/peb-esl-extension-20261030-001/instance-0/test-designer/episodes/query-000/trace.jsonl.gz": "7868f1ee8a5ac1ec128dad1c641da3791d4bcd3582a25a007cde6ead85dc7781"
+      },
+      "cube_table_pair_contact": "not_measured in old protocol; cannot identify exact collider/cooking cause retrospectively"
+    },
+    {
+      "abnormal": "/home/dell/peb-esl-extension-20261030-001/instance-0/test-search/episodes/query-000",
+      "preselected_control": "/home/dell/peb-esl-extension-20261030-001/instance-0/test-designer/episodes/query-000",
+      "condition": {
+        "condition_id": "factorial-query-0",
+        "split": "factorial-query",
+        "seed": 315924514,
+        "object_mass_kg": 0.1
+      },
+      "initial_conditions_equal": true,
+      "first_divergence_rule": "Earliest recorded post-physics substep with |dz|>.001m or |dvz|>.05m/s; exploratory diagnostic threshold, not a success rule",
+      "first_divergence": {
+        "substep_index": 16,
+        "time_after_first_physics_s": 0.085,
+        "abnormal_z_m": 0.019431065768003464,
+        "normal_z_m": 0.021000128239393234,
+        "abnormal_vz_m_s": -0.83385169506073,
+        "normal_vz_m_s": -0.005346137564629316
+      },
+      "commands_at_divergence": [
+        {
+          "case": "abnormal",
+          "decision": {
+            "phase": "approach",
+            "program_node": "approach",
+            "target_position": [
+              0.5,
+              0.0,
+              0.12348536252975464
+            ],
+            "gripper": "open",
+            "transition_reason": null,
+            "phase_age_s": 0.1,
+            "recoveries": 0
+          },
+          "ee_object_distance_m": 0.9150945935146519,
+          "measured_finger_cube_normal_N": [
+            0.0,
+            0.0
+          ]
+        },
+        {
+          "case": "preselected_normal",
+          "decision": {
+            "phase": "approach",
+            "program_node": "approach",
+            "target_position": [
+              0.5,
+              0.0,
+              0.12348536252975464
+            ],
+            "gripper": "open",
+            "transition_reason": null,
+            "phase_age_s": 0.1,
+            "recoveries": 0
+          },
+          "ee_object_distance_m": 0.9150945935146519,
+          "measured_finger_cube_normal_N": [
+            0.0,
+            0.0
+          ]
+        }
+      ],
+      "raw_hashes": {
+        "/home/dell/peb-esl-extension-20261030-001/instance-0/test-search/episodes/query-000/physics.jsonl.gz": "6533b39e922abe22d05d4b73d87cb6ab97e6c3fbf8809361c2581898b2d18296",
+        "/home/dell/peb-esl-extension-20261030-001/instance-0/test-designer/episodes/query-000/physics.jsonl.gz": "004f398b648141e4cb4c17edfcac1c76a2a67555969797e0e1605c442c7b6844",
+        "/home/dell/peb-esl-extension-20261030-001/instance-0/test-search/episodes/query-000/trace.jsonl.gz": "84f1f8a2e782906fc2fe24bd4d37f24d116284a8f748669e2213aac8bd08b071",
+        "/home/dell/peb-esl-extension-20261030-001/instance-0/test-designer/episodes/query-000/trace.jsonl.gz": "7868f1ee8a5ac1ec128dad1c641da3791d4bcd3582a25a007cde6ead85dc7781"
+      },
+      "cube_table_pair_contact": "not_measured in old protocol; cannot identify exact collider/cooking cause retrospectively"
+    },
+    {
+      "abnormal": "/home/dell/peb-esl-external-runs-20261030/peb-learning-001/instance-0/test-feedback/episodes/query-000",
+      "preselected_control": "/home/dell/peb-esl-external-runs-20261030/peb-learning-001/instance-0/test-frozen/episodes/query-000",
+      "condition": {
+        "condition_id": "instance-0-query-0",
+        "seed": 903479326,
+        "split": "query",
+        "object_mass_kg": 0.1
+      },
+      "initial_conditions_equal": true,
+      "first_divergence_rule": "Earliest recorded post-physics substep with |dz|>.001m or |dvz|>.05m/s; exploratory diagnostic threshold, not a success rule",
+      "first_divergence": {
+        "substep_index": 16,
+        "time_after_first_physics_s": 0.085,
+        "abnormal_z_m": 0.019431065768003464,
+        "normal_z_m": 0.021000128239393234,
+        "abnormal_vz_m_s": -0.83385169506073,
+        "normal_vz_m_s": -0.005346137564629316
+      },
+      "commands_at_divergence": [
+        {
+          "case": "abnormal",
+          "decision": {
+            "phase": "approach",
+            "program_node": "approach",
+            "target_position": [
+              0.5,
+              0.0,
+              0.12348536252975464
+            ],
+            "gripper": "open",
+            "transition_reason": null,
+            "phase_age_s": 0.1,
+            "recoveries": 0
+          },
+          "ee_object_distance_m": 0.9172103321395145,
+          "measured_finger_cube_normal_N": [
+            0.0,
+            0.0
+          ]
+        },
+        {
+          "case": "preselected_normal",
+          "decision": {
+            "phase": "approach",
+            "program_node": "approach",
+            "target_position": [
+              0.5,
+              0.0,
+              0.12348536252975464
+            ],
+            "gripper": "open",
+            "transition_reason": null,
+            "phase_age_s": 0.1,
+            "recoveries": 0
+          },
+          "ee_object_distance_m": 0.9172103321395145,
+          "measured_finger_cube_normal_N": [
+            0.0,
+            0.0
+          ]
+        }
+      ],
+      "raw_hashes": {
+        "/home/dell/peb-esl-external-runs-20261030/peb-learning-001/instance-0/test-feedback/episodes/query-000/physics.jsonl.gz": "5103ba74e4e058e3153c840b866b7a3ad78d67f1aa7131f19ac7071d4deb03da",
+        "/home/dell/peb-esl-external-runs-20261030/peb-learning-001/instance-0/test-frozen/episodes/query-000/physics.jsonl.gz": "a9bdf0f393de3cc0e9528c7b6961690dd03ab63f9cab9935879c03834906f195",
+        "/home/dell/peb-esl-external-runs-20261030/peb-learning-001/instance-0/test-feedback/episodes/query-000/trace.jsonl.gz": "821d8fcf020cbd1d384f34b96cc49a28f969b06faa3432f409343b0bfe93ba2d",
+        "/home/dell/peb-esl-external-runs-20261030/peb-learning-001/instance-0/test-frozen/episodes/query-000/trace.jsonl.gz": "29f0f866bfe091d6d465d86daab7caff13502179e2736639cbca4ddde247977e"
+      },
+      "cube_table_pair_contact": "not_measured in old protocol; cannot identify exact collider/cooking cause retrospectively"
+    }
+  ],
+  "scope": "Historical task failures retained. First divergence is a physical observation, not unique root cause or new learning evidence."
+}

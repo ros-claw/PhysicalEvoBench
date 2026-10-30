@@ -77,6 +77,31 @@ def run(root,out,gpu):
     return receipt
 
 
+
+def audit_receipt(out):
+    reg=json.loads((out/'registration.json').read_text())
+    receipt=json.loads((out/'qualification.json').read_text())
+    rows=audit_session(out/'native')
+    if len(rows)!=len(reg['jobs']) or len(rows)!=14:
+        raise ValueError('Qualification allocation incomplete')
+    for i,job in enumerate(reg['jobs']):
+        if json.loads((out/'native/requests'/f'{i:03d}.json').read_text())!=job:
+            raise ValueError('Qualification differs from registered interventions')
+    valid=[r for r in rows if r['execution_status']!='INIT_INVALID']
+    scores={name:[r['success'] for r in valid if r['core_identity']['method']==name]
+            for name in ('starter','strong','identity_strong','force_open')}
+    qualified=(len(valid)==14 and scores['strong']==[True]*4 and scores['force_open']==[False]*2
+               and not any(r['diagnostic']['hard_boundary_terminated'] for r in valid))
+    identity=json.loads((out/'native/source_identity.json').read_text())
+    if (receipt['scores']!=scores or receipt['status']!=('QUALIFIED' if qualified else 'DEV') or
+            receipt['registration_sha256']!=digest(reg) or
+            receipt['initial_reference_sha256']!=digest(reg['reference']) or
+            receipt['learning_problem_sha256']!=digest(reg['profile']) or
+            receipt['execution_files']!={p:identity['files'][p] for p in READY_FILES}):
+        raise ValueError('Qualification receipt differs from registered/raw evidence')
+    return {'status':'PASS','qualification_status':receipt['status'],'scores':scores,'attempts':len(rows)}
+
+
 def main():
     p=argparse.ArgumentParser()
     p.add_argument('--output',required=True)

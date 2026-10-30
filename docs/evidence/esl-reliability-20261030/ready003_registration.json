@@ -1,0 +1,64 @@
+{
+  "schema": "esl-ready-conformance-1",
+  "source_commit": "fee2603cbdc8ed434461909b3fae4e0f91527ec5",
+  "at": "2026-10-30T09:41:02.142021+00:00",
+  "physical_attempt_budget": 6,
+  "groups": [
+    {
+      "name": "normal",
+      "disable_table": false,
+      "masses": [
+        0.1,
+        0.1,
+        0.4,
+        0.1
+      ],
+      "seeds": [
+        315924514,
+        903479326,
+        1043475064,
+        315924514
+      ]
+    },
+    {
+      "name": "fault-injected",
+      "disable_table": true,
+      "masses": [
+        0.1,
+        0.4
+      ],
+      "seeds": [
+        315924514,
+        1043475064
+      ]
+    }
+  ],
+  "base": {
+    "schema": "state-program-reference-1",
+    "reference_config": {
+      "approach_clearance_m": 0.1,
+      "approach_tolerance_m": 0.025,
+      "close_timeout_s": 1.2,
+      "contact_force_n": 0.5,
+      "descend_tolerance_m": 0.015,
+      "dwell_s": 0.06,
+      "grasp_offset_m": 0.005,
+      "joint_integral_gain_s": 1.0,
+      "joint_integral_limit_rad": 0.12,
+      "maximum_recoveries": 1,
+      "minimum_close_s": 0.2,
+      "object_follow_m": 0.02,
+      "orientation_tolerance_rad": 0.15,
+      "probe_lift_m": 0.05,
+      "relative_drift_m": 0.025
+    },
+    "task_version": "esl-initialization-diagnostic-v1",
+    "horizon_s": 1.0,
+    "control_profile": "contact-integral-v1",
+    "initialization_profile": "support-probe-restore-1",
+    "backend_commit": "c7edf3a9d5d8276565208f72422f8f8a0806d6cf",
+    "weight_dependency": null,
+    "scoring": "support-diagnostic-no-learning"
+  },
+  "task_policy": "Fixed initial joints/open fingers. Fault injection explicitly disables table collision before construction. Not a spontaneous-fault reproduction. No retry, no model, no condition reselection."
+}

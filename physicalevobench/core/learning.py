@@ -14,7 +14,7 @@ from physicalevobench.core.artifact import freeze, load as load_artifact
 from physicalevobench.core.audit import assert_public, audit_session
 from physicalevobench.core.metrics import compare
 from physicalevobench.core.model import ParticipantProcess
-from physicalevobench.core.errors import (ParticipantError,ParticipantFormatError,ProviderError)
+from physicalevobench.core.errors import (ParticipantBudgetExceeded,ParticipantError,ParticipantFormatError,ProviderError)
 from physicalevobench.core.pilot import worker_config
 from physicalevobench.core.program import GUARDS, MODES, NODE_FIELDS, TARGETS, Program
 from physicalevobench.core.runtime import NativeSession
@@ -254,7 +254,7 @@ def learn(root, out, source, cfg, base, group, name, model, provider, run_id, gp
                 raise ValueError('Invalid participant tool')
             history.append(entry)
             save_json(directory/'history.json', history)
-        raise ParticipantFormatError('Participant failed to freeze within call budget')
+        raise ParticipantBudgetExceeded('Participant failed to freeze within call budget')
     except Exception as error:
         if stage=='physics':
             raise

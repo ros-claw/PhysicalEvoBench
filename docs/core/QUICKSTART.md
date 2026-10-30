@@ -1,5 +1,7 @@
 # Executable-Skill Learning：独立运行与接入
 
+新的Ready纯状态执行与固定8-block研究入口见 [可靠性版本Quickstart](../reliability/QUICKSTART.md)。该路径无需PPO checkpoint；下面保留旧Alpha的复现命令和版本范围。
+
 当前产品入口不依赖 ROSClaw、旧 B1 目录或 PPO 历史数据。T0 是回归与物理 smoke 项；新 Place 学习题只有取得资格卡才可运行学习 pilot。旧双任务 Core 的失败记录在 [1027 报告](../implementation/CORE_BENCHMARK_实施报告_20261027.md)，不会阻塞单独 T0。
 
 ## 轻量源码

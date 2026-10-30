@@ -159,6 +159,10 @@ def audit_bindings(out, reg, frozen):
                     art['payload']['executor'] != reg.get('executor_prefix','contact-integral-v1/')+reg['source_commit']):
                 raise ValueError('Frozen artifact or executor changed')
             native = directory/f'test-{name}'
+            if (native/'query_failure.json').exists():
+                if (native/'source_identity.json').exists() and read(native/'source_identity.json')['commit']!=reg['source_commit']:
+                    raise ValueError('Incomplete physical executor source changed')
+                continue
             if read(native/'source_identity.json')['commit'] != reg['source_commit']:
                 raise ValueError('Physical executor source changed')
             requests = sorted((native/'requests').glob('*.json'))

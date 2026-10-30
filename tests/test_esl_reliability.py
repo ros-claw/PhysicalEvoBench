@@ -139,3 +139,113 @@ def test_block_statistics_keep_missingness_and_identity_discordance():
     second['scores']['feedback']['0']=None
     assert comparison([block,second],'designer',draws=100)['hierarchical_95_interval'] is None
     assert summarize([second])['arms']['feedback']['missing']==1
+
+
+def test_v3_handle_current_program_memory_invalid_repair_and_submission_order(tmp_path,monkeypatch):
+    import json
+
+    import physicalevobench.core.learning as learning
+    from physicalevobench.core.state_config import reference
+    from physicalevobench.development.place import starter_program
+
+    base=reference({'reference_config':{}})
+    program=starter_program().to_dict()
+    program['nodes'][0]['timeout_s']=1.7
+    replies=[{'tool':'revise','program_json':json.dumps(program),'practice_handle':'','memory':'my note'},
+             {'tool':'run_trial','program_json':'broken','practice_handle':'practice-0','memory':'invalid note'},
+             {'tool':'run_trial','program_json':json.dumps(program),'practice_handle':'practice-1','memory':'first trial'},
+             {'tool':'run_trial','program_json':json.dumps(program),'practice_handle':'practice-0','memory':'second trial'},
+             {'tool':'freeze','program_json':json.dumps(program),'practice_handle':'','memory':'final note'}]
+    requests,jobs=[],[]
+    class Model:
+        input_tokens=output_tokens=0
+        calls=0
+        def __init__(self,*args,**kwargs):
+            pass
+        def call(self,request):
+            requests.append(request)
+            return replies[len(requests)-1]
+    class Session:
+        def __init__(self,root,out,*args):
+            self.out=out
+        def ready(self):
+            pass
+        def trial(self,job):
+            jobs.append(job)
+            return {'success':False,'execution_status':'OK'}
+        def close(self):
+            pass
+    monkeypatch.setattr(learning,'ParticipantProcess',Model)
+    monkeypatch.setattr(learning,'NativeSession',Session)
+    monkeypatch.setattr(learning,'event_feedback',lambda directory,row:{'success':False,'cost_episodes':1})
+    group={'support':[{'condition_id':f'c{i}','split':'support','seed':123+i,
+                       'object_mass_kg':.1 if i==0 else .4,'public_goal':[.62,.12,.021]} for i in range(2)]}
+    value=learning.learn(tmp_path,tmp_path,'cpu-fixture',{},base,group,'feedback','fixture',[], 'fixture-id',0)
+    assert len(jobs)==2 and [j['condition']['seed'] for j in jobs]==[124,123]
+    assert requests[2]['current_program']==program and requests[2]['current_memory']=='my note'
+    assert requests[3]['history'][-1]['practice_handle']=='practice-1'
+    assert requests[4]['history'][-1]['practice_handle']=='practice-0'
+    assert requests[4]['current_memory']=='second trial'
+    assert value['payload']['skill']==program and value['payload']['memory']=='final note'
+    for request in requests:
+        learning.assert_public(request)
+        assert 'query' not in request
+
+
+def test_replication_global_freeze_barrier_and_registered_query_orders(tmp_path,monkeypatch):
+    import json
+    import threading
+
+    import physicalevobench.core.replication as replication
+    from physicalevobench.core.artifact import freeze
+    from physicalevobench.core.learning import artifact
+    from physicalevobench.core.state_config import reference
+    from physicalevobench.development.place import starter_program
+
+    base=reference({'reference_config':{}})
+    groups=[]
+    for b in range(8):
+        groups.append({split:[{'condition_id':f'{b}-{split}-{i}','split':split,'seed':10000*b+i+(1000 if split=='query' else 0),
+                              'object_mass_kg':.1 if i%2==0 else .4,'public_goal':[.6,.12,.021]} for i in range(n)]
+                       for split,n in [('support',4),('query',16)]})
+    (tmp_path/'configs/reliability').mkdir(parents=True)
+    (tmp_path/'configs/reliability/public_context_v3.json').write_text('CPU fixture')
+    monkeypatch.setattr(replication,'command',lambda argv,**kw:{'stdout':'' if 'status' in argv else 'CPU-fixture-source'})
+    monkeypatch.setattr(replication,'validate_contract',lambda *args:({},base))
+    monkeypatch.setattr(replication,'manifest',lambda *args,**kwargs:groups)
+    lock=threading.Lock()
+    completed=[]
+    observed={}
+    def fake_learn(root,directory,source,cfg,base,group,name,model,provider,run_id,gpu):
+        path=directory/name
+        path.mkdir()
+        value=freeze(artifact(base,starter_program(),source,run_id,name,0,''),path/'artifact.json')
+        with lock:
+            completed.append((directory.name,name))
+        return value
+    def fake_search(root,directory,source,cfg,base,group,run_id,gpu):
+        return fake_learn(root,directory,source,cfg,base,group,'search',None,None,run_id,gpu)
+    class Session:
+        def __init__(self,root,out,source,cfg,gpu):
+            assert len(completed)==24 and (out.parent.parent/'all_frozen.json').exists()
+            self.key=(out.parent.name,out.name)
+            observed[self.key]=[]
+        def ready(self):
+            pass
+        def trial(self,job):
+            observed[self.key].append(job['condition']['condition_id'])
+        def close(self):
+            pass
+    monkeypatch.setattr(replication,'learn',fake_learn)
+    monkeypatch.setattr(replication,'score_search',fake_search)
+    monkeypatch.setattr(replication,'NativeSession',Session)
+    monkeypatch.setattr(replication,'audit_and_summarize',lambda out:{'CPU_contract_only':True})
+    out=tmp_path/'study'
+    (tmp_path/'unused').write_text('{}')
+    replication.run(tmp_path,out,tmp_path/'unused',[0,1,2,3])
+    reg=json.loads((out/'registration.json').read_text())
+    assert len(observed)==40
+    for (block,method),conditions in observed.items():
+        i=int(block.removeprefix('instance-'))
+        arm=method.removeprefix('test-')
+        assert conditions==[groups[i]['query'][j]['condition_id'] for j in reg['query_order_by_arm'][i][arm]]

@@ -17,7 +17,16 @@ def audit_readiness(directory,condition,row):
             any(f['probe_step']!=i or not math.isclose(f['time_s'],(i+1)*.005,abs_tol=1e-12)
                 for i,f in enumerate(frames)) or r['post_probe']!=frames[-1]):
         raise ValueError('Pre-agent probe coverage or timing changed')
+    for name in ('runtime_shapes_before','runtime_shapes_after','runtime_shapes_at_task_start'):
+        if name in r and r[name].get('status')=='MEASURED':
+            measured=any('/table' in h['collision'] for h in r[name]['hits'])
+            if r[name]['table_shape_hit']!=measured:
+                raise ValueError('Runtime table shape flag differs from raw ray hits')
+    if any(frames[i]['support']['physics_step']!=frames[0]['support']['physics_step']+i for i in range(STEPS)):
+        raise ValueError('Support sensor timestamps are not consecutive physics steps')
     mass=r['mass_readback_kg']
+    if any(abs(v-mass)>1e-6 for f in frames for v in flatten(f['mass'])):
+        raise ValueError('Probe physical mass differs from readback')
     valid,reason=decision(frames,mass,r['runtime_shapes_after']['table_shape_hit'])
     shape=r['body_shape_readback']
     if shape['body_count']!=1 or shape['maximum_shapes']<1:
