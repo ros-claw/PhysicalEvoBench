@@ -33,6 +33,12 @@ def run(root, out, reference, program_file, gpu):
             job = make_job(programs[name], c, f'qualification-{len(jobs):03d}', name)
             job['reference_config'] = base['reference_config']
             jobs.append(job)
+    query_geometry=conditions('qualification-query-geometry1030',2026103006,4)
+    for i,c in enumerate(query_geometry):
+        c['public_goal']=[.58,.10,.021] if i<2 else [.64,-.08,.021]
+        job=make_job(strong,c,f'qualification-{len(jobs):03d}','query_geometry_reference')
+        job['reference_config']=base['reference_config']
+        jobs.append(job)
     for c in cs[:2]:
         job = make_job(strong, c, f'qualification-{len(jobs):03d}', 'force_open')
         job.update(reference_config=base['reference_config'], force_open=True)
@@ -44,7 +50,7 @@ def run(root, out, reference, program_file, gpu):
     save_json(out/'registration.json', {'schema': 'esl-qualification-1', 'mode': 'QUALIFICATION',
               'registered_at': now(), 'source_commit': source, 'physical_budget': len(jobs),
               'jobs': jobs, 'cfg': cfg, 'programs': {n: p.to_dict() for n, p in programs.items()},
-              'criteria': 'strong 4/4, forced-open 0/2; strong-starter difference exceeds identity difference; no hard events',
+              'criteria': 'strong 4/4 plus new-goal reference4/4, forced-open 0/2; strong-starter difference exceeds identity difference; no hard events',
               'scope': 'Finite task qualification, not evidence that a learner improves'})
     session = NativeSession(root, out/'native', source, cfg, gpu)
     try:
@@ -55,10 +61,10 @@ def run(root, out, reference, program_file, gpu):
         session.close()
     rows = audit_session(out/'native')
     scores = {name: [r['success'] for r in rows if r['core_identity']['method'] == name]
-              for name in [*programs, 'force_open']}
+              for name in [*programs, 'query_geometry_reference','force_open']}
     gap = sum(scores['strong'])-sum(scores['starter'])
     noise = abs(sum(scores['strong'])-sum(scores['identity_strong']))
-    qualified = (all(scores['strong']) and not any(scores['force_open']) and gap > noise and
+    qualified = (all(scores['strong']) and all(scores['query_geometry_reference']) and not any(scores['force_open']) and gap > noise and
                  not any(r['diagnostic']['hard_boundary_terminated'] for r in rows))
     receipt = {'schema': 'esl-task-qualification-1', 'status': 'QUALIFIED' if qualified else 'DEV',
                'at': now(), 'source_commit': source, 'registration_sha256': digest(json.loads((out/'registration.json').read_text())),
