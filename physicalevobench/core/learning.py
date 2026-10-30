@@ -148,6 +148,7 @@ def learn(root, out, source, cfg, base, group, name, model, provider, run_id, gp
         session = NativeSession(root, directory/'native', source, cfg, gpu)
         session.ready()
     history, used = [], 0
+    stage='participant'
     current = starter_program()
     try:
         for index in range(8):
@@ -158,13 +159,14 @@ def learn(root, out, source, cfg, base, group, name, model, provider, run_id, gp
                        'starter_program': starter_program().to_dict(), 'current_program': current.to_dict(),
                        'public_practice_handles': [{'handle': f'practice-{i}', 'public_goal': c['public_goal']}
                                                    for i, c in enumerate(group['support'])],
-                       'legacy_targets': sorted(TARGETS), 'legacy_guards': sorted(GUARDS),
+                       'legacy_targets': sorted(t for t in TARGETS if not t.startswith('place_')), 'legacy_guards': sorted(GUARDS),
                        'legacy_modes': sorted(MODES), 'node_fields': sorted(NODE_FIELDS),
                        'budget': {'max_calls': 8, 'calls_used': index, 'max_physical_episodes': 6,
                                   'physical_episodes_used': used, 'input_token_cap': 300000,
                                   'output_token_cap': 48000},
                        'history': compact(history)}
             assert_public(request)
+            stage='participant'
             response = participant.call(request)
             save_json(directory/f'proposal-{index:02d}.json', response)
             if set(response) != {'tool', 'program_json', 'practice_handle', 'memory'}:
@@ -188,7 +190,9 @@ def learn(root, out, source, cfg, base, group, name, model, provider, run_id, gp
                 job = make_job(current, handles[response['practice_handle']], f'learn-{used:03d}', name)
                 job['reference_config'] = base['reference_config']
                 job['identity'].update(learning_run_id=run_id, candidate_index=index)
+                stage='physics'
                 row = session.trial(job)
+                stage='participant'
                 used += 1
                 entry['feedback'] = event_feedback(session.out, row)
             elif tool != 'revise':
@@ -196,6 +200,13 @@ def learn(root, out, source, cfg, base, group, name, model, provider, run_id, gp
             history.append(entry)
             save_json(directory/'history.json', history)
         raise ValueError('Participant failed to freeze within call budget')
+    except Exception as error:
+        if stage=='physics':
+            raise
+        save_json(directory/'validity_failure.json',{'status':'INVALID_PARTICIPANT_SUBMISSION',
+                  'reason':str(error),'physical_episodes_used':used,'at':now(),
+                  'query_scoring':'zero for every assigned query; retained in denominator'})
+        return None
     finally:
         if session is not None:
             session.close()
@@ -209,6 +220,16 @@ def run(root, out, qualification, reference, model, provider, instances, gpu):
         raise ValueError('Task is not qualified; continue engineering, not model scaling')
     base = load(reference)
     source = command(['git', 'rev-parse', 'HEAD'], cwd=root)['stdout']
+    executor_source=receipt['source_commit']
+    critical=['physicalevobench/core/program.py','physicalevobench/core/expressions.py',
+              'physicalevobench/core/native.py','physicalevobench/core/collect.py',
+              'physicalevobench/core/metrics.py','physicalevobench/v02/reference_native.py',
+              'physicalevobench/v02/native.py','physicalevobench/v02/execution.py']
+    for path in critical:
+        qualified=command(['git','show',f'{executor_source}:{path}'],cwd=root)['stdout']
+        current=(root/path).read_text().strip()
+        if qualified.strip()!=current:
+            raise ValueError('Execution semantics changed after qualification: '+path)
     cfg = worker_config(base, 6)
     cfg.update(core_task='place', task_version='core-place-public-v3-dev', horizon_s=20.,
                control_profile='contact-integral-v1', public_goal=[.62, .12, .021])
@@ -216,7 +237,7 @@ def run(root, out, qualification, reference, model, provider, instances, gpu):
     out.mkdir(parents=True, exist_ok=False)
     study_id = str(uuid.uuid4())
     save_json(out/'registration.json', {'schema': 'esl-learning-1', 'mode': 'BENCHMARK_PILOT',
-              'study_id': study_id, 'source_commit': source, 'at': now(), 'conditions': groups,
+              'study_id': study_id, 'source_commit': executor_source, 'scheduler_source_commit':source,'at': now(), 'conditions': groups,
               'physical_budget': instances*(6+16), 'instances': instances, 'model': model,
               'model_limits_per_method': {'calls': 8, 'input_tokens': 300000, 'output_tokens': 48000},
               'qualification_sha256': sha256(qualification), 'qualification': receipt, 'gpu': gpu,
@@ -230,22 +251,24 @@ def run(root, out, qualification, reference, model, provider, instances, gpu):
         directory.mkdir()
         run_id = f'{study_id}/instance-{i}'
         artifacts = {}
-        artifacts['frozen'] = freeze(artifact(base, starter_program(), source, run_id,
+        artifacts['frozen'] = freeze(artifact(base, starter_program(), executor_source, run_id,
                                              'frozen', 0, ''), directory/'frozen.json')
         for name in (['designer', 'feedback'] if i % 2 == 0 else ['feedback', 'designer']):
-            artifacts[name] = learn(root, directory, source, cfg, base, group, name, model, provider, run_id, gpu)
-        artifacts['deletion'] = freeze(artifact(base, starter_program(), source, run_id,
+            artifacts[name] = learn(root, directory, executor_source, cfg, base, group, name, model, provider, run_id, gpu)
+        artifacts['deletion'] = freeze(artifact(base, starter_program(), executor_source, run_id,
                                                'deletion', 0, ''), directory/'deletion.json')
         all_artifacts.append(artifacts)
     save_json(out/'all_frozen.json', {'at': now(), 'artifacts': [
-        {n: a['effective_artifact_hash'] for n, a in artifacts.items()} for artifacts in all_artifacts]})
+        {n: (a['effective_artifact_hash'] if a is not None else 'INVALID_PARTICIPANT_SUBMISSION') for n, a in artifacts.items()} for artifacts in all_artifacts]})
     # No query execution until ALL methods / instances are frozen.
     for i, (group, artifacts) in enumerate(zip(groups, all_artifacts, strict=True)):
         for name in (['frozen', 'designer', 'feedback', 'deletion'] if i % 2 == 0 else
                      ['deletion', 'feedback', 'designer', 'frozen']):
             value = artifacts[name]
+            if value is None:
+                continue
             tc = {**cfg, 'physical_budget': len(group['query'])}
-            session = NativeSession(root, out/f'instance-{i}'/f'test-{name}', source, tc, gpu)
+            session = NativeSession(root, out/f'instance-{i}'/f'test-{name}', executor_source, tc, gpu)
             try:
                 session.ready()
                 # Read and verify persisted artifact, not the learner's live object.
@@ -275,6 +298,9 @@ def summarize(out):
         scores = {}
         for name in ('frozen', 'designer', 'feedback', 'deletion'):
             test = directory/f'test-{name}'
+            if name in ('designer','feedback') and (directory/name/'validity_failure.json').exists():
+                scores[name]={c['condition_id']:False for c in reg['conditions'][i]['query']}
+                continue
             if json.loads((test/'launch.json').read_text())['started_at'] <= frozen['at']:
                 raise ValueError('Test before global freeze')
             rows = audit_session(test)
@@ -292,14 +318,21 @@ def summarize(out):
         for name in ('designer', 'feedback'):
             for request in (directory/name/'model_calls').glob('call-*/request.json'):
                 assert_public(json.loads(request.read_text()))
-            cost[name] = json.loads((directory/name/'model_calls/budget.json').read_text())
+            budgets=directory/name/'model_calls/budget.json'
+            cost[name]=json.loads(budgets.read_text()) if budgets.exists() else {'status':'usage_unknown'}
         results.append({'learning_instance': i, 'scores': scores, 'model_cost': cost,
                         'feedback_gain': compare(scores['designer'], scores['feedback']),
                         'artifact_gain': compare(scores['deletion'], scores['feedback']),
                         'designer_gain': compare(scores['frozen'], scores['designer'])})
     if episodes > reg['physical_budget']:
         raise ValueError('Registered physical budget exceeded')
-    result = {'schema': 'esl-learning-results-1', 'audit': 'PASS', 'instances': results,
+    from physicalevobench.stability.metrics import paired_interval
+    intervals={}
+    for key, baseline in [('feedback_gain','designer'),('artifact_gain','deletion')]:
+        paired=[[int(item['scores']['feedback'][c])-int(item['scores'][baseline][c])
+                 for c in item['scores']['feedback']] for item in results]
+        intervals[key]=paired_interval(paired)
+    result = {'paired_conditional_intervals':intervals,'schema': 'esl-learning-results-1', 'audit': 'PASS', 'instances': results,
               'physical_episodes': episodes, 'controls': controls, 'physics_samples': samples,
               'search': 'NOT_RUN', 'transfer': 'NOT_RUN', 'retention': 'NOT_RUN',
               'scope': 'Small adaptation pilot; zero/negative effects retained, no stability claim'}

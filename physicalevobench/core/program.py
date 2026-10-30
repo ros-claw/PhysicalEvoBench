@@ -39,6 +39,8 @@ class Program:
                     validate(n[key])
                 elif not isinstance(n[key],str) or n[key] not in choices:
                     raise ValueError('Unknown public primitive')
+            if self.schema=='core-skill-graph-2' and isinstance(n['target'],str) and n['target'].startswith('place_'):
+                raise ValueError('Graph v2 must use the public goal frame, not task-specific aliases')
             if (n['mode'] not in MODES or
                     n['gripper'] not in ('open','close')):
                 raise ValueError('Unknown public primitive')
@@ -137,6 +139,11 @@ class ProgramFSM:
         for key in ('ee_position','object_position','goal_position','object_velocity','finger_position','cube_contact_force'):
             if not all(math.isfinite(x) for x in obs[key]):
                 raise ValueError('Nonfinite public observation')
+        if not math.isfinite(obs['orientation_error']):
+            raise ValueError('Nonfinite public orientation')
+        if self.program.schema=='core-skill-graph-2' and (len(obs['task_goal_position'])!=3 or
+                not all(math.isfinite(x) for x in obs['task_goal_position'])):
+            raise ValueError('Finite public goal required')
         if self.exhausted:
             return {'phase':'failed','program_node':self.current,'gripper':'open',
                     'target_position':list(obs['ee_position']),'transition_reason':'graph_budget_exhausted'}
