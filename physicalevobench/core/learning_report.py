@@ -128,15 +128,19 @@ def report(primary, extension, prospective, task_qualification, problem_qualific
               '## 5. 实际预算、费用与风险', '',
               '| 学习组/实例/方法 | 调用 | 输入tokens | 输出tokens | 实践回合 |', '|---|---|---|---|---|']
     calls = inputs = outputs = 0
+    usage_complete=True
     for label, directory, data in (groups[0], groups[2]):
         for instance in data['instances']:
             for name, c in instance['model_cost'].items():
                 budget = instance['artifact_cost'].get(name, {}).get('physical_learning_episodes', 'unknown')
                 lines.append(f"| {label}/{instance['learning_instance']}/{name} | {c.get('calls','unknown')} | {c.get('input_tokens','unknown')} | {c.get('output_tokens','unknown')} | {budget} |")
                 calls += c.get('calls', 0)
-                inputs += c.get('input_tokens', 0)
-                outputs += c.get('output_tokens', 0)
-    lines += ['', f'真实模型合计{calls}调用、{inputs}输入/{outputs}输出tokens；探索性扩展没有重复计学习费用。模型标识gpt-6.1-terra、参考CLI0.165.0；服务基础权重revision未暴露，不能声称已哈希固定。每方法最多10调用/300k输入/48k输出，Feedback最多8实践，Search实际8。', '',
+                if type(c.get('input_tokens')) is int and type(c.get('output_tokens')) is int:
+                    inputs+=c['input_tokens']
+                    outputs+=c['output_tokens']
+                else:
+                    usage_complete=False
+    lines += ['', f'真实模型合计{calls}调用、{inputs if usage_complete else str(inputs)+"（仅已报告；其余unknown）"}输入/{outputs if usage_complete else str(outputs)+"（仅已报告；其余unknown）"}输出tokens；探索性扩展没有重复计学习费用。模型标识gpt-6.1-terra、参考CLI0.165.0；服务基础权重revision未暴露，不能声称已哈希固定。每方法最多10调用/300k输入/48k输出，Feedback最多8实践，Search实际8。', '',
               f"本轮共{total['physical_episodes']}完成物理回合、{total['distinct_physical_conditions']}不同物理条件，{total['control_steps']}控制步、{total['physics_samples']} post-physics样本，0 PPO transitions。{total['native_processes']}个原生模拟进程（含失败）合计{total['native_process_minutes']:.3f}进程分钟；GPU0/1/2共享环境且部分并行，进程分钟含加载与模型等待，不等于独占GPU时间或总墙钟。", '',
               f"限幅/限速干预{total['limited_controls']}/{total['control_steps']}控制步；注册硬边界事件{total['hard_boundary_episodes']}回合，位置违规{total['position_violation_episodes']}回合。基础设施失败{total['infrastructure_failures']}次：几何日志接口错误在第一回合前退出，实际0回合，已保留失败。缺失支撑接触/切向力/solver力矩不填零。", '',
               '所有物理任务启动前预留、使用冻结源码；无效提交保留固定分母，基础设施故障单列。原主pilot最大72、探索扩展最大40、新目录单实例最大36分别登记，未覆盖或补有利seed。新增DEV8在原DEV48工程资源上限内，新query资格另登记14。', '',

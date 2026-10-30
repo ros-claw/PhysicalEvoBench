@@ -387,7 +387,15 @@ def summarize(out):
             for request in (directory/name/'model_calls').glob('call-*/request.json'):
                 assert_public(json.loads(request.read_text()))
             budgets=directory/name/'model_calls/budget.json'
-            cost[name]=json.loads(budgets.read_text()) if budgets.exists() else {'status':'usage_unknown'}
+            calls=sorted((directory/name/'model_calls').glob('call-*'))
+            usages=[json.loads((c/'usage.json').read_text()) for c in calls if (c/'usage.json').exists()]
+            if len(usages)!=len(calls):
+                cost[name]={'calls':len(calls),'input_tokens':'unknown','output_tokens':'unknown',
+                            'known_input_tokens':sum(u['input_tokens'] for u in usages),
+                            'known_output_tokens':sum(u['output_tokens'] for u in usages),
+                            'status':'partial_provider_accounting'}
+            else:
+                cost[name]=json.loads(budgets.read_text()) if budgets.exists() else {'status':'usage_unknown'}
         artifact_cost={}
         for name in ('frozen','designer','search','feedback','deletion'):
             path=directory/(f'{name}.json' if name in ('frozen','deletion') else f'{name}/artifact.json')
