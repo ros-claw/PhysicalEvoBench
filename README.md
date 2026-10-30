@@ -11,13 +11,14 @@ Later experiments add actual PPO weight updates. The tasks use privileged state 
 
 The new state-only entry requires **no PPO checkpoint**. It keeps the same
 Place–Release Factorial v2 problem and frozen public-context-v3, with a separately
-versioned pre-agent support probe (`core-place-public-v4-ready1`). Engineering,
+versioned pre-agent support probe (`core-place-public-v5-ready2`). Engineering,
 measurement reliability and algorithm efficacy are assessed separately.
-Normal support checks and confirmed missing-table fault injection passed; finite
-reference qualification measured starter2/4, strong4/4, identical strong4/4 and
-forced-open0/2. The fixed eight-block comparison is registered independently of
-those engineering results. Its method results must be read from the completed
-study, without pooling historical pilots.
+An initial Ready1 cohort was stopped before query after independent PhysX model
+readback disagreed with the GPU parameter cache. The correction fences Cube model
+parameter handoff and verifies actual mass/inertia, with a new execution profile.
+Reference qualification and the fixed eight-block comparison are assessed separately
+from engineering checks. Method results must be read from the completed study,
+without pooling the stopped cohort or historical pilots.
 
 [Ready state-only quickstart](docs/reliability/QUICKSTART.md) ·
 [Frozen reliability protocol](docs/reliability/PROTOCOL.md).

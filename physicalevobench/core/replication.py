@@ -60,7 +60,7 @@ def run(root,out,qualification,gpus,query_lanes_per_gpu=2):
          'conditions':groups,'query_arm_orders':orders,'query_order_by_arm':query_orders,
          'participant_context_version':'public-context-v3','instructions_sha256':digest({'instructions':INSTRUCTIONS}),
          'context_contract_sha256':sha256(root/'configs/reliability/public_context_v3.json'),
-         'executor_prefix':'state-ready1/contact-integral-v1/','condition_stream':2026103033,
+         'executor_prefix':'state-ready2/contact-integral-v1/','condition_stream':2026103033,
          'learning_problem':READY_PROFILE,'qualification':q,'qualification_sha256':sha256(qualification),
          'reference':base,'cfg':cfg,'model':'gpt-6.1-terra','provider':['codex'],
          'provider_cli_version':command(['codex','--version']),

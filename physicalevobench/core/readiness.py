@@ -114,6 +114,11 @@ def prepare(worker):
     root=worker.as_torch(cube.data.root_state_w).clone()
     mass=float(worker.as_torch(cube.data.body_mass).reshape(-1)[0])
     initial=state(worker)
+    model2=worker.diag_cfg.get('initialization_profile')=='support-probe-restore-2'
+    if model2:
+        from physicalevobench.core.parameter_transport import read,validate
+        model_before=read(worker)
+        model_valid,model_reason=validate(initial,model_before,worker.current_condition['object_mass_kg'])
     body_view=cube.root_view
     shape_readback={'body_count':body_view.count,'maximum_shapes':body_view.max_shapes}
     worker.recording=False
@@ -138,11 +143,16 @@ def prepare(worker):
     requested=worker.current_condition['object_mass_kg']
     if not math.isfinite(mass) or abs(mass-requested)>1e-6:
         valid,reason=False,'physical_parameter_readback_mismatch'
+    if model2:
+        model_after=read(worker)
+        valid_after,reason_after=validate(frames[-1],model_after,requested)
+        if not model_valid or not valid_after:
+            valid,reason=False,model_reason if not model_valid else reason_after
     directory=worker.ready_directory
     with gzip.open(directory/'readiness_probe.jsonl.gz','wt') as f:
         for row in frames:
             f.write(json.dumps(row,allow_nan=False)+'\n')
-    receipt={'schema':'esl-episode-ready-1','profile':'support-probe-restore-1',
+    receipt={'schema':'esl-episode-ready-1','profile':worker.diag_cfg['initialization_profile'],
              'status':'READY' if valid else 'INIT_INVALID','reason':reason,
              'physical_substeps':STEPS,'physical_seconds':STEPS*base.physics_dt,
              'task_clock_started':False,'probe_control':'fixed original joint targets/open gripper; no participant action',
@@ -150,6 +160,9 @@ def prepare(worker):
              'post_probe':frames[-1],'runtime_shapes_before':shapes_before,
              'runtime_shapes_after':shapes_after,'retries':0,
              'distribution':'Probe uses the registered condition; restore its original joint/root states without changing mass/inertia or rerandomizing; solver/contact history is warmed and therefore a new execution version.'}
+    if model2:
+        receipt.update(physx_model_before_probe=model_before,physx_model_after_probe=model_after,
+                       parameter_handoff='Cube PhysX setters fenced after GPU-to-pinned-CPU copy, before CPU input consumption')
     if valid:
         worker.robot.write_joint_state_to_sim(q,qd)
         cube.write_root_state_to_sim(root)
@@ -163,6 +176,11 @@ def prepare(worker):
             if any(abs(a-b)>1e-6 for a,b in zip(flatten(initial[key]),flatten(restored[key]),strict=True)):
                 valid,reason=False,'registered_state_restore_mismatch:'+key
                 break
+        if model2:
+            receipt['physx_model_at_task_start']=read(worker)
+            checked,why=validate(restored,receipt['physx_model_at_task_start'],requested)
+            if not checked:
+                valid,reason=False,why
         receipt['runtime_shapes_at_task_start']=raycasts(worker)
         if not receipt['runtime_shapes_at_task_start']['table_shape_hit']:
             valid,reason=False,'table_shape_missing_after_restore'

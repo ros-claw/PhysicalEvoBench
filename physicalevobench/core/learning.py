@@ -132,7 +132,7 @@ def manifest(root, parent, instances, profile=None,stream=2026103004,query_repea
 
 def artifact(base, program, source, run_id, name, used, memory):
     return {'schema': 'core-artifact-1', 'track': 'S', 'participant': name,
-            'interface': 'executable-skill-json-v2', 'executor': ('state-ready1/contact-integral-v1/' if base.get('schema')=='state-program-reference-1' else 'contact-integral-v1/')+source,
+            'interface': 'executable-skill-json-v2', 'executor': (('state-ready2/contact-integral-v1/' if base.get('initialization_profile')=='support-probe-restore-2' else 'state-ready1/contact-integral-v1/') if base.get('schema')=='state-program-reference-1' else 'contact-integral-v1/')+source,
             'task': base['task_version'] if base.get('schema')=='state-program-reference-1' else 'core-place-public-v3-dev', 'scoring': 'core-place-score-1',
             'initial_reference': digest(base), 'skill': program.to_dict(), 'memory': memory,
             'budget_used': used, 'learning_run_id': run_id}

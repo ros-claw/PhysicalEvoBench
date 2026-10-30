@@ -12,7 +12,7 @@ class ProgramReference(StateBasedReference):
 
     def get_action(self,env,observation):
         action=super().get_action(env,observation)
-        if self.worker.diag_cfg.get('initialization_profile')=='support-probe-restore-1':
+        if self.worker.diag_cfg.get('initialization_profile') in ('support-probe-restore-1','support-probe-restore-2'):
             self.diagnostics['evaluator_guard']=self.fsm.last_guard_evaluation
         return action
 
@@ -43,7 +43,10 @@ class CoreWorker(DiagnosticWorker):
                 geometry[name]={'status':'not_measured','path':path}
         save_json(self.output_dir/'geometry.json',geometry)
 
-        if self.diag_cfg.get('initialization_profile')=='support-probe-restore-1':
+        if self.diag_cfg.get('initialization_profile')=='support-probe-restore-2':
+            from physicalevobench.core.parameter_transport import install
+            install(self)
+        if self.diag_cfg.get('initialization_profile') in ('support-probe-restore-1','support-probe-restore-2'):
             reset=self.env.reset
             def ready_reset(*a,**kw):
                 result=reset(*a,**kw)
@@ -61,13 +64,13 @@ class CoreWorker(DiagnosticWorker):
         result=super()._snapshot(phase)
         result['finger_position']=self.as_torch(self.robot.data.joint_pos)[0,self.finger_joint_indices].tolist()
         result['ee_position_world']=self.as_torch(self.base.scene['ee_frame'].data.target_pos_w)[:,0].tolist()
-        if self.diag_cfg.get('initialization_profile')=='support-probe-restore-1':
+        if self.diag_cfg.get('initialization_profile') in ('support-probe-restore-1','support-probe-restore-2'):
             from physicalevobench.core.readiness import support
             result['evaluator_support']=support(self)
         return result
 
     def public_task_observation(self):
-        if self.diag_cfg.get('task_version') not in ('core-place-public-v3-dev','core-place-public-v4-ready1'):
+        if self.diag_cfg.get('task_version') not in ('core-place-public-v3-dev','core-place-public-v4-ready1','core-place-public-v5-ready2'):
             return {}
         return {'task_goal_position':list(self.diag_cfg['public_goal']),
                 'support_geometry':{'support_contact':'not_measured',

@@ -9,7 +9,7 @@ from physicalevobench.core.execution_identity import EXECUTION_FILES
 from physicalevobench.core.problem import PROFILE,fresh
 from physicalevobench.core.program import Program
 from physicalevobench.core.runtime import NativeSession
-from physicalevobench.core.state_config import reference,worker_config
+from physicalevobench.core.state_config import PROFILE as READY_INITIALIZATION,TASK,reference,worker_config
 from physicalevobench.development.place import make_job,starter_program
 from physicalevobench.doctor import command,save_json
 from physicalevobench.evaluation.confirmation import now
@@ -17,9 +17,9 @@ from physicalevobench.v02.reference_artifact import digest,load
 
 READY_FILES=(*EXECUTION_FILES,'physicalevobench/core/readiness.py',
              'physicalevobench/core/state_config.py','physicalevobench/core/scene_diagnostics.py',
-             'physicalevobench/core/errors.py')
-READY_PROFILE={**PROFILE,'execution_profile':'state-ready1/contact-integral-v1',
-               'task_version':'core-place-public-v4-ready1','initialization_profile':'support-probe-restore-1'}
+             'physicalevobench/core/errors.py','physicalevobench/core/parameter_transport.py')
+READY_PROFILE={**PROFILE,'execution_profile':'state-ready2/contact-integral-v1',
+               'task_version':TASK,'initialization_profile':READY_INITIALIZATION}
 
 
 def run(root,out,gpu):

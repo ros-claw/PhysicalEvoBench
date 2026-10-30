@@ -7,8 +7,8 @@ import yaml
 
 from physicalevobench.v02.reference_artifact import digest
 
-PROFILE='support-probe-restore-1'
-TASK='core-place-public-v4-ready1'
+PROFILE='support-probe-restore-2'
+TASK='core-place-public-v5-ready2'
 
 
 class UnusedPolicy:

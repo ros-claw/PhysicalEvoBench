@@ -1,6 +1,6 @@
 # Ready state-only：最小复现
 
-本入口保留 Place–Release Factorial v2，执行版本为 `core-place-public-v4-ready1`，公开上下文固定 `public-context-v3`。每次 Agent 动作前固定预演200物理子步，验证支撑后恢复同一注册初态；任务20秒从恢复后起算。它改变了求解器历史，不能与旧Alpha分数池化。算法可以零收益或负收益。
+本入口保留 Place–Release Factorial v2，执行版本为 `core-place-public-v5-ready2`，公开上下文固定 `public-context-v3`。每次 Agent 动作前固定预演200物理子步，验证支撑及PhysX真实模型参数后恢复同一注册初态；Cube质量/惯量CPU消费前显式同步，避免把GPU缓存当真实参数；任务20秒从恢复后起算。它改变了求解器历史，不能与旧Alpha分数池化。算法可以零收益或负收益。
 
 ## 获取轻量代码
 

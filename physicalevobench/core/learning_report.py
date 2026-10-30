@@ -236,7 +236,7 @@ def reliability_report(study,qualification,conformance,output,adapter=None):
     valid_feedback=sum('feedback' in b['retained_artifacts'] for b in data['blocks'])
     lines=['# PhysicalEvoBench ESL：可靠性与独立重复实施报告','',
            f'预登记8个独立学习block，其中{valid_feedback}个形成合法Feedback冻结产物；缺失、INIT_INVALID和参与者错误分别保留，不能把未完成方法写成算法零分。', '',
-           '本轮保留 Place–Release Factorial v2，公开上下文固定 public-context-v3，执行版本固定 core-place-public-v4-ready1。独立学习8个block，每block16个配对query，五方法；全部产物先冻结，再开始查询。旧Alpha及其失败不改判、不池化。','',
+           '本轮保留 Place–Release Factorial v2，公开上下文固定 public-context-v3，执行版本固定 core-place-public-v5-ready2。独立学习8个block，每block16个配对query，五方法；全部产物先冻结，再开始查询。旧Alpha及其失败不改判、不池化。','',
            '| 方法 | 已知成功 / 全部分配 | 有效任务执行成功 | 学习物理尝试 | 实际模型调用 | 输入 / 输出 tokens |',
            '|---|---:|---:|---:|---:|---:|']
     for arm in ARMS:

@@ -16,7 +16,8 @@ from physicalevobench.v02.reference_artifact import load as load_reference
 
 
 PRIVATE_KEYS={'seed','object_mass_kg','mass_readback_kg','inertia_readback','split','split_id',
-              'condition_id','heldout','test_results','evaluator_config','checkpoint_path'}
+              'condition_id','heldout','test_results','evaluator_config','checkpoint_path','evaluator_support','evaluator_guard',
+              'physx_model_before_probe','physx_model_after_probe','physx_model_at_task_start'}
 
 
 def assert_public(value):
@@ -63,7 +64,9 @@ def audit_session(worker):
         if job.get('candidate_artifact'):
             if digest(job['candidate_artifact'])!=job['identity']['effective_artifact_hash']:
                 raise ValueError('Effective training artifact identity changed')
-        if cfg.get('initialization_profile')=='support-probe-restore-1':
+        if cfg.get('initialization_profile') in ('support-probe-restore-1','support-probe-restore-2'):
+            if read(episode/'readiness.json')['profile']!=cfg['initialization_profile']:
+                raise ValueError('Ready execution profile differs from native configuration')
             from physicalevobench.core.readiness_audit import audit_readiness
             audit_readiness(episode,job['condition'],row)
             if row['execution_status']=='INIT_INVALID':

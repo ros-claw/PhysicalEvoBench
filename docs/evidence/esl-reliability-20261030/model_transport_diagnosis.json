@@ -1,0 +1,117 @@
+{
+  "schema": "esl-model-transport-results-1",
+  "results": {
+    "observer": {
+      "attempts": 3,
+      "parameter_mismatches": [
+        {
+          "event": "set_masses_index",
+          "kind": "mass",
+          "physx": [
+            [
+              0.10000000149011612
+            ]
+          ],
+          "shadow": [
+            [
+              0.4000000059604645
+            ]
+          ]
+        },
+        {
+          "event": "set_inertias_index",
+          "kind": "mass",
+          "physx": [
+            [
+              0.10000000149011612
+            ]
+          ],
+          "shadow": [
+            [
+              0.4000000059604645
+            ]
+          ]
+        },
+        {
+          "event": "set_inertias_index",
+          "kind": "inertia",
+          "physx": [
+            [
+              3.8399997720262036e-05,
+              0.0,
+              0.0,
+              0.0,
+              3.8399997720262036e-05,
+              0.0,
+              0.0,
+              0.0,
+              3.8399997720262036e-05
+            ]
+          ],
+          "shadow": [
+            [
+              [
+                0.00015359999088104814,
+                0.0,
+                0.0,
+                0.0,
+                0.00015359999088104814,
+                0.0,
+                0.0,
+                0.0,
+                0.00015359999088104814
+              ]
+            ]
+          ]
+        },
+        {
+          "event": "set_masses_index",
+          "kind": "inertia",
+          "physx": [
+            [
+              3.8399997720262036e-05,
+              0.0,
+              0.0,
+              0.0,
+              3.8399997720262036e-05,
+              0.0,
+              0.0,
+              0.0,
+              3.8399997720262036e-05
+            ]
+          ],
+          "shadow": [
+            [
+              [
+                0.00015359999088104814,
+                0.0,
+                0.0,
+                0.0,
+                0.00015359999088104814,
+                0.0,
+                0.0,
+                0.0,
+                0.00015359999088104814
+              ]
+            ]
+          ]
+        }
+      ],
+      "ready_statuses": [
+        "OK",
+        "INIT_INVALID",
+        "OK"
+      ]
+    },
+    "sync-reapply": {
+      "attempts": 3,
+      "parameter_mismatches": [],
+      "ready_statuses": [
+        "OK",
+        "OK",
+        "OK"
+      ]
+    }
+  },
+  "scope": "Observed GPU shadow/PhysX model disagreement and same-value synchronized reapply. This identifies a parameter handoff defect; not a unique retrospective cause claim for every old fall."
+}

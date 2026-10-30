@@ -249,3 +249,21 @@ def test_replication_global_freeze_barrier_and_registered_query_orders(tmp_path,
         i=int(block.removeprefix('instance-'))
         arm=method.removeprefix('test-')
         assert conditions==[groups[i]['query'][j]['condition_id'] for j in reg['query_order_by_arm'][i][arm]]
+
+
+def test_cached_mass_is_not_actual_physx_parameter_evidence():
+    import copy
+
+    from physicalevobench.core.parameter_transport import validate
+
+    inertia=[[.0001536,0.,0.,0.,.0001536,0.,0.,0.,.0001536]]
+    shadow={'mass':[[.4]],'inertia':[inertia]}
+    model={'status':'MEASURED','mass':[[.4]],'inertia':inertia}
+    assert validate(shadow,model,.4)[0]
+    stale=copy.deepcopy(model)
+    stale['mass']=[[.1]]
+    assert validate(shadow,stale,.4)==(False,'physx_model_shadow_mismatch:mass')
+    stale=copy.deepcopy(model)
+    stale['inertia'][0][0]=.0000384
+    assert validate(shadow,stale,.4)==(False,'physx_model_shadow_mismatch:inertia')
+    assert not validate(shadow,{'status':'not_measured'},.4)[0]

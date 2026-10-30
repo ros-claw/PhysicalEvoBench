@@ -163,6 +163,8 @@ def audit_bindings(out, reg, frozen):
                 if (native/'source_identity.json').exists() and read(native/'source_identity.json')['commit']!=reg['source_commit']:
                     raise ValueError('Incomplete physical executor source changed')
                 continue
+            if read(native/'config.json')!={**reg['cfg'],'physical_budget':len(group['query'])}:
+                raise ValueError('Physical query configuration differs from registration')
             if read(native/'source_identity.json')['commit'] != reg['source_commit']:
                 raise ValueError('Physical executor source changed')
             requests = sorted((native/'requests').glob('*.json'))

@@ -21,3 +21,11 @@ D：仅在Ready边界及新执行参考资格通过后，冻结全部执行、�
 剥离PPO依赖使用 `state-program-reference-1` / `state-execution-skill-1` 与执行配置哈希，不能把新identity伪称旧checkpoint SHA；旧权重接口兼容保留。第二stdin adapter、同机新目录物理接入单列；没有第二台机器或独立外部人时如实未验证。新发布/合并不在本任务自动授权范围；既有Alpha与PR保持原状态。本轮先创建可审查feature PR，最终报告 `docs/implementation/ESL_RELIABILITY_REPLICATION_REPORT.md`。
 
 在主研究读取结果前固定资源安排：学习阶段每GPU一条lane（同时最多4条模型/原生学习流程）；查询阶段每GPU两条lane（最多8个独立原生进程，每block/arm仍新进程）。现有共享GPU约13–18GB常驻占用，余量充足；不修改他人作业。记录每次进程的GPU负载、时长和顺序。并发只改变墙钟调度，不改变物理dt、任务时长、动作或评分；其可见的重放差异保留，不能声称GPU独占或确定性。
+
+## 执行纠正：Ready2（查询前的物理测量阻断）
+
+Ready1的8-block尝试在任何query启动前停止：固定支撑预演发现真实下落；进一步对质量切换读回，PhysX模型仍为0.1kg，而GPU shadow/请求为0.4kg，惯量亦有不一致。独立6个短参数传输诊断复现了该区别，同值同步重写后真实模型读回恢复一致。固定Lab的indexed setter把GPU数据异步复制到pinned CPU scratch，紧接着让PhysX CPU setter消费；不能拿GPU shadow当真实模型读回。这批已发生的学习、物理与41次模型调用全部单列保留，不作为算法零分，不挑有效block回收，不运行其query。
+
+纠正保留原题与public-context-v3字符串/采样/预算。新profile `support-probe-restore-2`、任务/执行版本 `core-place-public-v5-ready2`：仅在Cube RigidBodyView.set_masses/set_inertias之前加当前上下文的Warp device fence，使既有CPU数据和index scratch传输完成，不改采样、质量、惯量比例、dt、控制或评分，不改固定Arena/Lab源码。Ready在预演前/后及恢复后从PhysX模型get_masses/get_inertias独立读取，核对请求与GPU缓存；缺失/不一致不得READY。旧Ready1资格与数据保留，不能凭其缓存审计给新版本正式资格。
+
+新6回合正常/故障注入将使A短诊断总计42（18+6+6+6+6），仍不超过48。新版本另做14回合参考资格，之后从空记忆/starter开始新的固定8-block cohort；8-block的128实践+640查询上限与早停规则保持。被停止的Ready1成本作为测量故障的工程尝试另列，不偷塞为新正式研究成功样本；不补用其产物，不在新query看到成绩后修改规则。所有已发生开销都需在最终报告汇总。

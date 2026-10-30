@@ -12,7 +12,7 @@ def audit_readiness(directory,condition,row):
     directory=Path(directory)
     r=json.loads((directory/'readiness.json').read_text())
     frames=records(directory/'readiness_probe.jsonl.gz')
-    if (r['profile']!='support-probe-restore-1' or len(frames)!=STEPS or
+    if (r['profile'] not in ('support-probe-restore-1','support-probe-restore-2') or len(frames)!=STEPS or
             r['physical_substeps']!=STEPS or r['task_clock_started'] is not False or r['retries']!=0 or
             any(f['probe_step']!=i or not math.isclose(f['time_s'],(i+1)*.005,abs_tol=1e-12)
                 for i,f in enumerate(frames)) or r['post_probe']!=frames[-1]):
@@ -34,12 +34,23 @@ def audit_readiness(directory,condition,row):
     requested=condition['object_mass_kg']
     if r['requested_mass_kg']!=requested or not math.isfinite(mass) or abs(mass-requested)>1e-6:
         valid,reason=False,'physical_parameter_readback_mismatch'
+    model2=r['profile']=='support-probe-restore-2'
+    if model2:
+        from physicalevobench.core.parameter_transport import validate
+        before,why_before=validate(r['pre_probe'],r['physx_model_before_probe'],requested)
+        after,why_after=validate(frames[-1],r['physx_model_after_probe'],requested)
+        if not before or not after:
+            valid,reason=False,why_before if not before else why_after
     if valid:
         initial,restored=r['pre_probe'],r.get('restored',{})
         for key in ('joint_position','joint_velocity','object_position','object_velocity','object_orientation','mass','inertia'):
             if key not in restored or any(abs(a-b)>1e-6 for a,b in zip(flatten(initial[key]),flatten(restored[key]),strict=True)):
                 valid,reason=False,'registered_state_restore_mismatch:'+key
                 break
+        if model2:
+            checked,why=validate(restored,r['physx_model_at_task_start'],requested)
+            if not checked:
+                valid,reason=False,why
         if not r.get('runtime_shapes_at_task_start',{}).get('table_shape_hit'):
             valid,reason=False,'table_shape_missing_after_restore'
     if r['status']!=('READY' if valid else 'INIT_INVALID') or r['reason']!=reason:
