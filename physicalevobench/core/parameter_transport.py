@@ -12,6 +12,8 @@ def flat(value):
 
 
 def validate(shadow,model,requested):
+    if not math.isfinite(requested) or requested<=0:
+        return False,'invalid_requested_mass'
     if model.get('status')!='MEASURED':
         return False,'necessary_physx_model_readback_unavailable'
     for key,tolerance in [('mass',1e-6),('inertia',1e-10)]:

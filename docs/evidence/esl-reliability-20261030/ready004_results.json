@@ -1,0 +1,63 @@
+{
+  "status": "PASS",
+  "cases": [
+    {
+      "group": "normal",
+      "slot": 0,
+      "execution_status": "OK",
+      "ready_status": "READY",
+      "reason": "fixed_support_probe_passed",
+      "task_controls": 50,
+      "runtime_table_shape_hit": true
+    },
+    {
+      "group": "normal",
+      "slot": 1,
+      "execution_status": "OK",
+      "ready_status": "READY",
+      "reason": "fixed_support_probe_passed",
+      "task_controls": 50,
+      "runtime_table_shape_hit": true
+    },
+    {
+      "group": "normal",
+      "slot": 2,
+      "execution_status": "OK",
+      "ready_status": "READY",
+      "reason": "fixed_support_probe_passed",
+      "task_controls": 50,
+      "runtime_table_shape_hit": true
+    },
+    {
+      "group": "normal",
+      "slot": 3,
+      "execution_status": "OK",
+      "ready_status": "READY",
+      "reason": "fixed_support_probe_passed",
+      "task_controls": 50,
+      "runtime_table_shape_hit": true
+    },
+    {
+      "group": "fault-injected",
+      "slot": 0,
+      "execution_status": "INIT_INVALID",
+      "ready_status": "INIT_INVALID",
+      "reason": "runtime_table_shape_or_sample_coverage_missing",
+      "task_controls": 0,
+      "runtime_table_shape_hit": false
+    },
+    {
+      "group": "fault-injected",
+      "slot": 1,
+      "execution_status": "INIT_INVALID",
+      "ready_status": "INIT_INVALID",
+      "reason": "runtime_table_shape_or_sample_coverage_missing",
+      "task_controls": 0,
+      "runtime_table_shape_hit": false
+    }
+  ],
+  "attempts": 6,
+  "PPO_weights_used": false,
+  "model_calls": 0,
+  "scope": "Fault injection validates detection, not spontaneous fault root cause"
+}

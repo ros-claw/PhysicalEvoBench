@@ -267,3 +267,4 @@ def test_cached_mass_is_not_actual_physx_parameter_evidence():
     stale['inertia'][0][0]=.0000384
     assert validate(shadow,stale,.4)==(False,'physx_model_shadow_mismatch:inertia')
     assert not validate(shadow,{'status':'not_measured'},.4)[0]
+    assert not validate(shadow,model,float('nan'))[0]

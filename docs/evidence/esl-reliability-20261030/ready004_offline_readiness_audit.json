@@ -1,0 +1,35 @@
+{
+  "status": "PASS",
+  "cases": [
+    {
+      "status": "READY",
+      "physics_substeps": 200,
+      "physics_seconds": 1.0
+    },
+    {
+      "status": "READY",
+      "physics_substeps": 200,
+      "physics_seconds": 1.0
+    },
+    {
+      "status": "READY",
+      "physics_substeps": 200,
+      "physics_seconds": 1.0
+    },
+    {
+      "status": "READY",
+      "physics_substeps": 200,
+      "physics_seconds": 1.0
+    },
+    {
+      "status": "INIT_INVALID",
+      "physics_substeps": 200,
+      "physics_seconds": 1.0
+    },
+    {
+      "status": "INIT_INVALID",
+      "physics_substeps": 200,
+      "physics_seconds": 1.0
+    }
+  ]
+}
