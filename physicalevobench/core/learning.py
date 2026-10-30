@@ -96,13 +96,13 @@ def event_feedback(directory, row):
             'events_and_periodic_samples': samples}
 
 
-def manifest(root, parent, instances, profile=None):
+def manifest(root, parent, instances, profile=None,stream=2026103004):
     from physicalevobench.core.problem import PROFILE
     profile=profile or PROFILE
     excluded = published_seeds(root)
     for path in parent.glob('peb-*/registration.json'):
         excluded.update(registered_seed_values(json.loads(path.read_text())))
-    rng = random.Random(2026103004)
+    rng = random.Random(stream)
     groups = []
     for run in range(instances):
         group = {}
@@ -279,7 +279,7 @@ def score_search(root,directory,source,cfg,base,group,run_id,gpu):
     save_json(out/'freeze_receipt.json',{'at':now(),'program_hash':programs[selected].sha256})
     return freeze(artifact(base,programs[selected],source,run_id+'/search','search',8,''),out/'artifact.json')
 
-def run(root, out, qualification, reference, model, provider, instances, gpu):
+def run(root, out, qualification, reference, model, provider, instances, gpu, condition_stream=2026103004):
     if instances<1:
         raise ValueError('At least one independent learning instance required')
     if command(['git', 'status', '--porcelain'], cwd=root)['stdout']:
@@ -297,11 +297,11 @@ def run(root, out, qualification, reference, model, provider, instances, gpu):
     cfg = worker_config(base, 8)
     cfg.update(core_task='place', task_version='core-place-public-v3-dev', horizon_s=20.,
                control_profile='contact-integral-v1', public_goal=[.62, .12, .021])
-    groups = manifest(root, out.parent, instances)
+    groups = manifest(root, out.parent, instances,stream=condition_stream)
     out.mkdir(parents=True, exist_ok=False)
     study_id = str(uuid.uuid4())
     save_json(out/'registration.json', {'schema': 'esl-learning-1', 'mode': 'BENCHMARK_PILOT',
-              'study_id': study_id, 'source_commit': executor_source, 'scheduler_source_commit':source,'at': now(), 'conditions': groups,
+              'condition_stream':condition_stream,'study_id': study_id, 'source_commit': executor_source, 'scheduler_source_commit':source,'at': now(), 'conditions': groups,
               'physical_budget': instances*(8+8+20), 'instances': instances, 'model': model,
               'model_limits_per_method': {'calls': 10, 'input_tokens': 300000, 'output_tokens': 48000},
               'learning_problem':PROFILE,'qualification_sha256': sha256(qualification), 'qualification': receipt, 'gpu': gpu,
@@ -427,9 +427,10 @@ def main():
     p.add_argument('--provider', help='JSON argv; omit for existing Codex transport')
     p.add_argument('--instances', type=int, default=2)
     p.add_argument('--gpu', type=int, default=2)
+    p.add_argument('--condition-stream',type=int,default=2026103004,help='Evaluator RNG stream, never sent to the participant')
     a = p.parse_args()
     run(Path.cwd(), Path(a.output).absolute(), Path(a.qualification), Path(a.reference),
-        a.model, json.loads(a.provider) if a.provider else ['codex'], a.instances, a.gpu)
+        a.model, json.loads(a.provider) if a.provider else ['codex'], a.instances, a.gpu,a.condition_stream)
 
 
 if __name__ == '__main__':
