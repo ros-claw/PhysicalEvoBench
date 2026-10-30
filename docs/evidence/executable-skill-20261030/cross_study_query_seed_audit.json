@@ -1,0 +1,11 @@
+{
+  "status": "PASS",
+  "query_counts": {
+    "original": 8,
+    "factorial_exploratory": 8,
+    "factorial_prospective": 4,
+    "factorial_context2": 4,
+    "factorial_context3": 4
+  },
+  "scope": "Disjoint nominal query seeds across five evidence groups; does not turn the exploratory replay into new learners"
+}

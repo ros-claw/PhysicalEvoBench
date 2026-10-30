@@ -15,6 +15,7 @@ EXECUTION_FILES = (
 
 
 def validate_execution(root, receipt, base):
+    from physicalevobench.development.place import starter_program
     from physicalevobench.v02.reference_artifact import digest
     expected = receipt.get('execution_files', {})
     if set(expected) != set(EXECUTION_FILES):
@@ -24,3 +25,5 @@ def validate_execution(root, receipt, base):
             raise ValueError('Execution semantics changed after qualification: '+name)
     if receipt.get('initial_reference_sha256') != digest(base):
         raise ValueError('Common initial ability differs from qualified configuration')
+    if receipt.get('starter_hash') != starter_program().sha256:
+        raise ValueError('Common initial executable differs from qualified configuration')

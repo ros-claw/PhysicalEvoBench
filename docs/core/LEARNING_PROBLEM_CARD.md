@@ -2,7 +2,7 @@
 
 状态：**QUALIFIED（查询族有限资格；2026-10-30）**
 
-公开profile：place-release-factorial-v2。支持(.62,+.12)/(.60,-.12)，查询(.60,+.12)/(.62,-.12)，留出X/Y组合。新条件资格14回合：starter3/4、strong4/4、identity4/4、forced-open0/2，能力差1大于identity差0，无硬事件。原始query分布的Frozen曾4/4，故旧可达性资格不能单独证明学习问题有效；原结果完整保留，详见[当前协议](LEARNING_PROBLEM_V2_PROTOCOL_20261030.md)。。
+公开profile：place-release-factorial-v2。支持(.62,+.12)/(.60,-.12)，查询(.60,+.12)/(.62,-.12)，留出X/Y组合。新条件资格14回合：starter3/4、strong4/4、identity4/4、forced-open0/2，能力差1大于identity差0，无硬事件。原始query分布的Frozen曾4/4，故旧可达性资格不能单独证明学习问题有效；原结果完整保留，详见[当前协议](LEARNING_PROBLEM_V2_PROTOCOL_20261030.md)。
 
 题目：已有正常抓取、探升、搬运能力，在同类物体实践中形成可执行释放策略，在新公开放置目标上执行。支持和查询共享夹持/卸载机制，位置目标和 reset seed 分离，物理质量类别重复但不告知参与者。测同类适应；不测跨任务迁移或共享技能抗遗忘。
 
@@ -24,3 +24,7 @@
 几何：记录实际 USD visual/proxy bounds，不能把整个桌面资产 AABB 当作支撑面，也不能把 reset 中心当作桌面高度。公开 Z=.021 是目标中心；其物理有效性需要参考实际落稳验证，支撑接触未补造。
 
 正式入口与本轮前瞻pilot另见 [v2协议](LEARNING_PROBLEM_V2_PROTOCOL_20261030.md)。少量资格条件只能证明本版本的有限能力响应，不支持总体稳定性。
+
+当前参与者输入版本public-context-v3：自写笔记与实践句柄跨调用保留，隐藏机制关系公开但隐藏参数不公开。初版及v2接口缺陷、全部正负结果与新目录验证分开见 [实施报告](../implementation/EXECUTABLE_SKILL_LEARNING_实施报告_20261030.md)。
+
+泛化范围：X因素仅相差2cm，小于5cm的XY成功容差。留出组合不等于强空间OOD；当前只测同类机制、新reset与新目标组合上的程序适应，不声称远距离几何泛化或未见质量类别迁移。

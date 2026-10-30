@@ -48,7 +48,11 @@ def audit_bindings(out, reg, frozen):
         if {c['seed'] for c in group['support']} & {c['seed'] for c in group['query']}:
             raise ValueError('Support/query seed overlap')
         directory = out/f'instance-{i}'
+        qualified_starter=reg.get('qualification',{}).get('starter_hash')
+        if qualified_starter and Program.from_dict(load(directory/'frozen.json')['payload']['skill']).sha256!=qualified_starter:
+            raise ValueError('Frozen common starter differs from physical qualification')
         initials = {}
+        common_public=None
         for name in ('frozen', 'designer', 'search', 'feedback', 'deletion'):
             if name in ('designer', 'feedback'):
                 calls = sorted((directory/name/'model_calls').glob('call-*'))
@@ -84,6 +88,14 @@ def audit_bindings(out, reg, frozen):
                 history = read(directory/name/'history.json') if (directory/name/'history.json').exists() else []
                 for j, call in enumerate(calls):
                     request = read(call/'request.json')
+                    public={k:request[k] for k in ('instructions','starter_program','public_practice_handles',
+                            'legacy_targets','legacy_guards','legacy_modes','node_fields')}
+                    if common_public is None:
+                        common_public=public
+                    elif common_public!=public:
+                        raise ValueError('Methods received different public task knowledge or interfaces')
+                    if reg.get('instructions_sha256') and digest({'instructions':request['instructions']})!=reg['instructions_sha256']:
+                        raise ValueError('Participant instructions differ from registered context')
                     if request['history'] != compact(history[:j]):
                         raise ValueError('Participant history differs from actual prior trials')
                     if reg.get('participant_context_version')=='public-context-v3':

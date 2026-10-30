@@ -8,7 +8,7 @@
 git clone --filter=blob:none --sparse --branch feature/executable-skill-learning https://github.com/ros-claw/PhysicalEvoBench.git
 cd PhysicalEvoBench
 git sparse-checkout init --cone
-git sparse-checkout set physicalevobench tests configs/core configs/learning docs/core scripts
+git sparse-checkout set physicalevobench tests configs/core configs/learning docs/core docs/implementation scripts
 uv sync --locked --extra dev
 uv run physicalevobench-core tasks
 uv run physicalevobench-core smoke
@@ -45,7 +45,7 @@ uv run physicalevobench-core learn --output /absolute/path/peb-learning-new --qu
 
 默认使用已安装并独立登录的 Codex CLI 参考 provider，模型固定 `gpt-6.1-terra`；临时会话、禁用内置工具，只传序列化公开上下文。支持其他 JSON provider：添加 `--provider '["/absolute/path/to/participant"]' --model YOUR_FIXED_MODEL`。入口从 stdin 读一个 JSON，stdout 输出一行 `{response,usage}`；`response` 遵循 `configs/learning/participant_schema.json`，usage 为真实 `input_tokens` / `output_tokens`，禁止估算为零。学习与无反馈组必须使用同一基础模型和计算上限。
 
-程序通过 `program_json` 提交完整 graph-v2；run_trial 注册并执行实践，revise 仅修改候选，freeze 选择持久产物。模型自行选择句柄和修改，不要求先失败、不要求正收益。事件级反馈与少量周期状态进入上下文，全部原始高频轨迹留档。测试期仅运行冻结程序，文本 memory 是来源记录，不参与控制；不是完整在线 Agent harness。
+程序通过 `program_json` 提交完整 graph-v2；run_trial 注册并执行实践，revise 仅修改候选，freeze 选择持久产物。模型自行选择句柄和修改，不要求先失败、不要求正收益。当前public-context-v3将自写current_memory、已选实践句柄、客观事件级反馈和少量周期状态带回下次调用；原始笔记及全部高频轨迹留档。隐藏机制的支持/查询关系统一公开，具体数值仍不公开。测试期仅运行冻结程序，文本 memory 是来源记录，不参与控制；不是完整在线 Agent harness。
 
 每实例预留最多 8 Feedback +8 Search +5×4 query =36 回合，两实例最多72；允许早冻，实际费用单列。搜索是4候选共同2条件比较的有限提案族，不能代表全图空间最优搜索。所有实例全部冻结后才开始 query。无效提交保留为零分及有效性失败；基础设施错误单列，不悄悄从方法分母中删失败。
 
@@ -79,3 +79,5 @@ bash scripts/setup_arena.sh
 ```
 
 源码包包含 `.gitmodules` 和 `.gitignore`；上面的 gitlink 与资格文件共同固定后端和执行内容。此路径的 CPU 重建与物理后端安装应分别声明，不能因能解压或 CPU 通过就标记物理复跑。CLI 模型标识相同，封闭服务的具体基础权重 revision 未暴露，不能声称已哈希固定其权重。
+
+本轮轻量源码、样例与可选完整轨迹见 [实验 Alpha](https://github.com/ros-claw/PhysicalEvoBench/releases/tag/esl-alpha-20261030)。结果和各版接口限制见 [实施报告](../implementation/EXECUTABLE_SKILL_LEARNING_实施报告_20261030.md)。小样例不能独自复算完整研究；全量离线审计需下载manifest列出的全部data/source分片。

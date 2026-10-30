@@ -1,0 +1,52 @@
+{
+  "status": "PASS",
+  "query_method_pairs": {
+    "original": 32,
+    "factorial_exploratory": 32,
+    "factorial_prospective": 16,
+    "factorial_context2": 16,
+    "factorial_context3": 16
+  },
+  "reference_source_pairs": {
+    "status": "PASS",
+    "source_query_initial_pairs": 24
+  },
+  "per_group": {
+    "original": {
+      "status": "PASS",
+      "measured_pairs": 32,
+      "fields": 11,
+      "inertia_tolerance": 1e-10,
+      "other_tolerance": 1e-06
+    },
+    "factorial_exploratory": {
+      "status": "PASS",
+      "measured_pairs": 32,
+      "fields": 11,
+      "inertia_tolerance": 1e-10,
+      "other_tolerance": 1e-06
+    },
+    "factorial_prospective": {
+      "status": "PASS",
+      "measured_pairs": 16,
+      "fields": 11,
+      "inertia_tolerance": 1e-10,
+      "other_tolerance": 1e-06
+    },
+    "factorial_context2": {
+      "status": "PASS",
+      "measured_pairs": 16,
+      "fields": 11,
+      "inertia_tolerance": 1e-10,
+      "other_tolerance": 1e-06
+    },
+    "factorial_context3": {
+      "status": "PASS",
+      "measured_pairs": 16,
+      "fields": 11,
+      "inertia_tolerance": 1e-10,
+      "other_tolerance": 1e-06
+    }
+  },
+  "scope": "Measured positions, velocities, target, fingers, EE, mass, inertia, orientation and limits; not equality of unobserved solver/contact state"
+}

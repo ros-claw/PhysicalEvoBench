@@ -13,10 +13,19 @@ The current entry point separates task engineering, qualification and method com
 T0 is an independently runnable regression task; unfinished Place engineering does not
 block its physical smoke. A fresh-directory T0 episode completed successfully (500
 controls), using shared pinned native dependencies and external licensed weights.
-A new public-goal Place problem passed finite physical qualification: starter2/4,
-strong reference4/4, identical-reference replay4/4, new-goal reference4/4, forced-open0/2. Its DEV response
-was 2/4 for the normal starter and4/4 for an actual-aperture guard; these are developer
-interventions, **not Agent learning scores**. Actual method comparisons are now starting; no learning/stability claim is made yet.
+A Place–Release problem passed finite qualification on withheld goal combinations:
+normal starter3/4, strong reference4/4, identical reference4/4, forced-open0/2.
+Real same-model No-Feedback, Feedback, common-batch Search and artifact-deletion
+comparisons use frozen programs and zero test-time model calls. All outcomes,
+interface corrections and fresh-directory runs are reported separately.
+**Stable self-evolution remains unproven.**
+
+[完整实施报告](docs/implementation/EXECUTABLE_SKILL_LEARNING_实施报告_20261030.md) ·
+[Current protocol](docs/core/LEARNING_PROBLEM_V2_PROTOCOL_20261030.md) ·
+[Experimental Alpha](https://github.com/ros-claw/PhysicalEvoBench/releases/tag/esl-alpha-20261030).
+The release supplies lightweight source and optional raw evidence; licensed assets
+and weights are obtained separately. This single-problem experimental release does
+not accept the historical two-task Core benchmark.
 
 [Participant quickstart](docs/core/QUICKSTART.md) ·
 [Learning problem card](docs/core/LEARNING_PROBLEM_CARD.md) ·

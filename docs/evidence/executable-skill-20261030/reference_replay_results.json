@@ -1,0 +1,52 @@
+{
+  "schema": "fixed-reference-replay-results-1",
+  "audit": "PASS",
+  "episodes": 24,
+  "groups": {
+    "peb-esl-extension-20261030-001/0": {
+      "strong": [
+        true,
+        true,
+        true,
+        true
+      ],
+      "identity_strong": [
+        true,
+        true,
+        true,
+        true
+      ]
+    },
+    "peb-esl-extension-20261030-001/1": {
+      "strong": [
+        true,
+        true,
+        true,
+        true
+      ],
+      "identity_strong": [
+        true,
+        true,
+        true,
+        true
+      ]
+    },
+    "peb-learning-001/0": {
+      "strong": [
+        true,
+        true,
+        true,
+        true
+      ],
+      "identity_strong": [
+        true,
+        true,
+        true,
+        true
+      ]
+    }
+  },
+  "new_learning_instances": 0,
+  "model_calls": 0,
+  "scope": "Reference and identical reference only; same-condition source pairing audited after all source queries complete"
+}

@@ -236,3 +236,22 @@ def test_real_loop_contract_preserves_trial_handle_and_participant_memory(tmp_pa
                             'CPU-fixture', ['unused'], 'cpu-only', 2)
     assert result['payload']['memory'] == 'Retain my revised assessment.'
     assert result['payload']['budget_used'] == 1
+
+
+def test_portable_qualification_rejects_changed_starter_with_unchanged_executor_files(monkeypatch):
+    import json
+    from pathlib import Path
+
+    from physicalevobench.core.execution_identity import validate_execution
+    from physicalevobench.development import place
+    from physicalevobench.v02.reference_artifact import load
+
+    root=Path(__file__).resolve().parents[1]
+    receipt=json.loads((root/'configs/learning/qualification.json').read_text())
+    base=load(root/'configs/core/frozen_reference.json')
+    validate_execution(root,receipt,base)
+    changed=place.starter_program().to_dict()
+    changed['nodes'][0]['timeout_s']=19.
+    monkeypatch.setattr(place,'starter_program',lambda:Program.from_dict(changed))
+    with pytest.raises(ValueError,match='initial executable'):
+        validate_execution(root,receipt,base)

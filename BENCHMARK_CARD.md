@@ -1,9 +1,12 @@
 > Current scope (2026-10-30): **Executable-Skill Learning**, fixed model and low-level
 > execution, frozen reactive program at test (zero test-time model calls).
 > See [current learning problem](docs/core/LEARNING_PROBLEM_CARD.md),
-> [new protocol](docs/core/EXECUTABLE_SKILL_PROTOCOL_20261030.md) and
-> [independent entry point](docs/core/QUICKSTART.md). The new task passed finite qualification (starter2/4, reference4/4, identity4/4, new-goal4/4, open0/2);
-> the 1027 pilot and two-task non-acceptance below remain unchanged historical results.
+> [current protocol](docs/core/LEARNING_PROBLEM_V2_PROTOCOL_20261030.md),
+> [results and limitations](docs/implementation/EXECUTABLE_SKILL_LEARNING_实施报告_20261030.md) and
+> [independent entry point](docs/core/QUICKSTART.md). Factorial query qualification:
+> starter3/4, reference4/4, identity4/4, open0/2. The single-problem experimental Alpha
+> preserves negative results and interface corrections. Stable self-evolution is unproven;
+> the 1027 contract and two-task non-acceptance below remain unchanged historical results.
 
 # PhysicalEvoBench Core — development Alpha contract
 

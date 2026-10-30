@@ -130,7 +130,9 @@ def verify(evidence,out):
             results[name]={'status':'CANCELLED_BEFORE_LAUNCH','episodes':0}
         elif status['status']!='COMPLETED':
             # Failure evidence stays published, but never becomes a passed study.
-            results[name]={'status':status['status'],'scope':'Incomplete attempts retained; no completed study claim'}
+            partial=sum(len(p.read_text().splitlines()) for p in study.rglob('episodes.jsonl'))
+            results[name]={'status':status['status'],'completed_episodes':partial,
+                           'scope':'Incomplete attempts retained; no completed study claim'}
         elif reg['schema']=='esl-reference-replay-1':
             from physicalevobench.core.reference_replay import summarize as replay_summary, audit_source_pairing
             recorded=json.loads((study/'results.json').read_text())

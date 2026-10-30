@@ -20,11 +20,12 @@ def main():
     p.add_argument('--extension', required=True)
     p.add_argument('--prospective', required=True)
     p.add_argument('--context2',required=True)
+    p.add_argument('--context3',required=True)
     p.add_argument('--output', required=True)
     a = p.parse_args()
     result = []
     for label, root in [('original', Path(a.primary)), ('factorial_exploratory', Path(a.extension)),
-                        ('factorial_prospective', Path(a.prospective)),('factorial_context2',Path(a.context2))]:
+                        ('factorial_prospective', Path(a.prospective)),('factorial_context2',Path(a.context2)),('factorial_context3',Path(a.context3))]:
         reg = read(root/'registration.json')
         for i in range(reg['instances']):
             for method in ('frozen', 'designer', 'search', 'feedback', 'deletion'):
@@ -52,7 +53,7 @@ def main():
                                    'terminal_finger_min_m': min(end['finger_position']),
                                    'maximum_stable_span_s': row['place']['maximum_stable_span_s']})
     with Path(a.output).open('w') as f:
-        writer = csv.DictWriter(f, fieldnames=list(result[0]))
+        writer = csv.DictWriter(f, fieldnames=list(result[0]), lineterminator="\n")
         writer.writeheader()
         writer.writerows(result)
     print(json.dumps({'query_rows': len(result), 'extra_physical_episodes': 0}))
