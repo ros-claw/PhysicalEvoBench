@@ -1,0 +1,482 @@
+{
+  "schema": "release-event-alignment-1",
+  "episodes": [
+    {
+      "episode": "correction-000",
+      "success": false,
+      "events": {
+        "opening_command": {
+          "step": 455,
+          "time_s": 9.1,
+          "goal_xy_error_m": 0.005336291044591384,
+          "object_speed_m_s": 0.2689731289665168,
+          "finger_position_m": [
+            0.023602524772286415,
+            0.024021701887249947
+          ],
+          "finger_normal_force_n": [
+            47.039405822753906,
+            47.019832611083984
+          ]
+        },
+        "support_contact": "not_measured",
+        "last_bilateral_before_open": {
+          "step": 454,
+          "time_s": 9.08,
+          "goal_xy_error_m": 0.005452508547426963,
+          "object_speed_m_s": 0.2659430064294642,
+          "finger_position_m": [
+            0.023616133257746696,
+            0.02400808036327362
+          ],
+          "finger_normal_force_n": [
+            47.06298065185547,
+            47.027103424072266
+          ]
+        },
+        "actual_open_035": {
+          "step": 501,
+          "time_s": 10.02,
+          "goal_xy_error_m": 0.07093588986043153,
+          "object_speed_m_s": 0.08230059260695403,
+          "finger_position_m": [
+            0.03517010062932968,
+            0.03546509891748428
+          ],
+          "finger_normal_force_n": [
+            0.0,
+            0.6123756766319275
+          ]
+        },
+        "finger_contact_lost": {
+          "step": 486,
+          "time_s": 9.72,
+          "goal_xy_error_m": 0.08065520978038204,
+          "object_speed_m_s": 0.0009500382521677599,
+          "finger_position_m": [
+            0.02426498383283615,
+            0.024488776922225952
+          ],
+          "finger_normal_force_n": [
+            0.0,
+            0.47267115116119385
+          ]
+        },
+        "geometry_near_plane": {
+          "step": 455,
+          "time_s": 9.1,
+          "goal_xy_error_m": 0.005336291044591384,
+          "object_speed_m_s": 0.2689731289665168,
+          "finger_position_m": [
+            0.023602524772286415,
+            0.024021701887249947
+          ],
+          "finger_normal_force_n": [
+            47.039405822753906,
+            47.019832611083984
+          ]
+        },
+        "low_speed": {
+          "step": 473,
+          "time_s": 9.46,
+          "goal_xy_error_m": 0.07009764382865857,
+          "object_speed_m_s": 0.09308781804728611,
+          "finger_position_m": [
+            0.023929934948682785,
+            0.02418234571814537
+          ],
+          "finger_normal_force_n": [
+            18.92528533935547,
+            18.93498420715332
+          ]
+        },
+        "retreat_command": {
+          "step": 493,
+          "time_s": 9.86,
+          "goal_xy_error_m": 0.07994549967879848,
+          "object_speed_m_s": 0.028435312937090125,
+          "finger_position_m": [
+            0.02883283793926239,
+            0.029080336913466454
+          ],
+          "finger_normal_force_n": [
+            0.0,
+            0.6568195223808289
+          ]
+        },
+        "speed_peak": {
+          "step": 455,
+          "time_s": 9.1,
+          "goal_xy_error_m": 0.005336291044591384,
+          "object_speed_m_s": 0.2689731289665168,
+          "finger_position_m": [
+            0.023602524772286415,
+            0.024021701887249947
+          ],
+          "finger_normal_force_n": [
+            47.039405822753906,
+            47.019832611083984
+          ]
+        }
+      }
+    },
+    {
+      "episode": "correction-001",
+      "success": false,
+      "events": {
+        "opening_command": {
+          "step": 460,
+          "time_s": 9.200000000000001,
+          "goal_xy_error_m": 0.006597025754958873,
+          "object_speed_m_s": 0.2682762960870573,
+          "finger_position_m": [
+            0.02354692853987217,
+            0.0239875391125679
+          ],
+          "finger_normal_force_n": [
+            46.99380874633789,
+            46.98128128051758
+          ]
+        },
+        "support_contact": "not_measured",
+        "last_bilateral_before_open": {
+          "step": 459,
+          "time_s": 9.18,
+          "goal_xy_error_m": 0.004715004659543333,
+          "object_speed_m_s": 0.2665007802107609,
+          "finger_position_m": [
+            0.0235581137239933,
+            0.02397628128528595
+          ],
+          "finger_normal_force_n": [
+            47.01577377319336,
+            46.9870491027832
+          ]
+        },
+        "actual_open_035": {
+          "step": 506,
+          "time_s": 10.120000000000001,
+          "goal_xy_error_m": 0.07260975870192561,
+          "object_speed_m_s": 0.08035596572867644,
+          "finger_position_m": [
+            0.03517011180520058,
+            0.035474684089422226
+          ],
+          "finger_normal_force_n": [
+            0.0,
+            0.6352916359901428
+          ]
+        },
+        "finger_contact_lost": {
+          "step": 491,
+          "time_s": 9.82,
+          "goal_xy_error_m": 0.08162102102376913,
+          "object_speed_m_s": 0.0007940138441508287,
+          "finger_position_m": [
+            0.024272330105304718,
+            0.024464154615998268
+          ],
+          "finger_normal_force_n": [
+            0.0,
+            0.4435308873653412
+          ]
+        },
+        "geometry_near_plane": {
+          "step": 460,
+          "time_s": 9.200000000000001,
+          "goal_xy_error_m": 0.006597025754958873,
+          "object_speed_m_s": 0.2682762960870573,
+          "finger_position_m": [
+            0.02354692853987217,
+            0.0239875391125679
+          ],
+          "finger_normal_force_n": [
+            46.99380874633789,
+            46.98128128051758
+          ]
+        },
+        "low_speed": {
+          "step": 478,
+          "time_s": 9.56,
+          "goal_xy_error_m": 0.07126345605166778,
+          "object_speed_m_s": 0.09256493612826575,
+          "finger_position_m": [
+            0.02391306310892105,
+            0.024169297888875008
+          ],
+          "finger_normal_force_n": [
+            18.967817306518555,
+            18.979877471923828
+          ]
+        },
+        "retreat_command": {
+          "step": 498,
+          "time_s": 9.96,
+          "goal_xy_error_m": 0.0809909484727366,
+          "object_speed_m_s": 0.026551456971275197,
+          "finger_position_m": [
+            0.02883334644138813,
+            0.02908327244222164
+          ],
+          "finger_normal_force_n": [
+            0.0,
+            0.6395471096038818
+          ]
+        },
+        "speed_peak": {
+          "step": 520,
+          "time_s": 10.4,
+          "goal_xy_error_m": 0.07260340810786291,
+          "object_speed_m_s": 0.28961749943778176,
+          "finger_position_m": [
+            0.03997025638818741,
+            0.039995431900024414
+          ],
+          "finger_normal_force_n": [
+            0.0,
+            0.0
+          ]
+        }
+      }
+    },
+    {
+      "episode": "correction-002",
+      "success": false,
+      "events": {
+        "opening_command": {
+          "step": 395,
+          "time_s": 7.9,
+          "goal_xy_error_m": 0.00902388392044996,
+          "object_speed_m_s": 0.24427965832276435,
+          "finger_position_m": [
+            0.023416174575686455,
+            0.02400589920580387
+          ],
+          "finger_normal_force_n": [
+            47.00977325439453,
+            47.01605987548828
+          ]
+        },
+        "support_contact": "not_measured",
+        "last_bilateral_before_open": {
+          "step": 394,
+          "time_s": 7.88,
+          "goal_xy_error_m": 0.007399436497011927,
+          "object_speed_m_s": 0.24339726157873007,
+          "finger_position_m": [
+            0.023394698277115822,
+            0.024027355015277863
+          ],
+          "finger_normal_force_n": [
+            46.98737716674805,
+            47.03998947143555
+          ]
+        },
+        "actual_open_035": {
+          "step": 441,
+          "time_s": 8.82,
+          "goal_xy_error_m": 0.06778462446314956,
+          "object_speed_m_s": 0.00013238964472509418,
+          "finger_position_m": [
+            0.03536864370107651,
+            0.03517515957355499
+          ],
+          "finger_normal_force_n": [
+            0.0,
+            0.0
+          ]
+        },
+        "finger_contact_lost": {
+          "step": 438,
+          "time_s": 8.76,
+          "goal_xy_error_m": 0.06778417705804778,
+          "object_speed_m_s": 0.0004329554179032501,
+          "finger_position_m": [
+            0.0334288626909256,
+            0.03279350697994232
+          ],
+          "finger_normal_force_n": [
+            0.3845793306827545,
+            0.0
+          ]
+        },
+        "geometry_near_plane": {
+          "step": 395,
+          "time_s": 7.9,
+          "goal_xy_error_m": 0.00902388392044996,
+          "object_speed_m_s": 0.24427965832276435,
+          "finger_position_m": [
+            0.023416174575686455,
+            0.02400589920580387
+          ],
+          "finger_normal_force_n": [
+            47.00977325439453,
+            47.01605987548828
+          ]
+        },
+        "low_speed": {
+          "step": 410,
+          "time_s": 8.2,
+          "goal_xy_error_m": 0.05958139900000855,
+          "object_speed_m_s": 0.07543077064367881,
+          "finger_position_m": [
+            0.023734528571367264,
+            0.02410314790904522
+          ],
+          "finger_normal_force_n": [
+            21.832948684692383,
+            25.13780975341797
+          ]
+        },
+        "retreat_command": {
+          "step": 433,
+          "time_s": 8.66,
+          "goal_xy_error_m": 0.06763755484959713,
+          "object_speed_m_s": 0.008530952261074448,
+          "finger_position_m": [
+            0.0295889712870121,
+            0.028846533969044685
+          ],
+          "finger_normal_force_n": [
+            1.8858572244644165,
+            0.0
+          ]
+        },
+        "speed_peak": {
+          "step": 395,
+          "time_s": 7.9,
+          "goal_xy_error_m": 0.00902388392044996,
+          "object_speed_m_s": 0.24427965832276435,
+          "finger_position_m": [
+            0.023416174575686455,
+            0.02400589920580387
+          ],
+          "finger_normal_force_n": [
+            47.00977325439453,
+            47.01605987548828
+          ]
+        }
+      }
+    },
+    {
+      "episode": "correction-003",
+      "success": false,
+      "events": {
+        "opening_command": {
+          "step": 400,
+          "time_s": 8.0,
+          "goal_xy_error_m": 0.009054501992057467,
+          "object_speed_m_s": 0.24179452533731857,
+          "finger_position_m": [
+            0.02341224066913128,
+            0.02400120534002781
+          ],
+          "finger_normal_force_n": [
+            46.999881744384766,
+            47.005821228027344
+          ]
+        },
+        "support_contact": "not_measured",
+        "last_bilateral_before_open": {
+          "step": 399,
+          "time_s": 7.98,
+          "goal_xy_error_m": 0.007377873326971637,
+          "object_speed_m_s": 0.24106652880988802,
+          "finger_position_m": [
+            0.023391086608171463,
+            0.024022337049245834
+          ],
+          "finger_normal_force_n": [
+            46.97934341430664,
+            47.02693557739258
+          ]
+        },
+        "actual_open_035": {
+          "step": 446,
+          "time_s": 8.92,
+          "goal_xy_error_m": 0.06696541377728307,
+          "object_speed_m_s": 0.00012617832113965102,
+          "finger_position_m": [
+            0.03536151349544525,
+            0.035175029188394547
+          ],
+          "finger_normal_force_n": [
+            0.0,
+            0.0
+          ]
+        },
+        "finger_contact_lost": {
+          "step": 443,
+          "time_s": 8.86,
+          "goal_xy_error_m": 0.06696489575748073,
+          "object_speed_m_s": 0.0004941521563694358,
+          "finger_position_m": [
+            0.03340516611933708,
+            0.03279278054833412
+          ],
+          "finger_normal_force_n": [
+            0.45615315437316895,
+            0.0
+          ]
+        },
+        "geometry_near_plane": {
+          "step": 400,
+          "time_s": 8.0,
+          "goal_xy_error_m": 0.009054501992057467,
+          "object_speed_m_s": 0.24179452533731857,
+          "finger_position_m": [
+            0.02341224066913128,
+            0.02400120534002781
+          ],
+          "finger_normal_force_n": [
+            46.999881744384766,
+            47.005821228027344
+          ]
+        },
+        "low_speed": {
+          "step": 416,
+          "time_s": 8.32,
+          "goal_xy_error_m": 0.06072073230192049,
+          "object_speed_m_s": 0.06421125311532967,
+          "finger_position_m": [
+            0.023636391386389732,
+            0.024221675470471382
+          ],
+          "finger_normal_force_n": [
+            20.86284637451172,
+            23.25724220275879
+          ]
+        },
+        "retreat_command": {
+          "step": 438,
+          "time_s": 8.76,
+          "goal_xy_error_m": 0.06680598299600445,
+          "object_speed_m_s": 0.009182376861527727,
+          "finger_position_m": [
+            0.029620347544550896,
+            0.02884710393846035
+          ],
+          "finger_normal_force_n": [
+            1.9207077026367188,
+            0.0
+          ]
+        },
+        "speed_peak": {
+          "step": 400,
+          "time_s": 8.0,
+          "goal_xy_error_m": 0.009054501992057467,
+          "object_speed_m_s": 0.24179452533731857,
+          "finger_position_m": [
+            0.02341224066913128,
+            0.02400120534002781
+          ],
+          "finger_normal_force_n": [
+            46.999881744384766,
+            47.005821228027344
+          ]
+        }
+      }
+    }
+  ],
+  "scope": "Measured associations, not unique causal identification; support contact not_measured"
+}
