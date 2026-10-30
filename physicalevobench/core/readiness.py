@@ -21,14 +21,38 @@ def flatten(x):
 
 def support(worker):
     sensor=worker.base.scene['esl_support']
-    result={'field_units':'newtons, world axes','filter':'table descendants; exact pair may be unavailable'}
-    for key,field in [('cube_net_normal_force_w','net_normal_forces_w'),
-                      ('cube_table_normal_force_matrix_w','normal_force_matrix_w')]:
-        try:
-            result[key]=tensor_json(worker.as_torch(getattr(sensor.data,field)))
-        except (AttributeError,RuntimeError,TypeError) as error:
-            result[key]='not_measured'
-            result[key+'_reason']=str(error)[:120]
+    result={'field_units':'newtons, world axes; raw pair impulse in N*s',
+            'filter':'Cube net normal sensor + actual PhysX ContactReport actor/collider pair',
+            'cube_table_normal_force_matrix_w':'not_measured; static table is not a tensor rigid-body filter'}
+    try:
+        result['cube_net_normal_force_w']=tensor_json(worker.as_torch(sensor.data.net_normal_forces_w))
+    except (AttributeError,RuntimeError,TypeError) as error:
+        result['cube_net_normal_force_w']='not_measured'
+        result['reason']=str(error)[:120]
+    try:
+        from omni.physx import get_physx_simulation_interface
+        from pxr import PhysicsSchemaTools
+        report=get_physx_simulation_interface().get_contact_report()
+        headers,data=report[:2]
+        pairs=[]
+        for header in headers:
+            paths={key:str(PhysicsSchemaTools.intToSdfPath(getattr(header,key)))
+                   for key in ('actor0','actor1','collider0','collider1')}
+            if not any('/dex_cube' in p for p in paths.values()) or not any('/table' in p for p in paths.values()):
+                continue
+            contacts=[]
+            for i in range(header.contact_data_offset,header.contact_data_offset+header.num_contact_data):
+                item=data[i]
+                impulse=list(item.impulse)
+                normal=list(item.normal)
+                contacts.append({'impulse_Ns':impulse,'normal_world':normal,
+                    'normal_force_N':abs(sum(a*b for a,b in zip(impulse,normal,strict=True)))/worker.base.physics_dt,
+                    'position_world':list(item.position)})
+            pairs.append({**paths,'event_type':str(header.type),'contacts':contacts})
+        result['cube_table_contact_reports']=pairs
+    except (AttributeError,RuntimeError,TypeError,ValueError) as error:
+        result['cube_table_contact_reports']='not_measured'
+        result['pair_report_reason']=str(error)[:160]
     result['physics_step']=worker.base._sim_step_counter
     return result
 
