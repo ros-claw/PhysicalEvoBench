@@ -102,3 +102,23 @@ def test_paired_initial_audit_catches_seed_equal_but_reset_different():
     b['joint_position'][0][1] = .001
     with pytest.raises(ValueError, match='initial physical'):
         assert_initial_pair(a, b)
+
+
+def test_invalid_designer_is_retained_as_failure_without_any_physics(tmp_path):
+    import json
+    import sys
+
+    from physicalevobench.core.learning import learn
+    response = {'response': {'tool': 'freeze', 'program_json': '{}',
+                             'practice_handle': '', 'memory': ''},
+                'usage': {'input_tokens': 12, 'output_tokens': 3}}
+    provider = [sys.executable, '-c', 'print('+repr(json.dumps(response))+')']
+    group = {'support': []}
+    result = learn(tmp_path, tmp_path, 'a'*40, {}, {}, group, 'designer', 'CPU-fixture',
+                   provider, 'cpu-only-test', 2)
+    assert result is None
+    failure = json.loads((tmp_path/'designer/validity_failure.json').read_text())
+    assert failure['status'] == 'INVALID_PARTICIPANT_SUBMISSION'
+    assert 'denominator' in failure['query_scoring']
+    assert not (tmp_path/'designer/native').exists()
+    assert json.loads((tmp_path/'designer/model_calls/budget.json').read_text())['input_tokens'] == 12
