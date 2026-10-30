@@ -141,7 +141,7 @@ def learn(root, out, source, cfg, base, group, name, model, provider, run_id, gp
     directory = out/name
     directory.mkdir()
     participant = ParticipantProcess(provider, model, directory/'model_calls',
-                                     max_calls=8, input_limit=300000, output_limit=48000, schema=SCHEMA)
+                                     max_calls=10, input_limit=300000, output_limit=48000, schema=SCHEMA)
     feedback_enabled = name == 'feedback'
     session = None
     if feedback_enabled:
@@ -151,7 +151,7 @@ def learn(root, out, source, cfg, base, group, name, model, provider, run_id, gp
     stage='participant'
     current = starter_program()
     try:
-        for index in range(8):
+        for index in range(10):
             request = {'instructions': INSTRUCTIONS,
                        'method': 'Feedback Learner' if feedback_enabled else 'No-Feedback Designer',
                        'feedback_policy': ('Real physical observations after trials' if feedback_enabled else
@@ -161,7 +161,7 @@ def learn(root, out, source, cfg, base, group, name, model, provider, run_id, gp
                                                    for i, c in enumerate(group['support'])],
                        'legacy_targets': sorted(t for t in TARGETS if not t.startswith('place_')), 'legacy_guards': sorted(GUARDS),
                        'legacy_modes': sorted(MODES), 'node_fields': sorted(NODE_FIELDS),
-                       'budget': {'max_calls': 8, 'calls_used': index, 'max_physical_episodes': 6,
+                       'budget': {'max_calls': 10, 'calls_used': index, 'max_physical_episodes': 8,
                                   'physical_episodes_used': used, 'input_token_cap': 300000,
                                   'output_token_cap': 48000},
                        'history': compact(history)}
@@ -184,7 +184,7 @@ def learn(root, out, source, cfg, base, group, name, model, provider, run_id, gp
                 return freeze(artifact(base, current, source, run_id, name, used, response['memory']),
                               directory/'artifact.json')
             if tool == 'run_trial':
-                if not feedback_enabled or used >= 6:
+                if not feedback_enabled or used >= 8:
                     raise ValueError('Unauthorized physical trial')
                 handles = {f'practice-{i}': c for i, c in enumerate(group['support'])}
                 if response['practice_handle'] not in handles:
@@ -214,6 +214,56 @@ def learn(root, out, source, cfg, base, group, name, model, provider, run_id, gp
             session.close()
 
 
+
+def search_candidates():
+    from physicalevobench.core.expressions import comparison
+    values=[starter_program().to_dict() for _ in range(4)]
+    # Fixed public proposal family, declared before support outcomes. Not an
+    # exhaustive optimizer of the entire graph language.
+    rng=random.Random(2026103005)
+    for n in values[1]['nodes']:
+        if n['id']=='release':
+            n['guard']=comparison('finger_min','ge',rng.uniform(.035,.039))
+            n['dwell_s']=.10
+    for n in values[2]['nodes']:
+        if n['id']=='lower':
+            n['guard']={'all':[comparison('goal_xy_error','le',.035),
+                               comparison('object_speed','le',rng.uniform(.08,.14))]}
+            n['dwell_s']=.06
+    for n in values[3]['nodes']:
+        if n['id']=='release':
+            n['minimum_s']=1.
+    return [Program.from_dict(v) for v in values]
+
+
+def score_search(root,directory,source,cfg,base,group,run_id,gpu):
+    out=directory/'search'
+    out.mkdir()
+    programs=search_candidates()
+    save_json(out/'candidate_registration.json',{'at':now(),
+              'programs':[p.to_dict() for p in programs],
+              'practice_indices':[0,1],'selection':'largest batch success count; stable earliest tie',
+              'scope':'Four-program proposal family; same full legal space, narrower sampling prior'})
+    session=NativeSession(root,out/'native',source,{**cfg,'physical_budget':8},gpu)
+    scores=[]
+    try:
+        session.ready()
+        for i,program in enumerate(programs):
+            outcomes=[]
+            for j,c in enumerate(group['support'][:2]):
+                job=make_job(program,c,f'search-{i}-{j}','search')
+                job['reference_config']=base['reference_config']
+                row=session.trial(job)
+                # Algorithm observes only the task score, never the trace.
+                outcomes.append(bool(row['success']))
+            scores.append(sum(outcomes))
+    finally:
+        session.close()
+    selected=max(range(len(scores)),key=lambda i:scores[i])
+    save_json(out/'selection.json',{'batch_scores':scores,'selected':selected,'at':now()})
+    save_json(out/'freeze_receipt.json',{'at':now(),'program_hash':programs[selected].sha256})
+    return freeze(artifact(base,programs[selected],source,run_id,'search',8,''),out/'artifact.json')
+
 def run(root, out, qualification, reference, model, provider, instances, gpu):
     if command(['git', 'status', '--porcelain'], cwd=root)['stdout']:
         raise ValueError('Freeze implementation before learning registration')
@@ -232,7 +282,7 @@ def run(root, out, qualification, reference, model, provider, instances, gpu):
         current=(root/path).read_text().strip()
         if qualified.strip()!=current:
             raise ValueError('Execution semantics changed after qualification: '+path)
-    cfg = worker_config(base, 6)
+    cfg = worker_config(base, 8)
     cfg.update(core_task='place', task_version='core-place-public-v3-dev', horizon_s=20.,
                control_profile='contact-integral-v1', public_goal=[.62, .12, .021])
     groups = manifest(root, out.parent, instances)
@@ -240,11 +290,11 @@ def run(root, out, qualification, reference, model, provider, instances, gpu):
     study_id = str(uuid.uuid4())
     save_json(out/'registration.json', {'schema': 'esl-learning-1', 'mode': 'BENCHMARK_PILOT',
               'study_id': study_id, 'source_commit': executor_source, 'scheduler_source_commit':source,'at': now(), 'conditions': groups,
-              'physical_budget': instances*(6+16), 'instances': instances, 'model': model,
-              'model_limits_per_method': {'calls': 8, 'input_tokens': 300000, 'output_tokens': 48000},
+              'physical_budget': instances*(8+8+20), 'instances': instances, 'model': model,
+              'model_limits_per_method': {'calls': 10, 'input_tokens': 300000, 'output_tokens': 48000},
               'qualification_sha256': sha256(qualification), 'qualification': receipt, 'gpu': gpu,
               'cfg': cfg, 'reference': base, 'provider': provider,
-              'search': 'NOT_RUN; no superiority-to-search claim',
+              'search': '4 declared candidates x same2 practice conditions; 8 trials, score only; limited proposal family',
               'scope': 'Paired pilot; independent model learning instances, not a stable-evolution proof'})
     save_json(out/'status.json', {'status': 'RUNNING'})
     all_artifacts = []
@@ -257,6 +307,7 @@ def run(root, out, qualification, reference, model, provider, instances, gpu):
                                              'frozen', 0, ''), directory/'frozen.json')
         for name in (['designer', 'feedback'] if i % 2 == 0 else ['feedback', 'designer']):
             artifacts[name] = learn(root, directory, executor_source, cfg, base, group, name, model, provider, run_id, gpu)
+        artifacts['search']=score_search(root,directory,executor_source,cfg,base,group,run_id,gpu)
         artifacts['deletion'] = freeze(artifact(base, starter_program(), executor_source, run_id,
                                                'deletion', 0, ''), directory/'deletion.json')
         all_artifacts.append(artifacts)
@@ -264,8 +315,8 @@ def run(root, out, qualification, reference, model, provider, instances, gpu):
         {n: (a['effective_artifact_hash'] if a is not None else 'INVALID_PARTICIPANT_SUBMISSION') for n, a in artifacts.items()} for artifacts in all_artifacts]})
     # No query execution until ALL methods / instances are frozen.
     for i, (group, artifacts) in enumerate(zip(groups, all_artifacts, strict=True)):
-        for name in (['frozen', 'designer', 'feedback', 'deletion'] if i % 2 == 0 else
-                     ['deletion', 'feedback', 'designer', 'frozen']):
+        for name in (['frozen', 'designer', 'search', 'feedback', 'deletion'] if i % 2 == 0 else
+                     ['deletion', 'feedback', 'search', 'designer', 'frozen']):
             value = artifacts[name]
             if value is None:
                 continue
@@ -300,7 +351,7 @@ def summarize(out):
     for i in range(reg['instances']):
         directory = out/f'instance-{i}'
         scores = {}
-        for name in ('frozen', 'designer', 'feedback', 'deletion'):
+        for name in ('frozen', 'designer', 'search', 'feedback', 'deletion'):
             test = directory/f'test-{name}'
             if name in ('designer','feedback') and (directory/name/'validity_failure.json').exists():
                 scores[name]={c['condition_id']:False for c in reg['conditions'][i]['query']}
@@ -312,12 +363,13 @@ def summarize(out):
             episodes += len(rows)
             controls += sum(r['steps'] for r in rows)
             samples += sum(r['diagnostic']['physics_samples'] for r in rows)
-        train = directory/'feedback/native'
-        if train.exists():
-            rows = audit_session(train)
-            episodes += len(rows)
-            controls += sum(r['steps'] for r in rows)
-            samples += sum(r['diagnostic']['physics_samples'] for r in rows)
+        for training_name in ('feedback','search'):
+            train=directory/training_name/'native'
+            if train.exists():
+                rows=audit_session(train)
+                episodes+=len(rows)
+                controls+=sum(r['steps'] for r in rows)
+                samples+=sum(r['diagnostic']['physics_samples'] for r in rows)
         cost = {}
         for name in ('designer', 'feedback'):
             for request in (directory/name/'model_calls').glob('call-*/request.json'):
@@ -338,7 +390,7 @@ def summarize(out):
         intervals[key]=paired_interval(paired)
     result = {'binding_audit':binding,'paired_conditional_intervals':intervals,'schema': 'esl-learning-results-1', 'audit': 'PASS', 'instances': results,
               'physical_episodes': episodes, 'controls': controls, 'physics_samples': samples,
-              'search': 'NOT_RUN', 'transfer': 'NOT_RUN', 'retention': 'NOT_RUN',
+              'search': 'COMMON_BATCH_4x2', 'transfer': 'NOT_RUN', 'retention': 'NOT_RUN',
               'scope': 'Small adaptation pilot; zero/negative effects retained, no stability claim'}
     save_json(out/'results.json', result)
     return result

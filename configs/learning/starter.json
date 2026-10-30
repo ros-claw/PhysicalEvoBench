@@ -1,0 +1,229 @@
+{
+  "schema": "core-skill-graph-2",
+  "start": "approach",
+  "max_retries": 1,
+  "nodes": [
+    {
+      "id": "approach",
+      "target": "object_above",
+      "gripper": "open",
+      "guard": "pose",
+      "next": "descend",
+      "timeout": "failed",
+      "mode": "approach",
+      "offset_m": 0.1,
+      "minimum_s": 0.0,
+      "timeout_s": 20.0,
+      "tolerance": 0.025,
+      "dwell_s": 0.06
+    },
+    {
+      "id": "descend",
+      "target": "object_grasp",
+      "gripper": "open",
+      "guard": "pose",
+      "next": "close",
+      "timeout": "failed",
+      "mode": "descend",
+      "offset_m": 0.005,
+      "minimum_s": 0.0,
+      "timeout_s": 20.0,
+      "tolerance": 0.015,
+      "dwell_s": 0.06
+    },
+    {
+      "id": "close",
+      "target": "anchor",
+      "gripper": "close",
+      "guard": "bilateral",
+      "next": "probe",
+      "timeout": "recover",
+      "mode": "close",
+      "offset_m": 0.0,
+      "minimum_s": 0.2,
+      "timeout_s": 1.2,
+      "tolerance": 0.025,
+      "dwell_s": 0.06
+    },
+    {
+      "id": "probe",
+      "target": "probe",
+      "gripper": "close",
+      "guard": "follow",
+      "next": "lift",
+      "timeout": "failed",
+      "mode": "probe",
+      "offset_m": 0.05,
+      "minimum_s": 0.0,
+      "timeout_s": 20.0,
+      "tolerance": 0.025,
+      "dwell_s": 0.06
+    },
+    {
+      "id": "lift",
+      "target": "lift_initial",
+      "gripper": "close",
+      "guard": "pose",
+      "next": "transport",
+      "timeout": "failed",
+      "mode": "lift",
+      "offset_m": 0.12,
+      "minimum_s": 0.0,
+      "timeout_s": 20.0,
+      "tolerance": 0.025,
+      "dwell_s": 0.06
+    },
+    {
+      "id": "hold",
+      "target": "goal_offset",
+      "gripper": "close",
+      "guard": "always",
+      "next": "hold",
+      "timeout": "failed",
+      "mode": "hold",
+      "offset_m": 0.0,
+      "minimum_s": 0.0,
+      "timeout_s": 20.0,
+      "tolerance": 0.025,
+      "dwell_s": 0.06
+    },
+    {
+      "id": "recover",
+      "target": "retreat_anchor",
+      "gripper": "open",
+      "guard": "pose",
+      "next": "approach",
+      "timeout": "failed",
+      "mode": "recover",
+      "offset_m": 0.08,
+      "minimum_s": 0.0,
+      "timeout_s": 20.0,
+      "tolerance": 0.025,
+      "dwell_s": 0.06
+    },
+    {
+      "id": "failed",
+      "target": "anchor",
+      "gripper": "open",
+      "guard": "always",
+      "next": "failed",
+      "timeout": "failed",
+      "mode": "failed",
+      "offset_m": 0.0,
+      "minimum_s": 0.0,
+      "timeout_s": 20.0,
+      "tolerance": 0.025,
+      "dwell_s": 0.06
+    },
+    {
+      "id": "transport",
+      "target": {
+        "frame": "goal",
+        "offset_m": [
+          0.0,
+          0.0,
+          0.12
+        ],
+        "grasp_offset": true
+      },
+      "gripper": "close",
+      "guard": "pose",
+      "next": "lower",
+      "timeout": "failed",
+      "mode": "lift",
+      "offset_m": 0.12,
+      "minimum_s": 0.0,
+      "timeout_s": 20.0,
+      "tolerance": 0.025,
+      "dwell_s": 0.06
+    },
+    {
+      "id": "lower",
+      "target": {
+        "frame": "goal",
+        "offset_m": [
+          0.0,
+          0.0,
+          0.008
+        ],
+        "grasp_offset": true
+      },
+      "gripper": "close",
+      "guard": "pose",
+      "next": "release",
+      "timeout": "failed",
+      "mode": "lift",
+      "offset_m": 0.008,
+      "minimum_s": 0.0,
+      "timeout_s": 20.0,
+      "tolerance": 0.015,
+      "dwell_s": 0.06
+    },
+    {
+      "id": "release",
+      "target": {
+        "frame": "goal",
+        "offset_m": [
+          0.0,
+          0.0,
+          0.008
+        ],
+        "grasp_offset": true
+      },
+      "gripper": "open",
+      "guard": "elapsed",
+      "next": "retreat",
+      "timeout": "failed",
+      "mode": "release",
+      "offset_m": 0.008,
+      "minimum_s": 0.35,
+      "timeout_s": 20.0,
+      "tolerance": 0.025,
+      "dwell_s": 0.06
+    },
+    {
+      "id": "retreat",
+      "target": {
+        "frame": "goal",
+        "offset_m": [
+          0.0,
+          0.0,
+          0.12
+        ],
+        "grasp_offset": true
+      },
+      "gripper": "open",
+      "guard": "pose",
+      "next": "done",
+      "timeout": "failed",
+      "mode": "release",
+      "offset_m": 0.12,
+      "minimum_s": 0.0,
+      "timeout_s": 20.0,
+      "tolerance": 0.025,
+      "dwell_s": 0.06
+    },
+    {
+      "id": "done",
+      "target": {
+        "frame": "goal",
+        "offset_m": [
+          0.0,
+          0.0,
+          0.12
+        ],
+        "grasp_offset": true
+      },
+      "gripper": "open",
+      "guard": "always",
+      "next": "done",
+      "timeout": "failed",
+      "mode": "release",
+      "offset_m": 0.12,
+      "minimum_s": 0.0,
+      "timeout_s": 20.0,
+      "tolerance": 0.025,
+      "dwell_s": 0.06
+    }
+  ]
+}

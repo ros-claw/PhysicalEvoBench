@@ -1,0 +1,48 @@
+{
+  "learning_problem_id": "place-release-adaptation-v1",
+  "track": "Executable-Skill Learning",
+  "task_version": "core-place-public-v3-dev",
+  "backend_profile": "arena-c7edf3a9-physx",
+  "observation_profile": "privileged-state-finger-normal-contact",
+  "execution_profile": "contact-integral-v1",
+  "starter": "starter.json",
+  "reference": "reference_aperture.json",
+  "editable_space": "core-skill-graph-2",
+  "support_goal_positions": [
+    [
+      0.62,
+      0.12,
+      0.021
+    ],
+    [
+      0.6,
+      -0.12,
+      0.021
+    ]
+  ],
+  "query_goal_positions": [
+    [
+      0.58,
+      0.1,
+      0.021
+    ],
+    [
+      0.64,
+      -0.08,
+      0.021
+    ]
+  ],
+  "mechanism": "Same cube grasp/release mechanics at new public goals; hidden mass class .1/.4 repeats; reset seeds disjoint",
+  "budget_per_learning_instance": {
+    "feedback_physical_episodes": 8,
+    "search_physical_episodes": 8,
+    "model_calls_per_model_method": 10,
+    "model_input_tokens": 300000,
+    "model_output_tokens": 48000,
+    "participant_call_timeout_s": 120,
+    "native_process_timeout_s": 7200,
+    "simulated_seconds_per_episode": 20
+  },
+  "formal_sample_size": "pilot only, 2 independently started learning instances x 4 paired query conditions, no stability claim",
+  "qualification": "PENDING"
+}

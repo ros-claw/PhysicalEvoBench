@@ -31,7 +31,7 @@ def audit_bindings(out, reg, frozen):
             raise ValueError('Support/query seed overlap')
         directory = out/f'instance-{i}'
         initials = {}
-        for name in ('frozen', 'designer', 'feedback', 'deletion'):
+        for name in ('frozen', 'designer', 'search', 'feedback', 'deletion'):
             if name in ('designer', 'feedback'):
                 calls = sorted((directory/name/'model_calls').glob('call-*'))
                 usages = [read(c/'usage.json') for c in calls if (c/'usage.json').exists()]
@@ -89,6 +89,23 @@ def audit_bindings(out, reg, frozen):
                         row = read(native/'episodes'/job['episode_id']/'episode.json')
                         if history[j]['feedback'] != event_feedback(native, row):
                             raise ValueError('Learner received invented physical feedback')
+            elif name=='search':
+                path=directory/'search/artifact.json'
+                art=load(path)
+                search=read(directory/'search/candidate_registration.json')
+                selection=read(directory/'search/selection.json')
+                rows=[read(directory/'search/native'/f'responses/{j:03d}.json') for j in range(8)]
+                scores=[sum(rows[2*j+k]['success'] for k in range(2)) for j in range(4)]
+                chosen=max(range(4),key=lambda j:scores[j])
+                if (selection['batch_scores']!=scores or selection['selected']!=chosen or
+                        art['payload']['skill']!=search['programs'][chosen]):
+                    raise ValueError('Search selection differs from common batch outcomes')
+                for j,row in enumerate(rows):
+                    job=read(directory/'search/native'/f'requests/{j:03d}.json')
+                    c=group['support'][j%2]
+                    if (job['condition']!={k:v for k,v in c.items() if k!='public_goal'} or
+                            job['public_goal']!=c['public_goal'] or job['program']!=search['programs'][j//2]):
+                        raise ValueError('Search candidates compared on different conditions')
             else:
                 path = directory/f'{name}.json'
                 art = load(path)
