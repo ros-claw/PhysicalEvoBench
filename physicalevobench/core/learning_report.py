@@ -58,14 +58,14 @@ def report(learning, qualification, studies, output):
     results = read(learning/'results.json') if learning and (learning/'results.json').exists() else None
     total = costs(studies)
     lines = ['# PhysicalEvoBench：研究纠偏与有效学习题实施报告（2026-10-30）', '',
-             f"**当前学习题资格：{q['status']}。** 本轮研究的是“正常抓取/搬运程序能否通过实践形成有效释放程序，并用于新目标位置”。这与旧饱和 T0 参数题不同；新程序使用公开目标和真实开度/速度守卫，旧失败未补记为通过。", '',
+             f"**当前学习题资格：{q['status']}。** 本轮研究的是“正常抓取/搬运程序能否通过实践形成有效释放程序，并用于新目标位置”。这与旧饱和 T0 参数题不同；新程序使用公开目标和真实开度/速度守卫，旧失败未补记为通过，也不能把旧0/4与新2/4当成Agent学习增益。", '',
              '## 1. 哪道题成立了，证据是什么', '',
              '| 资格对照 | 成功/回合 |', '|---|---|']
     for name, scores in q['scores'].items():
         lines.append(f'| {name} | {sum(scores)}/{len(scores)} |')
     lines += ['', f"普通起点与强参考相差 {q['strategy_gap_count']} 个成功，同参考 identity 相差 {q['identity_gap_count']} 个。新目标参考检查是题目可达性，不能作为 Agent 泛化成绩。资格只覆盖当前版本的有限条件；不是学习效应显著性的检验。", '',
               'DEV 响应表：第一批 starter/open/settle/settle_open 各1/2；移除先失接触的死锁条件后，在两方向、两质量上 starter2/4、actual-aperture4/4。严格低速条件可能到19.7s才满足，赶不上后续释放。以上均为开发者干预。', '',
-              '旧事件对齐发现：开始张爪时仍有明显横向速度，进入撤离时真实指坐标未必达标。单侧接触可以在开度完成后持续，因此不能要求接触必须先归零。没有将某个因素认定为唯一原因。支撑接触、切向力、solver真实力矩仍 not_measured。USD visual/proxy AABB 不等于碰撞形状或桌面支撑平面；公开目标中心Z=.021通过真实落稳可达性验证，不从reset中心推断支撑面。', '',
+              '旧事件对齐发现：开始张爪时仍有明显横向速度，进入撤离时真实指坐标未必达标。单侧接触可以在开度完成后持续，因此不能要求接触必须先归零。没有将某个因素认定为唯一原因。支撑接触、切向力、solver真实力矩仍 not_measured。另行CPU解析作者碰撞几何：场景Cube半高约.024m，桌面碰撞Mesh顶面约-.003m，几何预期落稳中心.021m与轨迹一致；这不是live cooked hull或支撑力测量。USD visual/proxy AABB 不等于碰撞形状或桌面支撑平面；公开目标中心Z=.021通过真实落稳可达性验证，不从reset中心推断支撑面。', '',
               '## 2. Agent 看什么、改什么、继承什么', '',
               '所有方法使用相同正常 starter、固定 IK/驱动/动作包络。新固定执行协议依据实测双指接触启用既有有界积分，失接触以0.2s平滑卸载；不由phase名字控制。这是开发者公开执行协议修复，不能计为 Agent 学习。旧 phase 协议保留供历史复现。', '',
               '允许 graph-v2 最多16节点/64转移/2恢复、公开 frame 相对目标与 AND/OR 状态比较。真实位置、物体速度、双指坐标、指物法向力、目标公开；质量、seed、条件ID和查询结果不进入参与者。模型自行选实践句柄，可改完整程序或不改；没有开发者代写诊断反馈。', '',
@@ -112,7 +112,7 @@ def report(learning, qualification, studies, output):
         for instance in results['instances']:
             for name, cost in instance['model_cost'].items():
                 lines.append(f"| {instance['learning_instance']}/{name} | {cost.get('calls','unknown')} | {cost.get('input_tokens','unknown')} | {cost.get('output_tokens','unknown')} |")
-        lines += ['', 'Search实际每实例8回合，4候选均在相同两个支持条件比较；它是有限提案族，不能代表整个图空间最强优化器。两模型方法上限相同，实际花费不同，不宣称费用完全匹配。模型冷启动/等待保留于每次process记录；原生进程墙钟含加载、共享GPU干扰和等待，不等于独占GPU计算时间。', '']
+        lines += ['', 'Search实际每实例8回合，4候选均在相同两个支持条件比较；它是有限提案族，不能代表整个图空间最强优化器。两模型方法上限相同，实际花费不同，不宣称费用完全匹配。因此反馈组与无反馈组的差异是该预算下两种完整过程的比较，不能单凭这一次对照把额外实际推理的贡献排除掉。模型冷启动/等待保留于每次process记录；原生进程墙钟含加载、共享GPU干扰和等待，不等于独占GPU计算时间。', '']
     else:
         lines += ['## 3–5. 学习与对照', '', '**NOT_RUN**：当前没有完成实际方法比较，不能依据接口或开发响应宣称学习能力。', '']
     lines += [f"本轮实际共 {total['physical_episodes']} 物理回合、{total['distinct_physical_conditions']} 个不同物理条件、{total['control_steps']} 控制步、{total['physics_samples']} post-physics样本。{total['native_processes']} 个原生进程（含失败）合计 {total['native_process_minutes']:.3f} 进程分钟。", '',
