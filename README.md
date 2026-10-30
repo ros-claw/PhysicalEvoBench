@@ -7,6 +7,30 @@ its frozen version helps on independent conditions. The initial v0.1 track uses 
 Isaac Lab-Arena/PhysX, object mass perturbations, frozen official RSL-RL weights and bounded arm gain.
 Later experiments add actual PPO weight updates. The tasks use privileged state observations.
 
+## Executable-Skill Learning (2026-10-30)
+
+The current entry point separates task engineering, qualification and method comparison.
+T0 is an independently runnable regression task; unfinished Place engineering does not
+block its physical smoke. A fresh-directory T0 episode completed successfully (500
+controls), using shared pinned native dependencies and external licensed weights.
+A new public-goal Place problem is undergoing physical qualification. Its DEV response
+was 2/4 for the normal starter and4/4 for an actual-aperture guard; these are developer
+interventions, **not Agent learning scores**. No new learning/stability claim is made yet.
+
+[Participant quickstart](docs/core/QUICKSTART.md) ·
+[Learning problem card](docs/core/LEARNING_PROBLEM_CARD.md) ·
+[Graph-v2 interface](docs/core/PROGRAM_V2.md) ·
+[Finite pilot protocol](docs/core/EXECUTABLE_SKILL_PROTOCOL_20261030.md).
+
+```bash
+uv run physicalevobench-core tasks
+uv run physicalevobench-core physical-smoke --output /absolute/path/peb-smoke-new --gpu 2
+```
+
+The first command is read-only. The second reserves and runs one real physical episode;
+it needs the separately installed Arena runtime/model, no T1/B1 or historical PPO data.
+The legacy reports below remain historical evidence with their original conclusions.
+
 ## Core benchmark development (2026-10-27)
 
 The new [Benchmark Card](BENCHMARK_CARD.md) separates parameter adaptation from bounded

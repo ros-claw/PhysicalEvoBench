@@ -1,3 +1,10 @@
+> Current scope (2026-10-30): **Executable-Skill Learning**, fixed model and low-level
+> execution, frozen reactive program at test (zero test-time model calls).
+> See [current learning problem](docs/core/LEARNING_PROBLEM_CARD.md),
+> [new protocol](docs/core/EXECUTABLE_SKILL_PROTOCOL_20261030.md) and
+> [independent entry point](docs/core/QUICKSTART.md). Task qualification is in progress;
+> the 1027 pilot and two-task non-acceptance below remain unchanged historical results.
+
 # PhysicalEvoBench Core — development Alpha contract
 
 **Observed pilot status (2026-10-27).** Four P heldout arms each4/4; learning and
