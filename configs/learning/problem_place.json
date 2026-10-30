@@ -44,5 +44,5 @@
     "simulated_seconds_per_episode": 20
   },
   "formal_sample_size": "pilot only, 2 independently started learning instances x 4 paired query conditions, no stability claim",
-  "qualification": "PENDING"
+  "qualification": "QUALIFIED: configs/learning/qualification.json (finite22episodes)"
 }

@@ -1,0 +1,70 @@
+{
+  "schema": "esl-task-qualification-1",
+  "status": "QUALIFIED",
+  "at": "2026-10-30T02:44:45.052571+00:00",
+  "source_commit": "7f92a8bda435333d9c1cba2f14bc5b1d9dc68654",
+  "registration_sha256": "aded533f75ee5ea53026138f80074b01c18f0a1ebe4fe7d10fcdc6a7ab9b85d4",
+  "task_version": "core-place-public-v3-dev",
+  "control_profile": "contact-integral-v1",
+  "reference_hash": "953e414dd434f7f194ccec42b889407288f8a2859a2b1df7b8ea5a0c65d887c7",
+  "starter_hash": "68a177c9c64be12741e66d1c85990ae9e73af2e00cc77e0f39e888e62acca63d",
+  "scores": {
+    "starter": [
+      false,
+      true,
+      false,
+      true
+    ],
+    "aperture_guard": [
+      true,
+      true,
+      true,
+      true
+    ],
+    "strong": [
+      true,
+      true,
+      true,
+      true
+    ],
+    "identity_strong": [
+      true,
+      true,
+      true,
+      true
+    ],
+    "query_geometry_reference": [
+      true,
+      true,
+      true,
+      true
+    ],
+    "force_open": [
+      false,
+      false
+    ]
+  },
+  "strategy_gap_count": 2,
+  "identity_gap_count": 0,
+  "scope": "Small finite qualification; not a population significance or learning-effect claim",
+  "execution_files": {
+    "physicalevobench/core/collect.py": "969d957a1b496ab3af0537f433204eedbc10d21d914cbd1b09bc63e41386736e",
+    "physicalevobench/core/native.py": "7980c963eed5f2d00a2e55ad9d1bde65521fac7f0d1be073bc696b1dc7bb9a3e",
+    "physicalevobench/core/program.py": "ed4964ec1be1d43ac6857f286dc9b716709cf04d016615bd71de338bd6b9af42",
+    "physicalevobench/core/expressions.py": "09168214b825701dde51e976841c96b9f8fcffa43a7b22e61f67f647710088fe",
+    "physicalevobench/core/metrics.py": "e7e5aaa6430385268a679122a0e0dfac6e07b6d3c4907086591c1fb1e17a8d02",
+    "physicalevobench/v02/reference_native.py": "b747d254ce02005a07a48ae96ca7c52a339a4d8cfc8e4f43224d425d10ee3962",
+    "physicalevobench/v02/reference.py": "56125505d8331a8a4dff5f9e7ef9f49d6de2b36bf7cec9e6751e8b1b3b775a3e",
+    "physicalevobench/v02/native.py": "72ccd3263afc7d9aafd901b42d0b224ac4416e8672667cc1f945b29723372dcb",
+    "physicalevobench/v02/execution.py": "965d65ce6d3c6587815134ed91e806724d822d4158d30fd36cec45cb539a9824",
+    "physicalevobench/v02/audit.py": "ce45ee81a323c668cf5312a5426ad74683aca3425db0ee61ba6d935e517e2477",
+    "physicalevobench/adapters/lift_worker.py": "0a83bb204d3fc9db859589b3e80a65346703f6cbb0fc7c9309477c7f655a4eb5",
+    "physicalevobench/adapters/arena_worker.py": "8f3e7ad140f702eb1d3323195f0f76a12d4f0978a90e195306a4883578f29961",
+    "physicalevobench/calibration/policies.py": "88e301b3460c01330985a4f56da8bc85c7d2a8b4ab89c464ceef645bcbad527b",
+    "physicalevobench/stability/audit.py": "5efe79724b21b93bfe919f78538afad05dd1d329309c0b64399d22f7ff9bef5e",
+    "physicalevobench/stability/metrics.py": "e5171f974c9e3977716cdc4b9cd8114818e50b0e19150509edb525c99a5c1963",
+    "physicalevobench/protocols/skill.py": "baaf80cbaa0cf6512350690471157017110a75671223964417bdb1d12540091b"
+  },
+  "initial_reference_sha256": "3afd2f34102079831e4cddba8ed8a8eb8a99809754ed7adf52695a5dda09f282",
+  "portable_identity_note": "Content hashes derived from actual native/source_identity.json; no added physics or changed scores"
+}

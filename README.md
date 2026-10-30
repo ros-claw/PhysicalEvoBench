@@ -13,9 +13,10 @@ The current entry point separates task engineering, qualification and method com
 T0 is an independently runnable regression task; unfinished Place engineering does not
 block its physical smoke. A fresh-directory T0 episode completed successfully (500
 controls), using shared pinned native dependencies and external licensed weights.
-A new public-goal Place problem is undergoing physical qualification. Its DEV response
+A new public-goal Place problem passed finite physical qualification: starter2/4,
+strong reference4/4, identical-reference replay4/4, new-goal reference4/4, forced-open0/2. Its DEV response
 was 2/4 for the normal starter and4/4 for an actual-aperture guard; these are developer
-interventions, **not Agent learning scores**. No new learning/stability claim is made yet.
+interventions, **not Agent learning scores**. Actual method comparisons are now starting; no learning/stability claim is made yet.
 
 [Participant quickstart](docs/core/QUICKSTART.md) ·
 [Learning problem card](docs/core/LEARNING_PROBLEM_CARD.md) ·
