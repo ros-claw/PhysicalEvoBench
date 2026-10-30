@@ -36,6 +36,9 @@ def candidate(kind):
             n['guard'] = {'all': [cmp('finger_min', 'ge', .038),
                                   cmp('finger_contact_max', 'le', .5)]}
             n['dwell_s'] = .10
+        if n['id']=='release' and kind=='aperture':
+            n['guard']=cmp('finger_min','ge',.038)
+            n['dwell_s']=.10
     return Program.from_dict(value)
 
 
@@ -56,7 +59,7 @@ def make_job(program, c, episode, name):
 def run(root, out, reference, gpu, variants, count, profile, goal=None):
     if command(['git', 'status', '--porcelain'], cwd=root)['stdout']:
         raise ValueError('Commit development source before launch')
-    if any(v not in ('starter', 'open', 'settle', 'settle_open') for v in variants):
+    if any(v not in ('starter', 'open', 'settle', 'settle_open','aperture') for v in variants):
         raise ValueError('Unknown declared diagnostic intervention')
     base = load(reference)
     source = command(['git', 'rev-parse', 'HEAD'], cwd=root)['stdout']
@@ -67,6 +70,9 @@ def run(root, out, reference, gpu, variants, count, profile, goal=None):
             raise ValueError('Unsupported public table goal')
         for c in cs:
             c['public_goal']=goal
+    if count==4 and goal is None:
+        for c in cs[2:]:
+            c['public_goal']=[.60,-.12,.021]
     for i, c in enumerate(cs):
         for v in variants:
             job = make_job(candidate(v), c, f'dev-{len(jobs):03d}', v)
