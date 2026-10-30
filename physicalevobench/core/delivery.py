@@ -33,7 +33,7 @@ def package(root,out,studies):
             files.append({'path':name,'sha256':sha256(f),'size':f.stat().st_size,'local':f})
             if f.name=='registration.json':
                 data=json.loads(f.read_text())
-                for key in ('source_commit','launcher_commit'):
+                for key in ('source_commit','launcher_commit','scheduler_source_commit'):
                     if data.get(key):
                         commits.add(data[key])
             if f.name=='prelaunch_recovery.json':
@@ -129,6 +129,44 @@ def verify(evidence,out):
         elif status['status']!='COMPLETED':
             # Failure evidence stays published, but never becomes a passed study.
             results[name]={'status':status['status'],'scope':'Incomplete attempts retained; no completed study claim'}
+        elif reg['schema']=='esl-learning-1':
+            from physicalevobench.core.learning import summarize as summarize_learning
+            recorded=json.loads((study/'results.json').read_text())
+            results[name]=summarize_learning(study)
+            if results[name]!=recorded:
+                raise ValueError('Stored executable-skill results differ from recomputation')
+        elif reg['schema'] in ('esl-development-1','esl-qualification-1','core-standalone-smoke-1'):
+            data=audit_session(study/'native')
+            for i,row in enumerate(data):
+                original=reg['job'] if reg['schema']=='core-standalone-smoke-1' else reg['jobs'][i]
+                actual=json.loads((study/'native/requests'/f'{i:03d}.json').read_text())
+                if original!=actual:
+                    raise ValueError('Executed task differs from original registration')
+            scores={}
+            for r in data:
+                scores.setdefault(r['core_identity'].get('method','smoke'),[]).append(r['success'])
+            if reg['schema']=='esl-qualification-1':
+                q=json.loads((study/'qualification.json').read_text())
+                gap=sum(scores['strong'])-sum(scores['starter'])
+                noise=abs(sum(scores['strong'])-sum(scores['identity_strong']))
+                qualified=(all(scores['strong']) and all(scores['query_geometry_reference']) and
+                           not any(scores['force_open']) and gap>noise and
+                           not any(r['diagnostic']['hard_boundary_terminated'] for r in data))
+                if (q['scores']!=scores or q['status']!=('QUALIFIED' if qualified else 'DEV') or
+                        q['registration_sha256']!=__import__('physicalevobench.v02.reference_artifact',fromlist=['digest']).digest(reg)):
+                    raise ValueError('Stored qualification differs from raw measured response')
+            elif reg['schema']=='esl-development-1':
+                recorded=json.loads((study/'result.json').read_text())
+                for method,booleans in scores.items():
+                    if (recorded['methods'][method]['successes']!=sum(booleans) or
+                            recorded['methods'][method]['episodes']!=len(booleans)):
+                        raise ValueError('Stored development response differs from raw outcomes')
+            else:
+                recorded=json.loads((study/'result.json').read_text())
+                if recorded['task_success']!=data[0]['success'] or recorded['steps']!=data[0]['steps']:
+                    raise ValueError('Standalone result differs from raw physics')
+            results[name]={'audit':'PASS','episodes':len(data),'successes':sum(r['success'] for r in data),
+                           'scores':scores}
         elif reg['schema']=='v02-diagnostics-1':
             recorded=json.loads((study/'parameter_space_results.json').read_text())
             results[name]=summarize(study)

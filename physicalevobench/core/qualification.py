@@ -73,6 +73,7 @@ def run(root, out, reference, program_file, gpu):
                'scores': scores, 'strategy_gap_count': gap, 'identity_gap_count': noise,
                'scope': 'Small finite qualification; not a population significance or learning-effect claim'}
     save_json(out/'qualification.json', receipt)
+    save_json(out/'status.json',{'status':'COMPLETED','at':now(),'episodes':len(rows)})
     print(json.dumps(receipt, indent=2))
 
 

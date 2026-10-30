@@ -43,6 +43,7 @@ def run(root, out, reference, gpu, seed=2026103001):
     result = {'status': 'PASS', 'physical_episodes': len(data), 'task_success': row['success'],
               'steps': row['steps'], 'scope': 'Physical execution only; no learning claim'}
     save_json(out/'result.json', result)
+    save_json(out/'status.json',{'status':'COMPLETED','at':now(),'episodes':len(data)})
     return result
 
 
