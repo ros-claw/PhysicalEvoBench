@@ -194,7 +194,7 @@ def learn(root, out, source, cfg, base, group, name, model, provider, run_id, gp
             if tool == 'freeze':
                 save_json(directory/'freeze_receipt.json',{'at':now(),'proposal_index':index,
                           'program_hash':current.sha256,'physical_episodes_used':used})
-                return freeze(artifact(base, current, source, run_id, name, used, response['memory']),
+                return freeze(artifact(base, current, source, run_id+'/'+name, name, used, response['memory']),
                               directory/'artifact.json')
             if tool == 'run_trial':
                 if not feedback_enabled or used >= 8:
@@ -204,7 +204,7 @@ def learn(root, out, source, cfg, base, group, name, model, provider, run_id, gp
                     raise ValueError('Invalid practice handle')
                 job = make_job(current, handles[response['practice_handle']], f'learn-{used:03d}', name)
                 job['reference_config'] = base['reference_config']
-                job['identity'].update(learning_run_id=run_id, candidate_index=index)
+                job['identity'].update(learning_run_id=run_id+'/'+name, candidate_index=index)
                 stage='physics'
                 row = session.trial(job)
                 stage='participant'
@@ -275,7 +275,7 @@ def score_search(root,directory,source,cfg,base,group,run_id,gpu):
     selected=max(range(len(scores)),key=lambda i:scores[i])
     save_json(out/'selection.json',{'batch_scores':scores,'selected':selected,'at':now()})
     save_json(out/'freeze_receipt.json',{'at':now(),'program_hash':programs[selected].sha256})
-    return freeze(artifact(base,programs[selected],source,run_id,'search',8,''),out/'artifact.json')
+    return freeze(artifact(base,programs[selected],source,run_id+'/search','search',8,''),out/'artifact.json')
 
 def run(root, out, qualification, reference, model, provider, instances, gpu):
     if command(['git', 'status', '--porcelain'], cwd=root)['stdout']:
@@ -382,7 +382,17 @@ def summarize(out):
                 assert_public(json.loads(request.read_text()))
             budgets=directory/name/'model_calls/budget.json'
             cost[name]=json.loads(budgets.read_text()) if budgets.exists() else {'status':'usage_unknown'}
-        results.append({'learning_instance': i, 'scores': scores, 'model_cost': cost,'participant_validity':{n:('INVALID' if (directory/n/'validity_failure.json').exists() else 'VALID') for n in ('designer','feedback')},
+        artifact_cost={}
+        for name in ('frozen','designer','search','feedback','deletion'):
+            path=directory/(f'{name}.json' if name in ('frozen','deletion') else f'{name}/artifact.json')
+            if path.exists():
+                retained=load_artifact(path)
+                artifact_cost[name]={'serialized_bytes':path.stat().st_size,
+                                     'program_nodes':len(retained['payload']['skill']['nodes']),
+                                     'memory_characters':len(retained['payload']['memory']),
+                                     'physical_learning_episodes':retained['payload']['budget_used'],
+                                     'shared_dependencies':[], 'dispatch_owner':'single graph, no task router'}
+        results.append({'artifact_cost':artifact_cost,'learning_instance': i, 'scores': scores, 'model_cost': cost,'participant_validity':{n:('INVALID' if (directory/n/'validity_failure.json').exists() else 'VALID') for n in ('designer','feedback')},
                         'feedback_gain': compare(scores['designer'], scores['feedback']),
                         'artifact_gain': compare(scores['deletion'], scores['feedback']),
                         'designer_gain': compare(scores['frozen'], scores['designer'])})
