@@ -56,7 +56,7 @@ def make_job(program, c, episode, name):
             'public_goal': c['public_goal'], 'identity': {'method': name, 'program_hash': program.sha256}}
 
 
-def run(root, out, reference, gpu, variants, count, profile, goal=None):
+def run(root, out, reference, gpu, variants, count, profile, goal=None,goals=None):
     if command(['git', 'status', '--porcelain'], cwd=root)['stdout']:
         raise ValueError('Commit development source before launch')
     if any(v not in ('starter', 'open', 'settle', 'settle_open','aperture') for v in variants):
@@ -70,7 +70,12 @@ def run(root, out, reference, gpu, variants, count, profile, goal=None):
             raise ValueError('Unsupported public table goal')
         for c in cs:
             c['public_goal']=goal
-    if count==4 and goal is None:
+    if goals is not None:
+        if len(goals)!=2 or count!=4 or any(len(g)!=3 or not .4<=g[0]<=.7 or abs(g[1])>.2 or g[2]!=.021 for g in goals):
+            raise ValueError('Two bounded public goals and four conditions required')
+        for i,c in enumerate(cs):
+            c['public_goal']=goals[i//2]
+    if count==4 and goal is None and goals is None:
         for c in cs[2:]:
             c['public_goal']=[.60,-.12,.021]
     for i, c in enumerate(cs):
@@ -123,10 +128,11 @@ def main():
     p.add_argument('--control-profile', default='contact-integral-v1',
                    choices=['contact-integral-v1', 'phase-integral-legacy'])
     p.add_argument('--goal', help='JSON public goal vector, engineering intervention only')
+    p.add_argument('--goals',help='JSON two goals, each evaluated at two mass conditions')
     a = p.parse_args()
     try:
         run(Path.cwd(), Path(a.output).absolute(), Path(a.reference), a.gpu,
-            a.variants.split(','), a.conditions, a.control_profile, json.loads(a.goal) if a.goal else None)
+            a.variants.split(','), a.conditions, a.control_profile, json.loads(a.goal) if a.goal else None,json.loads(a.goals) if a.goals else None)
     except Exception as error:
         out=Path(a.output).absolute()
         if out.exists():
