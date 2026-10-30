@@ -19,11 +19,12 @@ def main():
     p.add_argument('--primary', required=True)
     p.add_argument('--extension', required=True)
     p.add_argument('--prospective', required=True)
+    p.add_argument('--context2',required=True)
     p.add_argument('--output', required=True)
     a = p.parse_args()
     result = []
     for label, root in [('original', Path(a.primary)), ('factorial_exploratory', Path(a.extension)),
-                        ('factorial_prospective', Path(a.prospective))]:
+                        ('factorial_prospective', Path(a.prospective)),('factorial_context2',Path(a.context2))]:
         reg = read(root/'registration.json')
         for i in range(reg['instances']):
             for method in ('frozen', 'designer', 'search', 'feedback', 'deletion'):
@@ -39,7 +40,7 @@ def main():
                     goal = job['public_goal']
                     obj = end['object_position'][0]
                     result.append({'group': label, 'learning_instance': i, 'method': method,
-                                   'condition_id': row['condition_id'], 'evaluator_mass_kg': job['condition']['object_mass_kg'],
+                                   'condition_id': row['condition_id'],'control_steps':row['steps'], 'evaluator_mass_kg': job['condition']['object_mass_kg'],
                                    'goal_x': goal[0], 'goal_y': goal[1], 'success': row['success'],
                                    'same_node_values_as_starter': job['program'] == starter_program().to_dict(),
                                    'terminal_eligible': row['place']['terminal_eligible'],
