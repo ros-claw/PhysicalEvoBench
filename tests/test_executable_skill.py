@@ -172,3 +172,16 @@ def test_learning_problem_qualification_binds_query_family_not_just_backend():
     assert {p[0] for p in support} == {p[0] for p in query}
     assert {p[1] for p in support} == {p[1] for p in query}
     assert {tuple(p) for p in support}.isdisjoint({tuple(p) for p in query})
+
+
+def test_pairing_rejects_different_inertia_velocity_or_nonfinite_measured_state():
+    from physicalevobench.core.learning_audit import assert_initial_pair
+    a = {'joint_position': [[0.]], 'object_position': [[.5, 0., .055]],
+         'target_command': [[.6, .1, .2]], 'object_velocity': [[0., 0., 0.]],
+         'inertia_readback': [[[.0000384, 0., 0.]]]}
+    for field, replacement in [('object_velocity', [[.01, 0., 0.]]),
+                                ('inertia_readback', [[[.0000768, 0., 0.]]]),
+                                ('object_position', [[float('nan'), 0., .055]])]:
+        b = {**a, field: replacement}
+        with pytest.raises(ValueError, match='initial physical'):
+            assert_initial_pair(a, b)

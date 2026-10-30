@@ -6,7 +6,7 @@ from pathlib import Path
 
 from physicalevobench.core.audit import audit_session
 from physicalevobench.core.execution_identity import validate_execution
-from physicalevobench.core.learning_audit import assert_initial_pair
+from physicalevobench.core.learning_audit import assert_initial_pair, initial_for_pair
 from physicalevobench.core.program import Program
 from physicalevobench.core.runtime import NativeSession
 from physicalevobench.development.place import make_job
@@ -82,7 +82,7 @@ def summarize(out):
         case = reg['cases'][case_index]
         key = case['source_study']+'/'+str(case['source_instance'])
         groups.setdefault(key, {}).setdefault(job['identity']['method'], []).append(row['success'])
-        initial = read(out/'native/episodes'/row['episode_id']/'initial_capture.json')
+        initial = initial_for_pair(out/'native/episodes'/row['episode_id'])
         if case_index in initials:
             assert_initial_pair(initials[case_index], initial)
         else:
@@ -104,8 +104,8 @@ def audit_source_pairing(out, source_roots):
         if sha256(source/'registration.json') != case['source_registration_sha256']:
             raise ValueError('Paired source registration changed')
         original = source/f"instance-{case['source_instance']}"/'test-frozen'/'episodes'/case['source_episode']
-        initial = read(out/'native/episodes'/row['episode_id']/'initial_capture.json')
-        assert_initial_pair(initial, read(original/'initial_capture.json'))
+        initial = initial_for_pair(out/'native/episodes'/row['episode_id'])
+        assert_initial_pair(initial, initial_for_pair(original))
         checked += 1
     return {'status': 'PASS', 'source_query_initial_pairs': checked}
 

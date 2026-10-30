@@ -1,6 +1,7 @@
 """Bind model decisions, persisted artifacts and paired physical execution."""
 
 import json
+import math
 from pathlib import Path
 
 from physicalevobench.core.artifact import load
@@ -17,10 +18,26 @@ def flat(value):
     return [x for item in value for x in (flat(item) if isinstance(item, list) else [item])]
 
 
+def initial_for_pair(directory):
+    initial=read(directory/'initial_capture.json')
+    state=read(directory/'initial_state.json')
+    for field in ('mass_readback_kg','inertia_readback','object_orientation','joint_limits'):
+        initial[field]=state[field]
+    return initial
+
+
 def assert_initial_pair(a, b):
-    for field in ('joint_position', 'object_position', 'target_command'):
-        if max(abs(x-y) for x, y in zip(flat(a[field]), flat(b[field]), strict=True)) > 1e-6:
-            raise ValueError('Paired initial physical state mismatch')
+    fields=('joint_position','object_position','target_command','joint_velocity','object_velocity',
+            'finger_position','ee_position_world','mass_readback_kg','inertia_readback',
+            'object_orientation','joint_limits')
+    for field in fields:
+        if field not in a and field not in b:
+            continue
+        if field not in a or field not in b:
+            raise ValueError('Paired initial measurement coverage mismatch: '+field)
+        values=list(zip(flat(a[field]),flat(b[field]),strict=True))
+        if not values or any(not math.isfinite(x) or not math.isfinite(y) or abs(x-y)>1e-6 for x,y in values):
+            raise ValueError('Paired initial physical state mismatch: '+field)
 
 
 def audit_bindings(out, reg, frozen):
@@ -125,7 +142,7 @@ def audit_bindings(out, reg, frozen):
                         job['reference_config'] != reg['reference']['reference_config'] or
                         job['identity']['effective_artifact_hash'] != art['effective_artifact_hash']):
                     raise ValueError('Test program/condition differs from frozen assignment')
-                initial = read(native/'episodes'/job['episode_id']/'initial_capture.json')
+                initial = initial_for_pair(native/'episodes'/job['episode_id'])
                 key = c['condition_id']
                 if key in initials:
                     assert_initial_pair(initials[key], initial)

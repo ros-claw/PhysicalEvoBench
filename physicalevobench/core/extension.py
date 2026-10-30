@@ -7,7 +7,7 @@ from pathlib import Path
 from physicalevobench.core.artifact import load
 from physicalevobench.core.audit import audit_session
 from physicalevobench.core.execution_identity import validate_execution
-from physicalevobench.core.learning_audit import assert_initial_pair
+from physicalevobench.core.learning_audit import assert_initial_pair, initial_for_pair
 from physicalevobench.core.metrics import compare
 from physicalevobench.core.problem import PROFILE, fresh, validate_problem
 from physicalevobench.core.program import Program
@@ -114,7 +114,7 @@ def summarize(out):
                         job['reference_config'] != reg['reference']['reference_config'] or
                         r['core_identity']['effective_artifact_hash'] != art['effective_artifact_hash']):
                     raise ValueError('Frozen query assignment mismatch')
-                initial = read(worker/'episodes'/r['episode_id']/'initial_capture.json')
+                initial = initial_for_pair(worker/'episodes'/r['episode_id'])
                 if c['condition_id'] in initials:
                     assert_initial_pair(initials[c['condition_id']], initial)
                 else:
