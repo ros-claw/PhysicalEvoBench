@@ -67,3 +67,15 @@ uv run physicalevobench-core physical-smoke --task place-settle --artifact /path
 ```
 
 先固定使用实例0的Feedback产物，不按其成绩挑选；若该方法未形成合法产物，如实记录无法复跑，不用另一个有利产物替换。该入口只需冻结JSON、轻量资格和正常任务配置，复核执行内容哈希，不依赖原学习目录。
+
+源码包重建一个最小本地 Git checkout（后端仍单独下载）：
+
+```bash
+git init
+git add .
+git update-index --add --cacheinfo 160000,c7edf3a9d5d8276565208f72422f8f8a0806d6cf,external/IsaacLab-Arena
+git commit -m 'Initialize pinned executable-skill source'
+bash scripts/setup_arena.sh
+```
+
+源码包包含 `.gitmodules` 和 `.gitignore`；上面的 gitlink 与资格文件共同固定后端和执行内容。此路径的 CPU 重建与物理后端安装应分别声明，不能因能解压或 CPU 通过就标记物理复跑。CLI 模型标识相同，封闭服务的具体基础权重 revision 未暴露，不能声称已哈希固定其权重。
