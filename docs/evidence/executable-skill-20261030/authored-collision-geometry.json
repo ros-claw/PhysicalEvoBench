@@ -1,0 +1,103 @@
+{
+  "schema": "authored-usd-collision-inspection-1",
+  "physical_episodes": 0,
+  "assets": [
+    {
+      "file": "/tmp/https/omniverse-content-production.s3-us-west-2.amazonaws.com/Assets/Isaac/6.1/Isaac/Props/Blocks/DexCube/dex_cube_instanceable.usd",
+      "sha256": "7a5c015690652f4ca1d62ed757d494c51f052067bd037372c8fd581bc92d437b",
+      "metres_per_unit": 1.0,
+      "colliders": [
+        {
+          "analytic_primitive_or_mesh_bound": {
+            "min": [
+              -0.029999999329447746,
+              -0.029999999329447746,
+              -0.029999999329447746
+            ],
+            "max": [
+              0.029999999329447746,
+              0.029999999329447746,
+              0.029999999329447746
+            ],
+            "vertices": 8
+          },
+          "path": "/DexCube/collisions/collisions",
+          "type": "Cube",
+          "schemas": [
+            "PhysicsCollisionAPI"
+          ],
+          "world_transform": "( (0.05999999865889549, 0, 0, 0), (0, 0.05999999865889549, 0, 0), (0, 0, 0.05999999865889549, 0), (0, 0, 0, 1) )",
+          "bboxcache_empty": true,
+          "authored_stage_bound_min": null,
+          "authored_stage_bound_max": null,
+          "attributes": {
+            "extent": "[(-0.03, -0.03, -0.03), (0.03, 0.03, 0.03)]",
+            "physics:collisionEnabled": "True",
+            "physxCollision:contactOffset": "0.0010000000474974513",
+            "physxCollision:minTorsionalPatchRadius": "0.00800000037997961",
+            "physxCollision:restOffset": "0.0",
+            "physxCollision:torsionalPatchRadius": "0.10000000149011612",
+            "size": "1.0",
+            "xformOp:orient": "(1, 0, 0, 0)",
+            "xformOp:scale": "(0.05999999865889549, 0.05999999865889549, 0.05999999865889549)",
+            "xformOp:translate": "(0, 0, 0)",
+            "xformOpOrder": "[xformOp:translate, xformOp:orient, xformOp:scale]"
+          }
+        }
+      ],
+      "scope": "Authored USD collider API/geometry and offsets; not live cooked PhysX hull or measured support contact"
+    },
+    {
+      "file": "/tmp/https/omniverse-content-production.s3-us-west-2.amazonaws.com/Assets/Isaac/6.1/Isaac/Props/Mounts/SeattleLabTable/table_instanceable.usd",
+      "sha256": "479ed8fd374d8eafdedf3ca3b9d0d5981ffc6d5c5016929347f748be93d5df17",
+      "metres_per_unit": 1.0,
+      "colliders": [
+        {
+          "analytic_primitive_or_mesh_bound": {
+            "min": [
+              -0.2461000000000001,
+              -0.4550000000000001,
+              -1.0030000000000001
+            ],
+            "max": [
+              1.0339,
+              0.45500000000000024,
+              -0.0030000000000000027
+            ],
+            "vertices": 8
+          },
+          "path": "/DemoTable/Collisions/Cube",
+          "type": "Mesh",
+          "schemas": [
+            "PhysicsCollisionAPI",
+            "PhysicsMeshCollisionAPI",
+            "MaterialBindingAPI"
+          ],
+          "world_transform": "( (2.020605904817785e-16, 0.91, 0, 0), (-1.28, 2.842170943040401e-16, 0, 0), (0, 0, 1, 0), (0.39390000000000003, 3.4661162828797385e-17, -0.503, 1) )",
+          "bboxcache_empty": false,
+          "authored_stage_bound_min": [
+            -0.2461000000000001,
+            -0.4550000000000001,
+            -1.0030000000000001
+          ],
+          "authored_stage_bound_max": [
+            1.0339,
+            0.45500000000000024,
+            -0.0030000000000000027
+          ],
+          "attributes": {
+            "extent": "[(-0.5, -0.5, -0.5), (0.5, 0.5, 0.5)]",
+            "physics:approximation": "convexHull",
+            "physics:collisionEnabled": "True",
+            "xformOp:orient": "(1, 0, 0, 0)",
+            "xformOp:scale": "(0.91, 1.28, 1)",
+            "xformOp:translate": "(0, 0.1561, -0.503)",
+            "xformOpOrder": "[xformOp:translate, xformOp:orient, xformOp:scale]"
+          }
+        }
+      ],
+      "scope": "Authored USD collider API/geometry and offsets; not live cooked PhysX hull or measured support contact"
+    }
+  ],
+  "scene_transform_note": "Arena scales DexCube by (.8,.8,.8); table world pose adds (.5,0,0) and rotates 90deg about Z. These asset-stage bounds do not include that outer scene transform."
+}
