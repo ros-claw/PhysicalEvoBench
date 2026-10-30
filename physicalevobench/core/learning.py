@@ -179,6 +179,8 @@ def learn(root, out, source, cfg, base, group, name, model, provider, run_id, gp
             tool = response['tool']
             entry = {'tool': tool, 'program': current.to_dict(), 'program_hash': current.sha256}
             if tool == 'freeze':
+                save_json(directory/'freeze_receipt.json',{'at':now(),'proposal_index':index,
+                          'program_hash':current.sha256,'physical_episodes_used':used})
                 return freeze(artifact(base, current, source, run_id, name, used, response['memory']),
                               directory/'artifact.json')
             if tool == 'run_trial':
@@ -291,6 +293,8 @@ def run(root, out, qualification, reference, model, provider, instances, gpu):
 def summarize(out):
     reg = json.loads((out/'registration.json').read_text())
     frozen = json.loads((out/'all_frozen.json').read_text())
+    from physicalevobench.core.learning_audit import audit_bindings
+    binding=audit_bindings(out,reg,frozen)
     results = []
     episodes = controls = samples = 0
     for i in range(reg['instances']):
@@ -320,7 +324,7 @@ def summarize(out):
                 assert_public(json.loads(request.read_text()))
             budgets=directory/name/'model_calls/budget.json'
             cost[name]=json.loads(budgets.read_text()) if budgets.exists() else {'status':'usage_unknown'}
-        results.append({'learning_instance': i, 'scores': scores, 'model_cost': cost,
+        results.append({'learning_instance': i, 'scores': scores, 'model_cost': cost,'participant_validity':{n:('INVALID' if (directory/n/'validity_failure.json').exists() else 'VALID') for n in ('designer','feedback')},
                         'feedback_gain': compare(scores['designer'], scores['feedback']),
                         'artifact_gain': compare(scores['deletion'], scores['feedback']),
                         'designer_gain': compare(scores['frozen'], scores['designer'])})
@@ -332,7 +336,7 @@ def summarize(out):
         paired=[[int(item['scores']['feedback'][c])-int(item['scores'][baseline][c])
                  for c in item['scores']['feedback']] for item in results]
         intervals[key]=paired_interval(paired)
-    result = {'paired_conditional_intervals':intervals,'schema': 'esl-learning-results-1', 'audit': 'PASS', 'instances': results,
+    result = {'binding_audit':binding,'paired_conditional_intervals':intervals,'schema': 'esl-learning-results-1', 'audit': 'PASS', 'instances': results,
               'physical_episodes': episodes, 'controls': controls, 'physics_samples': samples,
               'search': 'NOT_RUN', 'transfer': 'NOT_RUN', 'retention': 'NOT_RUN',
               'scope': 'Small adaptation pilot; zero/negative effects retained, no stability claim'}

@@ -29,6 +29,7 @@ def main():
             raise ValueError('Immutable checkpoint changed')
         shutil.copyfile(Path(cfg['checkpoint_path']).parent/'params/agent.yaml',out/'policy_config.yaml')
         worker=CoreWorker(cfg['checkpoint_path'],out,cfg)
+        (out/'episodes.jsonl').touch()
         save_json(out/'ready.json',{'at':now()})
         completed=[]
         try:

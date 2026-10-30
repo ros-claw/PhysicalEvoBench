@@ -68,3 +68,37 @@ def test_task_lifecycle_does_not_block_other_task_development():
     assert task('place-settle', 'DEV')['status'] == 'DEV'
     with pytest.raises(ValueError, match='formal scores'):
         task('place-settle', 'BENCHMARK')
+
+
+def test_new_graph_cannot_select_hidden_fixed_place_geometry_or_nonfinite_goal():
+    program = candidate('aperture').to_dict()
+    program['nodes'][0]['target'] = 'place_lower'
+    with pytest.raises(ValueError, match='public goal'):
+        Program.from_dict(program)
+    fsm = ProgramFSM(candidate('aperture'))
+    obs = observation()
+    obs['task_goal_position'][0] = float('nan')
+    with pytest.raises(ValueError, match='public goal'):
+        fsm.update(obs, .02)
+
+
+def test_support_query_manifests_are_distinct_and_physically_related(tmp_path):
+    from physicalevobench.core.learning import manifest
+    groups = manifest(tmp_path, tmp_path, 2)
+    seeds = [c['seed'] for g in groups for cs in g.values() for c in cs]
+    assert len(set(seeds)) == len(seeds)
+    for group in groups:
+        assert {c['object_mass_kg'] for c in group['support']} == {c['object_mass_kg'] for c in group['query']}
+        assert {tuple(c['public_goal']) for c in group['support']}.isdisjoint(
+            {tuple(c['public_goal']) for c in group['query']})
+
+
+def test_paired_initial_audit_catches_seed_equal_but_reset_different():
+    from physicalevobench.core.learning_audit import assert_initial_pair
+    a = {'joint_position': [[0., 0.]], 'object_position': [[.5, 0., .055]],
+         'target_command': [[.6, .1, .2]]}
+    b = copy.deepcopy(a)
+    assert_initial_pair(a, b)
+    b['joint_position'][0][1] = .001
+    with pytest.raises(ValueError, match='initial physical'):
+        assert_initial_pair(a, b)

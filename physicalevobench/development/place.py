@@ -124,8 +124,14 @@ def main():
                    choices=['contact-integral-v1', 'phase-integral-legacy'])
     p.add_argument('--goal', help='JSON public goal vector, engineering intervention only')
     a = p.parse_args()
-    run(Path.cwd(), Path(a.output).absolute(), Path(a.reference), a.gpu,
-        a.variants.split(','), a.conditions, a.control_profile, json.loads(a.goal) if a.goal else None)
+    try:
+        run(Path.cwd(), Path(a.output).absolute(), Path(a.reference), a.gpu,
+            a.variants.split(','), a.conditions, a.control_profile, json.loads(a.goal) if a.goal else None)
+    except Exception as error:
+        out=Path(a.output).absolute()
+        if out.exists():
+            save_json(out/'status.json',{'status':'FAILED','error':str(error),'at':now()})
+        raise
 
 
 if __name__ == '__main__':
