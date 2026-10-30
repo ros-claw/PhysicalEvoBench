@@ -272,16 +272,9 @@ def run(root, out, qualification, reference, model, provider, instances, gpu):
         raise ValueError('Task is not qualified; continue engineering, not model scaling')
     base = load(reference)
     source = command(['git', 'rev-parse', 'HEAD'], cwd=root)['stdout']
-    executor_source=receipt['source_commit']
-    critical=['physicalevobench/core/program.py','physicalevobench/core/expressions.py',
-              'physicalevobench/core/native.py','physicalevobench/core/collect.py',
-              'physicalevobench/core/metrics.py','physicalevobench/v02/reference_native.py',
-              'physicalevobench/v02/native.py','physicalevobench/v02/execution.py']
-    for path in critical:
-        qualified=command(['git','show',f'{executor_source}:{path}'],cwd=root)['stdout']
-        current=(root/path).read_text().strip()
-        if qualified.strip()!=current:
-            raise ValueError('Execution semantics changed after qualification: '+path)
+    from physicalevobench.core.execution_identity import validate_execution
+    validate_execution(root,receipt,base)
+    executor_source=source
     cfg = worker_config(base, 8)
     cfg.update(core_task='place', task_version='core-place-public-v3-dev', horizon_s=20.,
                control_profile='contact-integral-v1', public_goal=[.62, .12, .021])

@@ -7,6 +7,7 @@ import tarfile
 from pathlib import Path, PurePosixPath
 
 from physicalevobench.doctor import save_json, sha256
+from physicalevobench.v02.reference_artifact import digest
 
 
 def safe_members(archive):
@@ -118,8 +119,8 @@ def verify(evidence,out):
             identities.append(None)
         for path in identities:
             identity=json.loads(path.read_text()) if path else {'commit':reg['source_commit'],'files':reg['source_sha256']}
-            for file,digest in identity['files'].items():
-                if sources[identity['commit']].get(file)!=digest:
+            for file,expected_digest in identity['files'].items():
+                if sources[identity['commit']].get(file)!=expected_digest:
                     raise ValueError('Registered source differs from bundled immutable source')
                 source_checks+=1
         if status['status']=='CANCELLED_BEFORE_LAUNCH':
@@ -153,7 +154,7 @@ def verify(evidence,out):
                            not any(scores['force_open']) and gap>noise and
                            not any(r['diagnostic']['hard_boundary_terminated'] for r in data))
                 if (q['scores']!=scores or q['status']!=('QUALIFIED' if qualified else 'DEV') or
-                        q['registration_sha256']!=__import__('physicalevobench.v02.reference_artifact',fromlist=['digest']).digest(reg)):
+                        q['registration_sha256']!=digest(reg)):
                     raise ValueError('Stored qualification differs from raw measured response')
             elif reg['schema']=='esl-development-1':
                 recorded=json.loads((study/'result.json').read_text())

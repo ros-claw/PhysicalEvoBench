@@ -72,6 +72,10 @@ def run(root, out, reference, program_file, gpu):
                'reference_hash': strong.sha256, 'starter_hash': programs['starter'].sha256,
                'scores': scores, 'strategy_gap_count': gap, 'identity_gap_count': noise,
                'scope': 'Small finite qualification; not a population significance or learning-effect claim'}
+    from physicalevobench.core.execution_identity import EXECUTION_FILES
+    identity=json.loads((out/'native/source_identity.json').read_text())
+    receipt['execution_files']={p:identity['files'][p] for p in EXECUTION_FILES}
+    receipt['initial_reference_sha256']=digest(base)
     save_json(out/'qualification.json', receipt)
     save_json(out/'status.json',{'status':'COMPLETED','at':now(),'episodes':len(rows)})
     print(json.dumps(receipt, indent=2))
