@@ -193,8 +193,10 @@ artifact_gain 条件bootstrap95%区间 [+0.00%, +75.00%]。
 
 完整原始证据为19个data分片、13个登记/打包源码档案，数据分片合计746,981,959 bytes。独立解包核验 **5442个原始文件、5263项源码绑定**，重算任务评分、命令响应、真实模型选择、冻结时序、预算与实测初态配对。12个完成研究及那次0回合失败均完整保留，失败记录不被改成通过的物理研究。详见 [全量解包审计](../evidence/executable-skill-20261030/public_delivery_audit.json)。
 
-完整仓库CPU验证124 tests通过，Ruff通过；新目录v3实际启动时25项Core/新接口测试通过，之后补入的资格起点绑定测试将在最终轻量源码重建中一起核对。这里的67种条件按已执行(seed,mass,goal)元组去重，不是67个统计独立学习样本。
+完整仓库CPU验证124 tests通过，Ruff通过；新目录v3实际启动时25项Core/新接口测试通过，之后补入资格起点绑定测试后，最终轻量源码包在一个全新单提交Git目录和新CPU venv中完成26项测试、tasks/smoke及便携资格验证，全部通过。这里的67种条件按已执行(seed,mass,goal)元组去重，不是67个统计独立学习样本。
 
 本地完整分片：`/home/dell/peb-esl-final-evidence-20261030`；独立解包重算：`/home/dell/peb-esl-final-reaudit-20261030`。源码内容、预算与原始分数均经核验；离线步骤新增物理回合和模型调用均为0。
 
 实验预发行入口：[esl-alpha-20261030](https://github.com/ros-claw/PhysicalEvoBench/releases/tag/esl-alpha-20261030)。[PR #10](https://github.com/ros-claw/PhysicalEvoBench/pull/10)保持草稿、未合并；旧双任务Core未验收。公开下载与源码重建的最终收据见证据目录中的对应JSON文件。
+
+轻量源码资产 `executable-skill-source.tar.gz` 为799,265 bytes（约0.80 MB），打包自f190bf5；最终发布提交另附交付收据，执行代码不变。局部样例为5,306,479 bytes，固定选query-000的Frozen/Feedback两条轨迹，两条均通过逐回合评分/动作诊断重算；它不是展示增益的有利案例选择。详见 [源码清单](../evidence/executable-skill-20261030/source_manifest.json) 和 [源码独立重建](../evidence/executable-skill-20261030/source_rebuild_audit.json)。

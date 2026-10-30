@@ -1,0 +1,12 @@
+{
+  "status": "PASS",
+  "scope": "CPU rebuild from lightweight source into newly initialized single-commit Git repository; no native dependencies, old Git objects, private B1/PPO data or new physics",
+  "source_directory": "/home/dell/peb-esl-source-only-final-20261030",
+  "core_tests": 26,
+  "portable_execution_and_problem_binding": "PASS",
+  "local_git_commit": "78e51718151b8840d67755adccb2b95394671ebc",
+  "physical_episodes": 0,
+  "source_archive_sha256": "be1a526ed9df8cdde0c21d348ba0d14dfa64a5ff5c46129bba5d033e87127189",
+  "packaged_source_commit": "f190bf571bc34156148a90e794690b886aff69b7",
+  "source_manifest_sha256": "f6415489b8f9473f881cc2997c1599ded39ececc2ae2423b0f2cce2766790d4a"
+}
