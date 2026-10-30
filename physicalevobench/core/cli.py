@@ -60,7 +60,13 @@ def main():
     out=Path(a.run_dir)
     reg=json.loads((out/'registration.json').read_text())
     schema=reg['schema']
-    if schema=='esl-learning-1':
+    if schema=='esl-problem-qualification-1':
+        from physicalevobench.core.problem import audit_receipt
+        result=audit_receipt(out)
+    elif schema=='esl-frozen-extension-1':
+        from physicalevobench.core.extension import summarize
+        result=summarize(out)
+    elif schema=='esl-learning-1':
         from physicalevobench.core.learning import summarize
         result=summarize(out)
     elif schema in ('esl-development-1','esl-qualification-1','core-standalone-smoke-1'):

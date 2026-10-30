@@ -72,7 +72,7 @@ def run(root, out, reference, program_file, gpu):
     out.mkdir(parents=True, exist_ok=False)
     save_json(out/'registration.json', {'schema': 'esl-problem-qualification-1', 'mode': 'QUALIFICATION',
               'source_commit': source, 'at': now(), 'physical_budget': len(jobs), 'jobs': jobs,
-              'profile': PROFILE, 'cfg': cfg, 'programs': {n: p.to_dict() for n, p in programs.items()},
+              'profile': PROFILE, 'baseline_reference':base,'cfg': cfg, 'programs': {n: p.to_dict() for n, p in programs.items()},
               'criteria': 'strong4/4, negative0/2, strategy count gap greater than identity count gap, zero hard boundary',
               'selection': 'Factor recombination defined after original Frozen ceiling, before these outcomes; no Agent winning criterion'})
     session = NativeSession(root, out/'native', source, cfg, gpu)
@@ -103,6 +103,31 @@ def run(root, out, reference, program_file, gpu):
     save_json(out/'status.json', {'status': 'COMPLETED', 'at': now(), 'episodes': len(rows)})
     print(json.dumps(receipt, indent=2))
 
+
+
+def audit_receipt(out):
+    reg=json.loads((out/'registration.json').read_text())
+    q=json.loads((out/'qualification.json').read_text())
+    data=audit_session(out/'native')
+    scores={name:[r['success'] for r in data if r['core_identity']['method']==name]
+            for name in ('starter','strong','identity_strong','force_open')}
+    gap=sum(scores['strong'])-sum(scores['starter'])
+    noise=abs(sum(scores['strong'])-sum(scores['identity_strong']))
+    qualified=(all(scores['strong']) and not any(scores['force_open']) and gap>noise and
+               not any(r['diagnostic']['hard_boundary_terminated'] for r in data))
+    if (q['scores']!=scores or q['strategy_gap_count']!=gap or q['identity_gap_count']!=noise or
+            q['status']!=('QUALIFIED' if qualified else 'DEV') or
+            q['learning_problem_sha256']!=digest(reg['profile']) or
+            q['registration_sha256']!=digest(reg) or
+            q['initial_reference_sha256']!=digest(reg['baseline_reference'])):
+        raise ValueError('Problem qualification differs from original registration/raw physical response')
+    identity=json.loads((out/'native/source_identity.json').read_text())
+    if q['execution_files']!={p:identity['files'][p] for p in EXECUTION_FILES}:
+        raise ValueError('Qualified execution identity differs from actual native source')
+    for i,job in enumerate(reg['jobs']):
+        if json.loads((out/'native/requests'/f'{i:03d}.json').read_text())!=job:
+            raise ValueError('Qualification execution differs from planned intervention')
+    return {'status':'PASS','episodes':len(data),'qualification_status':q['status'],'scores':scores}
 
 def main():
     p = argparse.ArgumentParser()

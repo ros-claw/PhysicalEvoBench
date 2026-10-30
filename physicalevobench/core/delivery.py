@@ -34,7 +34,7 @@ def package(root,out,studies):
             files.append({'path':name,'sha256':sha256(f),'size':f.stat().st_size,'local':f})
             if f.name=='registration.json':
                 data=json.loads(f.read_text())
-                for key in ('source_commit','launcher_commit','scheduler_source_commit'):
+                for key in ('source_commit','launcher_commit','scheduler_source_commit','original_executor_source'):
                     if data.get(key):
                         commits.add(data[key])
             if f.name=='prelaunch_recovery.json':
@@ -130,6 +130,15 @@ def verify(evidence,out):
         elif status['status']!='COMPLETED':
             # Failure evidence stays published, but never becomes a passed study.
             results[name]={'status':status['status'],'scope':'Incomplete attempts retained; no completed study claim'}
+        elif reg['schema']=='esl-problem-qualification-1':
+            from physicalevobench.core.problem import audit_receipt
+            results[name]=audit_receipt(study)
+        elif reg['schema']=='esl-frozen-extension-1':
+            from physicalevobench.core.extension import summarize as extension_summary
+            recorded=json.loads((study/'results.json').read_text())
+            results[name]=extension_summary(study)
+            if results[name]!=recorded:
+                raise ValueError('Exploratory extension result differs from independent raw audit')
         elif reg['schema']=='esl-learning-1':
             from physicalevobench.core.learning import summarize as summarize_learning
             recorded=json.loads((study/'results.json').read_text())
