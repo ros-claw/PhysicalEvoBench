@@ -12,6 +12,8 @@ from physicalevobench.core.program import Program, initial_program
 def main():
     p=argparse.ArgumentParser(prog='physicalevobench-core')
     sub=p.add_subparsers(dest='command',required=True)
+    sub.add_parser('physical-smoke',help='Standalone real T0 episode; no T1 or historical run required')
+    sub.add_parser('tasks',help='Independent task lifecycle and scope')
     sub.add_parser('smoke',help='CPU schema/guard smoke only; zero physical episodes')
     run=sub.add_parser('run',help='Run a bounded real-model P pilot using a prior calibration receipt')
     run.add_argument('--output',required=True)
@@ -22,7 +24,15 @@ def main():
     run.add_argument('--participant-command',help='JSON argv for a generic stdin provider')
     audit=sub.add_parser('audit',help='Recompute an existing evidence directory without physics')
     audit.add_argument('--run-dir',required=True)
+    if len(sys.argv)>1 and sys.argv[1]=='physical-smoke':
+        from physicalevobench.core.standalone import main as physical_main
+        sys.argv.pop(1)
+        return physical_main()
     a=p.parse_args()
+    if a.command=='tasks':
+        from physicalevobench.core.tasks import TASKS
+        print(json.dumps(TASKS,indent=2))
+        return
     if a.command=='run':
         argv=[sys.executable,'-m','physicalevobench.core.pilot','--output',a.output,
               '--reference',a.reference,'--b1',a.calibration,'--gpu',str(a.gpu),'--model',a.model]
