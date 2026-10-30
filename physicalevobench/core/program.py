@@ -1,5 +1,6 @@
 """Strict bounded public-state skill graph. No eval, imports, or arbitrary code."""
 
+import copy
 import math
 from dataclasses import dataclass
 
@@ -18,10 +19,14 @@ class Program:
     nodes: tuple
     start: str='approach'
     max_retries: int=1
+    schema: str="core-skill-graph-1"
 
     def __post_init__(self):
         if not 1<=len(self.nodes)<=16 or type(self.max_retries) is not int or not 0<=self.max_retries<=2:
             raise ValueError('Bounded graph/retries required')
+        if self.schema not in ('core-skill-graph-1','core-skill-graph-2'):
+            raise ValueError('Unsupported program schema')
+        from physicalevobench.core.expressions import validate_guard, validate_target
         ids=[]
         for n in self.nodes:
             if not isinstance(n,dict) or set(n)!=NODE_FIELDS:
@@ -29,7 +34,12 @@ class Program:
             if not isinstance(n['id'],str) or not n['id'].isidentifier() or len(n['id'])>32:
                 raise ValueError('Short named node required')
             ids.append(n['id'])
-            if (n['target'] not in TARGETS or n['guard'] not in GUARDS or n['mode'] not in MODES or
+            for key, choices, validate in [('target',TARGETS,validate_target),('guard',GUARDS,validate_guard)]:
+                if isinstance(n[key],dict) and self.schema=='core-skill-graph-2':
+                    validate(n[key])
+                elif not isinstance(n[key],str) or n[key] not in choices:
+                    raise ValueError('Unknown public primitive')
+            if (n['mode'] not in MODES or
                     n['gripper'] not in ('open','close')):
                 raise ValueError('Unknown public primitive')
             for key,lo,hi in [('tolerance',.005,.06),('dwell_s',.02,.5),('minimum_s',0.,1.),
@@ -41,17 +51,17 @@ class Program:
             raise ValueError('Unique nodes and defined entry required')
         if any(n[k] not in ids for n in self.nodes for k in ('next','timeout')):
             raise ValueError('Dangling program edge')
-        object.__setattr__(self,'nodes',tuple(dict(n) for n in self.nodes))
+        object.__setattr__(self,'nodes',tuple(copy.deepcopy(n) for n in self.nodes))
 
     def to_dict(self):
-        return {'schema':'core-skill-graph-1','start':self.start,'max_retries':self.max_retries,
-                'nodes':[dict(n) for n in self.nodes]}
+        return {'schema':self.schema,'start':self.start,'max_retries':self.max_retries,
+                'nodes':copy.deepcopy(list(self.nodes))}
 
     @classmethod
     def from_dict(cls,value):
-        if set(value)!={'schema','start','max_retries','nodes'} or value['schema']!='core-skill-graph-1':
+        if set(value)!={'schema','start','max_retries','nodes'} or value['schema'] not in ('core-skill-graph-1','core-skill-graph-2'):
             raise ValueError('Unsupported program schema')
-        return cls(tuple(value['nodes']),value['start'],value['max_retries'])
+        return cls(tuple(value['nodes']),value['start'],value['max_retries'],value['schema'])
 
     @property
     def sha256(self):
@@ -102,6 +112,11 @@ class ProgramFSM:
             self.anchor=list(obs['ee_position'])
             self.offset=[a-b for a,b in zip(obs['ee_position'],obj,strict=True)]
         name,dz=n['target'],n['offset_m']
+        if isinstance(name,dict):
+            from physicalevobench.core.expressions import FRAMES
+            frame=name['frame']
+            base=self.anchor if frame=='anchor' else (self.initial if frame=='initial_object' else obs[FRAMES[frame]])
+            return [base[i]+name['offset_m'][i]+(self.offset[i] if name['grasp_offset'] else 0.) for i in range(3)]
         if name in ('object_above','object_grasp'):
             return [*obj[:2],obj[2]+dz]
         if name=='anchor':
@@ -130,19 +145,25 @@ class ProgramFSM:
         relative=[a-b for a,b in zip(obs['ee_position'],obs['object_position'],strict=True)]
         bilateral=min(obs['cube_contact_force'])>=.5 and .005<sum(obs['finger_position'])/2<.035
         guard=n['guard']
-        qualified={
+        legacy={
             'pose':math.dist(obs['ee_position'],target)<=n['tolerance'] and obs['orientation_error']<=.15,
             'bilateral':bilateral,
             'follow':self.probe_object is not None and obs['object_position'][2]-self.probe_object[2]>=.02
                      and math.dist(relative,self.offset)<=.025,
             'object_goal':math.dist(obs['object_position'],obs['goal_position'])<.04,
-            'elapsed':True,'always':True}[guard] and self.age>=n['minimum_s']
+            'elapsed':True,'always':True}
+        if isinstance(guard,dict):
+            from physicalevobench.core.expressions import evaluate
+            qualified=evaluate(guard,obs,target)
+        else:
+            qualified=legacy[guard]
+        qualified=qualified and self.age>=n['minimum_s']
         self.dwell=self.dwell+dt if qualified else 0.
         next_id=self.current
         reason=None
         if self.dwell>=n['dwell_s']-1e-12:
             next_id=n['next']
-            reason='public_guard_'+guard
+            reason='public_guard_'+(guard if isinstance(guard,str) else 'expression')
         elif self.age>=n['timeout_s']:
             next_id=n['timeout']
             reason='bounded_node_timeout'

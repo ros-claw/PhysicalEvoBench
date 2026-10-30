@@ -44,6 +44,8 @@ def main():
                     time.sleep(.2)
                 job=json.loads(request.read_text())
                 save_json(out/'reservations'/f'{i:03d}.json',{'at':now(),'job':job})
+                if 'public_goal' in job:
+                    worker.diag_cfg['public_goal']=job['public_goal']
                 if job.get('program'):
                     from physicalevobench.core.native import ProgramReference
                     worker.policy=ProgramReference(worker,cfg['reference_config'],job['program'])
@@ -71,7 +73,7 @@ def main():
                 row['core_identity']=job['identity']
                 if cfg.get('core_task')=='place':
                     from physicalevobench.core.metrics import place_metrics
-                    row['place']=place_metrics(worker.initial_capture,worker.frames)
+                    row['place']=place_metrics(worker.initial_capture,worker.frames,goal=job.get('public_goal'))
                     row['success']=row['place']['success']
                     row['failure_type']=None if row['success'] else 'place_task_not_completed'
                 save_json(out/'episodes'/job['episode_id']/'episode.json',row)

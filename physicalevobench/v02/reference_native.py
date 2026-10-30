@@ -40,6 +40,8 @@ class StateBasedReference(GeometryExpert):
                   'object_velocity':w.as_torch(cube.data.root_vel_w)[0,:3].tolist(),
                   'finger_position':w.as_torch(robot.data.joint_pos)[0,w.finger_joint_indices].tolist(),
                   'orientation_error':float(orientation_error.norm()),'cube_contact_force':contacts}
+        if hasattr(w,'public_task_observation'):
+            public.update(w.public_task_observation())
         decision = self.fsm.update(public,w.base.step_dt)
         target = t.tensor([decision['target_position']],device=p.device)
         position_error,rotation_error = compute_pose_error(p,q,target,orient)
@@ -55,7 +57,18 @@ class StateBasedReference(GeometryExpert):
         desired = self.ik.compute(p,q,jac,current)
         delta = desired-current
         delta = delta*(.10/delta.abs().amax(dim=-1,keepdim=True).clamp(min=.10))
-        bias = self.integral.update(delta[0].tolist(),w.base.step_dt,decision['phase'] in ('lift','hold'))
+        active=decision['phase'] in ('lift','hold')
+        if w.diag_cfg.get('control_profile')=='contact-integral-v1':
+            active=min(contacts)>=.5 and sum(public['finger_position'])/2<.035
+            if active:
+                bias=self.integral.update(delta[0].tolist(),w.base.step_dt,True)
+            else:
+                # Fixed continuous unloading, independent of participant phase names.
+                import math
+                self.integral.value=[v*math.exp(-w.base.step_dt/.2) for v in self.integral.value]
+                bias=list(self.integral.value)
+        else:
+            bias = self.integral.update(delta[0].tolist(),w.base.step_dt,active)
         desired = current+delta
         limits = w.as_torch(robot.data.joint_pos_limits)[:,self.joint_ids]
         desired = desired.clamp(limits[...,0]+.02,limits[...,1]-.02)
@@ -66,7 +79,7 @@ class StateBasedReference(GeometryExpert):
         action = t.zeros((1,8),device=p.device)
         action[:,w.arm_slice] = (desired-term._offset)/term._scale
         action[:,w.action_mapping['gripper_action']['start']] = 1 if decision['gripper']=='open' else -1
-        self.diagnostics = {'reference_schema':'state-reference-1','public':public,**decision,
+        self.diagnostics = {'reference_schema':'state-reference-1','control_profile':w.diag_cfg.get('control_profile','phase-integral-legacy'),'public':public,**decision,
                             'decision':decision,
                             'bounded_joint_integral_rad':bias,'joint_error_feedback_rad':delta[0].tolist(),
                             'ee_position':p.tolist(),'target_position':target.tolist()}

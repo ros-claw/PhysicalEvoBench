@@ -3,11 +3,11 @@
 import math
 
 
-def place_metrics(initial,frames,control_dt=.02):
+def place_metrics(initial,frames,control_dt=.02,goal=None):
     if not frames or not math.isfinite(control_dt) or control_dt<=0:
         raise ValueError('Physical frames and positive interval required')
     origin=initial['object_position'][0]
-    target=[origin[0]+.12,origin[1]+.12,.021]
+    target=list(goal) if goal is not None else [origin[0]+.12,origin[1]+.12,.021]
     # The last post-physics sample of every control is the scoring sample.
     controls={f['control_step']:f for f in frames}
     if list(controls)!=list(range(len(controls))):

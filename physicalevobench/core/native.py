@@ -21,3 +21,10 @@ class CoreWorker(DiagnosticWorker):
         result['finger_position']=self.as_torch(self.robot.data.joint_pos)[0,self.finger_joint_indices].tolist()
         result['ee_position_world']=self.as_torch(self.base.scene['ee_frame'].data.target_pos_w)[:,0].tolist()
         return result
+
+    def public_task_observation(self):
+        if self.diag_cfg.get('task_version')!='core-place-public-v3-dev':
+            return {}
+        return {'task_goal_position':list(self.diag_cfg['public_goal']),
+                'support_geometry':{'plane_z_m':0.,'object_half_extent_m':.02,
+                                    'support_contact':'not_measured'}}

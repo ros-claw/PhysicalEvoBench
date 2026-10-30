@@ -40,7 +40,7 @@ class DiagnosticWorker(LiftWorker):
                     horizon = self.diag_cfg['horizon_s']
                     if not ((horizon in (5.,10.) and self.diag_cfg.get('task_version') == f'state-reference-h{horizon:g}-v1') or
                             (horizon==20. and self.diag_cfg.get('core_task')=='place' and
-                             self.diag_cfg.get('task_version')=='core-place-h20-v2-dev')):
+                             self.diag_cfg.get('task_version') in ('core-place-h20-v2-dev','core-place-public-v3-dev'))):
                         raise ValueError('Reference horizon must have a distinct registered task version')
                     env_cfg.episode_length_s = horizon
                 env_cfg.terminations.v02_hard_boundary = TerminationTermCfg(func=hard_boundary)
