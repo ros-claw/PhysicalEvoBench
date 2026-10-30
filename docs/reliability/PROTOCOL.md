@@ -29,3 +29,5 @@ Ready1的8-block尝试在任何query启动前停止：固定支撑预演发现�
 纠正保留原题与public-context-v3字符串/采样/预算。新profile `support-probe-restore-2`、任务/执行版本 `core-place-public-v5-ready2`：仅在Cube RigidBodyView.set_masses/set_inertias之前加当前上下文的Warp device fence，使既有CPU数据和index scratch传输完成，不改采样、质量、惯量比例、dt、控制或评分，不改固定Arena/Lab源码。Ready在预演前/后及恢复后从PhysX模型get_masses/get_inertias独立读取，核对请求与GPU缓存；缺失/不一致不得READY。旧Ready1资格与数据保留，不能凭其缓存审计给新版本正式资格。
 
 新6回合正常/故障注入将使A短诊断总计42（18+6+6+6+6），仍不超过48。新版本另做14回合参考资格，之后从空记忆/starter开始新的固定8-block cohort；8-block的128实践+640查询上限与早停规则保持。被停止的Ready1成本作为测量故障的工程尝试另列，不偷塞为新正式研究成功样本；不补用其产物，不在新query看到成绩后修改规则。所有已发生开销都需在最终报告汇总。
+
+Ready2主研究计分澄清（新query前冻结）：非法提交/超预算是已知方法分配失败（0），可进入全分配配对比较；已确认INIT_INVALID/provider/未验证运行故障是缺失（None），不补成算法0。有效任务执行率只用真实OK回合，另报告。配对统计使用五方法结果均已知的同条件；逐block点保留；只要预定8×16中有未知缺失，就不给完整分配总体的95%区间，明确未估计，不能靠忽略缺失构造漂亮区间。预算错误的类别独立于格式错误保留。

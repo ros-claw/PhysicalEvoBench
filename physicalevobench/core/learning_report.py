@@ -251,7 +251,7 @@ def reliability_report(study,qualification,conformance,output,adapter=None):
     lines+=['','全分配列是已观察到的成功产出，缺失/服务故障不会补成模型能力零分；下表列出缺失和归因。有效执行分母另列。Deletion恢复共同starter，其配套学习成本已在Feedback计费，不重复计费。','',
             '| 验收维度 | 判断与边界 |','|---|---|',
             '| 工程 | 纯状态执行、冻结恢复、通用stdin接入及证据重算分别验证；同机新目录验证见下文。没有第二机器/独立外部人复现结论。 |',
-            f"| 测量 | Ready正常/有效故障注入 {con['status']}；固定8-block尝试的完成/缺失见逐block表；同图discordance保留。旧异常唯一根因未知，运行期未知掉落不自动归基础设施。 |",
+            f"| 测量 | Ready正常/有效故障注入 {con['status']}；固定8-block尝试的完成/缺失见逐block表；同图discordance保留。旧异常唯一因果归属尚未完全确定，已证实的参数传输缺陷已修复；运行期未知掉落不自动归基础设施。 |",
             '| 算法 | 依据以下原始计数、block效果和区间判断，零/负收益不使基准失败。工程/审计通过不等于方法有效，也不证明广泛或递归自进化。 |','',
             '## 固定方法比较与逐block结果','',
             '这是budget-cap comparison：NoFeedback和Feedback共享最大预算，但允许自然提前冻结，实际tokens/调用可以不同。TemplateSearch-4是人工专家候选先验加score-only选择，4候选×共同2支持条件；不是无先验盲搜，也不等于全图空间最优搜索。','',
@@ -298,7 +298,7 @@ def reliability_report(study,qualification,conformance,output,adapter=None):
         lines+=['```json',json.dumps(first,ensure_ascii=False,indent=2),'```','']
     else:
         lines+=['block0没有完整链例证，保留缺失。','']
-    lines+=['## 初始化故障边界及尚未确定的原因','',
+    lines+=['## 参数传输缺陷、初始化边界与尚未确定的因果归属','',
             '三条旧异常对预选同条件正常对照，首次明显分离均在记录的第17个物理子步（0.085s）：异常z≈0.01943m、vz≈−0.83385m/s；正常z≈0.02100m、vz≈−0.00535m/s，指物法向接触为0。它发生在夹持之前，支持支撑异常层面的判断。旧协议未测cube–table配对接触，不能追溯断言某个collider/cooking/API是唯一根因。','',
             '18次固定关节/开指、无接近交叉诊断：旧异常条件轮换首/二/三槽位，有/无额外readback，均未复现穿桌；不足以证明普通随机噪声，也不能据此排除初始化时序问题。并发源码导出曾发生半写入误判；已完成9次保留，仅9个未启动槽位恢复，源码缓存导出改为跨线程/进程锁。','',
             'Ready采用固定200子步（1秒）无候选支撑预演，检查PhysX静态桌面shape ray hits、Cube实测净法向力、速度/高度、有限状态、shape/body数量及质量读回；恢复同一条件原始关节/物体状态、朝向和速度，不换seed、不再随机、不改任务时钟/评分。任务起点仍是原始cube高度0.055m，相对抬升门槛未放宽。求解器/接触历史被预演，属于新执行分布。','',
@@ -308,8 +308,12 @@ def reliability_report(study,qualification,conformance,output,adapter=None):
             '| Ready-001 | 0 | 静态表面传感器filter构建失败，原生设置失败 |',
             '| Ready-002 | 6 | 原碰撞配置未生效，负例无效，不能作检测证明 |',
             '| Ready-003 | 6 | 4正常READY，2个已确认移除碰撞体的负例INIT_INVALID，任务控制0步 |',
+            '| 参数传输独立诊断 | 6 | GPU缓存0.4kg而PhysX模型0.1kg/惯量不一致；同值同步重写组未发现不一致 |',
+            '| Ready-004（Ready2） | 6 | 4正常READY且真实模型参数匹配，2确认支撑缺失INIT_INVALID，任务控制0步 |',
             f"| 新执行参考资格 | 14 | {q['status']}；starter {sum(q['scores']['starter'])}/4，strong {sum(q['scores']['strong'])}/4，同图 {sum(q['scores']['identity_strong'])}/4，force-open {sum(q['scores']['force_open'])}/2 |",'',
-            '短诊断总计30次，低于48上限；参考资格14次另列。无故障注入冒称自发故障复现。正常检查与明确支撑缺失负例的离线原始重算一致；这限定了当前可检测边界，不能保证所有仿真错误均可识别。Ready失败不生成任务标签；原因不明的运行期掉落仍保留任务失败/UNKNOWN，不自动免责。','',
+            '短诊断总计42次，低于48上限；两版参考资格各14次另列。无故障注入冒称自发故障复现。正常检查与明确支撑缺失负例的离线原始重算一致；这限定了当前可检测边界，不能保证所有仿真错误均可识别。Ready失败不生成任务标签；原因不明的运行期掉落仍保留任务失败/UNKNOWN，不自动免责。','',
+            '已确认的参数传输缺陷：固定Lab的indexed setter把GPU数据异步wp.copy到pinned CPU mass/inertia/index scratch，随后CPU PhysX setter可能消费未完成的旧数据。直接PhysX getter与GPU shadow读回分离的诊断复现了这一点；同值同步重写消除该诊断中的不一致。Ready2只在Cube对应的set_masses/set_inertias入口等待当前上下文传输完成，保留原采样与惯量比例。预演前后及恢复后都用PhysX get_masses/get_inertias验证真实模型值，不能靠缓存自证。固定Arena/Lab文件没有修改。','',
+            '首次Ready1 cohort因此在所有query开始前整体停止，未挑有利block回收：59次已完成物理尝试、41次真实模型调用、0query，全部成本单列保留。这不是负算法成绩，也不是一次正式8-block结果。新Ready2从所有方法共同starter/空记忆重新登记完整8-block；提示仍是原v3，没有把新诊断写进Agent上下文。旧Ready1资格卡保留，但其缓存核验不能追认为真实质量已验证。','',
             '## 故障、分母和真实成本','',
             '| 方法 | 全部分配 | 有效任务执行 | INIT_INVALID | 参与者非法 | 结果缺失 |','|---|---:|---:|---:|---:|---:|']
     for arm,a in summary['arms'].items():
@@ -342,3 +346,53 @@ def reliability_report(study,qualification,conformance,output,adapter=None):
             '查询X差仅2cm，小于5cm成功容差，称留出因素组合而非强空间OOD。结论不外推到跨任务迁移、视觉、在线任意代码、权重学习、多智能体或递归自进化。旧双任务Core不因此追认验收。未按成绩换题、换提示、追加直到显著；PR #10与旧Alpha保留，新合并/发布不在本轮授权范围。','']
     Path(output).write_text('\n'.join(lines))
     return {'report':str(output),'blocks':len(data['blocks'])}
+
+
+def reliability_costs(studies):
+    """All incurred attempts, including initialization/transport/aborted-cohort costs."""
+    summaries=[]
+    for study in studies:
+        totals={'study':str(study),'completed_physical_attempts':0,'reserved_attempts':0,
+                'init_invalid':0,'task_controls':0,'task_physics_substeps':0,'ready_physics_substeps':0,
+                'native_processes':0,'known_native_seconds':0.,'native_processes_unknown_exit_or_duration':0,
+                'model_calls':0,'known_input_tokens':0,'known_output_tokens':0,'unknown_usage_calls':0}
+        recovered={}
+        receipt=study/'stopped_model_cost_receipts.json'
+        if receipt.exists():
+            recovered={r['call']:r['usage'] for r in read(receipt)['calls']}
+        for source in sorted(study.rglob('source_identity.json')):
+            native=source.parent
+            if not (native/'launch.json').exists():
+                continue
+            totals['native_processes']+=1
+            process=read(native/'process.json') if (native/'process.json').exists() else {}
+            start=read(native/'launch.json')['started_at']
+            if process.get('finished_at'):
+                totals['known_native_seconds']+=(datetime.fromisoformat(process['finished_at'])-datetime.fromisoformat(start)).total_seconds()
+            else:
+                totals['native_processes_unknown_exit_or_duration']+=1
+            totals['reserved_attempts']+=len(list((native/'requests').glob('*.json')))
+            ledger=native/'episodes.jsonl'
+            rows=[json.loads(line) for line in ledger.read_text().splitlines()] if ledger.exists() else []
+            for row in rows:
+                totals['completed_physical_attempts']+=1
+                totals['init_invalid']+=row['execution_status']=='INIT_INVALID'
+                totals['task_controls']+=row['steps']
+                totals['task_physics_substeps']+=row.get('diagnostic',{}).get('physics_samples',0)
+                ready=native/'episodes'/row['episode_id']/'readiness.json'
+                if ready.exists():
+                    totals['ready_physics_substeps']+=read(ready)['physical_substeps']
+        for call in sorted(study.glob('**/model_calls/call-*')):
+            if not call.is_dir():
+                continue
+            totals['model_calls']+=1
+            usage=read(call/'usage.json') if (call/'usage.json').exists() else recovered.get(str(call.relative_to(study)))
+            if usage is None:
+                totals['unknown_usage_calls']+=1
+            else:
+                totals['known_input_tokens']+=usage['input_tokens']
+                totals['known_output_tokens']+=usage['output_tokens']
+        summaries.append(totals)
+    return {'schema':'esl-reliability-all-incurred-cost-1','studies':summaries,
+            'totals':{key:sum(s[key] for s in summaries) for key in summaries[0] if key!='study'},
+            'scope':'Known actual costs, including stopped measurement cohort. Unknown process durations/exits remain unknown, not zero; simulator startup/internal build steps outside recorded task/probe are not fully measured. Cache tokens are a subset of input; currency unknown.'}

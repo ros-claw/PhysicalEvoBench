@@ -175,7 +175,8 @@ def audit_and_summarize(out):
                     statuses[r['condition_id']]=r['execution_status']
             elif (directory/name/'validity_failure.json').exists():
                 scores={k:False for k in scores}
-                statuses={k:'PARTICIPANT_INVALID' for k in scores}
+                failure_record=json.loads((directory/name/'validity_failure.json').read_text())
+                statuses={k:failure_record.get('failure_category','PARTICIPANT_INVALID') for k in scores}
             if (native/'query_failure.json').exists():
                 block['method_failures'][name+'/query']=json.loads((native/'query_failure.json').read_text())
             failure=directory/name/'method_failure.json'

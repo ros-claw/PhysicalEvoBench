@@ -20,8 +20,7 @@ def comparison(blocks,baseline,draws=10000):
         cells={}
         for c in b['conditions']:
             key=c['condition_id']
-            if not all(b['scores'][a].get(key) is not None and
-                       b.get('execution_statuses',{}).get(a,{}).get(key,'OK')=='OK' for a in ARMS):
+            if not all(b['scores'][a].get(key) is not None for a in ARMS):
                 continue
             cell=(tuple(c['public_goal']),c['object_mass_kg'])
             delta=int(b['scores']['feedback'][key])-int(b['scores'][baseline][key])
@@ -34,7 +33,7 @@ def comparison(blocks,baseline,draws=10000):
     complete=all(p['paired_valid_conditions']==len(b['conditions']) for p,b in zip(points,blocks,strict=True))
     result={'baseline':baseline,'block_points':points,'all_blocks_complete':complete,
             'mean_block_effect':statistics.mean(p['feedback_minus_baseline'] for p in points) if complete else None,
-            'hierarchical_95_interval':None,'unit':'independent learning block, paired condition within goal/mass cell'}
+            'hierarchical_95_interval':None,'unit':'independent learning block, paired known method outcomes within goal/mass cell; participant invalid/budget=assigned failure; infrastructure unknown is missing'}
     if len(blocks)<2 or not complete:
         result['interval_status']='NOT_ESTIMATED: fewer than two independent complete blocks or missing executions'
         return result
@@ -59,7 +58,8 @@ def summarize(blocks):
         successes=sum(v is True for v in values)
         arms[a]={'name':LABELS[a],'successes':successes,'assigned':len(values),
                  'valid_task_executions':len(known),'missing':sum(v is None for v in values),
-                 'participant_invalid':statuses.count('PARTICIPANT_INVALID'),'init_invalid':statuses.count('INIT_INVALID'),
+                 'participant_invalid':sum(s.startswith('PARTICIPANT_') for s in statuses),
+                 'participant_budget_exceeded':statuses.count('PARTICIPANT_BUDGET_EXCEEDED'),'init_invalid':statuses.count('INIT_INVALID'),
                  'successes_per_assigned':successes/len(values) if values else None,
                  'valid_execution_success_rate':sum(known)/len(known) if known else None}
     discordances=[]

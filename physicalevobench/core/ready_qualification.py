@@ -93,11 +93,12 @@ def audit_receipt(out):
     qualified=(len(valid)==14 and scores['strong']==[True]*4 and scores['force_open']==[False]*2
                and not any(r['diagnostic']['hard_boundary_terminated'] for r in valid))
     identity=json.loads((out/'native/source_identity.json').read_text())
+    expected_files=READY_FILES if reg['profile'].get('initialization_profile')=='support-probe-restore-2' else tuple(p for p in READY_FILES if not p.endswith('/parameter_transport.py'))
     if (receipt['scores']!=scores or receipt['status']!=('QUALIFIED' if qualified else 'DEV') or
             receipt['registration_sha256']!=digest(reg) or
             receipt['initial_reference_sha256']!=digest(reg['reference']) or
             receipt['learning_problem_sha256']!=digest(reg['profile']) or
-            receipt['execution_files']!={p:identity['files'][p] for p in READY_FILES}):
+            receipt['execution_files']!={p:identity['files'][p] for p in expected_files}):
         raise ValueError('Qualification receipt differs from registered/raw evidence')
     return {'status':'PASS','qualification_status':receipt['status'],'scores':scores,'attempts':len(rows)}
 
