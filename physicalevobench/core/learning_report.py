@@ -53,11 +53,15 @@ def costs(studies):
     return total
 
 
-def report(primary, extension, prospective, task_qualification, problem_qualification, studies, output):
+def report(primary, extension, prospective, task_qualification, problem_qualification, reference_replay, studies, output):
     groups = [('原查询 / 两实例', primary, read(primary/'results.json')),
               ('组合查询 / 原两实例探索性扩展', extension, read(extension/'results.json')),
               ('组合查询 / 新目录一实例前瞻pilot', prospective, read(prospective/'results.json'))]
     q = read(problem_qualification)
+    task_q=read(task_qualification)
+    old_q_count=sum(map(len,task_q['scores'].values()))
+    new_q_count=sum(map(len,q['scores'].values()))
+    reference=read(reference_replay/'results.json')
     total = costs(studies)
     arms = ('frozen', 'designer', 'search', 'feedback', 'deletion')
     totals = []
@@ -72,13 +76,17 @@ def report(primary, extension, prospective, task_qualification, problem_qualific
              '|---|---|---|---|---|---|']
     for (label, _, _), counts in zip(groups, totals, strict=True):
         lines.append('| '+label+' | '+' | '.join(f'{counts[n][0]}/{counts[n][1]}' for n in arms)+' |')
-    lines += ['', f"探索组合中，Feedback对Frozen的表面差是{totals[1]['feedback'][0]/totals[1]['feedback'][1]-totals[1]['frozen'][0]/totals[1]['frozen'][1]:+.2%}，但对删除经验的差是{totals[1]['feedback'][0]/totals[1]['feedback'][1]-totals[1]['deletion'][0]/totals[1]['deletion'][1]:+.2%}；同初始程序重放已经出现了相应差异，因此不能把表面前后改善归因于持久经验。前瞻pilot也未显示Feedback优于无反馈。", '', '三组结果分别解释，不能合成漂亮平均分：原查询分布发现了起点饱和，保留全部结果；组合扩展在看到该缺口后定义，使用早已冻结的同两条学习产物，0新学习、0新模型调用，是探索性结果；最后一组在问题资格通过后，从新目录按公开入口重新学习，是1条前瞻pilot。两条旧实例不会因扩展再算成两条新实例。', '',
+    lines += ['', f"探索组合中，Feedback对Frozen的表面差是{totals[1]['feedback'][0]/totals[1]['feedback'][1]-totals[1]['frozen'][0]/totals[1]['frozen'][1]:+.2%}，但对删除经验的差是{totals[1]['feedback'][0]/totals[1]['feedback'][1]-totals[1]['deletion'][0]/totals[1]['deletion'][1]:+.2%}；同初始程序重放已经出现了相应差异，因此不能把表面前后改善归因于持久经验。前瞻pilot也未显示Feedback优于无反馈。", '', '所有增益均为成功率绝对差，例如−25%表示−25个百分点。三组结果分别解释，不能合成平均分：原查询分布发现了起点饱和，保留全部结果；组合扩展在看到该缺口后定义，使用早已冻结的同两条学习产物，0新学习、0新模型调用，是探索性结果；最后一组在问题资格通过后，从新目录按公开入口重新学习，是1条前瞻pilot。两条旧实例不会因扩展再算成两条新实例。', '',
               '## 1. 为什么这是一道有效学习题', '',
               '| 新组合资格对照 | 成功/回合 |', '|---|---|']
     for name, values in q['scores'].items():
         lines.append(f'| {name} | {sum(values)}/{len(values)} |')
+    lines += ['', '另在实际组合查询条件上复跑同一个已冻结强参考：', '', '| 查询组 | 强参考 | 相同参考重放 |', '|---|---|---|']
+    for group,value in reference['groups'].items():
+        lines.append('| '+group+' | '+' | '.join(f'{sum(v)}/{len(v)}' for v in value.values())+' |')
+    lines += ['', '这是12个既有查询条件、各两次物理执行，共24回合，不是24条学习轨迹。参考不再调整，初始状态与原查询配对；同时保留Frozen/删除的重放差异，不能仅因看见一次提升就宣称经验有效。']
     lines += ['', f"强参考与起点相差{q['strategy_gap_count']}个成功，同参考重放相差{q['identity_gap_count']}个。这支持当前版本的有限查询族资格，不能替代总体显著性。资格不要求某个Agent取胜，不要求起点在30%–70%。", '',
-              '开发响应从普通起点2/4、实际开度守卫4/4，推进到新组合起点3/4、参考4/4。原先只在支持几何验证能力差异、在查询几何只验证参考可达性，仍会把容易查询送入比较；本轮发现并纠正了这个设计缺口。旧22回合可达性资格与原学习结果未改写，新组合另以14个新条件执行回合核对。', '',
+              f'开发响应从普通起点2/4、实际开度守卫4/4，推进到新组合起点3/4、参考4/4。原先只在支持几何验证能力差异、在查询几何只验证参考可达性，仍会把容易查询送入比较；本轮发现并纠正了这个设计缺口。旧{old_q_count}回合可达性资格与原学习结果未改写，新组合另以{new_q_count}个新条件执行回合核对。', '',
               '释放工程诊断支持检查实际开度和物体运动，但不支持唯一根因：严格低速门限可拖到19.72s才释放；先要求接触归零会在单侧接触下死锁。CPU解析碰撞资产显示场景Cube半高约.024m、桌面碰撞Mesh顶面约-.003m，预期落稳中心.021m与物理轨迹一致。支撑力仍not_measured，作者几何不是live cooked hull。', '',
               '## 2. Agent能看、能改、能继承什么', '',
               '| 角色 | 本轮内容 |', '|---|---|',
@@ -143,7 +151,7 @@ def report(primary, extension, prospective, task_qualification, problem_qualific
     lines += ['', f'真实模型合计{calls}调用、{inputs if usage_complete else str(inputs)+"（仅已报告；其余unknown）"}输入/{outputs if usage_complete else str(outputs)+"（仅已报告；其余unknown）"}输出tokens；探索性扩展没有重复计学习费用。模型标识gpt-6.1-terra、参考CLI0.165.0；服务基础权重revision未暴露，不能声称已哈希固定。每方法最多10调用/300k输入/48k输出，Feedback最多8实践，Search实际8。', '',
               f"本轮共{total['physical_episodes']}完成物理回合、{total['distinct_physical_conditions']}不同物理条件，{total['control_steps']}控制步、{total['physics_samples']} post-physics样本，0 PPO transitions。{total['native_processes']}个原生模拟进程（含失败）合计{total['native_process_minutes']:.3f}进程分钟；GPU0/1/2共享环境且部分并行，进程分钟含加载与模型等待，不等于独占GPU时间或总墙钟。", '',
               f"限幅/限速干预{total['limited_controls']}/{total['control_steps']}控制步；注册硬边界事件{total['hard_boundary_episodes']}回合，位置违规{total['position_violation_episodes']}回合。基础设施失败{total['infrastructure_failures']}次：几何日志接口错误在第一回合前退出，实际0回合，已保留失败。缺失支撑接触/切向力/solver力矩不填零。", '',
-              '所有物理任务启动前预留、使用冻结源码；无效提交保留固定分母，基础设施故障单列。原主pilot最大72、探索扩展最大40、新目录单实例最大36分别登记，未覆盖或补有利seed。新增DEV8在原DEV48工程资源上限内，新query资格另登记14。', '',
+              '所有物理任务启动前预留、使用冻结源码；无效提交保留固定分母，基础设施故障单列。原主pilot最大72、探索扩展最大40、新目录单实例最大36分别登记，未覆盖或补有利seed。新增DEV8在原DEV48工程资源上限内，新query资格另登记14，固定参考重放另登记24。', '',
               '## 6. 哪些入口真正从新目录运行了', '',
               '新目录 `/home/dell/peb-esl-fresh-20261030-001` 首先独立完成T0 smoke（1回合/500控制步/成功），不依赖T1/B1/PPO历史。随后用公开learn命令、stream2026103031、独立输出父目录 `/home/dell/peb-esl-external-runs-20261030`，真实完成新组合问题的设计、实践、冻结、5组新原生测试和审计。', '',
               '新目录使用新CPU venv与独立源码目录；原生依赖、资产缓存和外置许可模型复用本机固定安装，不是另一台机器或全新原生安装。另有无旧Git对象的轻量源码包CPU重建与执行内容哈希验证；它不冒充物理重跑。通用stdin JSON adapter无需ROSClaw，当前实际方法仍是同一个参考provider，不宣称已验证多框架。', '',
@@ -160,11 +168,12 @@ def main():
     p.add_argument('--prospective', required=True)
     p.add_argument('--task-qualification', required=True)
     p.add_argument('--problem-qualification', required=True)
+    p.add_argument('--reference-replay',required=True)
     p.add_argument('--studies', nargs='+', required=True)
     p.add_argument('--output', required=True)
     a = p.parse_args()
     print(json.dumps(report(Path(a.primary), Path(a.extension), Path(a.prospective),
-          Path(a.task_qualification), Path(a.problem_qualification), [Path(s) for s in a.studies], a.output), indent=2))
+          Path(a.task_qualification), Path(a.problem_qualification),Path(a.reference_replay), [Path(s) for s in a.studies], a.output), indent=2))
 
 
 if __name__ == '__main__':
