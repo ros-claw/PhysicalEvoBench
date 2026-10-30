@@ -2,10 +2,10 @@
 
 Benchmarking Self-Improving Embodied Agents through Physical Feedback.
 
-PhysicalEvoBench measures whether physical failures lead to an executable skill change and whether
-its frozen version helps on independent conditions. The initial v0.1 track uses Franka Lift Object in
-Isaac Lab-Arena/PhysX, object mass perturbations, frozen official RSL-RL weights and bounded arm gain.
-Later experiments add actual PPO weight updates. The tasks use privileged state observations.
+PhysicalEvoBench measures whether physical practice produces retained executable skills that help
+on independently evaluated conditions. The current research entry is restricted, state-only
+Place–Release skill learning in Isaac Lab-Arena/PhysX, using privileged state observations.
+Earlier RSL-RL and PPO experiments remain documented separately below.
 
 ## Ready reliability / replication study (2026-10-30)
 
@@ -16,10 +16,29 @@ measurement reliability and algorithm efficacy are assessed separately.
 An initial Ready1 cohort was stopped before query after independent PhysX model
 readback disagreed with the GPU parameter cache. The correction fences Cube model
 parameter handoff and verifies actual mass/inertia, with a new execution profile.
-Reference qualification and the fixed eight-block comparison are assessed separately
-from engineering checks. Method results must be read from the completed study,
-without pooling the stopped cohort or historical pilots.
+The fixed comparison completed eight independent learning blocks, 16 paired query
+conditions per block and five methods. All 640 query executions were valid; no
+initialization failure or missing query result was observed. The stopped cohort
+and historical pilots are excluded from method scores, with their costs retained.
 
+| Method | Query successes | Learning physics | Model calls |
+|---|---:|---:|---:|
+| Frozen | 87/128 | 0 | 0 |
+| NoFeedback | 87/128 | 0 | 8 |
+| TemplateSearch-4 | 126/128 | 64 | 0 |
+| Feedback | 128/128 | 54 | 62 |
+| Deletion | 87/128 | 0 | 0 |
+
+Feedback improved over Deletion in all eight blocks: **+32.03 percentage points**,
+block-outer hierarchical 95% interval **[+27.34, +37.50]**. Its difference from
+expert-prior TemplateSearch-4 was **+1.56 pp [0, +5.47]**, concentrated in one block.
+The learned graphs support repeatable, inheritable improvement within this finite
+problem. Stable superiority to expert templates and broad self-evolution remain
+unproven. This is a budget-cap comparison with unequal actual model computation;
+it does not isolate the causal value of physical feedback. Reproduction was on
+the same machine with new source and a new CPU environment.
+
+[完整结果、成本与三维验收报告](docs/implementation/ESL_RELIABILITY_REPLICATION_REPORT.md) ·
 [Ready state-only quickstart](docs/reliability/QUICKSTART.md) ·
 [Frozen reliability protocol](docs/reliability/PROTOCOL.md).
 

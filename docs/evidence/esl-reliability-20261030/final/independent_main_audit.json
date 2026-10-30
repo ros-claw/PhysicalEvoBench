@@ -1,0 +1,6 @@
+{
+  "status": "PASS",
+  "same_as_recorded": true,
+  "source": "/home/dell/peb-esl-replication-20261030-002",
+  "scope": "Independent extracted evidence: current reader fully recomputes raw physics and compares exactly with original registered executor results; no redundant same-directory recomputation."
+}

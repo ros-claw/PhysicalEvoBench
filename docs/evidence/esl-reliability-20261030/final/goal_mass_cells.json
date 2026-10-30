@@ -1,0 +1,145 @@
+{
+  "cells": [
+    {
+      "goal": [
+        0.6,
+        0.12,
+        0.021
+      ],
+      "mass_kg": 0.1,
+      "arms": {
+        "frozen": {
+          "successes": 30,
+          "assigned": 32,
+          "unknown": 0
+        },
+        "designer": {
+          "successes": 30,
+          "assigned": 32,
+          "unknown": 0
+        },
+        "search": {
+          "successes": 32,
+          "assigned": 32,
+          "unknown": 0
+        },
+        "feedback": {
+          "successes": 32,
+          "assigned": 32,
+          "unknown": 0
+        },
+        "deletion": {
+          "successes": 30,
+          "assigned": 32,
+          "unknown": 0
+        }
+      }
+    },
+    {
+      "goal": [
+        0.6,
+        0.12,
+        0.021
+      ],
+      "mass_kg": 0.4,
+      "arms": {
+        "frozen": {
+          "successes": 32,
+          "assigned": 32,
+          "unknown": 0
+        },
+        "designer": {
+          "successes": 32,
+          "assigned": 32,
+          "unknown": 0
+        },
+        "search": {
+          "successes": 32,
+          "assigned": 32,
+          "unknown": 0
+        },
+        "feedback": {
+          "successes": 32,
+          "assigned": 32,
+          "unknown": 0
+        },
+        "deletion": {
+          "successes": 32,
+          "assigned": 32,
+          "unknown": 0
+        }
+      }
+    },
+    {
+      "goal": [
+        0.62,
+        -0.12,
+        0.021
+      ],
+      "mass_kg": 0.1,
+      "arms": {
+        "frozen": {
+          "successes": 0,
+          "assigned": 32,
+          "unknown": 0
+        },
+        "designer": {
+          "successes": 0,
+          "assigned": 32,
+          "unknown": 0
+        },
+        "search": {
+          "successes": 32,
+          "assigned": 32,
+          "unknown": 0
+        },
+        "feedback": {
+          "successes": 32,
+          "assigned": 32,
+          "unknown": 0
+        },
+        "deletion": {
+          "successes": 0,
+          "assigned": 32,
+          "unknown": 0
+        }
+      }
+    },
+    {
+      "goal": [
+        0.62,
+        -0.12,
+        0.021
+      ],
+      "mass_kg": 0.4,
+      "arms": {
+        "frozen": {
+          "successes": 25,
+          "assigned": 32,
+          "unknown": 0
+        },
+        "designer": {
+          "successes": 25,
+          "assigned": 32,
+          "unknown": 0
+        },
+        "search": {
+          "successes": 30,
+          "assigned": 32,
+          "unknown": 0
+        },
+        "feedback": {
+          "successes": 32,
+          "assigned": 32,
+          "unknown": 0
+        },
+        "deletion": {
+          "successes": 25,
+          "assigned": 32,
+          "unknown": 0
+        }
+      }
+    }
+  ],
+  "scope": "Descriptive predefined cells; not independent task families or population confidence intervals"
+}

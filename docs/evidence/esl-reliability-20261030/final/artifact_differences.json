@@ -1,0 +1,1038 @@
+{
+  "schema": "esl-actual-graph-diff-1",
+  "artifacts": [
+    {
+      "block": 0,
+      "method": "frozen",
+      "changes": [],
+      "removed_nodes": [],
+      "actual_self_written_memory": "",
+      "practice_cost": 0,
+      "scope": "Representational diff and participant notes only; functional control response is independently recomputed, not inferred from this diff."
+    },
+    {
+      "block": 0,
+      "method": "designer",
+      "changes": [],
+      "removed_nodes": [],
+      "actual_self_written_memory": "Frozen supplied starter without physical feedback; no performance claim.",
+      "practice_cost": 0,
+      "scope": "Representational diff and participant notes only; functional control response is independently recomputed, not inferred from this diff."
+    },
+    {
+      "block": 0,
+      "method": "search",
+      "changes": [
+        {
+          "node": "release",
+          "fields": {
+            "dwell_s": {
+              "before": 0.06,
+              "after": 0.1
+            },
+            "guard": {
+              "before": "elapsed",
+              "after": {
+                "observable": "finger_min",
+                "op": "ge",
+                "value": 0.03606455304553298
+              }
+            }
+          }
+        }
+      ],
+      "removed_nodes": [],
+      "actual_self_written_memory": "",
+      "practice_cost": 8,
+      "scope": "Representational diff and participant notes only; functional control response is independently recomputed, not inferred from this diff."
+    },
+    {
+      "block": 0,
+      "method": "feedback",
+      "changes": [
+        {
+          "node": "lower",
+          "fields": {
+            "guard": {
+              "before": "pose",
+              "after": {
+                "all": [
+                  {
+                    "observable": "goal_xy_error",
+                    "op": "le",
+                    "value": 0.04
+                  },
+                  {
+                    "observable": "goal_z_error",
+                    "op": "le",
+                    "value": 0.02
+                  },
+                  {
+                    "observable": "object_speed",
+                    "op": "le",
+                    "value": 0.1
+                  }
+                ]
+              }
+            }
+          }
+        },
+        {
+          "node": "release",
+          "fields": {
+            "guard": {
+              "before": "elapsed",
+              "after": {
+                "observable": "finger_min",
+                "op": "ge",
+                "value": 0.035
+              }
+            },
+            "timeout": {
+              "before": "failed",
+              "after": "retreat"
+            },
+            "timeout_s": {
+              "before": 20.0,
+              "after": 2.5
+            }
+          }
+        }
+      ],
+      "removed_nodes": [],
+      "actual_self_written_memory": "The current graph succeeded on practice-1, practice-2, and practice-3. Freeze the tested graph.",
+      "practice_cost": 6,
+      "scope": "Representational diff and participant notes only; functional control response is independently recomputed, not inferred from this diff."
+    },
+    {
+      "block": 0,
+      "method": "deletion",
+      "changes": [],
+      "removed_nodes": [],
+      "actual_self_written_memory": "",
+      "practice_cost": 0,
+      "scope": "Representational diff and participant notes only; functional control response is independently recomputed, not inferred from this diff."
+    },
+    {
+      "block": 1,
+      "method": "frozen",
+      "changes": [],
+      "removed_nodes": [],
+      "actual_self_written_memory": "",
+      "practice_cost": 0,
+      "scope": "Representational diff and participant notes only; functional control response is independently recomputed, not inferred from this diff."
+    },
+    {
+      "block": 1,
+      "method": "designer",
+      "changes": [],
+      "removed_nodes": [],
+      "actual_self_written_memory": "Retained the supplied starter because physical feedback was unavailable.",
+      "practice_cost": 0,
+      "scope": "Representational diff and participant notes only; functional control response is independently recomputed, not inferred from this diff."
+    },
+    {
+      "block": 1,
+      "method": "search",
+      "changes": [
+        {
+          "node": "release",
+          "fields": {
+            "dwell_s": {
+              "before": 0.06,
+              "after": 0.1
+            },
+            "guard": {
+              "before": "elapsed",
+              "after": {
+                "observable": "finger_min",
+                "op": "ge",
+                "value": 0.03606455304553298
+              }
+            }
+          }
+        }
+      ],
+      "removed_nodes": [],
+      "actual_self_written_memory": "",
+      "practice_cost": 8,
+      "scope": "Representational diff and participant notes only; functional control response is independently recomputed, not inferred from this diff."
+    },
+    {
+      "block": 1,
+      "method": "feedback",
+      "changes": [
+        {
+          "node": "lower",
+          "fields": {
+            "guard": {
+              "before": "pose",
+              "after": {
+                "all": [
+                  {
+                    "observable": "goal_xy_error",
+                    "op": "le",
+                    "value": 0.03
+                  },
+                  {
+                    "observable": "goal_z_error",
+                    "op": "le",
+                    "value": 0.018
+                  },
+                  {
+                    "observable": "object_speed",
+                    "op": "le",
+                    "value": 0.1
+                  }
+                ]
+              }
+            },
+            "timeout": {
+              "before": "failed",
+              "after": "release"
+            },
+            "timeout_s": {
+              "before": 20.0,
+              "after": 5
+            }
+          }
+        },
+        {
+          "node": "release",
+          "fields": {
+            "guard": {
+              "before": "elapsed",
+              "after": {
+                "observable": "finger_min",
+                "op": "ge",
+                "value": 0.035
+              }
+            },
+            "timeout": {
+              "before": "failed",
+              "after": "retreat"
+            },
+            "timeout_s": {
+              "before": 20.0,
+              "after": 2
+            }
+          }
+        }
+      ],
+      "removed_nodes": [
+        "hold"
+      ],
+      "actual_self_written_memory": "The selected graph succeeded on practice-0, practice-1, and practice-3. It uses the public task goal, measured object settling before release, and finger opening before retreat.",
+      "practice_cost": 7,
+      "scope": "Representational diff and participant notes only; functional control response is independently recomputed, not inferred from this diff."
+    },
+    {
+      "block": 1,
+      "method": "deletion",
+      "changes": [],
+      "removed_nodes": [],
+      "actual_self_written_memory": "",
+      "practice_cost": 0,
+      "scope": "Representational diff and participant notes only; functional control response is independently recomputed, not inferred from this diff."
+    },
+    {
+      "block": 2,
+      "method": "frozen",
+      "changes": [],
+      "removed_nodes": [],
+      "actual_self_written_memory": "",
+      "practice_cost": 0,
+      "scope": "Representational diff and participant notes only; functional control response is independently recomputed, not inferred from this diff."
+    },
+    {
+      "block": 2,
+      "method": "designer",
+      "changes": [],
+      "removed_nodes": [],
+      "actual_self_written_memory": "Frozen supplied starter without physical feedback.",
+      "practice_cost": 0,
+      "scope": "Representational diff and participant notes only; functional control response is independently recomputed, not inferred from this diff."
+    },
+    {
+      "block": 2,
+      "method": "search",
+      "changes": [
+        {
+          "node": "release",
+          "fields": {
+            "dwell_s": {
+              "before": 0.06,
+              "after": 0.1
+            },
+            "guard": {
+              "before": "elapsed",
+              "after": {
+                "observable": "finger_min",
+                "op": "ge",
+                "value": 0.03606455304553298
+              }
+            }
+          }
+        }
+      ],
+      "removed_nodes": [],
+      "actual_self_written_memory": "",
+      "practice_cost": 8,
+      "scope": "Representational diff and participant notes only; functional control response is independently recomputed, not inferred from this diff."
+    },
+    {
+      "block": 2,
+      "method": "feedback",
+      "changes": [
+        {
+          "node": "transport",
+          "fields": {
+            "guard": {
+              "before": "pose",
+              "after": {
+                "observable": "goal_xy_error",
+                "op": "le",
+                "value": 0.035
+              }
+            },
+            "timeout": {
+              "before": "failed",
+              "after": "lower"
+            },
+            "timeout_s": {
+              "before": 20.0,
+              "after": 4
+            }
+          }
+        },
+        {
+          "node": "lower",
+          "fields": {
+            "guard": {
+              "before": "pose",
+              "after": {
+                "all": [
+                  {
+                    "observable": "goal_xy_error",
+                    "op": "le",
+                    "value": 0.03
+                  },
+                  {
+                    "observable": "goal_z_error",
+                    "op": "le",
+                    "value": 0.018
+                  },
+                  {
+                    "observable": "object_speed",
+                    "op": "le",
+                    "value": 0.1
+                  }
+                ]
+              }
+            },
+            "timeout": {
+              "before": "failed",
+              "after": "release"
+            },
+            "timeout_s": {
+              "before": 20.0,
+              "after": 5
+            }
+          }
+        },
+        {
+          "node": "release",
+          "fields": {
+            "guard": {
+              "before": "elapsed",
+              "after": {
+                "observable": "finger_min",
+                "op": "ge",
+                "value": 0.035
+              }
+            },
+            "timeout": {
+              "before": "failed",
+              "after": "retreat"
+            },
+            "timeout_s": {
+              "before": 20.0,
+              "after": 2
+            }
+          }
+        }
+      ],
+      "removed_nodes": [
+        "hold"
+      ],
+      "actual_self_written_memory": "Selected graph bbe3c479fdcb7429779a3aa1b4ed41fb8b9ef7cabd96a91ee5d04dc50d6053ef succeeded on all four practice handles. Physical episode budget exhausted.",
+      "practice_cost": 8,
+      "scope": "Representational diff and participant notes only; functional control response is independently recomputed, not inferred from this diff."
+    },
+    {
+      "block": 2,
+      "method": "deletion",
+      "changes": [],
+      "removed_nodes": [],
+      "actual_self_written_memory": "",
+      "practice_cost": 0,
+      "scope": "Representational diff and participant notes only; functional control response is independently recomputed, not inferred from this diff."
+    },
+    {
+      "block": 3,
+      "method": "frozen",
+      "changes": [],
+      "removed_nodes": [],
+      "actual_self_written_memory": "",
+      "practice_cost": 0,
+      "scope": "Representational diff and participant notes only; functional control response is independently recomputed, not inferred from this diff."
+    },
+    {
+      "block": 3,
+      "method": "designer",
+      "changes": [],
+      "removed_nodes": [],
+      "actual_self_written_memory": "Retained the supplied starter because no physical feedback is available to validate changes.",
+      "practice_cost": 0,
+      "scope": "Representational diff and participant notes only; functional control response is independently recomputed, not inferred from this diff."
+    },
+    {
+      "block": 3,
+      "method": "search",
+      "changes": [
+        {
+          "node": "release",
+          "fields": {
+            "dwell_s": {
+              "before": 0.06,
+              "after": 0.1
+            },
+            "guard": {
+              "before": "elapsed",
+              "after": {
+                "observable": "finger_min",
+                "op": "ge",
+                "value": 0.03606455304553298
+              }
+            }
+          }
+        }
+      ],
+      "removed_nodes": [],
+      "actual_self_written_memory": "",
+      "practice_cost": 8,
+      "scope": "Representational diff and participant notes only; functional control response is independently recomputed, not inferred from this diff."
+    },
+    {
+      "block": 3,
+      "method": "feedback",
+      "changes": [
+        {
+          "node": "lower",
+          "fields": {
+            "guard": {
+              "before": "pose",
+              "after": {
+                "all": [
+                  {
+                    "observable": "goal_xy_error",
+                    "op": "le",
+                    "value": 0.04
+                  },
+                  {
+                    "observable": "goal_z_error",
+                    "op": "le",
+                    "value": 0.02
+                  },
+                  {
+                    "observable": "object_speed",
+                    "op": "le",
+                    "value": 0.1
+                  }
+                ]
+              }
+            },
+            "timeout": {
+              "before": "failed",
+              "after": "release"
+            },
+            "timeout_s": {
+              "before": 20.0,
+              "after": 5.0
+            }
+          }
+        },
+        {
+          "node": "release",
+          "fields": {
+            "guard": {
+              "before": "elapsed",
+              "after": {
+                "observable": "finger_min",
+                "op": "ge",
+                "value": 0.035
+              }
+            },
+            "timeout": {
+              "before": "failed",
+              "after": "retreat"
+            },
+            "timeout_s": {
+              "before": 20.0,
+              "after": 2.0
+            }
+          }
+        }
+      ],
+      "removed_nodes": [
+        "hold"
+      ],
+      "actual_self_written_memory": "The current graph succeeded in one trial on each of practice-0, practice-1, practice-2, and practice-3. Freeze the tested graph.",
+      "practice_cost": 7,
+      "scope": "Representational diff and participant notes only; functional control response is independently recomputed, not inferred from this diff."
+    },
+    {
+      "block": 3,
+      "method": "deletion",
+      "changes": [],
+      "removed_nodes": [],
+      "actual_self_written_memory": "",
+      "practice_cost": 0,
+      "scope": "Representational diff and participant notes only; functional control response is independently recomputed, not inferred from this diff."
+    },
+    {
+      "block": 4,
+      "method": "frozen",
+      "changes": [],
+      "removed_nodes": [],
+      "actual_self_written_memory": "",
+      "practice_cost": 0,
+      "scope": "Representational diff and participant notes only; functional control response is independently recomputed, not inferred from this diff."
+    },
+    {
+      "block": 4,
+      "method": "designer",
+      "changes": [],
+      "removed_nodes": [],
+      "actual_self_written_memory": "Retained the supplied starter graph without physical feedback.",
+      "practice_cost": 0,
+      "scope": "Representational diff and participant notes only; functional control response is independently recomputed, not inferred from this diff."
+    },
+    {
+      "block": 4,
+      "method": "search",
+      "changes": [
+        {
+          "node": "release",
+          "fields": {
+            "dwell_s": {
+              "before": 0.06,
+              "after": 0.1
+            },
+            "guard": {
+              "before": "elapsed",
+              "after": {
+                "observable": "finger_min",
+                "op": "ge",
+                "value": 0.03606455304553298
+              }
+            }
+          }
+        }
+      ],
+      "removed_nodes": [],
+      "actual_self_written_memory": "",
+      "practice_cost": 8,
+      "scope": "Representational diff and participant notes only; functional control response is independently recomputed, not inferred from this diff."
+    },
+    {
+      "block": 4,
+      "method": "feedback",
+      "changes": [
+        {
+          "node": "lower",
+          "fields": {
+            "dwell_s": {
+              "before": 0.06,
+              "after": 0.2
+            },
+            "guard": {
+              "before": "pose",
+              "after": {
+                "all": [
+                  {
+                    "observable": "goal_xy_error",
+                    "op": "le",
+                    "value": 0.02
+                  },
+                  {
+                    "observable": "goal_z_error",
+                    "op": "le",
+                    "value": 0.02
+                  },
+                  {
+                    "observable": "object_speed",
+                    "op": "le",
+                    "value": 0.06
+                  }
+                ]
+              }
+            },
+            "timeout": {
+              "before": "failed",
+              "after": "release"
+            },
+            "timeout_s": {
+              "before": 20.0,
+              "after": 7
+            }
+          }
+        },
+        {
+          "node": "release",
+          "fields": {
+            "guard": {
+              "before": "elapsed",
+              "after": {
+                "observable": "finger_min",
+                "op": "ge",
+                "value": 0.035
+              }
+            },
+            "minimum_s": {
+              "before": 0.35,
+              "after": 0.2
+            },
+            "timeout": {
+              "before": "failed",
+              "after": "retreat"
+            },
+            "timeout_s": {
+              "before": 20.0,
+              "after": 2
+            }
+          }
+        }
+      ],
+      "removed_nodes": [
+        "hold"
+      ],
+      "actual_self_written_memory": "Graph 7266f2e231504aacb51aa772a16e6f63ffa155c123af67c6fd1347cd43aa16cd succeeded on all four public practice handles. Practice-3 released via the lower timeout and still met the task criteria.",
+      "practice_cost": 5,
+      "scope": "Representational diff and participant notes only; functional control response is independently recomputed, not inferred from this diff."
+    },
+    {
+      "block": 4,
+      "method": "deletion",
+      "changes": [],
+      "removed_nodes": [],
+      "actual_self_written_memory": "",
+      "practice_cost": 0,
+      "scope": "Representational diff and participant notes only; functional control response is independently recomputed, not inferred from this diff."
+    },
+    {
+      "block": 5,
+      "method": "frozen",
+      "changes": [],
+      "removed_nodes": [],
+      "actual_self_written_memory": "",
+      "practice_cost": 0,
+      "scope": "Representational diff and participant notes only; functional control response is independently recomputed, not inferred from this diff."
+    },
+    {
+      "block": 5,
+      "method": "designer",
+      "changes": [],
+      "removed_nodes": [],
+      "actual_self_written_memory": "No physical feedback was available; retained the supplied starter graph.",
+      "practice_cost": 0,
+      "scope": "Representational diff and participant notes only; functional control response is independently recomputed, not inferred from this diff."
+    },
+    {
+      "block": 5,
+      "method": "search",
+      "changes": [
+        {
+          "node": "release",
+          "fields": {
+            "dwell_s": {
+              "before": 0.06,
+              "after": 0.1
+            },
+            "guard": {
+              "before": "elapsed",
+              "after": {
+                "observable": "finger_min",
+                "op": "ge",
+                "value": 0.03606455304553298
+              }
+            }
+          }
+        }
+      ],
+      "removed_nodes": [],
+      "actual_self_written_memory": "",
+      "practice_cost": 8,
+      "scope": "Representational diff and participant notes only; functional control response is independently recomputed, not inferred from this diff."
+    },
+    {
+      "block": 5,
+      "method": "feedback",
+      "changes": [
+        {
+          "node": "transport",
+          "fields": {
+            "dwell_s": {
+              "before": 0.06,
+              "after": 0.04
+            },
+            "guard": {
+              "before": "pose",
+              "after": {
+                "observable": "target_error",
+                "op": "le",
+                "value": 0.04
+              }
+            }
+          }
+        },
+        {
+          "node": "lower",
+          "fields": {
+            "dwell_s": {
+              "before": 0.06,
+              "after": 0.04
+            },
+            "guard": {
+              "before": "pose",
+              "after": {
+                "all": [
+                  {
+                    "observable": "goal_xy_error",
+                    "op": "le",
+                    "value": 0.035
+                  },
+                  {
+                    "observable": "goal_z_error",
+                    "op": "le",
+                    "value": 0.015
+                  },
+                  {
+                    "observable": "object_speed",
+                    "op": "le",
+                    "value": 0.12
+                  }
+                ]
+              }
+            }
+          }
+        },
+        {
+          "node": "release",
+          "fields": {
+            "guard": {
+              "before": "elapsed",
+              "after": {
+                "observable": "finger_min",
+                "op": "ge",
+                "value": 0.035
+              }
+            },
+            "minimum_s": {
+              "before": 0.35,
+              "after": 0.2
+            },
+            "timeout": {
+              "before": "failed",
+              "after": "retreat"
+            },
+            "timeout_s": {
+              "before": 20.0,
+              "after": 2
+            }
+          }
+        }
+      ],
+      "removed_nodes": [
+        "hold"
+      ],
+      "actual_self_written_memory": "Frozen graph succeeded on practice-0, practice-1, and practice-3. Physical practice budget exhausted; practice-2 was not tested with this graph.",
+      "practice_cost": 8,
+      "scope": "Representational diff and participant notes only; functional control response is independently recomputed, not inferred from this diff."
+    },
+    {
+      "block": 5,
+      "method": "deletion",
+      "changes": [],
+      "removed_nodes": [],
+      "actual_self_written_memory": "",
+      "practice_cost": 0,
+      "scope": "Representational diff and participant notes only; functional control response is independently recomputed, not inferred from this diff."
+    },
+    {
+      "block": 6,
+      "method": "frozen",
+      "changes": [],
+      "removed_nodes": [],
+      "actual_self_written_memory": "",
+      "practice_cost": 0,
+      "scope": "Representational diff and participant notes only; functional control response is independently recomputed, not inferred from this diff."
+    },
+    {
+      "block": 6,
+      "method": "designer",
+      "changes": [],
+      "removed_nodes": [],
+      "actual_self_written_memory": "Retained the supplied starter because no physical feedback is available to establish that a change improves performance.",
+      "practice_cost": 0,
+      "scope": "Representational diff and participant notes only; functional control response is independently recomputed, not inferred from this diff."
+    },
+    {
+      "block": 6,
+      "method": "search",
+      "changes": [
+        {
+          "node": "release",
+          "fields": {
+            "dwell_s": {
+              "before": 0.06,
+              "after": 0.1
+            },
+            "guard": {
+              "before": "elapsed",
+              "after": {
+                "observable": "finger_min",
+                "op": "ge",
+                "value": 0.03606455304553298
+              }
+            }
+          }
+        }
+      ],
+      "removed_nodes": [],
+      "actual_self_written_memory": "",
+      "practice_cost": 8,
+      "scope": "Representational diff and participant notes only; functional control response is independently recomputed, not inferred from this diff."
+    },
+    {
+      "block": 6,
+      "method": "feedback",
+      "changes": [
+        {
+          "node": "lower",
+          "fields": {
+            "dwell_s": {
+              "before": 0.06,
+              "after": 0.12
+            },
+            "guard": {
+              "before": "pose",
+              "after": {
+                "all": [
+                  {
+                    "observable": "goal_xy_error",
+                    "op": "le",
+                    "value": 0.025
+                  },
+                  {
+                    "observable": "goal_z_error",
+                    "op": "le",
+                    "value": 0.018
+                  },
+                  {
+                    "observable": "object_speed",
+                    "op": "le",
+                    "value": 0.06
+                  }
+                ]
+              }
+            },
+            "timeout": {
+              "before": "failed",
+              "after": "release"
+            },
+            "timeout_s": {
+              "before": 20.0,
+              "after": 5
+            }
+          }
+        },
+        {
+          "node": "release",
+          "fields": {
+            "guard": {
+              "before": "elapsed",
+              "after": {
+                "observable": "finger_min",
+                "op": "ge",
+                "value": 0.035
+              }
+            },
+            "timeout": {
+              "before": "failed",
+              "after": "retreat"
+            },
+            "timeout_s": {
+              "before": 20.0,
+              "after": 2
+            }
+          }
+        }
+      ],
+      "removed_nodes": [
+        "hold"
+      ],
+      "actual_self_written_memory": "Current graph succeeded on all four public practice handles. Practice 3 reached release via the lower timeout and settled near the public goal after retreat.",
+      "practice_cost": 5,
+      "scope": "Representational diff and participant notes only; functional control response is independently recomputed, not inferred from this diff."
+    },
+    {
+      "block": 6,
+      "method": "deletion",
+      "changes": [],
+      "removed_nodes": [],
+      "actual_self_written_memory": "",
+      "practice_cost": 0,
+      "scope": "Representational diff and participant notes only; functional control response is independently recomputed, not inferred from this diff."
+    },
+    {
+      "block": 7,
+      "method": "frozen",
+      "changes": [],
+      "removed_nodes": [],
+      "actual_self_written_memory": "",
+      "practice_cost": 0,
+      "scope": "Representational diff and participant notes only; functional control response is independently recomputed, not inferred from this diff."
+    },
+    {
+      "block": 7,
+      "method": "designer",
+      "changes": [],
+      "removed_nodes": [],
+      "actual_self_written_memory": "Frozen supplied starter without physical feedback; no performance claims.",
+      "practice_cost": 0,
+      "scope": "Representational diff and participant notes only; functional control response is independently recomputed, not inferred from this diff."
+    },
+    {
+      "block": 7,
+      "method": "search",
+      "changes": [
+        {
+          "node": "release",
+          "fields": {
+            "dwell_s": {
+              "before": 0.06,
+              "after": 0.1
+            },
+            "guard": {
+              "before": "elapsed",
+              "after": {
+                "observable": "finger_min",
+                "op": "ge",
+                "value": 0.03606455304553298
+              }
+            }
+          }
+        }
+      ],
+      "removed_nodes": [],
+      "actual_self_written_memory": "",
+      "practice_cost": 8,
+      "scope": "Representational diff and participant notes only; functional control response is independently recomputed, not inferred from this diff."
+    },
+    {
+      "block": 7,
+      "method": "feedback",
+      "changes": [
+        {
+          "node": "transport",
+          "fields": {
+            "tolerance": {
+              "before": 0.025,
+              "after": 0.02
+            }
+          }
+        },
+        {
+          "node": "lower",
+          "fields": {
+            "dwell_s": {
+              "before": 0.06,
+              "after": 0.04
+            },
+            "guard": {
+              "before": "pose",
+              "after": {
+                "all": [
+                  {
+                    "observable": "goal_xy_error",
+                    "op": "le",
+                    "value": 0.02
+                  },
+                  {
+                    "observable": "goal_z_error",
+                    "op": "le",
+                    "value": 0.02
+                  },
+                  {
+                    "observable": "object_speed",
+                    "op": "le",
+                    "value": 0.1
+                  }
+                ]
+              }
+            },
+            "timeout": {
+              "before": "failed",
+              "after": "release"
+            },
+            "timeout_s": {
+              "before": 20.0,
+              "after": 8
+            }
+          }
+        },
+        {
+          "node": "release",
+          "fields": {
+            "guard": {
+              "before": "elapsed",
+              "after": {
+                "observable": "finger_min",
+                "op": "ge",
+                "value": 0.035
+              }
+            },
+            "minimum_s": {
+              "before": 0.35,
+              "after": 0
+            },
+            "timeout": {
+              "before": "failed",
+              "after": "retreat"
+            },
+            "timeout_s": {
+              "before": 20.0,
+              "after": 1.2
+            }
+          }
+        }
+      ],
+      "removed_nodes": [
+        "hold"
+      ],
+      "actual_self_written_memory": "The frozen graph succeeded on practice-1. Lowering uses a short position and speed dwell with an eight-second fallback; release waits for measured finger opening before retreat.",
+      "practice_cost": 8,
+      "scope": "Representational diff and participant notes only; functional control response is independently recomputed, not inferred from this diff."
+    },
+    {
+      "block": 7,
+      "method": "deletion",
+      "changes": [],
+      "removed_nodes": [],
+      "actual_self_written_memory": "",
+      "practice_cost": 0,
+      "scope": "Representational diff and participant notes only; functional control response is independently recomputed, not inferred from this diff."
+    }
+  ]
+}

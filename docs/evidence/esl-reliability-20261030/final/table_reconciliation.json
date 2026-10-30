@@ -1,0 +1,16 @@
+{
+  "schema": "esl-export-table-reconciliation-1",
+  "status": "PASS",
+  "allocated_rows": 640,
+  "unique_block_method_condition_rows": 640,
+  "successes_from_csv": {
+    "frozen": 87,
+    "designer": 87,
+    "search": 126,
+    "feedback": 128,
+    "deletion": 87
+  },
+  "successes_match_registered_results": true,
+  "maximum_actual_model_vs_requested_mass_deviation_kg": 5.960464455334602e-09,
+  "scope": "Export-table consistency and independent actual-model mass column; full raw physics recomputation is in separate extracted-evidence receipt."
+}

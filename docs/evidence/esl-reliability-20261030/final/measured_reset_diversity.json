@@ -1,0 +1,11 @@
+{
+  "schema": "esl-measured-reset-diversity-1",
+  "recorded_initial_captures": 640,
+  "conditions_with_initial_capture": 128,
+  "registered_query_conditions": 128,
+  "distinct_robot_joint_poses_1e6": 128,
+  "distinct_cube_poses_1e6": 1,
+  "distinct_legacy_goal_commands_1e6": 128,
+  "distinct_physical_starts_including_goal_and_mass_1e6": 128,
+  "scope": "Counts rounded to 1e-6; independent seed/reset draws do not imply distinct physical poses or task families. Legacy airborne command variation is distinct from the actual public place goal."
+}

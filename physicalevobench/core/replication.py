@@ -144,6 +144,8 @@ def run(root,out,qualification,gpus,query_lanes_per_gpu=2):
             evaluate(i,gpus[k%len(gpus)])
     with concurrent.futures.ThreadPoolExecutor(max_workers=query_lanes) as pool:
         list(pool.map(gpu_query,range(query_lanes)))
+    save_json(out/'status.json',{'status':'AUDITING_RAW_EVIDENCE','at':now()})
+    print(json.dumps({'phase':'raw_evidence_audit','status':'STARTED'}),flush=True)
     result=audit_and_summarize(out)
     save_json(out/'status.json',{'status':'COMPLETED','at':now()})
     return result

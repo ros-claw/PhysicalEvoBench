@@ -1,0 +1,148 @@
+{
+  "selection": "Block0 Feedback first scheduled query, earliest complete guard→branch→changed command→changed applied target at a node with guard modified from starter; no outcome-based selection",
+  "episode_id": "query-009",
+  "control_step": 500,
+  "old_guard": "pose",
+  "new_guard": {
+    "all": [
+      {
+        "observable": "goal_xy_error",
+        "op": "le",
+        "value": 0.04
+      },
+      {
+        "observable": "goal_z_error",
+        "op": "le",
+        "value": 0.02
+      },
+      {
+        "observable": "object_speed",
+        "op": "le",
+        "value": 0.1
+      }
+    ]
+  },
+  "recorded_guard": {
+    "node": "lower",
+    "guard_evaluated": true,
+    "predicate_satisfied": true,
+    "minimum_satisfied": true,
+    "branch_taken": true,
+    "guard": {
+      "all": [
+        {
+          "observable": "goal_xy_error",
+          "op": "le",
+          "value": 0.04
+        },
+        {
+          "observable": "goal_z_error",
+          "op": "le",
+          "value": 0.02
+        },
+        {
+          "observable": "object_speed",
+          "op": "le",
+          "value": 0.1
+        }
+      ]
+    },
+    "destination": "release",
+    "reason": "public_guard_expression"
+  },
+  "public": {
+    "ee_position": [
+      0.6357468962669373,
+      -0.08199048042297363,
+      0.03946810960769653
+    ],
+    "object_position": [
+      0.6273256540298462,
+      -0.08215868473052979,
+      0.030813531950116158
+    ],
+    "ee_quaternion_xyzw": [
+      0.9997766017913818,
+      0.020187821239233017,
+      0.0016160764498636127,
+      -0.006051972508430481
+    ],
+    "goal_position": [
+      0.43608358502388,
+      -0.1796727478504181,
+      0.3565285801887512
+    ],
+    "object_velocity": [
+      0.03662453219294548,
+      0.04726734384894371,
+      0.04146069288253784
+    ],
+    "finger_position": [
+      0.023460278287529945,
+      0.02403232268989086
+    ],
+    "orientation_error": 0.04227781668305397,
+    "cube_contact_force": [
+      46.94954299926758,
+      46.99958419799805
+    ],
+    "task_goal_position": [
+      0.62,
+      -0.12,
+      0.021
+    ],
+    "support_geometry": {
+      "support_contact": "not_measured",
+      "geometry_source": "see geometry.json; not inferred from reset center"
+    }
+  },
+  "previous_command": {
+    "phase": "lift",
+    "program_node": "lower",
+    "target_position": [
+      0.629490579366684,
+      -0.12002399529330432,
+      0.040570192873477934
+    ],
+    "gripper": "close",
+    "transition_reason": null,
+    "phase_age_s": 2.940000000000002,
+    "recoveries": 0
+  },
+  "command": {
+    "phase": "release",
+    "program_node": "release",
+    "target_position": [
+      0.629490579366684,
+      -0.12002399529330432,
+      0.040570192873477934
+    ],
+    "gripper": "open",
+    "transition_reason": "public_guard_expression",
+    "phase_age_s": 0.0,
+    "recoveries": 0
+  },
+  "previous_applied_target": [
+    0.19176538288593292,
+    0.20162296295166016,
+    -0.45356759428977966,
+    -1.6089487075805664,
+    0.4332709312438965,
+    2.517791509628296,
+    0.350064754486084,
+    0.0,
+    0.0
+  ],
+  "applied_target": [
+    0.1944514513015747,
+    0.20195990800857544,
+    -0.45569849014282227,
+    -1.608703374862671,
+    0.4345388114452362,
+    2.5171196460723877,
+    0.3513110876083374,
+    0.0007999999797903001,
+    0.0007999999797903001
+  ],
+  "scope": "Actual execution of changed guard; no isolated counterfactual physics or attribution of final success to this one edit"
+}

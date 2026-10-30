@@ -1,0 +1,30 @@
+{
+  "scope": "CPU checks after adding an explicit post-query audit progress status; no changes to frozen executor source aefd795",
+  "checks": [
+    {
+      "argv": [
+        "uv",
+        "run",
+        "pytest",
+        "-q"
+      ],
+      "returncode": 0,
+      "stdout": "........................................................................ [ 53%]\n...............................................................          [100%]\n135 passed in 8.22s\n",
+      "wall_seconds": 8.377690344
+    },
+    {
+      "argv": [
+        "uv",
+        "run",
+        "ruff",
+        "check",
+        "physicalevobench",
+        "tests",
+        "scripts"
+      ],
+      "returncode": 0,
+      "stdout": "All checks passed!\n",
+      "wall_seconds": 0.000021024
+    }
+  ]
+}
