@@ -1,0 +1,56 @@
+{
+  "recorded_at": "2026-10-30T04:16:41.250980+00:00",
+  "arena_head": {
+    "command": [
+      "git",
+      "rev-parse",
+      "HEAD"
+    ],
+    "returncode": 0,
+    "stdout": "c7edf3a9d5d8276565208f72422f8f8a0806d6cf",
+    "stderr": ""
+  },
+  "arena_tracked_status": {
+    "command": [
+      "git",
+      "status",
+      "--porcelain",
+      "--untracked-files=no"
+    ],
+    "returncode": 0,
+    "stdout": "",
+    "stderr": ""
+  },
+  "lab_gitlink": {
+    "command": [
+      "git",
+      "rev-parse",
+      "HEAD:submodules/IsaacLab"
+    ],
+    "returncode": 0,
+    "stdout": "91a0906f93802eb859192dcb0bca879f891e92d6",
+    "stderr": ""
+  },
+  "native_packages": {
+    "command": [
+      "/code/rosclaw/physicalEvoBench/external/IsaacLab-Arena/.venv/bin/python",
+      "-c",
+      "import json,importlib.metadata as m;print(json.dumps({n:m.version(n) for n in ['isaacsim','isaaclab','torch','rsl-rl-lib','isaaclab_arena']}))"
+    ],
+    "returncode": 0,
+    "stdout": "{\"isaacsim\": \"6.1.0.0\", \"isaaclab\": \"17.0.2\", \"torch\": \"2.11.0+cu128\", \"rsl-rl-lib\": \"5.4.1\", \"isaaclab_arena\": \"0.3.0\"}",
+    "stderr": ""
+  },
+  "gpu_hardware": {
+    "command": [
+      "nvidia-smi",
+      "--query-gpu=index,name,driver_version,memory.total",
+      "--format=csv"
+    ],
+    "returncode": 0,
+    "stdout": "index, name, driver_version, memory.total [MiB]\n0, NVIDIA RTX A6000, 595.91.07, 49140 MiB\n1, NVIDIA RTX A6000, 595.91.07, 49140 MiB\n2, NVIDIA RTX A6000, 595.91.07, 49140 MiB\n3, NVIDIA RTX A6000, 595.91.07, 49140 MiB",
+    "stderr": ""
+  },
+  "scope": "Read-only context; no new episode or environment modification",
+  "metadata_note": "Initial query used rsl-rl rather than installed distribution rsl-rl-lib; corrected read only, no package changes."
+}
