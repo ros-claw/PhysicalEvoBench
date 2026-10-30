@@ -48,3 +48,18 @@ def load(path):
         raise ValueError('Artifact identity mismatch')
     validate(value['payload'])
     return value
+
+
+def executable_fingerprint(artifact):
+    """Program behavior identity, excluding notes/participant labels/serialization numbers."""
+    from physicalevobench.core.program import Program
+    program=Program.from_dict(artifact['skill']).to_dict()
+    def normalize(x):
+        if isinstance(x,dict):
+            return {k:normalize(v) for k,v in x.items()}
+        if isinstance(x,list):
+            return [normalize(v) for v in x]
+        if type(x) in (int,float):
+            return 0. if x==0 else float(x)
+        return x
+    return digest(normalize(program))

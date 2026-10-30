@@ -34,6 +34,8 @@ def state(worker):
     return {'object_position':tensor_json(worker.as_torch(cube.data.root_pos_w)),
             'object_velocity':tensor_json(worker.as_torch(cube.data.root_vel_w)),
             'joint_position':tensor_json(worker.as_torch(worker.robot.data.joint_pos)),
+            'joint_velocity':tensor_json(worker.as_torch(worker.robot.data.joint_vel)),
+            'object_orientation':tensor_json(worker.as_torch(cube.data.root_quat_w)),
             'mass':tensor_json(worker.as_torch(cube.data.body_mass)),
             'inertia':tensor_json(worker.as_torch(cube.data.body_inertia)),
             'physics_step':worker.base._sim_step_counter}
@@ -51,7 +53,7 @@ def describe(worker):
         path=worker.base.scene.env_prim_paths[0]+'/'+getattr(asset,'cfg',asset).prim_path.rsplit('/',1)[-1]
         root=stage.GetPrimAtPath(path)
         bodies=[]
-        for prim in Usd.PrimRange(root):
+        for prim in Usd.PrimRange(root,Usd.TraverseInstanceProxies()):
             if prim.HasAPI(UsdPhysics.CollisionAPI) or prim.HasAPI(UsdPhysics.RigidBodyAPI):
                 bodies.append({'path':str(prim.GetPath()),'type':prim.GetTypeName(),
                     'schemas':list(prim.GetAppliedSchemas()),

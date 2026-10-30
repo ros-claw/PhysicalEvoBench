@@ -1,0 +1,49 @@
+{
+  "schema": "frozen-esl-public-context-3",
+  "instructions": "You are an experimental participant in Executable-Skill Learning.\nUse only this JSON context. No filesystem, shell, web or other built-in tools.\nFixed model and low-level IK/target bounds. You may edit a bounded skill graph;\nthere is no training of model weights. Test runs only the frozen executable graph.\nTask: pick up the cube, lift at least .05m above reset height, move it horizontally\nat least .08m, then release it near the public task goal. Within 20s, reach .50s\ncontinuous samples with horizontal error<.05m, vertical error<.025m, object\nspeed<=.10m/s, BOTH actual finger coordinates>=.035m, EE/object distance>=.06m.\nPublic observations are simulator state: positions, object linear velocity, real\nfinger positions and measured finger/cube normal contact, orientation error.\nSupport contact is NOT measured. The public task_goal_position is distinct from\nthe legacy airborne goal_position. Every trial resets physical state and controller.\nA normal existing pick/probe/place starter is supplied equally to all methods.\nNo developer reference solution or diagnostic hypothesis is supplied.\nThe graph schema is core-skill-graph-2, max16 nodes, max_retries 0..2, max64\ntransitions. Each node has exactly the listed fields. All edges must exist.\nmode declares generic grasp-frame capture/recovery semantics: entering close\nor recover updates anchor; entering probe captures relative offset; close/probe\nto lift updates the grasp offset. This execution profile enables bounded joint\nintegral by measured bilateral contact and smoothly unloads on contact loss;\nmode/node names do not enable or disable that compensation.\nTargets may use legacy public primitives, or {frame,offset_m,grasp_offset}.\nframe: object, goal (public task goal), ee, anchor, initial_object. offset_m is a\n3-vector in world axes, each in [-.2,.2]. grasp_offset bool adds measured EE/object\nrelative offset captured at grasp/probe. Gripper is open or close.\nGuards may be legacy names, or a bounded public expression:\n{observable,op,value}, op le/ge, or {all:[expressions]} / {any:[expressions]}, maxdepth3,\nmax4 children. Observable names: finger_min (0...05m), object_speed (0..2m/s),\ngoal_xy_error, goal_z_error, object_goal_error, ee_object_distance, target_error\n(all0..1m), finger_contact_min/max (0..200N), orientation_error (0..3.2rad).\nA guard must hold continuously for dwell_s [.02,.5]; minimum_s [0,1], timeout_s\n[.1,20]. tolerance [.005,.06], offset_m legacy scalar [0,.15]. Timeouts also follow\nedges; global horizon is fixed. No scoring/state mutation or arbitrary code.\nReturn only schema JSON. program_json contains the complete graph serialized as\nJSON text. run_trial executes a registered proposal on the chosen practice handle;\nrevise records a proposal without physics; freeze selects the final legal graph\nand memory. You may keep the starter or freeze early. No positive gain required.\nPractice handles can differ in unobserved physical properties even when their\nvisible goal positions are identical. They are not guaranteed duplicate trials.\nThe same hidden physical mechanism families recur across support and query,\nwith new goal combinations and reset conditions. No hidden property values or\nfamily labels are supplied; they may be investigated only through allowed practice.\nQuery conditions are never returned for update. Only executable program changes\ncan affect test control; text memory is retained as provenance, not interpreted.\n",
+  "instructions_sha256": "cfcf29c2d36b31d8720287a417cd61369bbef6b1dee38a81eabed3b58cda3554",
+  "response_schema": {
+    "type": "object",
+    "additionalProperties": false,
+    "properties": {
+      "tool": {
+        "type": "string",
+        "enum": [
+          "run_trial",
+          "revise",
+          "freeze"
+        ]
+      },
+      "program_json": {
+        "type": "string"
+      },
+      "practice_handle": {
+        "type": "string"
+      },
+      "memory": {
+        "type": "string",
+        "maxLength": 4000
+      }
+    },
+    "required": [
+      "tool",
+      "program_json",
+      "practice_handle",
+      "memory"
+    ]
+  },
+  "compaction_source": "def compact(history):\n    value = json.loads(json.dumps(history))\n    for item in value:\n        item.pop('memory',None)\n    for item in value[:-1]:\n        if item.get('feedback'):\n            item['feedback'].pop('events_and_periodic_samples', None)\n        item.pop('program', None)\n    return value\n",
+  "model": "gpt-6.1-terra",
+  "reasoning_effort": "provider_default_not_exposed; preserve original argv",
+  "limits": {
+    "calls": 10,
+    "input_tokens": 300000,
+    "output_tokens": 48000,
+    "timeout_s": 120,
+    "physical_practice": 8
+  },
+  "provider_retries": 0,
+  "test_model_calls": 0,
+  "memory_control": "learning context and provenance only; frozen graph controls test",
+  "sampling": "node transitions plus periodic100 controls; unchanged public-context-v3"
+}

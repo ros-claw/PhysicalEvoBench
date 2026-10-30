@@ -10,6 +10,8 @@ import tempfile
 import time
 from pathlib import Path
 
+from physicalevobench.core.errors import (ParticipantBudgetExceeded,ParticipantFormatError,ProviderAuthError,
+    ProviderDeadline,ProviderTransportError,ProviderUsageUnknown)
 from physicalevobench.doctor import save_json
 from physicalevobench.evaluation.confirmation import now
 
@@ -34,11 +36,14 @@ class ParticipantProcess:
 
     def call(self,request):
         if self.calls>=self.max_calls or self.input_tokens>=self.input_limit or self.output_tokens>=self.output_limit:
-            raise ValueError('Participant computational budget exhausted')
+            raise ParticipantBudgetExceeded('Participant computational budget exhausted')
         index=self.calls
         self.calls+=1
         directory=self.log_dir/f'call-{index:02d}'
         directory.mkdir()
+        save_json(self.log_dir/'budget.json',{'calls':self.calls,'input_tokens':'unknown',
+                  'output_tokens':'unknown','known_input_tokens':self.input_tokens,
+                  'known_output_tokens':self.output_tokens})
         save_json(directory/'request.json',request)
         started=time.monotonic()
         started_at=now()
@@ -58,36 +63,52 @@ class ParticipantProcess:
                 try:
                     result=subprocess.run(argv,input=json.dumps(request),text=True,cwd=tmp,
                                           stdout=stdout,stderr=stderr,timeout=120)
-                except subprocess.TimeoutExpired:
-                    save_json(directory/'process.json',{'returncode':None,'timeout':True,'wall_s':time.monotonic()-started,'started_at':started_at,'finished_at':now(),'usage':'unknown'})
-                    raise
+                except (OSError,subprocess.TimeoutExpired) as error:
+                    save_json(directory/'process.json',{'returncode':None,'timeout':isinstance(error,subprocess.TimeoutExpired),'wall_s':time.monotonic()-started,'started_at':started_at,'finished_at':now(),'usage':'unknown'})
+                    if isinstance(error,subprocess.TimeoutExpired):
+                        raise ProviderDeadline('Call deadline; usage and remote completion unknown; no automatic retry') from error
+                    raise ProviderTransportError('Provider process could not start; no automatic retry') from error
             save_json(directory/'process.json',{'returncode':result.returncode,'wall_s':time.monotonic()-started,'started_at':started_at,'finished_at':now()})
-            events=[json.loads(line) for line in (directory/'events.jsonl').read_text().splitlines()]
             if result.returncode:
-                raise RuntimeError('Participant transport failed; see preserved process evidence')
+                error_text=(directory/'stderr.log').read_text().lower()
+                if any(word in error_text for word in ('unauthorized','authentication','invalid api key','http 401','http 403')):
+                    raise ProviderAuthError('Provider authentication failed; inspect preserved stderr')
+                raise ProviderTransportError('Provider process failed; attribution not assumed to be an illegal graph')
+            try:
+                events=[json.loads(line) for line in (directory/'events.jsonl').read_text().splitlines()]
+            except json.JSONDecodeError as error:
+                raise ProviderTransportError('Provider wire response is not valid JSON; usage unknown') from error
             if self.command==['codex']:
                 usage=[e['usage'] for e in events if e.get('type')=='turn.completed']
                 if len(usage)!=1:
-                    raise ValueError('Exactly one reported model usage record required')
+                    raise ProviderUsageUnknown('Exactly one reported model usage record required; actual usage unknown')
                 # Reject any actual built-in tool action: only returned benchmark
                 # calls are permitted, never local shell/MCP/web actions.
-                if any(e.get('type')=='item.completed' and e.get('item',{}).get('type') not in
-                       ('agent_message','reasoning') for e in events):
-                    raise ValueError('Participant used an undeclared built-in tool')
-                answer=json.loads((tmp/'answer.json').read_text())
+                undeclared_tools=any(e.get('type')=='item.completed' and e.get('item',{}).get('type') not in
+                       ('agent_message','reasoning') for e in events)
+                answer_text=(tmp/'answer.json').read_text() if (tmp/'answer.json').exists() else ''
+                try:
+                    answer=json.loads(answer_text)
+                except json.JSONDecodeError:
+                    answer=None
             else:
                 if len(events)!=1 or set(events[0])!={'response','usage'}:
-                    raise ValueError('Generic participant must return response and actual usage')
+                    raise ProviderUsageUnknown('Generic provider envelope/usage missing; accounting unknown')
                 answer,usage=events[0]['response'],[events[0]['usage']]
+                undeclared_tools=False
             for key in ('input_tokens','output_tokens'):
-                if type(usage[0].get(key)) is not int or usage[0][key]<0:
-                    raise ValueError('Actual nonnegative integer provider usage required')
+                if not isinstance(usage[0],dict) or type(usage[0].get(key)) is not int or usage[0][key]<0:
+                    raise ProviderUsageUnknown('Actual nonnegative integer provider usage required; not zero-filled')
             self.input_tokens+=usage[0]['input_tokens']
             self.output_tokens+=usage[0]['output_tokens']
             save_json(directory/'response.json',answer)
             save_json(directory/'usage.json',usage[0])
         save_json(self.log_dir/'budget.json',{'calls':self.calls,'input_tokens':self.input_tokens,
                                             'output_tokens':self.output_tokens})
+        if undeclared_tools:
+            raise ParticipantFormatError('Participant used an undeclared built-in tool')
+        if answer is None:
+            raise ParticipantFormatError('Model completed with an invalid structured answer; actual usage charged')
         if self.input_tokens>self.input_limit or self.output_tokens>self.output_limit:
-            raise ValueError('Participant exceeded cumulative token cap; run invalid')
+            raise ParticipantBudgetExceeded('Participant exceeded cumulative token cap; actual usage retained')
         return answer

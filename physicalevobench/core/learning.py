@@ -14,6 +14,7 @@ from physicalevobench.core.artifact import freeze, load as load_artifact
 from physicalevobench.core.audit import assert_public, audit_session
 from physicalevobench.core.metrics import compare
 from physicalevobench.core.model import ParticipantProcess
+from physicalevobench.core.errors import (ParticipantError,ParticipantFormatError,ProviderError)
 from physicalevobench.core.pilot import worker_config
 from physicalevobench.core.program import GUARDS, MODES, NODE_FIELDS, TARGETS, Program
 from physicalevobench.core.runtime import NativeSession
@@ -180,7 +181,14 @@ def learn(root, out, source, cfg, base, group, name, model, provider, run_id, gp
                        'history': compact(history)}
             assert_public(request)
             stage='participant'
-            response = participant.call(request)
+            try:
+                response = participant.call(request)
+            except ParticipantFormatError as error:
+                response={'invalid_wire_answer':str(error)}
+                save_json(directory/f'proposal-{index:02d}.json',response)
+                history.append({'tool':'validation_error','error':str(error),'cost_episodes':0})
+                save_json(directory/'history.json',history)
+                continue
             save_json(directory/f'proposal-{index:02d}.json', response)
             try:
                 if not isinstance(response,dict) or set(response)!={'tool','program_json','practice_handle','memory'}:
@@ -230,12 +238,20 @@ def learn(root, out, source, cfg, base, group, name, model, provider, run_id, gp
                 raise ValueError('Invalid participant tool')
             history.append(entry)
             save_json(directory/'history.json', history)
-        raise ValueError('Participant failed to freeze within call budget')
+        raise ParticipantFormatError('Participant failed to freeze within call budget')
     except Exception as error:
         if stage=='physics':
             raise
+        if isinstance(error,ProviderError):
+            save_json(directory/'provider_failure.json',{'status':error.category,'reason':str(error),
+                      'calls_consumed':participant.calls,'usage':'unknown unless individual usage record exists',
+                      'retry_limit':0,'at':now()})
+            raise
+        if not isinstance(error,ParticipantError):
+            save_json(directory/'harness_failure.json',{'status':'UNKNOWN_FAILURE','reason':str(error),'at':now()})
+            raise
         save_json(directory/'validity_failure.json',{'status':'INVALID_PARTICIPANT_SUBMISSION',
-                  'reason':str(error),'physical_episodes_used':used,'at':now(),
+                  'reason':str(error),'failure_category':error.category,'physical_episodes_used':used,'at':now(),
                   'query_scoring':'zero for every assigned query; retained in denominator'})
         return None
     finally:

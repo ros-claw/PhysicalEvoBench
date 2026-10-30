@@ -37,14 +37,31 @@ class CoreWorker(DiagnosticWorker):
                 geometry[name]={'status':'not_measured','path':path}
         save_json(self.output_dir/'geometry.json',geometry)
 
+        if self.diag_cfg.get('initialization_profile')=='support-probe-restore-1':
+            reset=self.env.reset
+            def ready_reset(*a,**kw):
+                result=reset(*a,**kw)
+                from physicalevobench.core.readiness import prepare
+                prepare(self)
+                return result
+            self.env.reset=ready_reset
+
+    def run_episode(self,condition,skill,agent_id,episode_id):
+        self.current_condition=condition
+        self.ready_directory=self.output_dir/'episodes'/episode_id
+        return super().run_episode(condition,skill,agent_id,episode_id)
+
     def _snapshot(self,phase):
         result=super()._snapshot(phase)
         result['finger_position']=self.as_torch(self.robot.data.joint_pos)[0,self.finger_joint_indices].tolist()
         result['ee_position_world']=self.as_torch(self.base.scene['ee_frame'].data.target_pos_w)[:,0].tolist()
+        if self.diag_cfg.get('initialization_profile')=='support-probe-restore-1':
+            from physicalevobench.core.readiness import support
+            result['evaluator_support']=support(self)
         return result
 
     def public_task_observation(self):
-        if self.diag_cfg.get('task_version')!='core-place-public-v3-dev':
+        if self.diag_cfg.get('task_version') not in ('core-place-public-v3-dev','core-place-public-v4-ready1'):
             return {}
         return {'task_goal_position':list(self.diag_cfg['public_goal']),
                 'support_geometry':{'support_contact':'not_measured',
