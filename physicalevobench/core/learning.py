@@ -47,7 +47,9 @@ A normal existing pick/probe/place starter is supplied equally to all methods.
 No developer reference solution or diagnostic hypothesis is supplied.
 The graph schema is core-skill-graph-2, max16 nodes, max_retries 0..2, max64
 transitions. Each node has exactly the listed fields. All edges must exist.
-mode is a compatibility label: this execution profile enables bounded joint
+mode declares generic grasp-frame capture/recovery semantics: entering close
+or recover updates anchor; entering probe captures relative offset; close/probe
+to lift updates the grasp offset. This execution profile enables bounded joint
 integral by measured bilateral contact and smoothly unloads on contact loss;
 mode/node names do not enable or disable that compensation.
 Targets may use legacy public primitives, or {frame,offset_m,grasp_offset}.
@@ -66,7 +68,11 @@ Return only schema JSON. program_json contains the complete graph serialized as
 JSON text. run_trial executes a registered proposal on the chosen practice handle;
 revise records a proposal without physics; freeze selects the final legal graph
 and memory. You may keep the starter or freeze early. No positive gain required.
-The same physical mechanism recurs across positions/goals and reset conditions.
+Practice handles can differ in unobserved physical properties even when their
+visible goal positions are identical. They are not guaranteed duplicate trials.
+The same hidden physical mechanism families recur across support and query,
+with new goal combinations and reset conditions. No hidden property values or
+family labels are supplied; they may be investigated only through allowed practice.
 Query conditions are never returned for update. Only executable program changes
 can affect test control; text memory is retained as provenance, not interpreted.
 '''
@@ -163,7 +169,8 @@ def learn(root, out, source, cfg, base, group, name, model, provider, run_id, gp
                                                    for i, c in enumerate(group['support'])],
                        'legacy_targets': sorted(t for t in TARGETS if not t.startswith('place_')), 'legacy_guards': sorted(GUARDS),
                        'legacy_modes': sorted(MODES), 'node_fields': sorted(NODE_FIELDS),
-                       'budget': {'max_calls': 10, 'calls_used': index, 'max_physical_episodes': 8,
+                       'context_version':'public-context-v2',
+                       'budget': {'max_calls': 10, 'calls_used': index, 'max_physical_episodes': 8 if feedback_enabled else 0,
                                   'physical_episodes_used': used, 'input_token_cap': 300000,
                                   'output_token_cap': 48000},
                        'history': compact(history)}
@@ -301,6 +308,7 @@ def run(root, out, qualification, reference, model, provider, instances, gpu, co
     out.mkdir(parents=True, exist_ok=False)
     study_id = str(uuid.uuid4())
     save_json(out/'registration.json', {'schema': 'esl-learning-1', 'mode': 'BENCHMARK_PILOT',
+              'participant_context_version':'public-context-v2','instructions_sha256':digest({'instructions':INSTRUCTIONS}),
               'condition_stream':condition_stream,'study_id': study_id, 'source_commit': executor_source, 'scheduler_source_commit':source,'at': now(), 'conditions': groups,
               'physical_budget': instances*(8+8+20), 'instances': instances, 'model': model,
               'model_limits_per_method': {'calls': 10, 'input_tokens': 300000, 'output_tokens': 48000},
