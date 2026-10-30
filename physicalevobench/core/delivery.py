@@ -163,6 +163,12 @@ def verify(evidence,out):
                             recorded['methods'][method]['episodes']!=len(booleans)):
                         raise ValueError('Stored development response differs from raw outcomes')
             else:
+                if (study/'imported_artifact.json').exists():
+                    from physicalevobench.core.artifact import load as load_imported
+                    imported=load_imported(study/'imported_artifact.json')
+                    if (reg['job']['program']!=imported['payload']['skill'] or
+                            reg['job']['identity']['effective_artifact_hash']!=imported['effective_artifact_hash']):
+                        raise ValueError('Imported smoke artifact differs from actual executed program')
                 recorded=json.loads((study/'result.json').read_text())
                 if recorded['task_success']!=data[0]['success'] or recorded['steps']!=data[0]['steps']:
                     raise ValueError('Standalone result differs from raw physics')

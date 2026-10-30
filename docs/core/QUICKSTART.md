@@ -58,3 +58,12 @@ uv run physicalevobench-core audit --run-dir /path/to/extracted/study
 ```
 
 重新计算物理评分、程序命令、产物绑定、模型决策、支持/查询隔离和真实 reset 配对。原始轨迹包为可选下载；此命令不调用模型或模拟器，不产生新独立学习实例。
+
+
+新目录执行已经导出的学习产物（不重新学习、不计正式 query）：
+
+```bash
+uv run physicalevobench-core physical-smoke --task place-settle --artifact /path/to/exported-artifact.json --seed 2026103030 --output /absolute/path/peb-artifact-smoke-new --gpu 2
+```
+
+先固定使用实例0的Feedback产物，不按其成绩挑选；若该方法未形成合法产物，如实记录无法复跑，不用另一个有利产物替换。该入口只需冻结JSON、轻量资格和正常任务配置，复核执行内容哈希，不依赖原学习目录。

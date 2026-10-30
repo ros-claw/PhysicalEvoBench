@@ -36,7 +36,8 @@ def run(root, out, reference, gpu, seed=2026103001, task_name='lift-regression',
             from physicalevobench.core.artifact import load as load_artifact
             retained=load_artifact(artifact_path)
             if (retained['payload']['initial_reference']!=digest(base) or
-                    retained['payload']['task']!=definition['task_version']):
+                    retained['payload']['task']!=definition['task_version'] or
+                    not retained['payload']['executor'].startswith('contact-integral-v1/')):
                 raise ValueError('Frozen artifact differs from public task/reference')
             program=Program.from_dict(retained['payload']['skill'])
         else:
