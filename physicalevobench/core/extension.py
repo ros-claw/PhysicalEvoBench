@@ -51,7 +51,7 @@ def run(root, out, origin, qualification, gpu):
         artifacts.append(group)
     registration = {'schema': 'esl-frozen-extension-1', 'mode': 'EXPLORATORY_BENCHMARK',
                     'at': now(), 'source_commit': source, 'original_executor_source': reg['source_commit'],
-                    'origin_registration_sha256': sha256(origin/'registration.json'),
+                    'origin_registration_sha256': sha256(origin/'registration.json'),'origin_registration':reg,
                     'origin_global_freeze': boundary, 'conditions': groups, 'instances': reg['instances'],
                     'physical_budget': 20*reg['instances'], 'profile': PROFILE, 'qualification': receipt,
                     'cfg': reg['cfg'], 'reference': reg['reference'], 'gpu': gpu,
@@ -86,6 +86,11 @@ def summarize(out):
     reg = read(out/'registration.json')
     frozen = read(out/'all_frozen.json')
     validate_problem(reg['profile'], reg['qualification'])
+    if reg['origin_global_freeze']['at']>=reg['at']:
+        raise ValueError('Original artifacts were not frozen before new query registration')
+    old_seeds={c['seed'] for group in reg['origin_registration']['conditions'] for values in group.values() for c in values}
+    if old_seeds & {c['seed'] for group in reg['conditions'] for c in group}:
+        raise ValueError('New query reused original support/query seeds')
     results = []
     total = controls = samples = 0
     for i, conditions in enumerate(reg['conditions']):

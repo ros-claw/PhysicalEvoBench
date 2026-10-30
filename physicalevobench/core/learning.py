@@ -96,7 +96,9 @@ def event_feedback(directory, row):
             'events_and_periodic_samples': samples}
 
 
-def manifest(root, parent, instances):
+def manifest(root, parent, instances, profile=None):
+    from physicalevobench.core.problem import PROFILE
+    profile=profile or PROFILE
     excluded = published_seeds(root)
     for path in parent.glob('peb-*/registration.json'):
         excluded.update(registered_seed_values(json.loads(path.read_text())))
@@ -104,8 +106,8 @@ def manifest(root, parent, instances):
     groups = []
     for run in range(instances):
         group = {}
-        for split, goals in [('support', [[.62, .12, .021], [.60, -.12, .021]]),
-                              ('query', [[.58, .10, .021], [.64, -.08, .021]])]:
+        for split, goals in [('support',profile['support_goal_positions']),
+                             ('query',profile['query_goal_positions'])]:
             group[split] = []
             for goal in goals:
                 for mass in (.1, .4):
@@ -285,6 +287,8 @@ def run(root, out, qualification, reference, model, provider, instances, gpu):
     receipt = json.loads(qualification.read_text())
     if receipt.get('status') != 'QUALIFIED':
         raise ValueError('Task is not qualified; continue engineering, not model scaling')
+    from physicalevobench.core.problem import PROFILE,validate_problem
+    validate_problem(PROFILE,receipt)
     base = load(reference)
     source = command(['git', 'rev-parse', 'HEAD'], cwd=root)['stdout']
     from physicalevobench.core.execution_identity import validate_execution
@@ -300,7 +304,7 @@ def run(root, out, qualification, reference, model, provider, instances, gpu):
               'study_id': study_id, 'source_commit': executor_source, 'scheduler_source_commit':source,'at': now(), 'conditions': groups,
               'physical_budget': instances*(8+8+20), 'instances': instances, 'model': model,
               'model_limits_per_method': {'calls': 10, 'input_tokens': 300000, 'output_tokens': 48000},
-              'qualification_sha256': sha256(qualification), 'qualification': receipt, 'gpu': gpu,
+              'learning_problem':PROFILE,'qualification_sha256': sha256(qualification), 'qualification': receipt, 'gpu': gpu,
               'cfg': cfg, 'reference': base, 'provider': provider,
               'search': '4 declared candidates x same2 practice conditions; 8 trials, score only; limited proposal family',
               'scope': 'Paired pilot; independent model learning instances, not a stable-evolution proof'})

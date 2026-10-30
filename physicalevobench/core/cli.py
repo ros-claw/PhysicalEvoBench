@@ -30,7 +30,7 @@ def main():
         if sys.argv[1]=='learn':
             from physicalevobench.core.learning import main as entry
         else:
-            from physicalevobench.core.qualification import main as entry
+            from physicalevobench.core.problem import main as entry
         sys.argv.pop(1)
         return entry()
     if len(sys.argv)>1 and sys.argv[1]=='physical-smoke':

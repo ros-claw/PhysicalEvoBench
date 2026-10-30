@@ -156,3 +156,19 @@ def test_common_batch_search_uses_identical_conditions_before_selection(tmp_path
         assert [j['condition'] for j in jobs[2*i:2*i+2]] == [j['condition'] for j in jobs[:2]]
     assert result['payload']['skill'] == learning.search_candidates()[1].to_dict()
     assert result['payload']['budget_used'] == 8
+
+
+def test_learning_problem_qualification_binds_query_family_not_just_backend():
+    from physicalevobench.core.problem import PROFILE, validate_problem
+    from physicalevobench.v02.reference_artifact import digest
+    q = {'status': 'QUALIFIED', 'learning_problem_sha256': digest(PROFILE)}
+    validate_problem(PROFILE, q)
+    old = copy.deepcopy(PROFILE)
+    old['query_goal_positions'] = [[.58, .10, .021], [.64, -.08, .021]]
+    with pytest.raises(ValueError, match='query distribution'):
+        validate_problem(old, q)
+    support = PROFILE['support_goal_positions']
+    query = PROFILE['query_goal_positions']
+    assert {p[0] for p in support} == {p[0] for p in query}
+    assert {p[1] for p in support} == {p[1] for p in query}
+    assert {tuple(p) for p in support}.isdisjoint({tuple(p) for p in query})
