@@ -181,6 +181,7 @@ def test_pairing_rejects_different_inertia_velocity_or_nonfinite_measured_state(
          'inertia_readback': [[[.0000384, 0., 0.]]]}
     for field, replacement in [('object_velocity', [[.01, 0., 0.]]),
                                 ('inertia_readback', [[[.0000768, 0., 0.]]]),
+                                ('inertia_readback', [[[.0000385, 0., 0.]]]),
                                 ('object_position', [[float('nan'), 0., .055]])]:
         b = {**a, field: replacement}
         with pytest.raises(ValueError, match='initial physical'):

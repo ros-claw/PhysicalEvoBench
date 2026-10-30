@@ -36,7 +36,8 @@ def assert_initial_pair(a, b):
         if field not in a or field not in b:
             raise ValueError('Paired initial measurement coverage mismatch: '+field)
         values=list(zip(flat(a[field]),flat(b[field]),strict=True))
-        if not values or any(not math.isfinite(x) or not math.isfinite(y) or abs(x-y)>1e-6 for x,y in values):
+        tolerance=1e-10 if field=='inertia_readback' else 1e-6
+        if not values or any(not math.isfinite(x) or not math.isfinite(y) or abs(x-y)>tolerance for x,y in values):
             raise ValueError('Paired initial physical state mismatch: '+field)
 
 
