@@ -1,0 +1,274 @@
+{
+  "packaging_source_commit": "4c4b56ce5303f9b2400b1ec5f09845431c5c5ba7",
+  "schema": "core-evidence-delivery-1",
+  "studies": [
+    "peb-esl-ready2-stdin-integration-20261030-001"
+  ],
+  "files": [
+    {
+      "path": "peb-esl-ready2-stdin-integration-20261030-001/all_frozen.json",
+      "sha256": "b233be02652a7546f4dae984a647a57383d2885ee9cb0d39559a141ed216ed02",
+      "size": 134
+    },
+    {
+      "path": "peb-esl-ready2-stdin-integration-20261030-001/designer/artifact.json",
+      "sha256": "670e9912a824ec8181682d7d4b48beeae39baa63892b68119bee3b910506b3d9",
+      "size": 6453
+    },
+    {
+      "path": "peb-esl-ready2-stdin-integration-20261030-001/designer/freeze_receipt.json",
+      "sha256": "3c94aeb9e0489b93ee5deb67251adbba028bf2604be8aec5a4d5d1bbffcd33a2",
+      "size": 187
+    },
+    {
+      "path": "peb-esl-ready2-stdin-integration-20261030-001/designer/model_calls/budget.json",
+      "sha256": "e1a70a02aef2eaceaa9fad98b45d08ee306856546152ed3830c37587339c159e",
+      "size": 67
+    },
+    {
+      "path": "peb-esl-ready2-stdin-integration-20261030-001/designer/model_calls/call-00/events.jsonl",
+      "sha256": "43b159d8de50257ab5140731581bc6774731c91ce0738e293d5f53a62cfcc4dc",
+      "size": 3870
+    },
+    {
+      "path": "peb-esl-ready2-stdin-integration-20261030-001/designer/model_calls/call-00/process.json",
+      "sha256": "7989eb57a41eb88544058dcc478741d40750076db8240583c4fc8ff947e7f2ff",
+      "size": 159
+    },
+    {
+      "path": "peb-esl-ready2-stdin-integration-20261030-001/designer/model_calls/call-00/request.json",
+      "sha256": "e732e3bd67da4c8c6ddc9c4eed69079a652a1aad604a07a203550d3e7ec51344",
+      "size": 15588
+    },
+    {
+      "path": "peb-esl-ready2-stdin-integration-20261030-001/designer/model_calls/call-00/reservation.json",
+      "sha256": "ca90174087bdc35e46a13bf90b3d4e5219cfb2ce6e979e1f5a8b872f55385733",
+      "size": 116
+    },
+    {
+      "path": "peb-esl-ready2-stdin-integration-20261030-001/designer/model_calls/call-00/response.json",
+      "sha256": "1f6c2db255dac09edca3b86ab5a9dfdf6fd54076d5e5945984495c0c0eb21af3",
+      "size": 3718
+    },
+    {
+      "path": "peb-esl-ready2-stdin-integration-20261030-001/designer/model_calls/call-00/stderr.log",
+      "sha256": "5a333382be42d6f0d466547095b1edc4785afe8b2fb10703ef5bd30f4f64216c",
+      "size": 6604
+    },
+    {
+      "path": "peb-esl-ready2-stdin-integration-20261030-001/designer/model_calls/call-00/usage.json",
+      "sha256": "3d1cd3ac0fc122002be2b2d742c5ac28736139e08008e361f1ecb8b97a86db16",
+      "size": 150
+    },
+    {
+      "path": "peb-esl-ready2-stdin-integration-20261030-001/designer/proposal-00.json",
+      "sha256": "1f6c2db255dac09edca3b86ab5a9dfdf6fd54076d5e5945984495c0c0eb21af3",
+      "size": 3718
+    },
+    {
+      "path": "peb-esl-ready2-stdin-integration-20261030-001/native/action_mapping.json",
+      "sha256": "59518975f120eb90ac77800686f77608e0e560995739e81a025f5d1cb891b4eb",
+      "size": 514
+    },
+    {
+      "path": "peb-esl-ready2-stdin-integration-20261030-001/native/backend_identity.json",
+      "sha256": "2aee1c19e3bb35858e3038ed5eca31586be2b6184206fc96a6d6278420e27368",
+      "size": 683
+    },
+    {
+      "path": "peb-esl-ready2-stdin-integration-20261030-001/native/config.json",
+      "sha256": "cd788aab5091cb752375300ef1e1ce9f1cb9c66208aa8b58b7b69aef1ba23f3d",
+      "size": 2102
+    },
+    {
+      "path": "peb-esl-ready2-stdin-integration-20261030-001/native/console.log",
+      "sha256": "923f6d26dab20561e401064f0a6590937899895967ebc069decc008e612cc70d",
+      "size": 64933
+    },
+    {
+      "path": "peb-esl-ready2-stdin-integration-20261030-001/native/control_semantics.json",
+      "sha256": "f53fade8295a23eacae7e5352ea48a739ddee94ab00f2d6454c67325d611af46",
+      "size": 15140
+    },
+    {
+      "path": "peb-esl-ready2-stdin-integration-20261030-001/native/episodes/adapter-smoke-000/controls.jsonl.gz",
+      "sha256": "35f2c0d225c6a79803781d46c912b76be865c5b3773a2079c7457711300af220",
+      "size": 163345
+    },
+    {
+      "path": "peb-esl-ready2-stdin-integration-20261030-001/native/episodes/adapter-smoke-000/episode.json",
+      "sha256": "84a6b4d546e3325d5cb787edc7ba71aae01357c993572d6cb71b729552032ec7",
+      "size": 3758
+    },
+    {
+      "path": "peb-esl-ready2-stdin-integration-20261030-001/native/episodes/adapter-smoke-000/holding.json",
+      "sha256": "f293dff539ba9d067ec5212b6f88b243d0d21b97e3e6b5d7df5d9f6a95b62077",
+      "size": 357
+    },
+    {
+      "path": "peb-esl-ready2-stdin-integration-20261030-001/native/episodes/adapter-smoke-000/initial_capture.json",
+      "sha256": "a4c66f24a35d021993e5ef136d2855bd64dfec2051973384f27ec87638f41afa",
+      "size": 3102
+    },
+    {
+      "path": "peb-esl-ready2-stdin-integration-20261030-001/native/episodes/adapter-smoke-000/initial_state.json",
+      "sha256": "da8942ab7273a14c29063843811c9a661c0831ef360904038756f0bdcd1af95d",
+      "size": 1721
+    },
+    {
+      "path": "peb-esl-ready2-stdin-integration-20261030-001/native/episodes/adapter-smoke-000/physics.jsonl.gz",
+      "sha256": "000abb1c6cc88a949c3b718ef229c276102dc899774aaebce95464556dc83789",
+      "size": 1694249
+    },
+    {
+      "path": "peb-esl-ready2-stdin-integration-20261030-001/native/episodes/adapter-smoke-000/readiness.json",
+      "sha256": "fea9d63199b6e82c9d6e0dcca997af744c3721735054a4cd1352bb4bb7f82e50",
+      "size": 15316
+    },
+    {
+      "path": "peb-esl-ready2-stdin-integration-20261030-001/native/episodes/adapter-smoke-000/readiness_probe.jsonl.gz",
+      "sha256": "c0e560ab92b379641ea7af7360ac23407c1e74e9b1b3d1d4f38c8c078a41995b",
+      "size": 60966
+    },
+    {
+      "path": "peb-esl-ready2-stdin-integration-20261030-001/native/episodes/adapter-smoke-000/sampled_safety.json",
+      "sha256": "5621791e9be7f2bcba200a69b1d4d3177e52a4c2d9fda349b9b868f09066f131",
+      "size": 2409
+    },
+    {
+      "path": "peb-esl-ready2-stdin-integration-20261030-001/native/episodes/adapter-smoke-000/skill.json",
+      "sha256": "8c14b30554b270e8418cf7bc7ac2292e00377acfe8dd5889280e8be7b7742b0e",
+      "size": 250
+    },
+    {
+      "path": "peb-esl-ready2-stdin-integration-20261030-001/native/episodes/adapter-smoke-000/terminal_pre_reset.json",
+      "sha256": "b4571f8ea88cca6c6a53fd832222692370f19e0105bf19bccd37c75f97582248",
+      "size": 3786
+    },
+    {
+      "path": "peb-esl-ready2-stdin-integration-20261030-001/native/episodes/adapter-smoke-000/trace.jsonl.gz",
+      "sha256": "d1d1c1ba7f864e84f080be7bf6ecf91c383fd63ca420ac6fc0e5c49d4ccfa68d",
+      "size": 767442
+    },
+    {
+      "path": "peb-esl-ready2-stdin-integration-20261030-001/native/episodes/adapter-smoke-000/upstream.jsonl",
+      "sha256": "f052e7195312090f77ab961d82e1dd4e0e966e1cf3dadd559decea1597aad821",
+      "size": 577
+    },
+    {
+      "path": "peb-esl-ready2-stdin-integration-20261030-001/native/episodes.jsonl",
+      "sha256": "5a91a3903c616ca0bdda3b5cb7e343ed67ef9787b0da134ee15d79577213e383",
+      "size": 3306
+    },
+    {
+      "path": "peb-esl-ready2-stdin-integration-20261030-001/native/geometry.json",
+      "sha256": "5bb2acf67a3aaa21ea4d00fd39650f641bef7c2387f6b01a992b3d032e3105f5",
+      "size": 748
+    },
+    {
+      "path": "peb-esl-ready2-stdin-integration-20261030-001/native/gpu_workload.json",
+      "sha256": "a5b032451343a29d4759679fdfa458b8f8d47bfdd6cddf3027b08e6f0bf84cdd",
+      "size": 387
+    },
+    {
+      "path": "peb-esl-ready2-stdin-integration-20261030-001/native/launch.json",
+      "sha256": "67fc00931d9c9ae005ca5d1849b3f249c4f1ae138bb38e8bf00bad8de3b1edab",
+      "size": 440
+    },
+    {
+      "path": "peb-esl-ready2-stdin-integration-20261030-001/native/policy_config.yaml",
+      "sha256": "9373dea8c03349b38ec1096215a100a4974bb3068844ce6b3ee4af9d93c45427",
+      "size": 781
+    },
+    {
+      "path": "peb-esl-ready2-stdin-integration-20261030-001/native/process.json",
+      "sha256": "d0685c55a0636c0f619eb098a6b8254bf381dac1f9fd4edf760bcffd4b14172d",
+      "size": 75
+    },
+    {
+      "path": "peb-esl-ready2-stdin-integration-20261030-001/native/ready.json",
+      "sha256": "0a09122a04ca217d45538ec7a9e696dffc6ff7b5cf9b497e77080f73720358a4",
+      "size": 47
+    },
+    {
+      "path": "peb-esl-ready2-stdin-integration-20261030-001/native/requests/000.json",
+      "sha256": "f61f7ca99db60992e7f68413f795f8114594cb5c68e51566d5896726df838951",
+      "size": 6208
+    },
+    {
+      "path": "peb-esl-ready2-stdin-integration-20261030-001/native/reservations/000.json",
+      "sha256": "e0a85b61674d70378e55cdc11ca8dc4e84973302220c00c4cc62435a40eb6755",
+      "size": 6793
+    },
+    {
+      "path": "peb-esl-ready2-stdin-integration-20261030-001/native/responses/000.json",
+      "sha256": "84a6b4d546e3325d5cb787edc7ba71aae01357c993572d6cb71b729552032ec7",
+      "size": 3758
+    },
+    {
+      "path": "peb-esl-ready2-stdin-integration-20261030-001/native/server_receipt.json",
+      "sha256": "531c5ffe2cf0560f2cee9fb04aacd5d9399d58ff79842ea89221127942046b7b",
+      "size": 65
+    },
+    {
+      "path": "peb-esl-ready2-stdin-integration-20261030-001/native/source_identity.json",
+      "sha256": "6298d9f4dd6af3ffac1751f585245b503a403cec14385f57601295e0aaa02b80",
+      "size": 13588
+    },
+    {
+      "path": "peb-esl-ready2-stdin-integration-20261030-001/native/status.json",
+      "sha256": "878c35c3962fa5262905744035f5087fb88b6f5045db7441c1103a30accfc277",
+      "size": 45
+    },
+    {
+      "path": "peb-esl-ready2-stdin-integration-20261030-001/native/stop.json",
+      "sha256": "2788b7f67a226977f11967ae771c0e8b3f91ff1269994bccfcead437eca57bb0",
+      "size": 47
+    },
+    {
+      "path": "peb-esl-ready2-stdin-integration-20261030-001/native/worker_reservation.json",
+      "sha256": "d6439939aca49d06072a7bbbb99894657fd84ec52367a816c53fecba682da18a",
+      "size": 72
+    },
+    {
+      "path": "peb-esl-ready2-stdin-integration-20261030-001/registered_job.json",
+      "sha256": "f61f7ca99db60992e7f68413f795f8114594cb5c68e51566d5896726df838951",
+      "size": 6208
+    },
+    {
+      "path": "peb-esl-ready2-stdin-integration-20261030-001/registration.json",
+      "sha256": "345dc075cc31b6f11b4178f3566a53c6aa8a26111b402691dfd752e37b8fb882",
+      "size": 7858
+    },
+    {
+      "path": "peb-esl-ready2-stdin-integration-20261030-001/result.json",
+      "sha256": "aad187df1cb4b70e2db8461f2c4a182c171d3f8e4b174c511ebb280eede15634",
+      "size": 270
+    },
+    {
+      "path": "peb-esl-ready2-stdin-integration-20261030-001/status.json",
+      "sha256": "cb1297a8190cfe415ed2f7b1e87979560519e3cea30a2f4b4a8eb06bce972460",
+      "size": 72
+    }
+  ],
+  "archives": [
+    {
+      "file": "data-00.tar.gz",
+      "sha256": "4efbdb9bb4bed7076c55f801234d81d966ec1afdbfd1322772ad1fd96a9b9bf6",
+      "size": 2730470
+    }
+  ],
+  "sources": [
+    {
+      "commit": "4a3c0e32e92c61194c23fee61f35c9a35a4186a6",
+      "file": "source-4a3c0e32e92c.tar.gz",
+      "sha256": "8a05d3cd279ec4f3192e6ce34a0943055c683eb4c3ed6bc74810773548098b0b"
+    },
+    {
+      "commit": "4c4b56ce5303f9b2400b1ec5f09845431c5c5ba7",
+      "file": "source-4c4b56ce5303.tar.gz",
+      "sha256": "f66e5c177371167f2bfbe3549ebfe4a85e4b2e583b66e9430a0d6536094db288"
+    }
+  ],
+  "scope": "Raw physics and model/tool evidence; no licensed weights. Offline audit is not new physics."
+}

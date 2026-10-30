@@ -61,6 +61,24 @@
       "wall_seconds": 0.06400883290916681,
       "stdout": "All checks passed!\n",
       "stderr": "warning: `VIRTUAL_ENV=/code/rosclaw/physicalEvoBench/.venv` does not match the project environment path `.venv` and will be ignored; use `--active` to target the active environment instead\n"
+    },
+    {
+      "cwd": "/code/rosclaw/physicalEvoBench",
+      "argv": [
+        "uv",
+        "run",
+        "python",
+        "-m",
+        "physicalevobench.core.delivery",
+        "verify",
+        "--evidence",
+        "docs/evidence/esl-reliability-20261030/minimal-sample",
+        "--output",
+        "/home/dell/peb-esl-ready2-repository-sample-verify-20261030"
+      ],
+      "returncode": 0,
+      "evidence": "minimal_sample_audit.json",
+      "scope": "Actual README-path fixed sample extraction, no new physics/model calls"
     }
   ],
   "scope": "CPU validation only; no new model or physics episodes"

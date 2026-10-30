@@ -1,0 +1,451 @@
+{
+  "schema": "core-delivery-audit-1",
+  "status": "PASS",
+  "raw_files": 3029,
+  "registered_source_checks": 3481,
+  "studies": {
+    "peb-esl-readiness-diagnosis-20261030-001": {
+      "status": "SCHEDULER_INFRA_FAILURE",
+      "completed_episodes": 9,
+      "scope": "Incomplete attempts retained; no completed study claim"
+    },
+    "peb-esl-readiness-diagnosis-20261030-002": {
+      "schema": "esl-initialization-crossover-results-1",
+      "episodes": [
+        {
+          "batch": "observe-0-order-1",
+          "slot": 0,
+          "label": "B-fresh-early-drop",
+          "instrumented": false,
+          "steps": 50,
+          "minimum_object_z_m": 0.0209997296333313,
+          "terminal_object_z_m": 0.020999938249588013,
+          "terminal_velocity": [
+            5.026034705224447e-05,
+            -2.9417027690215036e-05,
+            -0.00012020254507660866,
+            0.0034439300652593374,
+            0.005232378374785185,
+            -0.0001673903752816841
+          ],
+          "unsupported_drop_observed": false,
+          "all_commands_hold": true,
+          "support_contact": "not_measured",
+          "runtime_shape": "see initialization_runtime.json if instrumented"
+        },
+        {
+          "batch": "observe-0-order-1",
+          "slot": 1,
+          "label": "N-preselected-normal-light",
+          "instrumented": false,
+          "steps": 50,
+          "minimum_object_z_m": 0.0209997296333313,
+          "terminal_object_z_m": 0.020999938249588013,
+          "terminal_velocity": [
+            5.026034705224447e-05,
+            -2.9417027690215036e-05,
+            -0.00012020254507660866,
+            0.0034439300652593374,
+            0.005232378374785185,
+            -0.0001673903752816841
+          ],
+          "unsupported_drop_observed": false,
+          "all_commands_hold": true,
+          "support_contact": "not_measured",
+          "runtime_shape": "see initialization_runtime.json if instrumented"
+        },
+        {
+          "batch": "observe-0-order-1",
+          "slot": 2,
+          "label": "A-extension-early-drop",
+          "instrumented": false,
+          "steps": 50,
+          "minimum_object_z_m": 0.0209997296333313,
+          "terminal_object_z_m": 0.020999938249588013,
+          "terminal_velocity": [
+            5.026034705224447e-05,
+            -2.9417027690215036e-05,
+            -0.00012020254507660866,
+            0.0034439300652593374,
+            0.005232378374785185,
+            -0.0001673903752816841
+          ],
+          "unsupported_drop_observed": false,
+          "all_commands_hold": true,
+          "support_contact": "not_measured",
+          "runtime_shape": "see initialization_runtime.json if instrumented"
+        },
+        {
+          "batch": "observe-1-order-0",
+          "slot": 0,
+          "label": "A-extension-early-drop",
+          "instrumented": true,
+          "steps": 50,
+          "minimum_object_z_m": 0.0209997296333313,
+          "terminal_object_z_m": 0.020999938249588013,
+          "terminal_velocity": [
+            5.026034705224447e-05,
+            -2.9417027690215036e-05,
+            -0.00012020254507660866,
+            0.0034439300652593374,
+            0.005232378374785185,
+            -0.0001673903752816841
+          ],
+          "unsupported_drop_observed": false,
+          "all_commands_hold": true,
+          "support_contact": "not_measured",
+          "runtime_shape": "see initialization_runtime.json if instrumented"
+        },
+        {
+          "batch": "observe-1-order-0",
+          "slot": 1,
+          "label": "B-fresh-early-drop",
+          "instrumented": true,
+          "steps": 50,
+          "minimum_object_z_m": 0.0209997296333313,
+          "terminal_object_z_m": 0.020999938249588013,
+          "terminal_velocity": [
+            5.026034705224447e-05,
+            -2.9417027690215036e-05,
+            -0.00012020254507660866,
+            0.0034439300652593374,
+            0.005232378374785185,
+            -0.0001673903752816841
+          ],
+          "unsupported_drop_observed": false,
+          "all_commands_hold": true,
+          "support_contact": "not_measured",
+          "runtime_shape": "see initialization_runtime.json if instrumented"
+        },
+        {
+          "batch": "observe-1-order-0",
+          "slot": 2,
+          "label": "N-preselected-normal-light",
+          "instrumented": true,
+          "steps": 50,
+          "minimum_object_z_m": 0.0209997296333313,
+          "terminal_object_z_m": 0.020999938249588013,
+          "terminal_velocity": [
+            5.026034705224447e-05,
+            -2.9417027690215036e-05,
+            -0.00012020254507660866,
+            0.0034439300652593374,
+            0.005232378374785185,
+            -0.0001673903752816841
+          ],
+          "unsupported_drop_observed": false,
+          "all_commands_hold": true,
+          "support_contact": "not_measured",
+          "runtime_shape": "see initialization_runtime.json if instrumented"
+        },
+        {
+          "batch": "observe-1-order-2",
+          "slot": 0,
+          "label": "N-preselected-normal-light",
+          "instrumented": true,
+          "steps": 50,
+          "minimum_object_z_m": 0.0209997296333313,
+          "terminal_object_z_m": 0.020999938249588013,
+          "terminal_velocity": [
+            5.026034705224447e-05,
+            -2.9417027690215036e-05,
+            -0.00012020254507660866,
+            0.0034439300652593374,
+            0.005232378374785185,
+            -0.0001673903752816841
+          ],
+          "unsupported_drop_observed": false,
+          "all_commands_hold": true,
+          "support_contact": "not_measured",
+          "runtime_shape": "see initialization_runtime.json if instrumented"
+        },
+        {
+          "batch": "observe-1-order-2",
+          "slot": 1,
+          "label": "A-extension-early-drop",
+          "instrumented": true,
+          "steps": 50,
+          "minimum_object_z_m": 0.0209997296333313,
+          "terminal_object_z_m": 0.020999938249588013,
+          "terminal_velocity": [
+            5.026034705224447e-05,
+            -2.9417027690215036e-05,
+            -0.00012020254507660866,
+            0.0034439300652593374,
+            0.005232378374785185,
+            -0.0001673903752816841
+          ],
+          "unsupported_drop_observed": false,
+          "all_commands_hold": true,
+          "support_contact": "not_measured",
+          "runtime_shape": "see initialization_runtime.json if instrumented"
+        },
+        {
+          "batch": "observe-1-order-2",
+          "slot": 2,
+          "label": "B-fresh-early-drop",
+          "instrumented": true,
+          "steps": 50,
+          "minimum_object_z_m": 0.0209997296333313,
+          "terminal_object_z_m": 0.020999938249588013,
+          "terminal_velocity": [
+            5.026034705224447e-05,
+            -2.9417027690215036e-05,
+            -0.00012020254507660866,
+            0.0034439300652593374,
+            0.005232378374785185,
+            -0.0001673903752816841
+          ],
+          "unsupported_drop_observed": false,
+          "all_commands_hold": true,
+          "support_contact": "not_measured",
+          "runtime_shape": "see initialization_runtime.json if instrumented"
+        }
+      ],
+      "physical_episodes": 9,
+      "unsupported_drops": 0,
+      "scope": "Small diagnostic, not independent learning; observed readback is a possible intervention"
+    },
+    "peb-esl-ready-conformance-20261030-001": {
+      "status": "NATIVE_SETUP_FAILURE",
+      "completed_episodes": 0,
+      "scope": "Incomplete attempts retained; no completed study claim"
+    },
+    "peb-esl-ready-conformance-20261030-002": {
+      "audit": "PASS",
+      "conformance_status": "FAIL",
+      "attempts": 6,
+      "scope": "Evidence verification; an ineffective historical fault injection remains FAIL, not a passed detector test"
+    },
+    "peb-esl-ready-conformance-20261030-003": {
+      "audit": "PASS",
+      "conformance_status": "PASS",
+      "attempts": 6,
+      "scope": "Evidence verification; an ineffective historical fault injection remains FAIL, not a passed detector test"
+    },
+    "peb-esl-ready-conformance-20261030-004": {
+      "audit": "PASS",
+      "conformance_status": "PASS",
+      "attempts": 6,
+      "scope": "Evidence verification; an ineffective historical fault injection remains FAIL, not a passed detector test"
+    },
+    "peb-esl-mass-transport-20261030-001": {
+      "audit": "PASS",
+      "results": {
+        "observer": {
+          "attempts": 3,
+          "parameter_mismatches": [
+            {
+              "event": "set_masses_index",
+              "kind": "mass",
+              "physx": [
+                [
+                  0.10000000149011612
+                ]
+              ],
+              "shadow": [
+                [
+                  0.4000000059604645
+                ]
+              ]
+            },
+            {
+              "event": "set_inertias_index",
+              "kind": "mass",
+              "physx": [
+                [
+                  0.10000000149011612
+                ]
+              ],
+              "shadow": [
+                [
+                  0.4000000059604645
+                ]
+              ]
+            },
+            {
+              "event": "set_inertias_index",
+              "kind": "inertia",
+              "physx": [
+                [
+                  3.8399997720262036e-05,
+                  0.0,
+                  0.0,
+                  0.0,
+                  3.8399997720262036e-05,
+                  0.0,
+                  0.0,
+                  0.0,
+                  3.8399997720262036e-05
+                ]
+              ],
+              "shadow": [
+                [
+                  [
+                    0.00015359999088104814,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.00015359999088104814,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.00015359999088104814
+                  ]
+                ]
+              ]
+            },
+            {
+              "event": "set_masses_index",
+              "kind": "inertia",
+              "physx": [
+                [
+                  3.8399997720262036e-05,
+                  0.0,
+                  0.0,
+                  0.0,
+                  3.8399997720262036e-05,
+                  0.0,
+                  0.0,
+                  0.0,
+                  3.8399997720262036e-05
+                ]
+              ],
+              "shadow": [
+                [
+                  [
+                    0.00015359999088104814,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.00015359999088104814,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.00015359999088104814
+                  ]
+                ]
+              ]
+            }
+          ],
+          "ready_statuses": [
+            "OK",
+            "INIT_INVALID",
+            "OK"
+          ]
+        },
+        "sync-reapply": {
+          "attempts": 3,
+          "parameter_mismatches": [],
+          "ready_statuses": [
+            "OK",
+            "OK",
+            "OK"
+          ]
+        }
+      },
+      "scope": "Observed GPU shadow/PhysX model disagreement and same-value synchronized reapply. This identifies a parameter handoff defect; not a unique retrospective cause claim for every old fall."
+    },
+    "peb-esl-ready-qualification-20261030-001": {
+      "status": "PASS",
+      "qualification_status": "QUALIFIED",
+      "scores": {
+        "starter": [
+          true,
+          true,
+          false,
+          false
+        ],
+        "strong": [
+          true,
+          true,
+          true,
+          true
+        ],
+        "identity_strong": [
+          true,
+          true,
+          true,
+          true
+        ],
+        "force_open": [
+          false,
+          false
+        ]
+      },
+      "attempts": 14
+    },
+    "peb-esl-ready-qualification-20261030-002": {
+      "status": "PASS",
+      "qualification_status": "QUALIFIED",
+      "scores": {
+        "starter": [
+          true,
+          true,
+          false,
+          true
+        ],
+        "strong": [
+          true,
+          true,
+          true,
+          true
+        ],
+        "identity_strong": [
+          true,
+          true,
+          true,
+          true
+        ],
+        "force_open": [
+          false,
+          false
+        ]
+      },
+      "attempts": 14
+    },
+    "peb-esl-replication-20261030-001": {
+      "status": "STOPPED_MEASUREMENT_FAILURE_BEFORE_QUERY",
+      "completed_episodes": 59,
+      "scope": "Incomplete attempts retained; no completed study claim"
+    },
+    "peb-esl-ready-stdin-integration-20261030-001": {
+      "audit": "PASS",
+      "physical_attempts": 1,
+      "task_success": true,
+      "task_controls": 1000,
+      "model_calls": 1,
+      "scope": "Generic stdin envelope, actual usage, selected artifact, independent source/qualification and real physics; same-machine only"
+    },
+    "peb-esl-ready2-stdin-integration-20261030-001": {
+      "audit": "PASS",
+      "physical_attempts": 1,
+      "task_success": true,
+      "task_controls": 1000,
+      "model_calls": 1,
+      "scope": "Generic stdin envelope, actual usage, selected artifact, independent source/qualification and real physics; same-machine only"
+    },
+    "peb-esl-asset-dependencies-20261030-001": {
+      "audit": "METADATA_INTEGRITY_ONLY",
+      "physical_episodes": 0,
+      "resolved_layers": 23,
+      "unresolved": {
+        "/home/dell/.cache/isaaclab_arena/usd/robot_on_stand/franka_panda_on_stand_0.8755_0.3888x0.3888.usd": [
+          "OmniPBR.mdl"
+        ],
+        "https://omniverse-content-production.s3-us-west-2.amazonaws.com/Assets/Isaac/6.1/Isaac/IsaacLab/Environments/Grid/default_ground_plane_checker_v1/default_ground_plane.usda": [
+          "OmniPBR.mdl"
+        ],
+        "https://omniverse-content-production.s3-us-west-2.amazonaws.com/Assets/Isaac/6.1/Isaac/Props/Blocks/DexCube/dex_cube_instanceable.usd": [
+          "OmniPBR.mdl"
+        ],
+        "https://omniverse-content-production.s3-us-west-2.amazonaws.com/Assets/Isaac/6.1/Isaac/Props/Mounts/SeattleLabTable/table_instanceable.usd": [
+          "OmniPBR.mdl"
+        ],
+        "https://omniverse-content-production.s3-us-west-2.amazonaws.com/Assets/Isaac/6.1/Isaac/Props/UIElements/frame_prim.usd": []
+      },
+      "scope": "Code/input/record integrity, not an independent rehash of licensed assets or second-machine validation"
+    }
+  },
+  "scope": "Independent extraction and CPU recomputation; no new model, training or physics."
+}

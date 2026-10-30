@@ -56,6 +56,15 @@ uv run physicalevobench-core report --run-dir /absolute/path/peb-ready-replicati
 
 查询640回合，学习最多128回合；每个物理尝试另有1秒Ready预演成本。`INIT_INVALID`不产生任务成败，参与者非法/超预算与provider/基础设施故障分开。报告全分配及有效任务执行两种分母、全部block点、同图discordance、外层block分层区间、实际调用和物理成本。它仍是单一有限问题上的重复学习，不证明跨任务迁移或广泛自进化。
 
-完整轨迹默认不下载。需要离线复算全研究时才使用可选原始证据包；固定局部样例只验证局部执行，不替代全研究审计。
+## 无GPU的固定样例重算（可选，约3 MB）
+
+下面只获取一条预先指定的Ready2 stdin工程样例及其准确源码，不下载完整历史实验。它验证初始化/执行/冻结身份与离线重算，不验证八block学习收益。与上面的稀疏检出兼容：
+
+```bash
+git sparse-checkout add docs/evidence/esl-reliability-20261030/minimal-sample
+uv run python -m physicalevobench.core.delivery verify --evidence docs/evidence/esl-reliability-20261030/minimal-sample --output /absolute/path/peb-fixed-sample-extracted-new
+```
+
+`--output`必须是尚不存在的目录。固定样例在主研究成绩产生前已选定，未按高分挑选；不含模型权重或USD资产。完整轨迹默认不下载，需要离线复算全研究时才使用可选完整证据包。
 
 目前验证范围以本轮报告为准；同机新目录不代表第二台机器或独立外部人已复现。新release和合并须另行审批，旧Alpha与PR #10保持原状态。
