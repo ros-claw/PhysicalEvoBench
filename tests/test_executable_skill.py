@@ -122,3 +122,36 @@ def test_invalid_designer_is_retained_as_failure_without_any_physics(tmp_path):
     assert 'denominator' in failure['query_scoring']
     assert not (tmp_path/'designer/native').exists()
     assert json.loads((tmp_path/'designer/model_calls/budget.json').read_text())['input_tokens'] == 12
+
+
+def test_common_batch_search_uses_identical_conditions_before_selection(tmp_path, monkeypatch):
+    from physicalevobench.core import learning
+    from physicalevobench.development.place import conditions
+
+    jobs = []
+
+    class CPUOnlySession:
+        def __init__(self, *args):
+            pass
+
+        def ready(self):
+            pass
+
+        def close(self):
+            pass
+
+        def trial(self, job):
+            jobs.append(job)
+            # Candidate 1 and 2 tie at 2/2, predeclared stable tie selects 1.
+            candidate = int(job['episode_id'].split('-')[1])
+            return {'success': candidate in (1, 2)}
+
+    monkeypatch.setattr(learning, 'NativeSession', CPUOnlySession)
+    base = {'reference_config': {}}
+    group = {'support': conditions('CPU-only', 123, 4)}
+    result = learning.score_search(tmp_path, tmp_path, 'a'*40, {}, base, group, 'cpu-only', 2)
+    assert len(jobs) == 8
+    for i in range(4):
+        assert [j['condition'] for j in jobs[2*i:2*i+2]] == [j['condition'] for j in jobs[:2]]
+    assert result['payload']['skill'] == learning.search_candidates()[1].to_dict()
+    assert result['payload']['budget_used'] == 8
